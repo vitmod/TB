@@ -1,0 +1,32 @@
+  # Project CFLAGS
+    PROJECT_CFLAGS=""
+
+  # The TARGET_CPU variable controls which processor should be targeted for
+  # generated code.
+    TARGET_CPU="cortex-a9"
+    TARGET_FLOAT="hard"
+    TARGET_FPU="neon-fp16"
+
+  # Kernel target for u-boot (uImage / zImage)
+    KERNEL_UBOOT_TARGET="uImage-dtb"
+
+  # Kernel extra targets to build
+    KERNEL_UBOOT_EXTRA_TARGET="wetek_play.dtd"
+
+  # Additional kernel make parameters (for example to specify the u-boot loadaddress)
+    KERNEL_MAKE_EXTRACMD=""
+
+  # Kernel to use
+    LINUX="default"
+
+  # OpenGL-ES implementation to use (opengl-meson6)
+    OPENGLES="opengl-meson6"
+
+  # KODI Player implementation to use (default / libamcodec)
+    KODIPLAYER_DRIVER="libamcodec"
+
+  # additional packages to install. space separated list
+    ADDITIONAL_PACKAGES="wetekdvb amremote"
+
+  # kernel image name
+    KERNEL_NAME="kernel.img"

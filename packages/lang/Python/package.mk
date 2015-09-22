@@ -18,20 +18,12 @@
 
 PKG_NAME="Python"
 PKG_VERSION="2.7.10"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="OSS"
 PKG_SITE="http://www.python.org/"
 PKG_URL="http://www.python.org/ftp/python/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST="zlib:host"
 PKG_DEPENDS_TARGET="toolchain sqlite expat zlib bzip2 libressl libffi Python:host"
-PKG_PRIORITY="optional"
-PKG_SECTION="lang"
 PKG_SHORTDESC="python: The Python programming language"
-PKG_LONGDESC="Python is an interpreted object-oriented programming language, and is often compared with Tcl, Perl, Java or Scheme."
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
 
 PY_DISABLED_MODULES="readline _curses _curses_panel _tkinter nis gdbm bsddb ossaudiodev"
 
@@ -83,14 +75,14 @@ makeinstall_host() {
 
   cp Parser/pgen $ROOT/$TOOLCHAIN/bin
 
-# replace python-config to make sure python uses $SYSROOT_PREFIX
+  # replace python-config to make sure python uses $SYSROOT_PREFIX
   mkdir -p $ROOT/$TOOLCHAIN/bin
-    rm -rf $ROOT/$TOOLCHAIN/bin/python*-config
+  rm -rf $ROOT/$TOOLCHAIN/bin/python*-config
 
-    sed -e "s:%PREFIX%:$SYSROOT_PREFIX/usr:g" -e "s:%CFLAGS%:$TARGET_CFLAGS:g" \
-      $PKG_DIR/scripts/python-config > $ROOT/$TOOLCHAIN/bin/python2.7-config
-    chmod +x $ROOT/$TOOLCHAIN/bin/python2.7-config
-    ln -s python2.7-config $ROOT/$TOOLCHAIN/bin/python-config
+  sed -e "s:%PREFIX%:$SYSROOT_PREFIX/usr:g" -e "s:%CFLAGS%:$TARGET_CFLAGS:g" \
+    $PKG_DIR/scripts/python-config > $ROOT/$TOOLCHAIN/bin/python2.7-config
+  chmod +x $ROOT/$TOOLCHAIN/bin/python2.7-config
+  ln -s python2.7-config $ROOT/$TOOLCHAIN/bin/python-config
 }
 
 pre_configure_target() {

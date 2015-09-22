@@ -20,50 +20,26 @@
 
 . config/options $1
 
-if  [ -f /etc/lsb-release ]; then
-  DISTRO=$(grep DISTRIB_ID /etc/lsb-release | cut -d "=" -f 2 | tr A-Z a-z)
-fi
-
 if  [ -f /etc/os-release ]; then
   DISTRO=$(grep ^ID= /etc/os-release | cut -d "=" -f 2 | tr A-Z a-z)
 fi
 
-deps="wget bash bc gcc sed patch tar bzip2 gzip perl gawk gperf zip unzip diff makeinfo"
-deps_pkg="wget bash bc gcc sed patch tar bzip2 gzip perl gawk gperf zip unzip diffutils texinfo"
+deps="wget bash bc gcc sed patch tar bzip2 gzip perl gawk gperf zip unzip diff makeinfo flex bison fakeroot"
+deps_pkg="wget bash bc gcc sed patch tar bzip2 gzip perl gawk gperf zip unzip diffutils texinfo flex bison fakeroot"
 
 files="/usr/include/stdio.h /usr/include/ncurses.h"
 files_pkg="libc6-dev libncurses5-dev"
 
 case "$DISTRO" in
-    fedora|centos|rhel)
-      deps="$deps g++ mkfontscale mkfontdir bdftopcf xsltproc java"
-      deps_pkg="$deps_pkg gcc-c++ xorg-x11-font-utils xorg-x11-font-utils xorg-x11-font-utils libxslt java-1.7.0-openjdk"
-      [[ ! `rpm -qa glibc-static` ]] && deps="$deps glibc-static" && deps_pkg="$deps_pkg glibc-static"
-      [[ ! `rpm -qa libstdc++-static` ]] && deps="$deps libstdc++-static" && deps_pkg="$deps_pkg libstdc++-static"
-      files_pkg="glibc-headers ncurses-devel"
-      ;;
-    gentoo)
-      deps="$deps g++ mkfontscale mkfontdir bdftopcf xsltproc java"
-      deps_pkg="$deps_pkg gcc[cxx] mkfontscale mkfontdir bdftopcf libxslt virtual/jre"
-      files_pkg="glibc ncurses"
-      ;;
-    arch)
-      deps="$deps g++ mkfontscale mkfontdir bdftopcf xsltproc java"
-      deps_pkg="$deps_pkg g++ xorg-mkfontscale xorg-mkfontdir xorg-bdftopcf libxslt java-runtime-common"
-      ;;
-    *)
-      deps="$deps g++ mkfontscale mkfontdir bdftopcf xsltproc java"
-      deps_pkg="$deps_pkg g++ xfonts-utils xfonts-utils xfonts-utils xsltproc default-jre"
-      ;;
+  arch)
+    deps="$deps g++ xsltproc java mkimage"
+    deps_pkg="$deps_pkg g++ libxslt java-runtime-common u-boot-tools"
+    ;;
+  *)
+    deps="$deps g++ xsltproc java mkimage"
+    deps_pkg="$deps_pkg g++ xsltproc default-jre uboot-tools"
+    ;;
 esac
-
-# project specific dependencies
-if [ -n "$EXTRA_DEPS" ] ; then
-  deps="$deps $EXTRA_DEPS"
-fi
-if [ -n "$EXTRA_DEPS_PKG" ] ; then
-  deps_pkg="$deps_pkg $EXTRA_DEPS_PKG"
-fi
 
 getarg() {
   eval echo \${$(($1+2))}
@@ -90,19 +66,6 @@ if [ -n "$need" ]; then
     ubuntu|debian)
       read -p "would you like to install the needed tools ? (y/n) " ans
       [ "$ans" = "y" ] && sudo apt-get install $need_pkg
-      ;;
-    fedora|centos|rhel)
-      if [ `which dnf` ]; then YUM=dnf; else YUM=yum; fi
-      read -p "would you like to install the needed tools ? (y/n) " ans
-      [ "$ans" = "y" ] && sudo $YUM install $need_pkg
-      ;;
-    gentoo)
-      read -p "would you like to install the needed tools ? (y/n) " ans
-      [ "$ans" = "y" ] && sudo emerge --ask --deep $need_pkg
-      ;;
-    mageia)
-      read -p "would you like to install the needed tools ? (y/n) " ans
-      [ "$ans" = "y" ] && sudo urpmi $need_pkg
       ;;
     arch)
       read -p "would you like to install the needed tools ? (y/n) " ans

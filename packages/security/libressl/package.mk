@@ -18,26 +18,14 @@
 
 PKG_NAME="libressl"
 PKG_VERSION="2.2.4"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.libressl.org/"
 PKG_URL="http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="security"
 PKG_SHORTDESC="libressl: a FREE version of the SSL/TLS protocol forked from OpenSSL"
-PKG_LONGDESC="LibreSSL is a FREE version of the SSL/TLS protocol forked from OpenSSL"
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="yes"
 
 post_makeinstall_target() {
-# create new cert: ./mkcerts.sh
+  # create new cert: ./mkcerts.sh
   mkdir -p $INSTALL/$SSL_CERTIFICATES
-    cp $PKG_DIR/cert/ca-bundle.crt $INSTALL/$SSL_CERTIFICATES/cacert.pem
-  # backwards comatibility
-  mkdir -p $INSTALL/etc/pki/tls
-  ln -sf $SSL_CERTIFICATES/cacert.pem $INSTALL/etc/pki/tls/cacert.pem
-  ln -sf $SSL_CERTIFICATES/cacert.pem $INSTALL/etc/ssl/cert.pem
+  cp $PKG_DIR/cert/ca-bundle.crt $INSTALL/$SSL_CERTIFICATES/cacert.pem
 }

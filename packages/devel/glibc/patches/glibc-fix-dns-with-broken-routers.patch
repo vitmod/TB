@@ -1,16 +1,19 @@
-commit 45918e237cd32bb3d9a5fde83f81f83b52584771
-Author: Stefan Saraev <stefan@saraev.ca>
-Date:   Tue Oct 1 12:09:07 2013 +0300
+From 979dffbbc3bc0685acd22454c2fe3ccaa21eb6a5 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Mon, 23 Nov 2015 22:43:53 +0200
+Subject: [PATCH] fix dns with broken routers
 
-    fix dns with broken routers
-    
-    ref: https://fedoraproject.org/wiki/Networking/NameResolution/ADDRCONFIG
+ref: https://fedoraproject.org/wiki/Networking/NameResolution/ADDRCONFIG
+---
+ sysdeps/posix/getaddrinfo.c        | 54 +++++++++++++++++++++++++++++++-------
+ sysdeps/unix/sysv/linux/check_pf.c |  3 ++-
+ 2 files changed, 46 insertions(+), 11 deletions(-)
 
 diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
-index 7bb3ded..2085ee5 100644
+index 31bb7e6..d826859 100644
 --- a/sysdeps/posix/getaddrinfo.c
 +++ b/sysdeps/posix/getaddrinfo.c
-@@ -830,6 +830,38 @@ gaih_inet (const char *name, const struct gaih_service *service,
+@@ -842,6 +842,38 @@ gaih_inet (const char *name, const struct gaih_service *service,
  		}
  	    }
  
@@ -49,7 +52,7 @@ index 7bb3ded..2085ee5 100644
  	  while (!no_more)
  	    {
  	      no_data = 0;
-@@ -837,7 +869,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
+@@ -849,7 +881,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
  
  	      /* gethostbyname4_r sends out parallel A and AAAA queries and
  		 is thus only suitable for PF_UNSPEC.  */
@@ -58,7 +61,7 @@ index 7bb3ded..2085ee5 100644
  		fct4 = __nss_lookup_function (nip, "gethostbyname4_r");
  
  	      if (fct4 != NULL)
-@@ -942,20 +974,22 @@ gaih_inet (const char *name, const struct gaih_service *service,
+@@ -953,20 +985,22 @@ gaih_inet (const char *name, const struct gaih_service *service,
  
  		  if (fct != NULL)
  		    {
@@ -91,10 +94,10 @@ index 7bb3ded..2085ee5 100644
  			  gethosts (AF_INET, struct in_addr);
  
 diff --git a/sysdeps/unix/sysv/linux/check_pf.c b/sysdeps/unix/sysv/linux/check_pf.c
-index 34c2146..be7de0d 100644
+index 162606d..e8d039e 100644
 --- a/sysdeps/unix/sysv/linux/check_pf.c
 +++ b/sysdeps/unix/sysv/linux/check_pf.c
-@@ -234,7 +234,8 @@ make_request (int fd, pid_t pid)
+@@ -219,7 +219,8 @@ make_request (int fd, pid_t pid)
  		    }
  		  else
  		    {
@@ -104,3 +107,6 @@ index 34c2146..be7de0d 100644
  			seen_ipv6 = true;
  		    }
  		}
+-- 
+2.1.4
+

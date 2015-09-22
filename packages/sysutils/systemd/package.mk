@@ -18,18 +18,12 @@
 
 PKG_NAME="systemd"
 PKG_VERSION="228"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.freedesktop.org/wiki/Software/systemd"
 PKG_URL="https://github.com/systemd/systemd/archive/v$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libcap kmod util-linux"
-PKG_PRIORITY="required"
-PKG_SECTION="system"
 PKG_SHORTDESC="systemd: a system and session manager"
-PKG_LONGDESC="systemd is a system and session manager for Linux, compatible with SysV and LSB init scripts. systemd provides aggressive parallelization capabilities, uses socket and D-Bus activation for starting services, offers on-demand starting of daemons, keeps track of processes using Linux cgroups, supports snapshotting and restoring of the system state, maintains mount and automount points and implements an elaborate transactional dependency-based service control logic. It can work as a drop-in replacement for sysvinit."
 
-PKG_IS_ADDON="no"
 PKG_AUTORECONF="yes"
 
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
@@ -82,12 +76,12 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --disable-importd \
                            --disable-hostnamed \
                            --disable-timedated \
-                           --disable-timesyncd \
+                           --enable-timesyncd \
                            --disable-localed \
                            --disable-coredump \
                            --disable-polkit \
-                           --disable-resolved \
-                           --disable-networkd \
+                           --enable-resolved \
+                           --enable-networkd \
                            --disable-efi \
                            --disable-gnuefi \
                            --disable-kdbus \
@@ -98,7 +92,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --disable-ldconfig \
                            --enable-split-usr \
                            --disable-tests \
-                           --without-python \
+                           --with-debug-tty=/dev/tty3 \
                            --with-sysvinit-path= \
                            --with-sysvrcnd-path= \
                            --with-tty-gid=5 \
@@ -109,19 +103,11 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --with-rootprefix=/usr \
                            --with-rootlibdir=/lib"
 
-unpack() {
-  tar xf $ROOT/$SOURCES/systemd/v$PKG_VERSION.tar.gz -C $ROOT/$BUILD
-}
-
 pre_build_target() {
-# broken autoreconf
+  # broken autoreconf
   ( cd $PKG_BUILD
     intltoolize --force
   )
-}
-
-pre_configure_target() {
-  export CFLAGS="$CFLAGS -fno-schedule-insns -fno-schedule-insns2"
 }
 
 post_makeinstall_target() {
@@ -130,11 +116,17 @@ post_makeinstall_target() {
   rm -rf $INSTALL/etc/xdg
   rm -rf $INSTALL/etc/X11
   rm  -f $INSTALL/usr/bin/kernel-install
-  rm -rf $INSTALL/usr/lib/kernel/install.d
+  rm -rf $INSTALL/usr/lib/kernel
   rm -rf $INSTALL/usr/lib/rpm
+  rm -rf $INSTALL/usr/lib/systemd/catalog
+  rm -rf $INSTALL/usr/lib/systemd/system-generators
+  rm -rf $INSTALL/usr/lib/systemd/system-preset
   rm -rf $INSTALL/usr/lib/systemd/user
+  rm -rf $INSTALL/usr/lib/systemd/user-generators
   rm -rf $INSTALL/usr/lib/tmpfiles.d/etc.conf
   rm -rf $INSTALL/usr/lib/tmpfiles.d/home.conf
+  rm -rf $INSTALL/usr/lib/tmpfiles.d/systemd-nspawn.conf
+  rm -rf $INSTALL/usr/lib/tmpfiles.d/x11.conf
   rm -rf $INSTALL/usr/share/factory
   rm -rf $INSTALL/usr/share/zsh
 
@@ -148,9 +140,6 @@ post_makeinstall_target() {
 
   # remove Network adaper renaming rule, this is confusing
   rm -rf $INSTALL/usr/lib/udev/rules.d/80-net-setup-link.rules
-
-  # remove debug-shell.service, we install our own
-  rm -rf $INSTALL/usr/lib/systemd/system/debug-shell.service
 
   # remove getty units, we dont want a console
   rm -rf $INSTALL/usr/lib/systemd/system/autovt@.service
@@ -167,54 +156,41 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/systemd/system/systemd-update-done.service
   rm -rf $INSTALL/usr/lib/systemd/system/*.target.wants/systemd-update-done.service
 
-  # remove systemd-udev-hwdb-update. we have own hwdb.service
-  rm -rf $INSTALL/usr/lib/systemd/system/systemd-udev-hwdb-update.service
-  rm -rf $INSTALL/usr/lib/systemd/system/*.target.wants/systemd-udev-hwdb-update.service
-
   # remove nspawn
   rm -rf $INSTALL/usr/bin/systemd-nspawn
   rm -rf $INSTALL/usr/lib/systemd/system/systemd-nspawn@.service
 
-  # remove genetators/catalog
-  rm -rf $INSTALL/usr/lib/systemd/system-generators
-  rm -rf $INSTALL/usr/lib/systemd/catalog
-
-  # meh presets
-  rm -rf $INSTALL/usr/lib/systemd/system-preset
-
-  # remove networkd
-  rm -rf $INSTALL/usr/lib/systemd/network
+  # meh nss_resolve
+  rm -rf $INSTALL/usr/lib/libnss_resolve*
 
   # tune journald.conf
-  sed -e "s,^.*Compress=.*$,Compress=no,g" -i $INSTALL/etc/systemd/journald.conf
-  sed -e "s,^.*SplitMode=.*$,SplitMode=none,g" -i $INSTALL/etc/systemd/journald.conf
-  sed -e "s,^.*MaxRetentionSec=.*$,MaxRetentionSec=1day,g" -i $INSTALL/etc/systemd/journald.conf
-  sed -e "s,^.*RuntimeMaxUse=.*$,RuntimeMaxUse=2M,g" -i $INSTALL/etc/systemd/journald.conf
-  sed -e "s,^.*RuntimeMaxFileSize=.*$,RuntimeMaxFileSize=128K,g" -i $INSTALL/etc/systemd/journald.conf
-  sed -e "s,^.*SystemMaxUse=.*$,SystemMaxUse=10M,g" -i $INSTALL/etc/systemd/journald.conf
+  sed -i -e "s,^.*Compress=.*$,Compress=no,g" \
+         -e "s,^.*SplitMode=.*$,SplitMode=none,g" \
+         -e "s,^.*MaxRetentionSec=.*$,MaxRetentionSec=1day,g" \
+         -e "s,^.*RuntimeMaxUse=.*$,RuntimeMaxUse=2M,g" \
+         -e "s,^.*RuntimeMaxFileSize=.*$,RuntimeMaxFileSize=512K,g" \
+         -e "s,^.*SystemMaxUse=.*$,SystemMaxUse=10M,g" \
+         $INSTALL/etc/systemd/journald.conf
 
-  # tune logind.conf
-  sed -e "s,^.*HandleLidSwitch=.*$,HandleLidSwitch=ignore,g" -i $INSTALL/etc/systemd/logind.conf
+  # tune timesyncd.conf
+  sed -i -e "s,^#NTP=.*$,NTP=0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org,g" \
+         $INSTALL/etc/systemd/timesyncd.conf
 
-  # replace systemd-machine-id-setup with ours
-  rm -rf $INSTALL/usr/lib/systemd/systemd-machine-id-commit
-  rm -rf $INSTALL/usr/lib/systemd/system/systemd-machine-id-commit.service
-  rm -rf $INSTALL/usr/lib/systemd/system/*.target.wants/systemd-machine-id-commit.service
-  rm -rf $INSTALL/usr/bin/systemd-machine-id-setup
-  mkdir -p $INSTALL/usr/bin
-  cp $PKG_DIR/scripts/systemd-machine-id-setup $INSTALL/usr/bin
+  # tune resolved.conf
+  sed -i -e "s,^#LLMNR=.*$,LLMNR=no,g" \
+         $INSTALL/etc/systemd/resolved.conf
 
   # provide 'halt', 'shutdown', 'reboot' & co.
   mkdir -p $INSTALL/usr/sbin
-  ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/halt
-  ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/poweroff
-  ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/reboot
-  ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/runlevel
-  ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/shutdown
-  ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/telinit
+  for i in halt poweroff reboot shutdown ; do
+    ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/$i
+  done
 
+  # defaults
   mkdir -p $INSTALL/usr/config
   cp -PR $PKG_DIR/config/* $INSTALL/usr/config
+
+  ln -sf /run/systemd/resolve/resolv.conf $INSTALL/etc/resolv.conf
 
   rm -rf $INSTALL/etc/modules-load.d
   ln -sf /storage/.config/modules-load.d $INSTALL/etc/modules-load.d
@@ -226,6 +202,8 @@ post_makeinstall_target() {
   ln -sf /storage/.config/hwdb.d $INSTALL/etc/udev/hwdb.d
   rm -rf $INSTALL/etc/udev/rules.d
   ln -sf /storage/.config/udev.rules.d $INSTALL/etc/udev/rules.d
+  rm -rf $INSTALL/etc/systemd/network
+  ln -sf /storage/.config/network $INSTALL/etc/systemd/network
 }
 
 post_install() {
@@ -233,6 +211,10 @@ post_install() {
 
   add_group systemd-network 193
   add_user systemd-network x 193 193 "systemd-network" "/" "/bin/sh"
+  add_group systemd-timesync 194
+  add_user systemd-timesync x 194 194 "systemd-timesync" "/" "/bin/sh"
+  add_group systemd-resolve 195
+  add_user systemd-resolve x 195 195 "systemd-resolve" "/" "/bin/sh"
 
   add_group audio 63
   add_group cdrom 11
@@ -247,8 +229,8 @@ post_install() {
   add_group utmp 22
   add_group input 199
 
-  enable_service machine-id.service
-  enable_service debugconfig.service
-  enable_service userconfig.service
-  enable_service hwdb.service
+  enable_service systemd-timesyncd.service
+  enable_service systemd-networkd.service
+  enable_service systemd-resolved.service
+  enable_service debug-shell.service
 }

@@ -18,26 +18,17 @@
 
 PKG_NAME="autoconf-archive"
 PKG_VERSION="2015.09.25"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://ftp.gnu.org/gnu/autoconf-archive"
 PKG_URL="http://ftp.gnu.org/gnu/autoconf-archive/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_HOST="ccache:host"
-PKG_PRIORITY="optional"
-PKG_SECTION="toolchain/devel"
+PKG_DEPENDS_HOST=""
 PKG_SHORTDESC="autoconf-archive: macros for autoconf"
-PKG_LONGDESC="autoconf-archive is an package of m4 macros"
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
 
 PKG_CONFIGURE_OPTS_HOST="--target=$TARGET_NAME --prefix=$ROOT/$TOOLCHAIN"
 
 makeinstall_host() {
-# make install
   make prefix=$SYSROOT_PREFIX/usr install
 
-# remove problematic m4 file
+  # remove problematic m4 file
   rm -rf $SYSROOT_PREFIX/usr/share/aclocal/ax_prog_cc_for_build.m4
 }

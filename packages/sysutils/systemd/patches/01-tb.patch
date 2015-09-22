@@ -1,0 +1,311 @@
+From 62b18498d33453bbfd1a730953c9dd764f350d32 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Thu, 19 Dec 2013 11:21:13 +0200
+Subject: [PATCH 1/9] move /etc/systemd/system to /storage/.config/system.d
+
+---
+ Makefile.am | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 437905c..53ca4bc 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -174,7 +174,7 @@ CLEANFILES = $(BUILT_SOURCES) \
+ AM_CPPFLAGS = \
+ 	-include $(top_builddir)/config.h \
+ 	-DPKGSYSCONFDIR=\"$(pkgsysconfdir)\" \
+-	-DSYSTEM_CONFIG_UNIT_PATH=\"$(pkgsysconfdir)/system\" \
++	-DSYSTEM_CONFIG_UNIT_PATH=\"/storage/.config/system.d\" \
+ 	-DSYSTEM_DATA_UNIT_PATH=\"$(systemunitdir)\" \
+ 	-DSYSTEM_SYSVINIT_PATH=\"$(SYSTEM_SYSVINIT_PATH)\" \
+ 	-DSYSTEM_SYSVRCND_PATH=\"$(SYSTEM_SYSVRCND_PATH)\" \
+@@ -5808,7 +5808,7 @@ substitutions = \
+        '|SYSTEMCTL=$(rootbindir)/systemctl|' \
+        '|SYSTEMD_NOTIFY=$(rootbindir)/systemd-notify|' \
+        '|pkgsysconfdir=$(pkgsysconfdir)|' \
+-       '|SYSTEM_CONFIG_UNIT_PATH=$(pkgsysconfdir)/system|' \
++       '|SYSTEM_CONFIG_UNIT_PATH=/storage/.config/system.d|' \
+        '|USER_CONFIG_UNIT_PATH=$(pkgsysconfdir)/user|' \
+        '|pkgdatadir=$(pkgdatadir)|' \
+        '|systemunitdir=$(systemunitdir)|' \
+-- 
+2.1.4
+
+
+From 28837cd01eb66cf20b8be9ba44486ef3a2d9d038 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Fri, 7 Aug 2015 13:25:23 +0300
+Subject: [PATCH 2/9] move hwdb.bin to /run
+
+---
+ src/hwdb/hwdb.c                  | 2 +-
+ src/libsystemd/sd-hwdb/sd-hwdb.c | 2 +-
+ src/udev/udevadm-hwdb.c          | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/hwdb/hwdb.c b/src/hwdb/hwdb.c
+index de59b79..ac084a5 100644
+--- a/src/hwdb/hwdb.c
++++ b/src/hwdb/hwdb.c
+@@ -41,7 +41,7 @@
+  * Uses a Patricia/radix trie to index all matches for efficient lookup.
+  */
+ 
+-static const char *arg_hwdb_bin_dir = "/etc/udev";
++static const char *arg_hwdb_bin_dir = "/run";
+ static const char *arg_root = "";
+ 
+ static const char * const conf_file_dirs[] = {
+diff --git a/src/libsystemd/sd-hwdb/sd-hwdb.c b/src/libsystemd/sd-hwdb/sd-hwdb.c
+index 0e03486..716a2bd 100644
+--- a/src/libsystemd/sd-hwdb/sd-hwdb.c
++++ b/src/libsystemd/sd-hwdb/sd-hwdb.c
+@@ -271,7 +271,7 @@ static int trie_search_f(sd_hwdb *hwdb, const char *search) {
+ 
+ static const char hwdb_bin_paths[] =
+         "/etc/systemd/hwdb/hwdb.bin\0"
+-        "/etc/udev/hwdb.bin\0"
++        "/run/hwdb.bin\0"
+         "/usr/lib/systemd/hwdb/hwdb.bin\0"
+ #ifdef HAVE_SPLIT_USR
+         "/lib/systemd/hwdb/hwdb.bin\0"
+diff --git a/src/udev/udevadm-hwdb.c b/src/udev/udevadm-hwdb.c
+index 031a099..43a185b 100644
+--- a/src/udev/udevadm-hwdb.c
++++ b/src/udev/udevadm-hwdb.c
+@@ -564,7 +564,7 @@ static int adm_hwdb(struct udev *udev, int argc, char *argv[]) {
+         };
+         const char *test = NULL;
+         const char *root = "";
+-        const char *hwdb_bin_dir = "/etc/udev";
++        const char *hwdb_bin_dir = "/run";
+         bool update = false;
+         struct trie *trie = NULL;
+         int err, c;
+-- 
+2.1.4
+
+
+From 150d91729f1c74e617431ed3acfc0636f3d718e3 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Tue, 28 Oct 2014 22:32:18 +0200
+Subject: [PATCH 3/9] stop execute_preset doing stupid things
+
+---
+ src/shared/install.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/shared/install.c b/src/shared/install.c
+index 17e03e5..983c5c0 100644
+--- a/src/shared/install.c
++++ b/src/shared/install.c
+@@ -2165,6 +2165,10 @@ static int execute_preset(
+                 UnitFileChange **changes,
+                 unsigned *n_changes) {
+ 
++        // meh systemctl preset-all.
++        // I DONT WANT shitload of symlink populated here
++        return 0;
++
+         int r;
+ 
+         assert(plus);
+-- 
+2.1.4
+
+
+From 01ad131e36967a98d57bd148d484bf08fabc9fb4 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Wed, 18 Feb 2015 18:23:47 +0200
+Subject: [PATCH 4/9] remove nonexistant dependency
+
+---
+ units/graphical.target | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/units/graphical.target b/units/graphical.target
+index 87be97e..b01b46d 100644
+--- a/units/graphical.target
++++ b/units/graphical.target
+@@ -9,7 +9,6 @@
+ Description=Graphical Interface
+ Documentation=man:systemd.special(7)
+ Requires=multi-user.target
+-Wants=display-manager.service
+ Conflicts=rescue.service rescue.target
+ After=multi-user.target rescue.service rescue.target display-manager.service
+ AllowIsolate=yes
+-- 
+2.1.4
+
+
+From 2151383b1846e2a0262280fd1cde4a7cfda07a0d Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Thu, 8 Oct 2015 11:59:39 +0300
+Subject: [PATCH 5/9] systemctl: disable dangerous options
+
+---
+ src/systemctl/systemctl.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
+
+diff --git a/src/systemctl/systemctl.c b/src/systemctl/systemctl.c
+index 51b82d5..779d8c2 100644
+--- a/src/systemctl/systemctl.c
++++ b/src/systemctl/systemctl.c
+@@ -6177,6 +6177,11 @@ end:
+         return r;
+ }
+ 
++static int nope(sd_bus *bus, char **args) {
++        printf("nope. don't do that\n");
++        return 0;
++}
++
+ static void systemctl_help(void) {
+ 
+         pager_open_if_enabled();
+@@ -7374,21 +7379,21 @@ static int systemctl_main(int argc, char *argv[]) {
+                 { "enable",                2,        VERB_ANY, 0,            enable_unit       },
+                 { "disable",               2,        VERB_ANY, 0,            enable_unit       },
+                 { "is-enabled",            2,        VERB_ANY, 0,            unit_is_enabled   },
+-                { "reenable",              2,        VERB_ANY, 0,            enable_unit       },
+-                { "preset",                2,        VERB_ANY, 0,            enable_unit       },
+-                { "preset-all",            VERB_ANY, 1,        0,            preset_all        },
+-                { "mask",                  2,        VERB_ANY, 0,            enable_unit       },
+-                { "unmask",                2,        VERB_ANY, 0,            enable_unit       },
+-                { "link",                  2,        VERB_ANY, 0,            enable_unit       },
++                { "reenable",              2,        VERB_ANY, 0,            nope              },
++                { "preset",                2,        VERB_ANY, 0,            nope              },
++                { "preset-all",            VERB_ANY, 1,        0,            nope              },
++                { "mask",                  2,        VERB_ANY, 0,            nope              },
++                { "unmask",                2,        VERB_ANY, 0,            nope              },
++                { "link",                  2,        VERB_ANY, 0,            nope              },
+                 { "switch-root",           2,        VERB_ANY, 0,            switch_root       },
+                 { "list-dependencies",     VERB_ANY, 2,        0,            list_dependencies },
+-                { "set-default",           2,        2,        0,            set_default       },
++                { "set-default",           2,        2,        0,            nope              },
+                 { "get-default",           VERB_ANY, 1,        0,            get_default,      },
+                 { "set-property",          3,        VERB_ANY, 0,            set_property      },
+                 { "is-system-running",     VERB_ANY, 1,        0,            is_system_running },
+-                { "add-wants",             3,        VERB_ANY, 0,            add_dependency    },
+-                { "add-requires",          3,        VERB_ANY, 0,            add_dependency    },
+-                { "edit",                  2,        VERB_ANY, 0,            edit              },
++                { "add-wants",             3,        VERB_ANY, 0,            nope              },
++                { "add-requires",          3,        VERB_ANY, 0,            nope              },
++                { "edit",                  2,        VERB_ANY, 0,            nope              },
+                 {}
+         };
+ 
+-- 
+2.1.4
+
+
+From a49a8a9e3ac5c56b5832c79c2372ebe052fffc4c Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sun, 8 Nov 2015 11:54:39 +0200
+Subject: [PATCH 6/9] always run machine-id-commit
+
+---
+ units/systemd-machine-id-commit.service.in | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/units/systemd-machine-id-commit.service.in b/units/systemd-machine-id-commit.service.in
+index 1f3f5da..90b346c 100644
+--- a/units/systemd-machine-id-commit.service.in
++++ b/units/systemd-machine-id-commit.service.in
+@@ -12,8 +12,6 @@ DefaultDependencies=no
+ Conflicts=shutdown.target
+ Before=sysinit.target shutdown.target
+ After=local-fs.target
+-ConditionPathIsReadWrite=/etc
+-ConditionPathIsMountPoint=/etc/machine-id
+ 
+ [Service]
+ Type=oneshot
+-- 
+2.1.4
+
+
+From 201b44a6eafceabe5879fd8243184ac39bc65e0a Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sun, 29 Nov 2015 11:41:32 +0200
+Subject: [PATCH 7/9] always run systemd-hwdb-update. run before udev
+
+---
+ units/systemd-hwdb-update.service.in | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/units/systemd-hwdb-update.service.in b/units/systemd-hwdb-update.service.in
+index 7135cff..ae9e5fa 100644
+--- a/units/systemd-hwdb-update.service.in
++++ b/units/systemd-hwdb-update.service.in
+@@ -11,11 +11,7 @@ Documentation=man:hwdb(7) man:systemd-hwdb(8)
+ DefaultDependencies=no
+ Conflicts=shutdown.target
+ After=systemd-remount-fs.service
+-Before=sysinit.target shutdown.target systemd-update-done.service
+-ConditionNeedsUpdate=/etc
+-ConditionPathExists=|!@udevlibexecdir@/hwdb.bin
+-ConditionPathExists=|/etc/udev/hwdb.bin
+-ConditionDirectoryNotEmpty=|/etc/udev/hwdb.d/
++Before=systemd-udevd.service
+ 
+ [Service]
+ Type=oneshot
+-- 
+2.1.4
+
+
+From 326d812b9af832919f98e6f73b7a6fed169b3fad Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Wed, 18 Nov 2015 20:15:43 +0200
+Subject: [PATCH 8/9] meh btrfs
+
+---
+ src/basic/btrfs-util.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/src/basic/btrfs-util.c b/src/basic/btrfs-util.c
+index be40dc5..e5efe4f 100644
+--- a/src/basic/btrfs-util.c
++++ b/src/basic/btrfs-util.c
+@@ -1103,9 +1103,6 @@ int btrfs_quota_scan_start(int fd) {
+ int btrfs_quota_scan_wait(int fd) {
+         assert(fd >= 0);
+ 
+-        if (ioctl(fd, BTRFS_IOC_QUOTA_RESCAN_WAIT) < 0)
+-                return -errno;
+-
+         return 0;
+ }
+ 
+-- 
+2.1.4
+
+
+From 6fa6e5b70b1525d0facba13d0b303a5fae5680a6 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 21 Nov 2015 00:29:30 +0200
+Subject: [PATCH 9/9] meh
+
+---
+ src/network/networkd-ndisc.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/src/network/networkd-ndisc.c b/src/network/networkd-ndisc.c
+index ce9e513..e28f498 100644
+--- a/src/network/networkd-ndisc.c
++++ b/src/network/networkd-ndisc.c
+@@ -159,8 +159,6 @@ static void ndisc_router_handler(sd_ndisc *nd, uint8_t flags, const struct in6_a
+                         dhcp6_request_address(link);
+ 
+                 r = sd_dhcp6_client_start(link->dhcp6_client);
+-                if (r < 0 && r != -EBUSY)
+-                        log_link_warning_errno(link, r, "Starting DHCPv6 client on NDisc request failed: %m");
+         }
+ 
+         if (!gateway)
+-- 
+2.1.4
+

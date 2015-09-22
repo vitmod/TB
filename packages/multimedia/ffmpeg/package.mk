@@ -17,67 +17,26 @@
 ################################################################################
 
 PKG_NAME="ffmpeg"
-PKG_VERSION="2.8.5"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="2.8.5-Jarvis-rc1"
 PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
-PKG_URL="https://ffmpeg.org/releases/${PKG_NAME}-${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain yasm:host zlib bzip2 libvorbis libressl dcadec"
-PKG_PRIORITY="optional"
-PKG_SECTION="multimedia"
+PKG_URL="https://github.com/xbmc/FFmpeg/archive/${PKG_VERSION}.tar.gz"
+PKG_SOURCE_DIR="FFmpeg-${PKG_VERSION}"
+PKG_DEPENDS_TARGET="toolchain yasm:host zlib bzip2 libvorbis"
 PKG_SHORTDESC="FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video."
-PKG_LONGDESC="FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video."
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
-
-# configure GPU drivers and dependencies:
-  get_graphicdrivers
-
-if [ "$VAAPI_SUPPORT" = yes ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libva-intel-driver"
-  FFMPEG_VAAPI="--enable-vaapi"
-else
-  FFMPEG_VAAPI="--disable-vaapi"
-fi
-
-if [ "$VDPAU_SUPPORT" = yes ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libvdpau"
-  FFMPEG_VDPAU="--enable-vdpau"
-else
-  FFMPEG_VDPAU="--disable-vdpau"
-fi
-
-if [ "$DEBUG" = yes ]; then
-  FFMPEG_DEBUG="--enable-debug --disable-stripping"
-else
-  FFMPEG_DEBUG="--disable-debug --enable-stripping"
-fi
-
-if [ "$KODIPLAYER_DRIVER" = "bcm2835-driver" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET bcm2835-driver"
-fi
 
 case "$TARGET_ARCH" in
   arm)
-      FFMPEG_CPU=""
       FFMPEG_TABLES="--enable-hardcoded-tables"
-      FFMPEG_PIC="--enable-pic"
   ;;
   x86_64)
-      FFMPEG_CPU=""
       FFMPEG_TABLES="--disable-hardcoded-tables"
-      FFMPEG_PIC="--enable-pic"
   ;;
 esac
 
 case "$TARGET_FPU" in
   neon*)
       FFMPEG_FPU="--enable-neon"
-  ;;
-  vfp*)
-      FFMPEG_FPU=""
   ;;
   *)
       FFMPEG_FPU=""
@@ -87,17 +46,6 @@ esac
 pre_configure_target() {
   cd $ROOT/$PKG_BUILD
   rm -rf .$TARGET_NAME
-
-# ffmpeg fails building with LTO support
-  strip_lto
-
-# ffmpeg fails running with GOLD support
-  strip_gold
-
-  if [ "$KODIPLAYER_DRIVER" = "bcm2835-driver" ]; then
-    export CFLAGS="-I$SYSROOT_PREFIX/usr/include/interface/vcos/pthreads -I$SYSROOT_PREFIX/usr/include/interface/vmcs_host/linux -DRPI=1 $CFLAGS"
-    export FFMPEG_LIBS="-lbcm_host -lvcos -lvchiq_arm -lmmal -lmmal_core -lmmal_util -lvcsm"
-  fi
 }
 
 configure_target() {
@@ -121,26 +69,26 @@ configure_target() {
               --host-libs="-lm" \
               --extra-cflags="$CFLAGS" \
               --extra-ldflags="$LDFLAGS -fPIC" \
-              --extra-libs="$FFMPEG_LIBS" \
+              --extra-libs="" \
               --extra-version="" \
               --build-suffix="" \
-              --disable-static \
-              --enable-shared \
+              --enable-static \
+              --disable-shared \
               --enable-gpl \
               --disable-version3 \
               --disable-nonfree \
-              --enable-logging \
+              --disable-logging \
               --disable-doc \
-              $FFMPEG_DEBUG \
-              $FFMPEG_PIC \
+              --disable-debug --enable-stripping \
+              --enable-pic \
               --pkg-config="$ROOT/$TOOLCHAIN/bin/pkg-config" \
               --enable-optimizations \
               --disable-extra-warnings \
               --disable-ffprobe \
               --disable-ffplay \
               --disable-ffserver \
-              --enable-ffmpeg \
-              --enable-avdevice \
+              --disable-ffmpeg \
+              --disable-avdevice \
               --enable-avcodec \
               --enable-avformat \
               --enable-swscale \
@@ -151,7 +99,7 @@ configure_target() {
               --disable-w32threads \
               --disable-x11grab \
               --enable-network \
-              --disable-gnutls --enable-openssl \
+              --disable-gnutls --disable-openssl \
               --disable-gray \
               --enable-swscale-alpha \
               --disable-small \
@@ -160,8 +108,8 @@ configure_target() {
               --enable-mdct \
               --enable-rdft \
               --disable-crystalhd \
-              $FFMPEG_VAAPI \
-              $FFMPEG_VDPAU \
+              --disable-vaapi \
+              --disable-vdpau \
               --disable-dxva2 \
               --enable-runtime-cpudetect \
               $FFMPEG_TABLES \
@@ -194,7 +142,7 @@ configure_target() {
               --disable-libopencore-amrwb \
               --disable-libopencv \
               --disable-libdc1394 \
-              --enable-libdcadec \
+              --disable-libdcadec \
               --disable-libfaac \
               --disable-libfreetype \
               --disable-libgsm \
@@ -207,7 +155,7 @@ configure_target() {
               --disable-libtheora \
               --disable-libvo-aacenc \
               --disable-libvo-amrwbenc \
-              --enable-libvorbis --enable-muxer=ogg --enable-encoder=libvorbis \
+              --enable-libvorbis --enable-muxer=ogg \
               --disable-libvpx \
               --disable-libx264 \
               --disable-libxavs \
@@ -215,12 +163,7 @@ configure_target() {
               --enable-zlib \
               --enable-asm \
               --disable-altivec \
-              $FFMPEG_CPU \
               $FFMPEG_FPU \
               --enable-yasm \
               --disable-symver
-}
-
-post_makeinstall_target() {
-  rm -rf $INSTALL/usr/share/ffmpeg/examples
 }

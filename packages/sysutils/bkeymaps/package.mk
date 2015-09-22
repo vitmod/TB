@@ -18,25 +18,17 @@
 
 PKG_NAME="bkeymaps"
 PKG_VERSION="1.13"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.alpinelinux.org"
 PKG_URL="http://dev.alpinelinux.org/archive/bkeymaps/$PKG_NAME-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain busybox"
-PKG_PRIORITY="optional"
-PKG_SECTION="system"
+PKG_DEPENDS_INIT="toolchain"
 PKG_SHORTDESC="bkeymaps: binary keyboard maps for busybox"
-PKG_LONGDESC="bkeymaps: binary keyboard maps for busybox"
 
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
-
-make_target() {
+make_init() {
   : # nothing todo, we install manually
 }
 
-makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/keymaps
-    cp -PR bkeymaps/* $INSTALL/usr/lib/keymaps
+makeinstall_init() {
+  mkdir -p $INSTALL
+  cp bkeymaps/us/us.bmap $INSTALL/keymap
 }

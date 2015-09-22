@@ -18,19 +18,11 @@
 
 PKG_NAME="Pillow"
 PKG_VERSION="3.1.0"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.pythonware.com/products/pil/"
 PKG_URL="https://pypi.python.org/packages/source/P/Pillow/$PKG_NAME-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain Python distutilscross:host zlib freetype libjpeg-turbo tiff"
-PKG_PRIORITY="optional"
-PKG_SECTION="python"
+PKG_DEPENDS_TARGET="toolchain Python distutilscross:host zlib freetype libjpeg-turbo"
 PKG_SHORTDESC="pil: Imaging handling/processing for Python"
-PKG_LONGDESC="The Python Imaging Library (PIL) adds image processing capabilities to your Python interpreter. This library supports many file formats, and provides powerful image processing and graphics capabilities."
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
 
 pre_make_target() {
   export PYTHONXCPREFIX="$SYSROOT_PREFIX/usr"

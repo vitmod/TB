@@ -18,30 +18,22 @@
 
 PKG_NAME="amremote"
 PKG_VERSION="aa0a9e8"
-PKG_REV="1"
-PKG_ARCH="arm"
 PKG_LICENSE="other"
 PKG_SITE="http://www.amlogic.com"
 PKG_URL="https://github.com/codesnake/amremote/releases/download/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain usbutils"
-PKG_PRIORITY="optional"
-PKG_SECTION="sysutils/remote"
 PKG_SHORTDESC="amremote - IR remote configuration utility for Amlogic-based devices"
-PKG_LONGDESC="amremote - IR remote configuration utility for Amlogic-based devices"
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/bin
-    cp remotecfg $INSTALL/usr/bin
+  cp remotecfg $INSTALL/usr/bin
 
   mkdir -p $INSTALL/usr/lib/openelec
-    cp $PKG_DIR/scripts/* $INSTALL/usr/lib/openelec
+  cp $PKG_DIR/scripts/* $INSTALL/usr/lib/openelec
 
   mkdir -p $INSTALL/etc/amremote
-    cp $PKG_DIR/config/*.conf $INSTALL/etc/amremote
+  cp $PKG_DIR/config/*.conf $INSTALL/etc/amremote
 }
 
 post_install() {

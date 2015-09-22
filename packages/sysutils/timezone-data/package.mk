@@ -18,19 +18,11 @@
 
 PKG_NAME="timezone-data"
 PKG_VERSION="2014i"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="Public Domain"
 PKG_SITE="ftp://elsie.nci.nih.gov/pub/"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="system"
 PKG_SHORTDESC="timezone-data"
-PKG_LONGDESC="timezone-data"
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
 
 make_target() {
   setup_toolchain host
@@ -43,13 +35,13 @@ makeinstall_target() {
 
 post_makeinstall_target() {
   mkdir -p $INSTALL/usr/share/zoneinfo
-    mv $INSTALL/etc/zoneinfo/* $INSTALL/usr/share/zoneinfo
+  mv $INSTALL/etc/zoneinfo/* $INSTALL/usr/share/zoneinfo
 
   rm -rf $INSTALL/man
   rm -rf $INSTALL/etc
 
   mkdir -p $INSTALL/etc
-    ln -sf /var/run/localtime $INSTALL/etc/localtime
+  ln -sf /var/run/localtime $INSTALL/etc/localtime
 }
 
 post_install() {

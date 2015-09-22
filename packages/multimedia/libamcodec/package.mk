@@ -18,19 +18,11 @@
 
 PKG_NAME="libamcodec"
 PKG_VERSION="45a1086"
-PKG_REV="1"
-PKG_ARCH="arm"
 PKG_LICENSE="other"
 PKG_SITE="http://openlinux.amlogic.com"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="multimedia"
 PKG_SHORTDESC="libamcodec: Interface library for Amlogic media codecs"
-PKG_LONGDESC="libamplayer: Interface library for Amlogic media codecs"
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
 
 make_target() {
   make -C amavutils CC="$CC" PREFIX="$SYSROOT_PREFIX/usr"

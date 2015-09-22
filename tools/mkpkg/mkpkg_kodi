@@ -17,14 +17,9 @@
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-if [ -z "$1" ]; then
-  echo "Usage: $0 <branch-name>"
-  exit 0
-fi
-
 PKG_NAME="kodi"
 PKG_VERSION=""
-BRANCH="$1"
+BRANCH="master"
 GIT_REPO="git://github.com/xbmc/xbmc.git"
 DEST_DIR="$PKG_NAME-$BRANCH"
 
@@ -57,14 +52,11 @@ echo "copying sources..."
 echo "cleaning sources..."
   rm -rf $PKG_NAME-$PKG_VERSION/.git
 
-echo "seperating theme..."
-  rm -rf $PKG_NAME-theme-Confluence-$PKG_VERSION
-  mv $PKG_NAME-$PKG_VERSION/addons/skin.confluence $PKG_NAME-theme-Confluence-$PKG_VERSION
-
 echo "packing sources..."
   tar cvJf $PKG_NAME-$PKG_VERSION.tar.xz $PKG_NAME-$PKG_VERSION
-  tar cvJf $PKG_NAME-theme-Confluence-$PKG_VERSION.tar.xz $PKG_NAME-theme-Confluence-$PKG_VERSION
 
 echo "remove temporary sourcedir..."
   rm -rf $PKG_NAME-$PKG_VERSION
-  rm -rf $PKG_NAME-theme-Confluence-$PKG_VERSION
+
+# update package.mk
+  sed -i "s|PKG_VERSION=.*|PKG_VERSION=\"$PKG_VERSION\"|g" ../../packages/mediacenter/kodi/package.mk

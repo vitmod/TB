@@ -17,27 +17,19 @@
 ################################################################################
 
 PKG_NAME="dbus"
-PKG_VERSION="1.10.4"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="1.10.6"
 PKG_LICENSE="GPL"
 PKG_SITE="http://dbus.freedesktop.org"
 PKG_URL="http://dbus.freedesktop.org/releases/$PKG_NAME/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain expat systemd"
-PKG_PRIORITY="required"
-PKG_SECTION="system"
 PKG_SHORTDESC="dbus: simple interprocess messaging system"
-PKG_LONGDESC="D-Bus is a message bus, used for sending messages between applications. This package contains the D-Bus daemon and related utilities and the dbus shared library."
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="yes"
 
 PKG_CONFIGURE_OPTS_TARGET="export ac_cv_have_abstract_sockets=yes \
                            --with-sysroot=$SYSROOT_PREFIX \
                            --libexecdir=/usr/lib/dbus \
                            --disable-verbose-mode \
                            --disable-asserts \
-                           --enable-checks \
+                           --disable-checks \
                            --disable-tests \
                            --disable-ansi \
                            --disable-xml-docs \
@@ -48,6 +40,8 @@ PKG_CONFIGURE_OPTS_TARGET="export ac_cv_have_abstract_sockets=yes \
                            --disable-libaudit \
                            --enable-systemd \
                            --enable-inotify \
+                           --disable-stats \
+                           --disable-user-session \
                            --without-valgrind \
                            --without-x \
                            --with-dbus-user=dbus"
@@ -64,4 +58,14 @@ post_install() {
 
   echo "chmod 4750 $INSTALL/usr/lib/dbus/dbus-daemon-launch-helper" >> $FAKEROOT_SCRIPT
   echo "chown 0:81 $INSTALL/usr/lib/dbus/dbus-daemon-launch-helper" >> $FAKEROOT_SCRIPT
+}
+
+post_makeinstall_target() {
+  rm -rf $INSTALL/usr/bin/dbus-cleanup-sockets
+  rm -rf $INSTALL/usr/bin/dbus-launch
+  rm -rf $INSTALL/usr/bin/dbus-monitor
+  rm -rf $INSTALL/usr/bin/dbus-test-tool
+  rm -rf $INSTALL/usr/bin/dbus-run-session
+  rm -rf $INSTALL/usr/bin/dbus-update-activation-environment
+  rm -rf $INSTALL/usr/lib/dbus-*/include/dbus/dbus-arch-deps.h
 }

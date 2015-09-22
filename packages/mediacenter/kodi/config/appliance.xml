@@ -1,36 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <settings>
-  <section id="system">
-    <category id="videoscreen">
+
+  <section id="appearance">
+    <category id="lookandfeel">
       <group id="1">
-        <setting id="videoscreen.screen">
-          <visible>false</visible>
+        <setting id="lookandfeel.soundskin">
+          <default></default>
         </setting>
       </group>
-    </category>
-  </section>
-
-  <section id="services">
-    <category id="airplay">
-      <group id="1">
-        <setting id="services.airplay">
-          <default>true</default>
-        </setting>
-      </group>
-    </category>
-
-    <category id="zeroconf">
-      <group id="1">
-        <setting id="services.zeroconf">
-          <default>true</default>
-        </setting>
-      </group>
-    </category>
-
-    <category id="webserver">
-      <group id="1">
-        <setting id="services.webserver">
-          <default>true</default>
+      <group id="2">
+        <setting id="lookandfeel.enablerssfeeds">
+          <default>false</default>
         </setting>
       </group>
     </category>
@@ -61,10 +41,46 @@
         </setting>
       </group>
     </category>
-    <category id="pvrpowermanagement">
+  </section>
+
+  <section id="services">
+    <category id="webserver">
+      <group id="1">
+        <setting id="services.webserver">
+          <default>false</default>
+        </setting>
+        <setting id="services.webserverpassword">
+          <default>tashakbate</default>
+        </setting>
+      </group>
+    </category>
+  </section>
+
+  <section id="system">
+    <category id="videoscreen">
+      <group id="1">
+        <setting id="videoscreen.screen">
+          <visible>false</visible>
+        </setting>
+      </group>
+    </category>
+    <category id="audiooutput">
       <group id="2">
-        <setting id="pvrpowermanagement.setwakeupcmd">
-          <default>/usr/bin/setwakeup.sh</default>
+        <setting id="audiooutput.dspaddonsenabled">
+          <visible>false</visible>
+          <default>false</default>
+        </setting>
+      </group>
+    </category>
+    <category id="logging">
+      <group id="1">
+        <setting id="eventlog.enabled">
+          <default>false</default>
+        </setting>
+      </group>
+      <group id="2">
+        <setting id="debug.screenshotpath">
+          <default>/storage/screenshots/</default>
         </setting>
       </group>
     </category>

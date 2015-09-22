@@ -18,24 +18,12 @@
 
 PKG_NAME="e2fsprogs"
 PKG_VERSION="1.42.13"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://e2fsprogs.sourceforge.net/"
 PKG_URL="$SOURCEFORGE_SRC/$PKG_NAME/$PKG_NAME/1.42/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_INIT="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="tools"
 PKG_SHORTDESC="e2fsprogs: Utilities for use with the ext2 filesystem"
-PKG_LONGDESC="The filesystem utilities for the EXT2 filesystem, including e2fsck, mke2fs, dumpe2fs, fsck, and others."
-PKG_IS_ADDON="no"
-
-PKG_AUTORECONF="yes"
-
-if [ "$HFSTOOLS" = "yes" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET diskdev_cmds"
-fi
 
 PKG_CONFIGURE_OPTS_TARGET="BUILD_CC=$HOST_CC \
                            --prefix=/usr \
@@ -82,17 +70,9 @@ post_makeinstall_target() {
 
 makeinstall_init() {
   mkdir -p $INSTALL/sbin
-    cp e2fsck/e2fsck $INSTALL/sbin
-    ln -sf e2fsck $INSTALL/sbin/fsck.ext2
-    ln -sf e2fsck $INSTALL/sbin/fsck.ext3
-    ln -sf e2fsck $INSTALL/sbin/fsck.ext4
-    ln -sf e2fsck $INSTALL/sbin/fsck.ext4dev
-
-  if [ $INITRAMFS_PARTED_SUPPORT = "yes" ]; then
-    cp misc/mke2fs $INSTALL/sbin
-    ln -sf mke2fs $INSTALL/sbin/mkfs.ext2
-    ln -sf mke2fs $INSTALL/sbin/mkfs.ext3
-    ln -sf mke2fs $INSTALL/sbin/mkfs.ext4
-    ln -sf mke2fs $INSTALL/sbin/mkfs.ext4dev
-  fi
+  cp e2fsck/e2fsck $INSTALL/sbin
+  ln -sf e2fsck $INSTALL/sbin/fsck.ext2
+  ln -sf e2fsck $INSTALL/sbin/fsck.ext3
+  ln -sf e2fsck $INSTALL/sbin/fsck.ext4
+  ln -sf e2fsck $INSTALL/sbin/fsck.ext4dev
 }

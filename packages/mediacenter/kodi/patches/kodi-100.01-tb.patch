@@ -1,0 +1,1326 @@
+From 382a1c6e1e3b4d9f6fe042228f11c38233251765 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 18 Apr 2015 15:12:49 +0300
+Subject: [PATCH 01/27] [tb] enable PYTHONOPTIMIZE with external Python
+
+---
+ xbmc/interfaces/python/XBPython.cpp | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/xbmc/interfaces/python/XBPython.cpp b/xbmc/interfaces/python/XBPython.cpp
+index 788fa37..7b29b22 100644
+--- a/xbmc/interfaces/python/XBPython.cpp
++++ b/xbmc/interfaces/python/XBPython.cpp
+@@ -568,10 +568,9 @@ bool XBPython::OnScriptInitialized(ILanguageInvoker *invoker)
+     // at http://docs.python.org/using/cmdline.html#environment-variables
+ 
+ #if !defined(TARGET_WINDOWS) && !defined(TARGET_ANDROID)
+-    /* PYTHONOPTIMIZE is set off intentionally when using external Python.
+-    Reason for this is because we cannot be sure what version of Python
+-    was used to compile the various Python object files (i.e. .pyo,
+-    .pyc, etc.). */
++    // Required for python to find optimized code (pyo) files
++    setenv("PYTHONOPTIMIZE", "1", 1);
++
+     // check if we are running as real xbmc.app or just binary
+     if (!CUtil::GetFrameworksPath(true).empty())
+     {
+-- 
+2.7.0.rc3
+
+
+From 43ce945885a8dd7e16a3a388a9d6fcb9aee69a31 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 18 Apr 2015 15:03:31 +0300
+Subject: [PATCH 02/27] [tb] disable online check
+
+---
+ xbmc/GUIInfoManager.cpp              | 1 -
+ xbmc/utils/SystemInfo.cpp            | 5 +----
+ xbmc/windows/GUIWindowSystemInfo.cpp | 1 -
+ 3 files changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/xbmc/GUIInfoManager.cpp b/xbmc/GUIInfoManager.cpp
+index 659901b..3f0aaa5 100644
+--- a/xbmc/GUIInfoManager.cpp
++++ b/xbmc/GUIInfoManager.cpp
+@@ -298,7 +298,6 @@ const infomap system_labels[] =  {{ "hasnetwork",       SYSTEM_ETHERNET_LINK_ACT
+                                   { "currentcontrol",   SYSTEM_CURRENT_CONTROL },
+                                   { "currentcontrolid", SYSTEM_CURRENT_CONTROL_ID },
+                                   { "dvdlabel",         SYSTEM_DVD_LABEL },
+-                                  { "internetstate",    SYSTEM_INTERNET_STATE },
+                                   { "osversioninfo",    SYSTEM_OS_VERSION_INFO },
+                                   { "kernelversion",    SYSTEM_OS_VERSION_INFO }, // old, not correct name
+                                   { "uptime",           SYSTEM_UPTIME },
+diff --git a/xbmc/utils/SystemInfo.cpp b/xbmc/utils/SystemInfo.cpp
+index eb85abb..123e99d 100644
+--- a/xbmc/utils/SystemInfo.cpp
++++ b/xbmc/utils/SystemInfo.cpp
+@@ -247,7 +247,6 @@ bool CSysInfoJob::DoWork()
+ {
+   m_info.systemUptime      = GetSystemUpTime(false);
+   m_info.systemTotalUptime = GetSystemUpTime(true);
+-  m_info.internetState     = GetInternetState();
+   m_info.videoEncoder      = GetVideoEncoder();
+   m_info.cpuFrequency      = GetCPUFreqInfo();
+   m_info.osVersionInfo     = CSysInfo::GetOsPrettyNameWithVersion() + " (kernel: " + CSysInfo::GetKernelName() + " " + CSysInfo::GetKernelVersionFull() + ")";
+@@ -1023,9 +1022,7 @@ int CSysInfo::GetXbmcBitness(void)
+ 
+ bool CSysInfo::HasInternet()
+ {
+-  if (m_info.internetState != CSysData::UNKNOWN)
+-    return m_info.internetState == CSysData::CONNECTED;
+-  return (m_info.internetState = CSysInfoJob::GetInternetState()) == CSysData::CONNECTED;
++  return m_info.internetState == CSysData::UNKNOWN;
+ }
+ 
+ std::string CSysInfo::GetHddSpaceInfo(int drive, bool shortText)
+diff --git a/xbmc/windows/GUIWindowSystemInfo.cpp b/xbmc/windows/GUIWindowSystemInfo.cpp
+index 4184db0..0cd539e 100644
+--- a/xbmc/windows/GUIWindowSystemInfo.cpp
++++ b/xbmc/windows/GUIWindowSystemInfo.cpp
+@@ -125,7 +125,6 @@ void CGUIWindowSystemInfo::FrameMove()
+     SetControlLabel(i++, "%s: %s", 13160, NETWORK_GATEWAY_ADDRESS);
+     SetControlLabel(i++, "%s: %s", 13161, NETWORK_DNS1_ADDRESS);
+     SetControlLabel(i++, "%s: %s", 20307, NETWORK_DNS2_ADDRESS);
+-    SetControlLabel(i++, "%s %s", 13295, SYSTEM_INTERNET_STATE);
+   }
+ 
+   else if (m_section == CONTROL_BT_VIDEO)
+-- 
+2.7.0.rc3
+
+
+From de91f1340a09810ab2fa831d3043e490899028a6 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Mon, 2 Mar 2015 23:50:40 +0200
+Subject: [PATCH 03/27] [tb] make binary addons executable
+
+add executable mode to all files in addon's bin folder
+
+credits to vpeter4 for the patch
+---
+ xbmc/addons/Addon.cpp | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
+index 745f16a..60cd5d8 100644
+--- a/xbmc/addons/Addon.cpp
++++ b/xbmc/addons/Addon.cpp
+@@ -50,6 +50,10 @@
+ #include "freebsd/FreeBSDGNUReplacements.h"
+ #endif
+ 
++#include <iostream>
++#include <dirent.h>
++#include <sys/stat.h>
++
+ using XFILE::CDirectory;
+ using XFILE::CFile;
+ 
+@@ -714,6 +718,28 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
+   if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_REPOSITORY))
+     CRepositoryUpdater::GetInstance().ScheduleUpdate(); //notify updater there is a new addon or version
+ 
++  // OE: make binary addons executable, creddits to vpeter4
++  std::string addonDirPath;
++  std::string chmodFilePath;
++  DIR *addonsDir;
++  struct dirent *fileDirent;
++  struct stat fileStat;
++  int statRet;
++
++  addonDirPath = "/storage/.kodi/addons/" + addon->ID() + "/bin/";
++  if ((addonsDir = opendir(addonDirPath.c_str())) != NULL)
++  {
++    while ((fileDirent = readdir(addonsDir)) != NULL)
++    {
++      chmodFilePath = addonDirPath + fileDirent->d_name;
++      statRet = stat(chmodFilePath.c_str(), &fileStat);
++      if (statRet == 0 && (fileStat.st_mode & S_IFMT) != S_IFDIR)
++        chmod(chmodFilePath.c_str(), fileStat.st_mode | S_IXUSR | S_IXGRP | S_IXOTH);
++    }
++    closedir(addonsDir);
++  }
++  // OE
++
+   addon->OnPostInstall(update, modal);
+ }
+ 
+-- 
+2.7.0.rc3
+
+
+From cfe6e720805df5d748b7ccf02efeb352fd360ecc Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 18 Apr 2015 14:59:29 +0300
+Subject: [PATCH 04/27] [tb] disable minimize
+
+---
+ xbmc/Application.cpp | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
+index 50eeba1..963010c 100644
+--- a/xbmc/Application.cpp
++++ b/xbmc/Application.cpp
+@@ -4985,7 +4985,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+ 
+ void CApplication::Minimize()
+ {
+-  g_Windowing.Minimize();
+ }
+ 
+ std::string CApplication::GetCurrentPlayer()
+-- 
+2.7.0.rc3
+
+
+From 5f174d535bda39687356f17dde717c761dc30bc0 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Mon, 18 Aug 2014 17:46:54 +0300
+Subject: [PATCH 05/27] [tb] setup timezone
+
+on TZ country setting change, store the value in format
+TIMEZONE=Xx/Yyy to /storage/.cache/timezone to be used with
+tz-data.service
+---
+ xbmc/linux/LinuxTimezone.cpp | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/xbmc/linux/LinuxTimezone.cpp b/xbmc/linux/LinuxTimezone.cpp
+index ea44d40..b780e62 100644
+--- a/xbmc/linux/LinuxTimezone.cpp
++++ b/xbmc/linux/LinuxTimezone.cpp
+@@ -42,6 +42,8 @@
+ 
+ #include <algorithm>
+ 
++#include <fstream>
++
+ CLinuxTimezone::CLinuxTimezone() : m_IsDST(0)
+ {
+    char* line = NULL;
+@@ -159,6 +161,16 @@ void CLinuxTimezone::OnSettingChanged(const CSetting *setting)
+   const std::string &settingId = setting->GetId();
+   if (settingId == CSettings::SETTING_LOCALE_TIMEZONE)
+   {
++    std::ofstream out("/storage/.cache/timezone");
++    if (out)
++    {
++      const std::string tz = std::string("TIMEZONE=") + ((CSettingString*)setting)->GetValue().c_str();
++      out << tz << std::endl;
++      out.flush();
++      out.close();
++      system("systemctl restart tz-data.service");
++    }
++
+     SetTimezone(((CSettingString*)setting)->GetValue());
+ 
+     CDateTime::ResetTimezoneBias();
+-- 
+2.7.0.rc3
+
+
+From 04c190db5c717f8c81418b62c89926bbd462d98f Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Fri, 24 Apr 2015 19:45:20 +0300
+Subject: [PATCH 06/27] [tb] use a wrapper to setup systemd services
+
+---
+ xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
+ xbmc/addons/Addon.h   |  2 ++
+ 2 files changed, 32 insertions(+)
+
+diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
+index 60cd5d8..1781204 100644
+--- a/xbmc/addons/Addon.cpp
++++ b/xbmc/addons/Addon.cpp
+@@ -658,6 +658,13 @@ AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
+   return AddonVersion("0.0.0");
+ }
+ 
++void CallOEWrapper(const std::string& ID, bool disable)
++{
++  char cmd[255];
++  snprintf(cmd, sizeof(cmd), "/usr/lib/openelec/systemd-addon-wrapper %s %d %d", ID.c_str(), disable);
++  system(cmd);
++}
++
+ void OnEnabled(const std::string& id)
+ {
+   // If the addon is a special, call enabled handler
+@@ -666,6 +673,11 @@ void OnEnabled(const std::string& id)
+       CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_ADSPDLL))
+     return addon->OnEnabled();
+ 
++  // OE: systemctl enable & start on addon enable
++  if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE))
++    CallOEWrapper(addon->ID(), false);
++  // OE
++
+   if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE))
+     std::static_pointer_cast<CService>(addon)->Start();
+ 
+@@ -686,6 +698,11 @@ void OnDisabled(const std::string& id)
+   if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE, false))
+     std::static_pointer_cast<CService>(addon)->Stop();
+ 
++  // OE: systemctl stop & disable on addon disable
++  if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE, false))
++    CallOEWrapper(addon->ID(), true);
++  // OE
++
+   if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_CONTEXT_ITEM, false))
+     CContextMenuManager::GetInstance().Unregister(std::static_pointer_cast<CContextMenuAddon>(addon));
+ }
+@@ -709,6 +726,14 @@ void OnPreInstall(const AddonPtr& addon)
+ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
+ {
+   AddonPtr localAddon;
++  // OE: systemctl stop & disable / enable & start on addon upgrade
++  if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_SERVICE))
++  {
++    CallOEWrapper(addon->ID(), true);
++    CallOEWrapper(addon->ID(), false);
++  }
++  // OE
++
+   if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_SERVICE))
+     std::static_pointer_cast<CService>(localAddon)->Start();
+ 
+@@ -746,6 +771,11 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
+ void OnPreUnInstall(const AddonPtr& addon)
+ {
+   AddonPtr localAddon;
++  // OE: systemctl stop & disable on addon ininstall
++  if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_SERVICE))
++    CallOEWrapper(addon->ID(), true);
++  // OE
++
+   if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_SERVICE))
+     std::static_pointer_cast<CService>(localAddon)->Stop();
+ 
+diff --git a/xbmc/addons/Addon.h b/xbmc/addons/Addon.h
+index 5fb6a40..4656e66 100644
+--- a/xbmc/addons/Addon.h
++++ b/xbmc/addons/Addon.h
+@@ -171,6 +171,8 @@ public:
+   const InfoMap &ExtraInfo() const { return m_props.extrainfo; }
+   const ADDONDEPS &GetDeps() const { return m_props.dependencies; }
+ 
++  void CallOEWrapper(const std::string& ID, bool disable);
++
+   /*! \brief get the required version of a dependency.
+    \param dependencyID the addon ID of the dependency.
+    \return the version this addon requires.
+-- 
+2.7.0.rc3
+
+
+From 29024a9a953d94073d82e82fc7357aa219e658fe Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Mon, 15 Dec 2014 21:28:54 +0200
+Subject: [PATCH 07/27] [tb] handle SIGTERM
+
+0. CApplication::Stop cant be trusted. (deadlocks crashes and boo)
+
+so, when shutdown/reboot is requested:
+
+1. save an exit code (for CEC...)
+2. call CPowerManager::{Reboot,PowerDown}
+3. ... then systemd sends TERM and waits xx seconds before sending KILL
+4. CApplication::Stop has xx seconds to save guisettings.xml and boo
+5. CEC thread has xx seconds to switch off after it received OnQuit
+6. addons / pvrmanager / cec / everything else.. are free to deadlock / crash now, we dont care
+7. KILL
+---
+ xbmc/Application.cpp         | 17 ++++++++++++-----
+ xbmc/Application.h           |  1 +
+ xbmc/XBApplicationEx.cpp     |  1 +
+ xbmc/XBApplicationEx.h       |  1 +
+ xbmc/platform/posix/main.cpp | 15 +++++++++++++++
+ 5 files changed, 30 insertions(+), 5 deletions(-)
+
+diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
+index 963010c..226338f 100644
+--- a/xbmc/Application.cpp
++++ b/xbmc/Application.cpp
+@@ -2452,12 +2452,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+   switch (pMsg->dwMessage)
+   {
+   case TMSG_POWERDOWN:
+-    Stop(EXITCODE_POWERDOWN);
++    SetExitCode(EXITCODE_POWERDOWN);
+     g_powerManager.Powerdown();
+     break;
+ 
+   case TMSG_QUIT:
+-    Stop(EXITCODE_QUIT);
++    SetExitCode(EXITCODE_QUIT);
+     break;
+   
+   case TMSG_SHUTDOWN:
+@@ -2478,12 +2478,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+ 
+   case TMSG_RESTART:
+   case TMSG_RESET:
+-    Stop(EXITCODE_REBOOT);
++    SetExitCode(EXITCODE_REBOOT);
+     g_powerManager.Reboot();
+     break;
+ 
+   case TMSG_RESTARTAPP:
+ #if defined(TARGET_WINDOWS) || defined(TARGET_LINUX)
++    SetExitCode(EXITCODE_RESTARTAPP);
+     Stop(EXITCODE_RESTARTAPP);
+ #endif
+     break;
+@@ -2871,12 +2872,19 @@ bool CApplication::Cleanup()
+   }
+ }
+ 
++void CApplication::SetExitCode(int exitCode)
++{
++  // save it for CEC
++  m_ExitCode = exitCode;
++  m_ExitCodeSet = true;
++}
++
+ void CApplication::Stop(int exitCode)
+ {
+   try
+   {
+     CVariant vExitCode(CVariant::VariantTypeObject);
+-    vExitCode["exitcode"] = exitCode;
++    vExitCode["exitcode"] = m_ExitCode;
+     CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
+ 
+     // Abort any active screensaver
+@@ -2903,7 +2911,6 @@ void CApplication::Stop(int exitCode)
+ 
+     m_bStop = true;
+     m_AppFocused = false;
+-    m_ExitCode = exitCode;
+     CLog::Log(LOGNOTICE, "stop all");
+ 
+     // cancel any jobs from the jobmanager
+diff --git a/xbmc/Application.h b/xbmc/Application.h
+index b3af0b0..98e842b 100644
+--- a/xbmc/Application.h
++++ b/xbmc/Application.h
+@@ -153,6 +153,7 @@ public:
+   void StartPVRManager();
+   void StopPVRManager();
+   bool IsCurrentThread() const;
++  void SetExitCode(int exitCode);
+   void Stop(int exitCode);
+   void RestartApp();
+   void UnloadSkin(bool forReload = false);
+diff --git a/xbmc/XBApplicationEx.cpp b/xbmc/XBApplicationEx.cpp
+index 048a6c1..fa99ac1 100644
+--- a/xbmc/XBApplicationEx.cpp
++++ b/xbmc/XBApplicationEx.cpp
+@@ -40,6 +40,7 @@ CXBApplicationEx::CXBApplicationEx()
+   m_bStop = false;
+   m_AppFocused = true;
+   m_ExitCode = EXITCODE_QUIT;
++  m_ExitCodeSet = false;
+   m_renderGUI = false;
+ }
+ 
+diff --git a/xbmc/XBApplicationEx.h b/xbmc/XBApplicationEx.h
+index c46cba1..ed3f35f 100644
+--- a/xbmc/XBApplicationEx.h
++++ b/xbmc/XBApplicationEx.h
+@@ -40,6 +40,7 @@ public:
+   // Variables for timing
+   bool m_bStop;
+   int  m_ExitCode;
++  bool m_ExitCodeSet;
+   bool m_AppFocused;
+   bool m_renderGUI;
+ 
+diff --git a/xbmc/platform/posix/main.cpp b/xbmc/platform/posix/main.cpp
+index b6b7035..9e7309b 100644
+--- a/xbmc/platform/posix/main.cpp
++++ b/xbmc/platform/posix/main.cpp
+@@ -41,12 +41,27 @@
+ #include "input/linux/LIRC.h"
+ #endif
+ #include "platform/XbmcContext.h"
++#include "Application.h"
++
++void xbmc_term_handler(int signum)
++{
++  CLog::Log(LOGINFO, "Received SIGTERM...");
++  if (!g_application.m_ExitCodeSet)
++    g_application.SetExitCode(EXITCODE_RESTARTAPP);
++  g_application.Stop(EXITCODE_RESTARTAPP);
++}
+ 
+ #ifdef __cplusplus
+ extern "C"
+ #endif
+ int main(int argc, char* argv[])
+ {
++  // SIGTERM handler
++  struct sigaction action;
++  memset(&action, 0, sizeof(struct sigaction));
++  action.sa_handler = xbmc_term_handler;
++  sigaction(SIGTERM, &action, NULL);
++
+   // set up some xbmc specific relationships
+   XBMC::Context context;
+ 
+-- 
+2.7.0.rc3
+
+
+From d4906d0305e07d4efa601a562b7a71561787b012 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 18 Apr 2015 15:45:54 +0300
+Subject: [PATCH 08/27] [tb] prevent kodi switching to windowed mode
+
+---
+ xbmc/windowing/X11/WinSystemX11.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/xbmc/windowing/X11/WinSystemX11.h b/xbmc/windowing/X11/WinSystemX11.h
+index 7edddbc..1db131e 100644
+--- a/xbmc/windowing/X11/WinSystemX11.h
++++ b/xbmc/windowing/X11/WinSystemX11.h
+@@ -44,6 +44,7 @@ public:
+   virtual bool ResizeWindow(int newWidth, int newHeight, int newLeft, int newTop);
+   virtual bool SetFullScreen(bool fullScreen, RESOLUTION_INFO& res, bool blankOtherDisplays);
+   virtual void UpdateResolutions();
++  virtual bool CanDoWindowed() { return false; }
+   virtual int  GetNumScreens() { return 1; }
+   virtual int  GetCurrentScreen() { return m_nScreen; }
+   virtual void ShowOSMouse(bool show);
+-- 
+2.7.0.rc3
+
+
+From b3de102f5e19c440a2b01aa1d545371b8ebd3d21 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sun, 26 Apr 2015 15:13:15 +0300
+Subject: [PATCH 09/27] [tb] udevprovider: filter out OE specific mounts
+
+---
+ xbmc/storage/linux/UDevProvider.cpp | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/xbmc/storage/linux/UDevProvider.cpp b/xbmc/storage/linux/UDevProvider.cpp
+index 6fda5a5..525e6b7 100644
+--- a/xbmc/storage/linux/UDevProvider.cpp
++++ b/xbmc/storage/linux/UDevProvider.cpp
+@@ -152,6 +152,20 @@ void CUDevProvider::GetDisks(VECSOURCES& disks, bool removable)
+       continue;
+     }
+ 
++    // OE: filter out openelec specific mounts
++    if (strstr(mountpoint, "/flash"))
++    {
++      udev_device_unref(device);
++      continue;
++    }
++
++    if (strstr(mountpoint, "/storage"))
++    {
++      udev_device_unref(device);
++      continue;
++    }
++    // OE
++
+     // look for devices on the usb bus, or mounted on */media/ (sdcards), or optical devices
+     const char *bus = udev_device_get_property_value(device, "ID_BUS");
+     const char *optical = udev_device_get_property_value(device, "ID_CDROM"); // matches also DVD, Blu-ray
+-- 
+2.7.0.rc3
+
+
+From cee3cb44ab6f41ce7ef8d5a51674e7cfa142c7e3 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sun, 13 Dec 2015 12:25:29 +0200
+Subject: [PATCH 10/27] [tb] our ffmpeg is doing well
+
+---
+ xbmc/Application.cpp | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
+index 226338f..ae1f61b 100644
+--- a/xbmc/Application.cpp
++++ b/xbmc/Application.cpp
+@@ -523,13 +523,6 @@ bool CApplication::Create()
+ #else  // !USE_STATIC_FFMPEG
+   CLog::Log(LOGNOTICE, "FFmpeg version: %s", FFMPEG_VERSION);
+ #endif // !USE_STATIC_FFMPEG
+-  if (!strstr(FFMPEG_VERSION, FFMPEG_VER_SHA))
+-  {
+-    if (strstr(FFMPEG_VERSION, "kodi"))
+-      CLog::Log(LOGNOTICE, "WARNING: unknown ffmpeg-kodi version detected");
+-    else
+-      CLog::Log(LOGNOTICE, "WARNING: unsupported ffmpeg version detected");
+-  }
+ #endif
+   
+   std::string cpuModel(g_cpuInfo.getCPUModel());
+-- 
+2.7.0.rc3
+
+
+From 2de5f737639d64da2b995461a8c3ac31b83a5d09 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Tue, 25 Aug 2015 10:55:11 +0300
+Subject: [PATCH 11/27] [tb] meh addon sonames
+
+---
+ project/cmake/scripts/common/addon-helpers.cmake | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/project/cmake/scripts/common/addon-helpers.cmake b/project/cmake/scripts/common/addon-helpers.cmake
+index 9541df4..9e2e398 100644
+--- a/project/cmake/scripts/common/addon-helpers.cmake
++++ b/project/cmake/scripts/common/addon-helpers.cmake
+@@ -54,6 +54,9 @@ macro (build_addon target prefix libs)
+     SET(LIBRARY_FILENAME $<TARGET_FILE_NAME:${target}>)
+   endif()
+ 
++  # meh
++  set(LIBRARY_FILENAME $<TARGET_LINKER_FILE_NAME:${target}>)
++
+   # if there's an addon.xml.in we need to generate the addon.xml
+   IF(EXISTS ${PROJECT_SOURCE_DIR}/${target}/addon.xml.in)
+     SET(PLATFORM ${CORE_SYSTEM_NAME})
+-- 
+2.7.0.rc3
+
+
+From f5b787548217480db3b17d38178174eef611cef7 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Tue, 10 Nov 2015 14:27:27 +0200
+Subject: [PATCH 12/27] [tb] bye dcadec
+
+---
+ Makefile.in  | 2 +-
+ configure.ac | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index cdb13bf..d1860bb 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -383,7 +383,7 @@ FFMPEGOBJS = @FFMPEG_LIBDIR@/libavcodec.a \
+              @FFMPEG_LIBDIR@/libpostproc.a \
+              @FFMPEG_LIBDIR@/libswscale.a
+ DYNOBJSXBMC+= $(FFMPEGOBJS)
+-LIBS+= @GNUTLS_ALL_LIBS@ @VORBISENC_ALL_LIBS@ @DCADEC_ALL_LIBS@
++LIBS+= @GNUTLS_ALL_LIBS@ @VORBISENC_ALL_LIBS@
+ 
+ $(FFMPEGOBJS): dvdpcodecs
+ endif
+diff --git a/configure.ac b/configure.ac
+index 3b76b07..28fbd2a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1055,7 +1055,6 @@ fi
+ AC_CHECK_HEADER([ass/ass.h],, AC_MSG_ERROR($missing_library))
+ AC_CHECK_HEADER([ogg/ogg.h],,        AC_MSG_ERROR($missing_library))
+ AC_CHECK_HEADER([vorbis/vorbisfile.h],, AC_MSG_ERROR($missing_library))
+-PKG_CHECK_MODULES([LIBDCADEC], [dcadec],, AC_MSG_ERROR([libdcadec not found]))
+ 
+ PKG_CHECK_MODULES([LIBCURL], [libcurl],, AC_MSG_ERROR([libcurl not found]))
+ XB_FIND_SONAME([CURL], [curl])
+-- 
+2.7.0.rc3
+
+
+From e023161bb4ad585a367b7d80b1c5a93b195b6f2d Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 26 Sep 2015 00:32:42 +0300
+Subject: [PATCH 13/27] [tb] sledgehammer. fix crash while importing channels
+
+---
+ xbmc/pvr/channels/PVRChannel.cpp | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/xbmc/pvr/channels/PVRChannel.cpp b/xbmc/pvr/channels/PVRChannel.cpp
+index 9957537..a50f870 100644
+--- a/xbmc/pvr/channels/PVRChannel.cpp
++++ b/xbmc/pvr/channels/PVRChannel.cpp
+@@ -219,10 +219,7 @@ bool CPVRChannel::Persist()
+ 
+   if (CPVRDatabase *database = GetPVRDatabase())
+   {
+-    bool bReturn = database->Persist(*this) && database->CommitInsertQueries();
+-    CSingleLock lock(m_critSection);
+-    m_bChanged = !bReturn;
+-    return bReturn;
++    // meh
+   }
+ 
+   return false;
+-- 
+2.7.0.rc3
+
+
+From e8d172da957b739f5dbbd007be258b09ab0a39b7 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sun, 27 Dec 2015 14:47:11 +0200
+Subject: [PATCH 14/27] [tb] meh past epg data
+
+---
+ xbmc/pvr/windows/GUIWindowPVRGuide.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
+index 244ca34..1ee3ad2 100644
+--- a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
++++ b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
+@@ -487,7 +487,7 @@ void CGUIWindowPVRGuide::GetViewTimelineItems(CFileItemList &items)
+     endDate = startDate;
+ 
+   // limit start to linger time
+-  CDateTime maxPastDate = currentDate - CDateTimeSpan(0, 0, g_advancedSettings.m_iEpgLingerTime, 0);
++  CDateTime maxPastDate = currentDate - CDateTimeSpan(0, 0, 60, 0);
+   if (startDate < maxPastDate)
+     startDate = maxPastDate;
+ 
+-- 
+2.7.0.rc3
+
+
+From b498a47eab16643775e7d75bb9cde87c2fead9a7 Mon Sep 17 00:00:00 2001
+From: Alex Deryskyba <alex@codesnake.com>
+Date: Wed, 16 Apr 2014 22:02:01 +0300
+Subject: [PATCH 15/27] [aml] Fix ALSA sound output for Amlogic-based devices.
+
+---
+ xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp b/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
+index fbccce0..6bf2c53 100644
+--- a/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
++++ b/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
+@@ -84,6 +84,17 @@ static unsigned int ALSASampleRateList[] =
+   0
+ };
+ 
++static int CheckNP2(unsigned x)
++{
++    --x;
++    x |= x >> 1;
++    x |= x >> 2;
++    x |= x >> 4;
++    x |= x >> 8;
++    x |= x >> 16;
++    return ++x;
++}
++
+ CAESinkALSA::CAESinkALSA() :
+   m_bufferSize(0),
+   m_formatSampleRateMul(0.0),
+@@ -748,12 +759,20 @@ bool CAESinkALSA::InitializeHW(const ALSAConfig &inconfig, ALSAConfig &outconfig
+   */
+   periodSize  = std::min(periodSize, (snd_pcm_uframes_t) sampleRate / 20);
+   bufferSize  = std::min(bufferSize, (snd_pcm_uframes_t) sampleRate / 5);
++#if defined(HAS_LIBAMCODEC)
++  // must be pot for pivos.
++  bufferSize  = CheckNP2(bufferSize);
++#endif
+   
+   /* 
+    According to upstream we should set buffer size first - so make sure it is always at least
+    4x period size to not get underruns (some systems seem to have issues with only 2 periods)
+   */
+   periodSize = std::min(periodSize, bufferSize / 4);
++#if defined(HAS_LIBAMCODEC)
++  // must be pot for pivos.
++  periodSize = CheckNP2(periodSize);
++#endif
+ 
+   CLog::Log(LOGDEBUG, "CAESinkALSA::InitializeHW - Request: periodSize %lu, bufferSize %lu", periodSize, bufferSize);
+ 
+-- 
+2.7.0.rc3
+
+
+From 51967b926fe2aa57c481030eec4f1b46372d2118 Mon Sep 17 00:00:00 2001
+From: Alex Deryskyba <alex@codesnake.com>
+Date: Fri, 19 Sep 2014 01:55:12 +0300
+Subject: [PATCH 16/27] [aml] Change the sample rates that are supported by
+ ALSA but unsupported by HDMI to the closest supported value
+
+---
+ xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp b/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
+index 6bf2c53..32ab888 100644
+--- a/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
++++ b/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
+@@ -673,6 +673,26 @@ bool CAESinkALSA::InitializeHW(const ALSAConfig &inconfig, ALSAConfig &outconfig
+   snd_pcm_hw_params_set_access(m_pcm, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED);
+ 
+   unsigned int sampleRate   = inconfig.sampleRate;
++#ifdef HAS_LIBAMCODEC
++  // Change the sample rates that are supported by ALSA but unsupported by HDMI to the closest supported value
++  switch (sampleRate)
++  {
++  case 5512:
++  case 8000:
++  case 11025:
++  case 16000:
++  case 22050:
++    sampleRate = 44100;
++    break;
++  case 64000:
++    sampleRate = 88200;
++    break;
++  case 384000:
++    sampleRate = 192000;
++    break;
++  }
++#endif
++
+   snd_pcm_hw_params_set_rate_near    (m_pcm, hw_params, &sampleRate, NULL);
+ 
+   unsigned int channelCount = inconfig.channels;
+-- 
+2.7.0.rc3
+
+
+From 7b92a7b98e8350cb7746179e25128eabeedc6c00 Mon Sep 17 00:00:00 2001
+From: Alex Deryskyba <alex@codesnake.com>
+Date: Sat, 20 Sep 2014 04:43:52 +0300
+Subject: [PATCH 17/27] [aml] Fill audio packets completely when resampling to
+ prevent 'audio data unaligned' kernel warnings
+
+---
+ xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp b/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
+index dffded7..2f9dc47 100644
+--- a/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
++++ b/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
+@@ -157,7 +157,11 @@ CActiveAEBufferPoolResample::CActiveAEBufferPoolResample(AEAudioFormat inputForm
+     m_inputFormat.m_channelLayout += AE_CH_FC;
+   }
+   m_resampler = NULL;
++#ifdef HAS_LIBAMCODEC
++  m_fillPackets = true;
++#else
+   m_fillPackets = false;
++#endif
+   m_drain = false;
+   m_empty = true;
+   m_procSample = NULL;
+-- 
+2.7.0.rc3
+
+
+From 6dae58c9f85b8277382b69fd9ef8b25f325336b1 Mon Sep 17 00:00:00 2001
+From: Alex Deryskyba <alex@codesnake.com>
+Date: Tue, 3 Feb 2015 17:58:19 +0100
+Subject: [PATCH 18/27] [aml] Disable deinterlacing for HD content while video
+ is being played in a window
+
+... to prevent screen blinking in 1080p50/60hz display modes
+---
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
+index 5dc6592..2103042 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
+@@ -2259,6 +2259,11 @@ void CAMLCodec::SetVideoRect(const CRect &SrcRect, const CRect &DestRect)
+   CLog::Log(LOGDEBUG, "CAMLCodec::SetVideoRect:m_stereo_view(%d)", m_stereo_view);
+ #endif
+ 
++  if (dst_rect.Width() < display.Width() || dst_rect.Height() < display.Height())
++    SysfsUtils::SetInt("/sys/module/di/parameters/bypass_hd", 1);
++  else
++    SysfsUtils::SetInt("/sys/module/di/parameters/bypass_hd", 0);
++
+   // goofy 0/1 based difference in aml axis coordinates.
+   // fix them.
+   dst_rect.x2--;
+-- 
+2.7.0.rc3
+
+
+From 3ed4995fccf2ad67fc419a5473055407c25c4c81 Mon Sep 17 00:00:00 2001
+From: Alex Deryskyba <alex@codesnake.com>
+Date: Mon, 2 Mar 2015 09:48:14 +0100
+Subject: [PATCH 19/27] [aml] Fix stuttering during a playback of a video with
+ 23.976 FPS
+
+---
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
+index 2103042..edf8f8a 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
+@@ -1974,7 +1974,7 @@ void CAMLCodec::Process()
+ 
+         double error = app_pts - (double)pts_video/PTS_FREQ;
+         double abs_error = fabs(error);
+-        if (abs_error > 0.125)
++        if (abs_error > 0)
+         {
+           //CLog::Log(LOGDEBUG, "CAMLCodec::Process pts diff = %f", error);
+           if (abs_error > 0.150)
+-- 
+2.7.0.rc3
+
+
+From e29487d5c30a2ce2661565a7dbfacfa7fa600036 Mon Sep 17 00:00:00 2001
+From: Alex Deryskyba <alex@codesnake.com>
+Date: Mon, 8 Sep 2014 23:29:40 +0300
+Subject: [PATCH 20/27] [wetek] Reorder libraries in configure script to
+ prevent linker errors when linking with libsmbclient
+
+Place libsmbclient before all other libraries to prevent linker errors when linking
+with libsmbclient if the libc that is currently used doesn't contain some functions
+such as dn_expand (which are often included in libc), but are actually included in
+libresolv.
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 28fbd2a..b2097cf 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1429,7 +1429,7 @@ fi
+ # samba
+ if test "x$use_samba" != "xno"; then
+   PKG_CHECK_MODULES([SAMBA], [smbclient],
+-    [INCLUDES="$INCLUDES $SAMBA_CFLAGS"; LIBS="$LIBS $SAMBA_LIBS"],
++    [INCLUDES="$INCLUDES $SAMBA_CFLAGS"; LIBS="$SAMBA_LIBS $LIBS"],
+     [AC_CHECK_LIB([smbclient], [main],,
+       use_samba=no;AC_MSG_ERROR($missing_library))
+       USE_LIBSMBCLIENT=0
+-- 
+2.7.0.rc3
+
+
+From ca2980d245711a2dde29420eec4bf0b08ad12b42 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 7 Nov 2015 16:24:58 +0200
+Subject: [PATCH 21/27] [wetek] fix compiler badness when compiling with
+ amcodec
+
+---
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in b/xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in
+index 7880c06..bd083b7 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in
+@@ -25,8 +25,6 @@ endif
+ ifeq (@USE_LIBAMCODEC@,1)
+ SRCS += AMLCodec.cpp
+ SRCS += DVDVideoCodecAmlogic.cpp
+-INCLUDES += -I$(prefix)/include/amcodec
+-INCLUDES += -I$(prefix)/include/amplayer
+ endif
+ 
+ ifeq (@USE_ANDROID@,1)
+-- 
+2.7.0.rc3
+
+
+From 78a7a933a51c19531d964cfa6c3ae86c9a3ee151 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 7 Nov 2015 16:25:44 +0200
+Subject: [PATCH 22/27] [wetek] perform suspend instead of powerdown
+
+---
+ system/keymaps/keyboard.xml                        | 2 +-
+ xbmc/powermanagement/linux/LogindUPowerSyscall.cpp | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/system/keymaps/keyboard.xml b/system/keymaps/keyboard.xml
+index 9833cff..0ce105e 100644
+--- a/system/keymaps/keyboard.xml
++++ b/system/keymaps/keyboard.xml
+@@ -91,7 +91,7 @@
+       <backslash>ToggleFullScreen</backslash>
+       <home>FirstPage</home>
+       <end>LastPage</end>
+-      <power>ActivateWindow(shutdownmenu)</power>
++      <power>XBMC.Powerdown()</power>
+       <sleep>ActivateWindow(shutdownmenu)</sleep>
+       <!-- PVR windows -->
+       <e>ActivateWindow(TVGuide)</e>
+diff --git a/xbmc/powermanagement/linux/LogindUPowerSyscall.cpp b/xbmc/powermanagement/linux/LogindUPowerSyscall.cpp
+index 4e5bcc6..ad5847d 100644
+--- a/xbmc/powermanagement/linux/LogindUPowerSyscall.cpp
++++ b/xbmc/powermanagement/linux/LogindUPowerSyscall.cpp
+@@ -53,7 +53,7 @@ CLogindUPowerSyscall::CLogindUPowerSyscall()
+   m_canPowerdown = LogindCheckCapability("CanPowerOff");
+   m_canReboot    = LogindCheckCapability("CanReboot");
+   m_canHibernate = LogindCheckCapability("CanHibernate");
+-  m_canSuspend   = LogindCheckCapability("CanSuspend");
++  m_canSuspend   = false;
+ 
+   InhibitDelayLock();
+ 
+@@ -98,7 +98,7 @@ CLogindUPowerSyscall::~CLogindUPowerSyscall()
+ 
+ bool CLogindUPowerSyscall::Powerdown()
+ {
+-  return LogindSetPowerState("PowerOff");
++  return Suspend();
+ }
+ 
+ bool CLogindUPowerSyscall::Reboot()
+-- 
+2.7.0.rc3
+
+
+From 175c3f452d2243dcf7a410db5076c026d7ef7944 Mon Sep 17 00:00:00 2001
+From: "Chris \\\"Koying\\\" Browet" <cbro@semperpax.com>
+Date: Fri, 19 Dec 2014 12:30:04 +0100
+Subject: [PATCH 23/27] [aml] FIX: [renderer] hide meaningless skips from users
+
+---
+ xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
+index 8bb27e4..67f3b1e 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
+@@ -1410,7 +1410,8 @@ void CRenderManager::PrepareNextRender()
+     while(m_queued.front() != idx)
+     {
+       requeue(m_discard, m_queued);
+-      m_QueueSkip++;
++      if (m_format != RENDER_FMT_AML)  // skips scares users ;)
++        m_QueueSkip++;
+     }
+ 
+     m_presentstep   = PRESENT_FLIP;
+-- 
+2.7.0.rc3
+
+
+From 9b52b6fa9eb5cc61451bc17bcd97b593ae5472e8 Mon Sep 17 00:00:00 2001
+From: Alex Deryskyba <alex@codesnake.com>
+Date: Tue, 30 Jun 2015 11:19:57 +0200
+Subject: [PATCH 24/27] [aml] Ugly workaround to show DTS/AC3 caps
+
+... but don't run into multi channel issues as we can only open 2 pcm channels
+---
+ xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp b/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
+index 32ab888..d4eb0be 100644
+--- a/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
++++ b/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
+@@ -1336,6 +1336,12 @@ void CAESinkALSA::EnumerateDevicesEx(AEDeviceInfoList &list, bool force)
+ 
+ AEDeviceType CAESinkALSA::AEDeviceTypeFromName(const std::string &name)
+ {
++#ifdef HAS_LIBAMCODEC
++  // ugly workaround to show DTS / AC3 caps
++  // but don't run into multi channel issues
++  // as we can only open 2 pcm channels
++  return AE_DEVTYPE_IEC958;
++#endif
+   if (name.substr(0, 4) == "hdmi")
+     return AE_DEVTYPE_HDMI;
+   else if (name.substr(0, 6) == "iec958" || name.substr(0, 5) == "spdif")
+-- 
+2.7.0.rc3
+
+
+From d9f0f0259220eef360682ab7a14357260d4271d7 Mon Sep 17 00:00:00 2001
+From: Alex Deryskyba <alex@codesnake.com>
+Date: Wed, 1 Jul 2015 23:37:11 +0200
+Subject: [PATCH 25/27] [aml] Add support for 4k resolutions
+
+---
+ xbmc/utils/AMLUtils.cpp                     | 16 +++---
+ xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp | 81 ++++++++++++++++++++++-------
+ xbmc/windowing/egl/EGLNativeTypeAmlogic.h   |  2 +
+ 3 files changed, 73 insertions(+), 26 deletions(-)
+
+diff --git a/xbmc/utils/AMLUtils.cpp b/xbmc/utils/AMLUtils.cpp
+index 1b54435..05f2cd0 100644
+--- a/xbmc/utils/AMLUtils.cpp
++++ b/xbmc/utils/AMLUtils.cpp
+@@ -449,8 +449,8 @@ bool aml_mode_to_resolution(const char *mode, RESOLUTION_INFO *res)
+   }
+   else if (StringUtils::EqualsNoCase(fromMode, "4k2ksmpte") || StringUtils::EqualsNoCase(fromMode, "smpte24hz"))
+   {
+-    res->iWidth = 1920;
+-    res->iHeight= 1080;
++    res->iWidth = 4096;
++    res->iHeight= 2160;
+     res->iScreenWidth = 4096;
+     res->iScreenHeight= 2160;
+     res->fRefreshRate = 24;
+@@ -467,8 +467,8 @@ bool aml_mode_to_resolution(const char *mode, RESOLUTION_INFO *res)
+   }
+   else if (StringUtils::EqualsNoCase(fromMode, "4k2k24hz") || StringUtils::EqualsNoCase(fromMode, "2160p24hz"))
+   {
+-    res->iWidth = 1920;
+-    res->iHeight= 1080;
++    res->iWidth = 3840;
++    res->iHeight= 2160;
+     res->iScreenWidth = 3840;
+     res->iScreenHeight= 2160;
+     res->fRefreshRate = 24;
+@@ -476,8 +476,8 @@ bool aml_mode_to_resolution(const char *mode, RESOLUTION_INFO *res)
+   }
+   else if (StringUtils::EqualsNoCase(fromMode, "4k2k25hz") || StringUtils::EqualsNoCase(fromMode, "2160p25hz"))
+   {
+-    res->iWidth = 1920;
+-    res->iHeight= 1080;
++    res->iWidth = 3840;
++    res->iHeight= 2160;
+     res->iScreenWidth = 3840;
+     res->iScreenHeight= 2160;
+     res->fRefreshRate = 25;
+@@ -494,8 +494,8 @@ bool aml_mode_to_resolution(const char *mode, RESOLUTION_INFO *res)
+   }
+   else if (StringUtils::EqualsNoCase(fromMode, "4k2k30hz") || StringUtils::EqualsNoCase(fromMode, "2160p30hz"))
+   {
+-    res->iWidth = 1920;
+-    res->iHeight= 1080;
++    res->iWidth = 3840;
++    res->iHeight= 2160;
+     res->iScreenWidth = 3840;
+     res->iScreenHeight= 2160;
+     res->fRefreshRate = 30;
+diff --git a/xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp b/xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp
+index 21256ef..2103f0b 100644
+--- a/xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp
++++ b/xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp
+@@ -65,7 +65,22 @@ void CEGLNativeTypeAmlogic::Initialize()
+ {
+   aml_permissions();
+   DisableFreeScale();
++  GetMaxResolution(m_maxResolution);
+ }
++
++void CEGLNativeTypeAmlogic::GetMaxResolution(RESOLUTION_INFO &maxResolution)
++{
++  std::vector<RESOLUTION_INFO> resolutions;
++  ProbeResolutions(resolutions);
++
++  maxResolution = {0};
++  for (size_t i = 0; i < resolutions.size(); i++)
++  {
++    if (resolutions[i].iScreenWidth > maxResolution.iScreenWidth || resolutions[i].iScreenHeight > maxResolution.iScreenHeight)
++      maxResolution = resolutions[i];
++  }
++}
++
+ void CEGLNativeTypeAmlogic::Destroy()
+ {
+   return;
+@@ -84,8 +99,8 @@ bool CEGLNativeTypeAmlogic::CreateNativeWindow()
+   if (!nativeWindow)
+     return false;
+ 
+-  nativeWindow->width = 1920;
+-  nativeWindow->height = 1080;
++  nativeWindow->width = m_maxResolution.iScreenWidth;
++  nativeWindow->height = m_maxResolution.iScreenHeight;
+   m_nativeWindow = nativeWindow;
+ 
+   SetFramebufferResolution(nativeWindow->width, nativeWindow->height);
+@@ -142,48 +157,78 @@ bool CEGLNativeTypeAmlogic::SetNativeResolution(const RESOLUTION_INFO &res)
+   }
+ #endif
+ 
+-  switch((int)(0.5 + res.fRefreshRate))
++  switch((int)(res.fRefreshRate*10))
+   {
+     default:
+-    case 60:
++    case 600:
+       switch(res.iScreenWidth)
+       {
+         default:
+         case 1280:
+-          SetDisplayResolution("720p");
++          return SetDisplayResolution("720p");
+           break;
+         case 1920:
+           if (res.dwFlags & D3DPRESENTFLAG_INTERLACED)
+-            SetDisplayResolution("1080i");
++            return SetDisplayResolution("1080i");
+           else
+-            SetDisplayResolution("1080p");
++            return SetDisplayResolution("1080p");
+           break;
+       }
+       break;
+-    case 50:
++    case 500:
+       switch(res.iScreenWidth)
+       {
+         default:
+         case 1280:
+-          SetDisplayResolution("720p50hz");
++          return SetDisplayResolution("720p50hz");
+           break;
+         case 1920:
+           if (res.dwFlags & D3DPRESENTFLAG_INTERLACED)
+-            SetDisplayResolution("1080i50hz");
++            return SetDisplayResolution("1080i50hz");
+           else
+-            SetDisplayResolution("1080p50hz");
++            return SetDisplayResolution("1080p50hz");
+           break;
+       }
+       break;
+-    case 30:
+-      SetDisplayResolution("1080p30hz");
++    case 300:
++      switch(res.iScreenWidth)
++      {
++        case 3840:
++          return SetDisplayResolution("4k2k30hz");
++          break;
++        default:
++          return SetDisplayResolution("1080p30hz");
++          break;
++      }
+       break;
+-    case 24:
+-      SetDisplayResolution("1080p24hz");
++    case 250:
++      switch(res.iScreenWidth)
++      {
++        case 3840:
++          return SetDisplayResolution("4k2k25hz");
++          break;
++        default:
++          return SetDisplayResolution("1080p25hz");
++          break;
++      }
++      break;
++    case 240:
++      switch(res.iScreenWidth)
++      {
++        case 3840:
++          return SetDisplayResolution("4k2k24hz");
++          break;
++        case 4096:
++          return SetDisplayResolution("4k2ksmpte");
++          break;
++        default:
++          return SetDisplayResolution("1080p24hz");
++          break;
++      }
+       break;
+   }
+ 
+-  return true;
++  return false;
+ }
+ 
+ bool CEGLNativeTypeAmlogic::ProbeResolutions(std::vector<RESOLUTION_INFO> &resolutions)
+@@ -280,8 +325,8 @@ void CEGLNativeTypeAmlogic::SetFramebufferResolution(int width, int height) cons
+     {
+       vinfo.xres = width;
+       vinfo.yres = height;
+-      vinfo.xres_virtual = 1920;
+-      vinfo.yres_virtual = 2160;
++      vinfo.xres_virtual = m_maxResolution.iScreenWidth;
++      vinfo.yres_virtual = m_maxResolution.iScreenHeight * 2;
+       vinfo.bits_per_pixel = 32;
+       vinfo.activate = FB_ACTIVATE_ALL;
+       ioctl(fd0, FBIOPUT_VSCREENINFO, &vinfo);
+diff --git a/xbmc/windowing/egl/EGLNativeTypeAmlogic.h b/xbmc/windowing/egl/EGLNativeTypeAmlogic.h
+index 6867c38..9ca41d4 100644
+--- a/xbmc/windowing/egl/EGLNativeTypeAmlogic.h
++++ b/xbmc/windowing/egl/EGLNativeTypeAmlogic.h
+@@ -55,6 +55,8 @@ protected:
+ private:
+   void SetFramebufferResolution(const RESOLUTION_INFO &res) const;
+   void SetFramebufferResolution(int width, int height) const;
++  void GetMaxResolution(RESOLUTION_INFO &maxResolution);
+ 
+   std::string m_framebuffer_name;
++  RESOLUTION_INFO m_maxResolution;
+ };
+-- 
+2.7.0.rc3
+
+
+From 40f7c89df87c3e96e4d7d3b28b116448a5512755 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sun, 17 Jan 2016 15:15:47 +0200
+Subject: [PATCH 26/27] TEMP: [aml] use software decoding for sd
+
+---
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
+index ed6bd67..2025065 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
+@@ -81,8 +81,6 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
+     case AV_CODEC_ID_MJPEG:
+       m_pFormatName = "am-mjpeg";
+       break;
+-    case AV_CODEC_ID_MPEG1VIDEO:
+-    case AV_CODEC_ID_MPEG2VIDEO:
+     case AV_CODEC_ID_MPEG2VIDEO_XVMC:
+       m_mpeg2_sequence_pts = 0;
+       m_mpeg2_sequence = new mpeg2_sequence;
+@@ -122,6 +120,8 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
+     case AV_CODEC_ID_MPEG4:
+     case AV_CODEC_ID_MSMPEG4V2:
+     case AV_CODEC_ID_MSMPEG4V3:
++    case AV_CODEC_ID_MPEG1VIDEO:
++    case AV_CODEC_ID_MPEG2VIDEO:
+       if (hints.width <= 800)
+         return false;
+       m_pFormatName = "am-mpeg4";
+-- 
+2.7.0.rc3
+
+
+From 81c946758c7386c1cdf1dd961d74ce4d4c906751 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Mon, 18 Jan 2016 20:37:31 +0200
+Subject: [PATCH 27/27] TEMP: volume steps
+
+---
+ xbmc/Application.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xbmc/Application.h b/xbmc/Application.h
+index 98e842b..a2eaced 100644
+--- a/xbmc/Application.h
++++ b/xbmc/Application.h
+@@ -92,7 +92,7 @@ namespace MUSIC_INFO
+ #define VOLUME_MINIMUM 0.0f        // -60dB
+ #define VOLUME_MAXIMUM 1.0f        // 0dB
+ #define VOLUME_DYNAMIC_RANGE 90.0f // 60dB
+-#define VOLUME_CONTROL_STEPS 90    // 90 steps
++#define VOLUME_CONTROL_STEPS 20    // 20 steps
+ 
+ // replay gain settings struct for quick access by the player multiple
+ // times per second (saves doing settings lookup)
+-- 
+2.7.0.rc3
+

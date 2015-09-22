@@ -18,21 +18,13 @@
 
 PKG_NAME="gcc"
 PKG_VERSION="5.3.0"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://gcc.gnu.org/"
 PKG_URL="http://ftp.gnu.org/gnu/gcc/$PKG_NAME-$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.bz2"
-PKG_DEPENDS_BOOTSTRAP="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host"
+PKG_DEPENDS_BOOTSTRAP="autoconf:host binutils:host gmp:host mpfr:host mpc:host"
 PKG_DEPENDS_TARGET="gcc:host"
-PKG_DEPENDS_HOST="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host glibc"
-PKG_PRIORITY="optional"
-PKG_SECTION="lang"
+PKG_DEPENDS_HOST="autoconf:host binutils:host gmp:host mpfr:host mpc:host glibc"
 PKG_SHORTDESC="gcc: The GNU Compiler Collection Version 4 (aka GNU C Compiler)"
-PKG_LONGDESC="This package contains the GNU Compiler Collection. It includes compilers for the languages C, C++, Objective C, Fortran 95, Java and others ... This GCC contains the Stack-Smashing Protector Patch which can be enabled with the -fstack-protector command-line option. More information about it ca be found at http://www.research.ibm.com/trl/projects/security/ssp/."
-
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
 
 BOOTSTRAP_CONFIGURE_OPTS="--host=$HOST_NAME \
                           --build=$HOST_NAME \
@@ -53,10 +45,8 @@ BOOTSTRAP_CONFIGURE_OPTS="--host=$HOST_NAME \
                           --disable-libatomic \
                           --disable-libitm \
                           --disable-libsanitizer \
-                          --enable-gold \
-                          --enable-ld=default \
-                          --enable-plugin \
-                          --enable-lto \
+                          --disable-gold \
+                          --disable-lto \
                           --disable-libquadmath \
                           --disable-libssp \
                           --disable-libgomp \
@@ -90,10 +80,8 @@ PKG_CONFIGURE_OPTS_HOST="--target=$TARGET_NAME \
                          --disable-multilib \
                          --disable-libatomic \
                          --disable-libitm \
-                         --enable-gold \
-                         --enable-ld=default \
-                         --enable-plugin \
-                         --enable-lto \
+                         --disable-gold \
+                         --disable-lto \
                          --disable-libquadmath \
                          --disable-libgomp \
                          --enable-tls \
@@ -172,8 +160,8 @@ make_target() {
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib
-    cp -P $ROOT/$PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libgcc/libgcc_s.so* $INSTALL/usr/lib
-    cp -P $ROOT/$PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libstdc++-v3/src/.libs/libstdc++.so* $INSTALL/usr/lib
+  cp -P $ROOT/$PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libgcc/libgcc_s.so* $INSTALL/usr/lib
+  cp -P $ROOT/$PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libstdc++-v3/src/.libs/libstdc++.so* $INSTALL/usr/lib
 }
 
 configure_init() {
@@ -186,5 +174,5 @@ make_init() {
 
 makeinstall_init() {
   mkdir -p $INSTALL/lib
-    cp -P $ROOT/$PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libgcc/libgcc_s.so* $INSTALL/lib
+  cp -P $ROOT/$PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libgcc/libgcc_s.so* $INSTALL/lib
 }

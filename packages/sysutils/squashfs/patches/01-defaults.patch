@@ -1,0 +1,22 @@
+diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
+index 52d2582..ff1ac4b 100644
+--- a/squashfs-tools/Makefile
++++ b/squashfs-tools/Makefile
+@@ -92,7 +92,7 @@ COMP_DEFAULT = gzip
+ # If your C library or build/target environment doesn't support XATTRs then
+ # comment out the next line to build Mksquashfs and Unsquashfs without XATTR
+ # support
+-XATTR_SUPPORT = 1
++#XATTR_SUPPORT = 1
+ 
+ # Select whether you wish xattrs to be stored by Mksquashfs and extracted
+ # by Unsquashfs by default.  If selected users can disable xattr support by
+@@ -100,7 +100,7 @@ XATTR_SUPPORT = 1
+ #
+ # If unselected, Mksquashfs/Unsquashfs won't store and extract xattrs by
+ # default.  Users can enable xattrs by using the -xattrs option.
+-XATTR_DEFAULT = 1
++#XATTR_DEFAULT = 1
+ 
+ 
+ ###############################################

@@ -29,37 +29,28 @@ mixer() {
 (
 . /etc/profile
 
-progress "Setting up sound card"
-
-if [ -f $HOME/.config/sound.conf ]; then
-
-  alsactl restore -f $HOME/.config/sound.conf
-
+if [ -f $HOME/.asoundrc ]; then
+  alsactl restore -f $HOME/.asoundrc
 else
-
-# get card num
+  # get card num
   card=`echo $1 | sed 's/[^0-9]*//g'`
 
-# set common mixer params
+  # set common mixer params
   mixer $card Master 100%
   mixer $card Front 100%
   mixer $card PCM 100%
   mixer $card Synth 100%
 
-# mute CD, since using digital audio instead
+  # mute CD, since using digital audio instead
   mixer $card CD 0% mute
 
-# Only unmute Line and Aux if they are possibly used.
-#  mixer $card Line 100%
-#  mixer $card Aux 100%
-
-# mute mic
+  # mute mic
   mixer $card Mic 0% mute
 
-# ESS 1969 chipset has 2 PCM channels
+  # ESS 1969 chipset has 2 PCM channels
   mixer $card PCM,1 100%
 
-# Trident/YMFPCI/emu10k1
+  # Trident/YMFPCI/emu10k1
   mixer $card Wave 100%
   mixer $card Music 100%
   mixer $card AC97 100%
@@ -69,18 +60,18 @@ else
   mixer $card 'Duplicate Front' 90%
   mixer $card 'Sigmatel 4-Speaker Stereo' 90%
 
-# CS4237B chipset:
+  # CS4237B chipset:
   mixer $card 'Master Digital' 100%
 
-# DRC
+  # DRC
   mixer $card 'Dynamic Range Compression' 90%
 
-# Envy24 chips with analog outs
+  # Envy24 chips with analog outs
   mixer $card DAC 100%
   mixer $card DAC,0 100%
   mixer $card DAC,1 100%
 
-# some notebooks use headphone instead of master
+  # some notebooks use headphone instead of master
   mixer $card Headphone 100%
   mixer $card Speaker 100%
   mixer $card 'Internal Speaker' 0% mute
@@ -91,10 +82,10 @@ else
   mixer $card LFE 100%
   mixer $card Center/LFE 100%
 
-# Intel P4P800-MX  (Ubuntu bug #5813)
+  # Intel P4P800-MX  (Ubuntu bug #5813)
   mixer $card 'Master Playback Switch' on
 
-# set digital output mixer params
+  # set digital output mixer params
   mixer $card 'IEC958' 100% on
   mixer $card 'IEC958 Output' 100%
   mixer $card 'IEC958 Coaxial' 100%
@@ -110,24 +101,24 @@ else
   mixer $card 'Analog Rear' 100%
   mixer $card 'Analog Center/LFE' 100%
 
-# ASRock ION 330 (and perhaps others) has 2 IEC958 channels
+  # ASRock ION 330 (and perhaps others) has 2 IEC958 channels
   mixer $card IEC958,0 on
   mixer $card IEC958,1 on
 
-# some ION2 has much more IEC958 channels ...
+  # some ION2 has much more IEC958 channels ...
   mixer $card IEC958,2 on
   mixer $card IEC958,3 on
 
-# ASRock ION 330 has Master Front set to 0
+  # ASRock ION 330 has Master Front set to 0
   mixer $card 'Master Front' 100%
 
-# Shuttle XS35GT needs this too
+  # Shuttle XS35GT needs this too
   mixer $card 'Master',0 100% on
 
-# and this for various Fusion devices like Zotac ZBOX
+  # and this for various Fusion devices like Zotac ZBOX
   mixer $card 'Front',0 100% on
 
-# NVidia CK804 sound devices
+  # NVidia CK804 sound devices
   mixer $card 'IEC958 Playback AC97-SPSA' 100%
 fi
 

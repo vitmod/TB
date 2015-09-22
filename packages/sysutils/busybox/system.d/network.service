@@ -1,0 +1,13 @@
+[Unit]
+Description=Setup Networking
+Before=network.target
+Wants=network.target
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/lib/openelec/network-setup
+RestartSec=2
+StartLimitInterval=0
+
+[Install]
+WantedBy=multi-user.target

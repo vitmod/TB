@@ -1,0 +1,138 @@
+From 12e3f475937470e6f4162c1aa4ad791b5ac8baa1 Mon Sep 17 00:00:00 2001
+From: Andrew Bartlett <abartlet@samba.org>
+Date: Tue, 1 Apr 2014 17:03:34 +1300
+Subject: [PATCH] libsmbclient: Wrap more function calls in talloc_stackframe()
+ to protect against talloc_tos() calls
+
+BUG: https://bugzilla.samba.org/show_bug.cgi?id=8449
+
+Signed-off-by: Andrew Bartlett <abartlet@samba.org>
+Reviewed-by: Jeremy Allison <jra@samba.org>
+---
+ source3/libsmb/libsmb_context.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/source3/libsmb/libsmb_context.c b/source3/libsmb/libsmb_context.c
+index 6c20d65..f347764 100644
+--- a/source3/libsmb/libsmb_context.c
++++ b/source3/libsmb/libsmb_context.c
+@@ -545,6 +545,7 @@ SMBCCTX *
+ smbc_init_context(SMBCCTX *context)
+ {
+         int pid;
++        TALLOC_CTX *frame;
+ 
+         if (!context) {
+                 errno = EBADF;
+@@ -556,11 +557,14 @@ smbc_init_context(SMBCCTX *context)
+                 return NULL;
+         }
+ 
++        frame = talloc_stackframe();
++
+         if ((!smbc_getFunctionAuthData(context) &&
+              !smbc_getFunctionAuthDataWithContext(context)) ||
+             smbc_getDebug(context) < 0 ||
+             smbc_getDebug(context) > 100) {
+ 
++                TALLOC_FREE(frame);
+                 errno = EINVAL;
+                 return NULL;
+ 
+@@ -579,6 +583,7 @@ smbc_init_context(SMBCCTX *context)
+                 }
+ 
+                 if (!user) {
++                        TALLOC_FREE(frame);
+                         errno = ENOMEM;
+                         return NULL;
+                 }
+@@ -587,6 +592,7 @@ smbc_init_context(SMBCCTX *context)
+ 		SAFE_FREE(user);
+ 
+         	if (!smbc_getUser(context)) {
++                        TALLOC_FREE(frame);
+                         errno = ENOMEM;
+                         return NULL;
+                 }
+@@ -609,6 +615,7 @@ smbc_init_context(SMBCCTX *context)
+                         pid = sys_getpid();
+                         netbios_name = (char *)SMB_MALLOC(17);
+                         if (!netbios_name) {
++                                TALLOC_FREE(frame);
+                                 errno = ENOMEM;
+                                 return NULL;
+                         }
+@@ -617,6 +624,7 @@ smbc_init_context(SMBCCTX *context)
+                 }
+ 
+                 if (!netbios_name) {
++                        TALLOC_FREE(frame);
+                         errno = ENOMEM;
+                         return NULL;
+                 }
+@@ -625,6 +633,7 @@ smbc_init_context(SMBCCTX *context)
+ 		SAFE_FREE(netbios_name);
+ 
+                 if (!smbc_getNetbiosName(context)) {
++                        TALLOC_FREE(frame);
+                         errno = ENOMEM;
+                         return NULL;
+                 }
+@@ -644,6 +653,7 @@ smbc_init_context(SMBCCTX *context)
+                 }
+ 
+                 if (!workgroup) {
++                        TALLOC_FREE(frame);
+                         errno = ENOMEM;
+                         return NULL;
+                 }
+@@ -652,6 +662,7 @@ smbc_init_context(SMBCCTX *context)
+ 		SAFE_FREE(workgroup);
+ 
+ 		if (!smbc_getWorkgroup(context)) {
++                        TALLOC_FREE(frame);
+ 			errno = ENOMEM;
+ 			return NULL;
+ 		}
+@@ -677,6 +688,7 @@ smbc_init_context(SMBCCTX *context)
+                 smb_panic("error unlocking 'initialized_ctx_count'");
+ 	}
+ 
++        TALLOC_FREE(frame);
+         return context;
+ }
+ 
+@@ -712,12 +724,15 @@ void smbc_set_credentials_with_fallback(SMBCCTX *context,
+ 	smbc_bool use_kerberos = false;
+ 	const char *signing_state = "off";
+ 	struct user_auth_info *auth_info = NULL;
++	TALLOC_CTX *frame;
+ 
+ 	if (! context) {
+ 
+ 		return;
+ 	}
+ 
++	frame = talloc_stackframe();
++
+ 	if (! workgroup || ! *workgroup) {
+ 		workgroup = smbc_getWorkgroup(context);
+ 	}
+@@ -734,6 +749,7 @@ void smbc_set_credentials_with_fallback(SMBCCTX *context,
+ 
+ 	if (! auth_info) {
+ 		DEBUG(0, ("smbc_set_credentials_with_fallback: allocation fail\n"));
++		TALLOC_FREE(frame);
+ 		return;
+ 	}
+ 
+@@ -762,4 +778,5 @@ void smbc_set_credentials_with_fallback(SMBCCTX *context,
+ 	TALLOC_FREE(context->internal->auth_info);
+ 
+         context->internal->auth_info = auth_info;
++	TALLOC_FREE(frame);
+ }
+-- 
+2.1.4
+

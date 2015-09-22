@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.saraev.ca"
+		name="[COLOR FF757677]Tashak[/COLOR][COLOR FF8ABEE2]BATE[/COLOR] Add-ons"
+		version="6.0.0"
+		provider-name="Stefan Saraev (seo @ freenode)">
+	<extension point="xbmc.addon.repository"
+		name="TashakBATE Add-on Repository">
+		<info>@ADDON_URL@/addons.xml</info>
+		<checksum>@ADDON_URL@/addons.xml.md5</checksum>
+		<datadir zip="true">@ADDON_URL@</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Install Add-ons, Plugins and Programs</summary>
+		<description>Download and install Add-ons, Plugins and Programs[CR]</description>
+                <disclaimer>This repository contains unofficial addons. Please don't report bugs to OpenELEC team</disclaimer>
+		<platform>all</platform>
+	</extension>
+</addon>

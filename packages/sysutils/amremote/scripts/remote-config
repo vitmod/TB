@@ -1,4 +1,5 @@
 #!/bin/sh
+
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2014 Stephan Raue (stephan@openelec.tv)
@@ -18,8 +19,8 @@
 ################################################################################
 
 # check the Security chip if we run on a WeTek device
-  lsusb -d 096e:0006 &> /dev/null
-  LSUSB_RET=$?
+lsusb -d 096e:0006 &> /dev/null
+LSUSB_RET=$?
 
 if [ -f /etc/amremote/remote.conf ]; then
   /usr/bin/remotecfg /etc/amremote/remote.conf
