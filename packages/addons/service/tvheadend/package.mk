@@ -1,0 +1,73 @@
+################################################################################
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+PKG_NAME="tvheadend"
+PKG_VERSION="4.0.8"
+PKG_REV="1"
+PKG_LICENSE="GPL"
+PKG_SITE="http://www.tvheadend.org"
+PKG_URL="https://github.com/tvheadend/tvheadend/archive/v${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain libressl curl libdvbcsa"
+PKG_SECTION="service"
+PKG_SHORTDESC="TV streaming server for Linux"
+PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nTvheadend is a TV streaming server for Linux supporting DVB-S, DVB-S2, DVB-C, DVB-T, ATSC and IPTV."
+
+PKG_IS_ADDON="yes"
+PKG_ADDON_NAME="Tvheadend PVR Backend"
+PKG_ADDON_TYPE="xbmc.service"
+
+PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
+PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
+
+
+pre_build_target() {
+  sed -e 's/VER="0.0.0~unknown"/VER="'$PKG_VERSION'"/g' -i $PKG_BUILD/support/version
+  mkdir -p $PKG_BUILD/.$TARGET_NAME
+  cp -RP $PKG_BUILD/* $PKG_BUILD/.$TARGET_NAME
+  export CROSS_COMPILE=$TARGET_PREFIX
+}
+
+configure_target() {
+  ./configure --prefix=/usr \
+            --arch=$TARGET_ARCH \
+            --cpu=$TARGET_CPU \
+            --cc=$TARGET_CC \
+            --disable-satip_server \
+            --disable-satip_client \
+            --disable-hdhomerun_client \
+            --disable-trace \
+            --disable-avahi \
+            --disable-libav \
+            --disable-libffmpeg_static_x264 \
+            --enable-inotify \
+            --enable-epoll \
+            --disable-uriparser \
+            --disable-ccache \
+            --enable-tvhcsa \
+            --enable-bundle \
+            --enable-dvbcsa \
+            --disable-dvben50221 \
+            --disable-dbus_1 \
+            --python=$ROOT/$TOOLCHAIN/bin/python
+}
+
+makeinstall_target() {
+  : # nothing to do here
+}
+
+addon() {
+  mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/bin
+  cp -P $PKG_BUILD/.$TARGET_NAME/build.linux/tvheadend $ADDON_BUILD/$PKG_ADDON_ID/bin
+}
