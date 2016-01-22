@@ -1,0 +1,124 @@
+#!/bin/bash
+
+################################################################################
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+. config/options
+
+update_addons_xml() {
+  echo "[*] cleanup addons ..."
+  olddir=""
+  # natsort https://github.com/sourcefrog/natsort
+  find target/addons/$ADDON_VERSION -iname 'changelog*.txt' | natsort -r | while read line ; do
+    dir=$(dirname $line)
+    if [ "$olddir" = "$dir" ] ; then
+      rm -f $line
+    fi
+    olddir=$dir
+  done
+
+  olddir=""
+  find target/addons/$ADDON_VERSION -iname '*.zip' | natsort -r | while read line ; do
+    dir=$(dirname $line)
+    if [ "$olddir" = "$dir" ] ; then
+      rm -f $line
+    fi
+    olddir=$dir
+  done
+
+  echo "[*] updating addons.xml* ..."
+  rm -rf .addons
+  pwd=`pwd`
+  find target/addons/$ADDON_VERSION -iname addons.xml | while read line ; do
+    localdir=`echo $line | sed s/addons.xml//g`
+    echo " [*] updating $line..."
+    echo '<?xml version="1.0" encoding="UTF-8"?>
+<addons>
+' > $line.tmp
+    for zip in $localdir/*/*.zip ; do
+      mkdir -p ".addons/$localdir"
+      unzip $zip "*/addon.xml" -d ".addons/$localdir" &>/dev/null || :
+      addon=$(unzip -qql $zip  | head -n1 | tr -s ' ' | cut -d' ' -f5-)
+      unzip $zip "*/icon.png" -d ".addons/$localdir" &>/dev/null || xmlstarlet ed -L \
+        -i /addon/extension/platform -t elem -n noicon -v "true" ".addons/$localdir/$addon/addon.xml"
+      unzip $zip "*/fanart.png" -d ".addons/$localdir" &>/dev/null || xmlstarlet ed -L \
+        -i /addon/extension/platform -t elem -n nofanart -v "true" ".addons/$localdir/$addon/addon.xml"
+      unzip $zip "*/changelog.txt" -d ".addons/$localdir" &>/dev/null || xmlstarlet ed -L \
+        -i /addon/extension/platform -t elem -n nochangelog -v "true" ".addons/$localdir/$addon/addon.xml"
+    done
+    find .addons/$localdir -iname addon.xml | grep -v resources/ | while read xml ; do
+      cat $xml | grep -v "<?" >> $line.tmp
+    done
+    echo '
+</addons>' >> $line.tmp
+    mv $line.tmp $line
+    cd $localdir
+
+    md5sum addons.xml > addons.xml.md5
+    cd $pwd
+  done
+  rm -rf .addons
+}
+
+upload() {
+  if [ -f .work/repoconfig ] ; then
+    . .work/repoconfig
+  fi
+  if [ -z "$RSYNC_REPO" ] ; then
+    echo "*** ERROR: \$RSYNC_REPO not set. see .work/repoconfig ***"
+    exit 0
+  fi
+  update_addons_xml
+  rsync -av --progress target/addons/$ADDON_VERSION $RSYNC_REPO
+}
+
+build() {
+#  for PROJECT in $(ls -1 projects) ; do
+  for PROJECT in WC ; do
+    for archfile in projects/$PROJECT/linux/linux.*.conf ; do
+      ARCH=`echo $archfile | sed -n '$s/\.conf//;$s/.*\.//p'`
+      for package in packages/binary-addons/*.* ; do
+        ADDON=$(basename $package)
+        PROJECT=$PROJECT ARCH=$ARCH ./scripts/create_addon $ADDON
+      done
+      if [ "$1" = "-all" ] ; then
+        for package in $(find packages/addons -iname package.mk) ; do
+          . $package
+          if [ "$PKG_IS_ADDON" = "yes" ] ; then
+            ADDON=$PKG_NAME
+            PROJECT=$PROJECT ARCH=$ARCH ./scripts/create_addon $ADDON
+          fi
+        done
+      fi
+    done
+  done
+}
+
+usage() {
+  echo "  usage: '$0 -u' to upload"
+  echo "         '$0 -b [-all]' to build [all. otherwise kodi-binary only]"
+}
+
+case $1 in
+  -b)
+    build $2
+    ;;
+  -u)
+    upload
+    ;;
+  *)
+    usage
+    ;;
+esac
