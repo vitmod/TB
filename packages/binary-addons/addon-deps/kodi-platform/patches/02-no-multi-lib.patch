@@ -1,0 +1,50 @@
+From c8e55091d58e53b9d8a26e7a9a1179438643cfec Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Tue, 19 Jan 2016 22:24:48 +0200
+Subject: [PATCH] no multi lib
+
+---
+ CMakeLists.txt | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9abe773..e91bd18 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -9,7 +9,6 @@ find_package(kodi REQUIRED)
+ find_package(TinyXML REQUIRED)
+ find_package(Threads REQUIRED)
+ find_package(p8-platform REQUIRED)
+-include(UseMultiArch.cmake)
+ include(CheckAtomic.cmake)
+ 
+ set(kodiplatform_NAME kodiplatform)
+@@ -43,7 +42,7 @@ target_link_libraries(kodiplatform ${kodiplatform_LIBRARIES} ${p8-platform_LIBRA
+ set_target_properties(kodiplatform PROPERTIES VERSION ${kodiplatform_VERSION_MAJOR}.${kodiplatform_VERSION_MINOR}.${kodiplatform_VERSION_PATCH}
+                                               SOVERSION ${kodiplatform_VERSION_MAJOR}.0)
+ 
+-install(TARGETS kodiplatform DESTINATION ${CMAKE_INSTALL_LIBDIR})
++install(TARGETS kodiplatform DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+ install(FILES src/util/XMLUtils.h
+         DESTINATION include/kodi/util)
+ 
+@@ -57,14 +56,14 @@ IF(NOT WIN32)
+                                  ${CMAKE_INSTALL_PREFIX}/include)
+ 
+   install(FILES ${CMAKE_BINARY_DIR}/kodiplatform.pc
+-          DESTINATION ${CMAKE_INSTALL_LIBDIR_NOARCH}/pkgconfig)
++          DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
+ ENDIF(NOT WIN32)
+ 
+ # config mode
+ configure_file (kodiplatform-config.cmake.in
+                 kodiplatform-config.cmake @ONLY)
+ install(FILES ${CMAKE_BINARY_DIR}/kodiplatform-config.cmake
+-        DESTINATION ${CMAKE_INSTALL_LIBDIR_NOARCH}/kodiplatform)
++        DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/kodiplatform)
+ 
+ # Quell warnings with in-tree builds
+ set(KODI_BUILD_DIR ${KODI_BUILD_DIR})
+-- 
+2.1.4
+
