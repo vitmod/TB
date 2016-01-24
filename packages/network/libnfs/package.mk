@@ -28,5 +28,5 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-examples --disable-tirpc"
 
 pre_configure_target() {
   MAKEFLAGS=-j1
-  export CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64 -I$ROOT/$PKG_BUILD/mount -I$ROOT/$PKG_BUILD/nfs"
+  export CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64"
 }
