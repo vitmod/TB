@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="curl"
-PKG_VERSION="7.45.0"
+PKG_VERSION="7.46.0"
 PKG_LICENSE="MIT"
 PKG_SITE="http://curl.haxx.se"
 PKG_URL="http://curl.haxx.se/download/$PKG_NAME-$PKG_VERSION.tar.bz2"
@@ -44,8 +44,9 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-debug \
                            --disable-tftp \
                            --disable-pop3 \
                            --disable-imap \
+                           --disable-smb \
                            --disable-smtp \
-                           --disable-gophper \
+                           --disable-gopher \
                            --disable-manual \
                            --enable-libgcc \
                            --enable-ipv6 \
@@ -56,7 +57,7 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-debug \
                            --disable-sspi \
                            --enable-crypto-auth \
                            --enable-cookies \
-                           --enable-hidden-symbols \
+                           --enable-symbol-hiding \
                            --disable-soname-bump \
                            --with-gnu-ld \
                            --without-krb4 \
@@ -72,6 +73,13 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-debug \
                            --without-nss \
                            --with-ca-bundle=$SSL_CERTIFICATES/cacert.pem \
                            --without-ca-path \
+                           --without-libpsl \
+                           --without-libmetalink \
                            --without-libssh2 \
                            --without-librtmp \
                            --without-libidn"
+
+post_makeinstall_target() {
+  rm -rf $INSTALL/usr/share/zsh
+  rm -rf $INSTALL/usr/bin/curl-config
+}
