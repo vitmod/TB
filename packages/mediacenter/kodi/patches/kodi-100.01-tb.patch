@@ -41,7 +41,7 @@ Subject: [PATCH 02/27] [tb] disable online check
  3 files changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/xbmc/GUIInfoManager.cpp b/xbmc/GUIInfoManager.cpp
-index 659901b..3f0aaa5 100644
+index 307de1b..1ca8ea2 100644
 --- a/xbmc/GUIInfoManager.cpp
 +++ b/xbmc/GUIInfoManager.cpp
 @@ -298,7 +298,6 @@ const infomap system_labels[] =  {{ "hasnetwork",       SYSTEM_ETHERNET_LINK_ACT
@@ -161,10 +161,10 @@ Subject: [PATCH 04/27] [tb] disable minimize
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 50eeba1..963010c 100644
+index 82ebf35..186dbea 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4985,7 +4985,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4990,7 +4990,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -343,10 +343,10 @@ so, when shutdown/reboot is requested:
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 963010c..226338f 100644
+index 186dbea..5642980 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2452,12 +2452,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2453,12 +2453,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
    switch (pMsg->dwMessage)
    {
    case TMSG_POWERDOWN:
@@ -361,7 +361,7 @@ index 963010c..226338f 100644
      break;
    
    case TMSG_SHUTDOWN:
-@@ -2478,12 +2478,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2479,12 +2479,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
  
    case TMSG_RESTART:
    case TMSG_RESET:
@@ -376,7 +376,7 @@ index 963010c..226338f 100644
      Stop(EXITCODE_RESTARTAPP);
  #endif
      break;
-@@ -2871,12 +2872,19 @@ bool CApplication::Cleanup()
+@@ -2872,12 +2873,19 @@ bool CApplication::Cleanup()
    }
  }
  
@@ -397,7 +397,7 @@ index 963010c..226338f 100644
      CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2903,7 +2911,6 @@ void CApplication::Stop(int exitCode)
+@@ -2904,7 +2912,6 @@ void CApplication::Stop(int exitCode)
  
      m_bStop = true;
      m_AppFocused = false;
@@ -550,7 +550,7 @@ Subject: [PATCH 10/27] [tb] our ffmpeg is doing well
  1 file changed, 7 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 226338f..ae1f61b 100644
+index 5642980..60ea36a 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
 @@ -523,13 +523,6 @@ bool CApplication::Create()
@@ -804,10 +804,10 @@ Subject: [PATCH 17/27] [aml] Fill audio packets completely when resampling to
  1 file changed, 4 insertions(+)
 
 diff --git a/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp b/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
-index dffded7..2f9dc47 100644
+index 7460457..4e09342 100644
 --- a/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
 +++ b/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
-@@ -157,7 +157,11 @@ CActiveAEBufferPoolResample::CActiveAEBufferPoolResample(AEAudioFormat inputForm
+@@ -159,7 +159,11 @@ CActiveAEBufferPoolResample::CActiveAEBufferPoolResample(AEAudioFormat inputForm
      m_inputFormat.m_channelLayout += AE_CH_FC;
    }
    m_resampler = NULL;
