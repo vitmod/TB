@@ -204,6 +204,8 @@ post_makeinstall_target() {
 
   # TODO remove. use distro splash
   cp $DISTRO_DIR/$DISTRO/splash/splash.png $INSTALL/usr/share/kodi/media/Splash.png
+
+  debug_strip $INSTALL/usr/lib/kodi/kodi.bin
 }
 
 post_install() {
