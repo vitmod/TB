@@ -18,7 +18,7 @@ PKG_VERSION="8f399e8"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/graeme-hill/crossguid"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_TARGET="toolchain"
+PKG_DEPENDS_TARGET="toolchain util-linux"
 PKG_SHORTDESC="minimal, cross platform, C++ GUID library"
 
 configure_target() {
