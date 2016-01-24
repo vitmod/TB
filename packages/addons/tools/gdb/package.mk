@@ -15,7 +15,7 @@
 
 PKG_NAME="gdb"
 PKG_VERSION="7.10.1"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/gdb/"
 PKG_URL="http://ftp.gnu.org/gnu/gdb/$PKG_NAME-$PKG_VERSION.tar.xz"
@@ -36,6 +36,7 @@ CFLAGS_FOR_BUILD="$HOST_CFLAGS"
 PKG_CONFIGURE_OPTS_TARGET="bash_cv_have_mbstate_t=set \
                            --disable-shared \
                            --enable-static \
+                           --with-auto-load-safe-path=/ \
                            --datarootdir=/storage/.kodi/addons/tools.gdb/data \
                            --disable-nls \
                            --disable-sim \
