@@ -426,8 +426,6 @@ HOST_LIBDIR="$ROOT/$TOOLCHAIN/lib"
 if [ "$DEBUG" = yes ]; then
   TARGET_CFLAGS="$TARGET_CFLAGS -ggdb -Og"
   TARGET_LDFLAGS="$TARGET_LDFLAGS -ggdb -Og"
-else
-  TARGET_LDFLAGS="$TARGET_LDFLAGS -s"
 fi
 
 # work around Ubuntu default C*FLAGS 
