@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.stalker"
-PKG_VERSION="500237a"
+PKG_VERSION="7fba39f"
 PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
