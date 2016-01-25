@@ -1,0 +1,25 @@
+From 5edfbcbcc8d674f3c5a95d92b0da4c59b36ffe62 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Mon, 25 Jan 2016 23:47:10 +0200
+Subject: [PATCH] [hack] add IsRealTimeStream (pvrapi 4.2)
+
+---
+ src/client.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/client.cpp b/src/client.cpp
+index 3295914..99e9301 100644
+--- a/src/client.cpp
++++ b/src/client.cpp
+@@ -563,6 +563,8 @@ static time_t ConvertMusecsToTime(int64_t musecs)
+   return time(NULL) - static_cast<time_t>(static_cast<double>(musecs / 1000000));
+ }
+ 
++bool IsRealTimeStream(void) { return true; }
++
+ time_t GetPlayingTime()
+ {
+   return ConvertMusecsToTime(tvh->DemuxGetTimeshiftTime());
+-- 
+2.1.4
+
