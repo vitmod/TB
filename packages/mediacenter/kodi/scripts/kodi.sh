@@ -48,7 +48,6 @@ print_crash_report()
   if [ ! -d $CRASHLOG_DIR ] ; then
     mkdir -p $CRASHLOG_DIR
   fi
-  DATE=`date +%Y%m%d%H%M%S`
   FILE="$CRASHLOG_DIR/.kodi_crashlog.log"
   echo "############## kodi CRASH LOG ###############" > $FILE
   echo >> $FILE
@@ -81,7 +80,7 @@ print_crash_report()
   echo >> $FILE
   echo "############ END kodi CRASH LOG #############" >> $FILE
   OFILE="$FILE"
-  FILE="$CRASHLOG_DIR/kodi_crashlog_$DATE.log"
+  FILE="$CRASHLOG_DIR/kodi_crashlog.log"
   mv "$OFILE" "$FILE"
   echo "Crash report available at $FILE"
 }
@@ -99,9 +98,6 @@ RET=$?
 if [ $(( ($RET >= 131 && $RET <= 136) || $RET == 139 )) = "1" ] ; then
   # Crashed with core dump
   print_crash_report
-
-  # Cleanup. Keep only youngest 10 reports
-  rm -f $(ls -1t $CRASHLOG_DIR/kodi_crashlog_*.log | tail -n +11)
 fi
 
 exit $RET
