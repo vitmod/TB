@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.iptvsimple"
-PKG_VERSION="bd52b62"
+PKG_VERSION="baaae15"
 PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
