@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="curl"
-PKG_VERSION="7.46.0"
+PKG_VERSION="7.47.0"
 PKG_LICENSE="MIT"
 PKG_SITE="http://curl.haxx.se"
 PKG_URL="http://curl.haxx.se/download/$PKG_NAME-$PKG_VERSION.tar.bz2"
