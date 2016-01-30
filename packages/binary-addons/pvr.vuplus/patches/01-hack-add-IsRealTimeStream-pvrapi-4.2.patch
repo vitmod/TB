@@ -1,12 +1,26 @@
-From 51f6b8dbd8a9cc5a6b961bb46e4751fac3af7cef Mon Sep 17 00:00:00 2001
+From 07b5e4c019017d815d693f2211052be86dadf544 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 25 Jan 2016 23:48:26 +0200
 Subject: [PATCH] [hack] add IsRealTimeStream (pvrapi 4.2)
 
 ---
- src/client.cpp | 1 +
- 1 file changed, 1 insertion(+)
+ pvr.vuplus/addon.xml.in | 2 +-
+ src/client.cpp          | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/pvr.vuplus/addon.xml.in b/pvr.vuplus/addon.xml.in
+index 146a8af..ee8ccf6 100644
+--- a/pvr.vuplus/addon.xml.in
++++ b/pvr.vuplus/addon.xml.in
+@@ -6,7 +6,7 @@
+   provider-name="Joerg Dembski">
+   <requires>
+     <c-pluff version="0.1"/>
+-    <import addon="xbmc.pvr" version="4.1.0"/>
++    <import addon="xbmc.pvr" version="4.2.0"/>
+   </requires>
+   <extension
+     point="xbmc.pvrclient"
 diff --git a/src/client.cpp b/src/client.cpp
 index cc09e3f..22d5ef2 100644
 --- a/src/client.cpp
