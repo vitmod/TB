@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="setuptools"
-PKG_VERSION="2.0.2"
+PKG_VERSION="19.6.1"
 PKG_LICENSE="OSS"
 PKG_SITE="https://pypi.python.org/pypi/setuptools"
 PKG_URL="http://pypi.python.org/packages/source/s/$PKG_NAME/$PKG_NAME-$PKG_VERSION.tar.gz"
