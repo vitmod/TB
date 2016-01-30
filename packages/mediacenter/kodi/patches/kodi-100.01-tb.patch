@@ -1,4 +1,4 @@
-From 382a1c6e1e3b4d9f6fe042228f11c38233251765 Mon Sep 17 00:00:00 2001
+From 3300d821353cbfee42d5dc4b75c56d85c6acd88e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:12:49 +0300
 Subject: [PATCH 01/27] [tb] enable PYTHONOPTIMIZE with external Python
@@ -26,10 +26,10 @@ index 788fa37..7b29b22 100644
      if (!CUtil::GetFrameworksPath(true).empty())
      {
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 43ce945885a8dd7e16a3a388a9d6fcb9aee69a31 Mon Sep 17 00:00:00 2001
+From 0f8af9168acdac08445c038db86b8a310b23de51 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
 Subject: [PATCH 02/27] [tb] disable online check
@@ -88,10 +88,10 @@ index 4184db0..0cd539e 100644
  
    else if (m_section == CONTROL_BT_VIDEO)
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From de91f1340a09810ab2fa831d3043e490899028a6 Mon Sep 17 00:00:00 2001
+From 370038259a562c951636bb911791b70c4e748a5f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
 Subject: [PATCH 03/27] [tb] make binary addons executable
@@ -148,10 +148,10 @@ index 745f16a..60cd5d8 100644
  }
  
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From cfe6e720805df5d748b7ccf02efeb352fd360ecc Mon Sep 17 00:00:00 2001
+From fedef8ae29666ba5b0f7f62cd62df87e9daecb8d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
 Subject: [PATCH 04/27] [tb] disable minimize
@@ -161,10 +161,10 @@ Subject: [PATCH 04/27] [tb] disable minimize
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 82ebf35..186dbea 100644
+index 159a5d7..3b83c87 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4990,7 +4990,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4988,7 +4988,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -173,10 +173,10 @@ index 82ebf35..186dbea 100644
  
  std::string CApplication::GetCurrentPlayer()
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 5f174d535bda39687356f17dde717c761dc30bc0 Mon Sep 17 00:00:00 2001
+From 4c35b1f8b366877611a34847d7901d9eb3c2639a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
 Subject: [PATCH 05/27] [tb] setup timezone
@@ -219,10 +219,10 @@ index ea44d40..b780e62 100644
  
      CDateTime::ResetTimezoneBias();
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 04c190db5c717f8c81418b62c89926bbd462d98f Mon Sep 17 00:00:00 2001
+From 7ea2582ffa893c5a3130fc744ae7d82bfe0d6210 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
 Subject: [PATCH 06/27] [tb] use a wrapper to setup systemd services
@@ -315,10 +315,10 @@ index 5fb6a40..4656e66 100644
     \param dependencyID the addon ID of the dependency.
     \return the version this addon requires.
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 29024a9a953d94073d82e82fc7357aa219e658fe Mon Sep 17 00:00:00 2001
+From 279ce22121cf2da3896783ed1bb2d74f63bfca5f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
 Subject: [PATCH 07/27] [tb] handle SIGTERM
@@ -343,10 +343,10 @@ so, when shutdown/reboot is requested:
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 186dbea..5642980 100644
+index 3b83c87..a408e6a 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2453,12 +2453,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2451,12 +2451,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
    switch (pMsg->dwMessage)
    {
    case TMSG_POWERDOWN:
@@ -361,7 +361,7 @@ index 186dbea..5642980 100644
      break;
    
    case TMSG_SHUTDOWN:
-@@ -2479,12 +2479,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2477,12 +2477,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
  
    case TMSG_RESTART:
    case TMSG_RESET:
@@ -376,7 +376,7 @@ index 186dbea..5642980 100644
      Stop(EXITCODE_RESTARTAPP);
  #endif
      break;
-@@ -2872,12 +2873,19 @@ bool CApplication::Cleanup()
+@@ -2870,12 +2871,19 @@ bool CApplication::Cleanup()
    }
  }
  
@@ -397,7 +397,7 @@ index 186dbea..5642980 100644
      CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2904,7 +2912,6 @@ void CApplication::Stop(int exitCode)
+@@ -2902,7 +2910,6 @@ void CApplication::Stop(int exitCode)
  
      m_bStop = true;
      m_AppFocused = false;
@@ -474,10 +474,10 @@ index b6b7035..9e7309b 100644
    XBMC::Context context;
  
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From d4906d0305e07d4efa601a562b7a71561787b012 Mon Sep 17 00:00:00 2001
+From f4abced6f64ac58b30e749e19ba49785e6adef27 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:45:54 +0300
 Subject: [PATCH 08/27] [tb] prevent kodi switching to windowed mode
@@ -499,10 +499,10 @@ index 7edddbc..1db131e 100644
    virtual int  GetCurrentScreen() { return m_nScreen; }
    virtual void ShowOSMouse(bool show);
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From b3de102f5e19c440a2b01aa1d545371b8ebd3d21 Mon Sep 17 00:00:00 2001
+From e7db9ef0f5d8f63fbc24e25a1511e01d7bda4d7a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
 Subject: [PATCH 09/27] [tb] udevprovider: filter out OE specific mounts
@@ -537,10 +537,10 @@ index 6fda5a5..525e6b7 100644
      const char *bus = udev_device_get_property_value(device, "ID_BUS");
      const char *optical = udev_device_get_property_value(device, "ID_CDROM"); // matches also DVD, Blu-ray
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From cee3cb44ab6f41ce7ef8d5a51674e7cfa142c7e3 Mon Sep 17 00:00:00 2001
+From 5bef2ccb67cb1e6df37826252da8cd8d95a3ed29 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
 Subject: [PATCH 10/27] [tb] our ffmpeg is doing well
@@ -550,7 +550,7 @@ Subject: [PATCH 10/27] [tb] our ffmpeg is doing well
  1 file changed, 7 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 5642980..60ea36a 100644
+index a408e6a..9167ba9 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
 @@ -523,13 +523,6 @@ bool CApplication::Create()
@@ -568,10 +568,10 @@ index 5642980..60ea36a 100644
    
    std::string cpuModel(g_cpuInfo.getCPUModel());
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 2de5f737639d64da2b995461a8c3ac31b83a5d09 Mon Sep 17 00:00:00 2001
+From d84ca611ebb8b0824e64af641c90e35b805736be Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
 Subject: [PATCH 11/27] [tb] meh addon sonames
@@ -595,10 +595,10 @@ index 9541df4..9e2e398 100644
    IF(EXISTS ${PROJECT_SOURCE_DIR}/${target}/addon.xml.in)
      SET(PLATFORM ${CORE_SYSTEM_NAME})
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From f5b787548217480db3b17d38178174eef611cef7 Mon Sep 17 00:00:00 2001
+From bdd0f46260079a7fc99b336c944a9018954e4a0e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 10 Nov 2015 14:27:27 +0200
 Subject: [PATCH 12/27] [tb] bye dcadec
@@ -609,10 +609,10 @@ Subject: [PATCH 12/27] [tb] bye dcadec
  2 files changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index cdb13bf..d1860bb 100644
+index 8a06e6f..d038610 100644
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -383,7 +383,7 @@ FFMPEGOBJS = @FFMPEG_LIBDIR@/libavcodec.a \
+@@ -371,7 +371,7 @@ FFMPEGOBJS = @FFMPEG_LIBDIR@/libavcodec.a \
               @FFMPEG_LIBDIR@/libpostproc.a \
               @FFMPEG_LIBDIR@/libswscale.a
  DYNOBJSXBMC+= $(FFMPEGOBJS)
@@ -622,10 +622,10 @@ index cdb13bf..d1860bb 100644
  $(FFMPEGOBJS): dvdpcodecs
  endif
 diff --git a/configure.ac b/configure.ac
-index 3b76b07..28fbd2a 100644
+index 8f08277..f18e857 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1055,7 +1055,6 @@ fi
+@@ -985,7 +985,6 @@ fi
  AC_CHECK_HEADER([ass/ass.h],, AC_MSG_ERROR($missing_library))
  AC_CHECK_HEADER([ogg/ogg.h],,        AC_MSG_ERROR($missing_library))
  AC_CHECK_HEADER([vorbis/vorbisfile.h],, AC_MSG_ERROR($missing_library))
@@ -634,10 +634,10 @@ index 3b76b07..28fbd2a 100644
  PKG_CHECK_MODULES([LIBCURL], [libcurl],, AC_MSG_ERROR([libcurl not found]))
  XB_FIND_SONAME([CURL], [curl])
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From e023161bb4ad585a367b7d80b1c5a93b195b6f2d Mon Sep 17 00:00:00 2001
+From 77c84f3863bf37427ee20218b0d187fd88fc2410 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
 Subject: [PATCH 13/27] [tb] sledgehammer. fix crash while importing channels
@@ -663,10 +663,10 @@ index 9957537..a50f870 100644
  
    return false;
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From e8d172da957b739f5dbbd007be258b09ab0a39b7 Mon Sep 17 00:00:00 2001
+From 6b4b596651d96bdcd9f6450bac91085b26749736 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
 Subject: [PATCH 14/27] [tb] meh past epg data
@@ -676,7 +676,7 @@ Subject: [PATCH 14/27] [tb] meh past epg data
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
-index 244ca34..1ee3ad2 100644
+index a4156aa..f4419cf 100644
 --- a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
 +++ b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
 @@ -487,7 +487,7 @@ void CGUIWindowPVRGuide::GetViewTimelineItems(CFileItemList &items)
@@ -689,10 +689,10 @@ index 244ca34..1ee3ad2 100644
      startDate = maxPastDate;
  
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From b498a47eab16643775e7d75bb9cde87c2fead9a7 Mon Sep 17 00:00:00 2001
+From e4cdc261e6b53e1b4cea29727770e46df94420fe Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Wed, 16 Apr 2014 22:02:01 +0300
 Subject: [PATCH 15/27] [aml] Fix ALSA sound output for Amlogic-based devices.
@@ -745,10 +745,10 @@ index fbccce0..6bf2c53 100644
    CLog::Log(LOGDEBUG, "CAESinkALSA::InitializeHW - Request: periodSize %lu, bufferSize %lu", periodSize, bufferSize);
  
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 51967b926fe2aa57c481030eec4f1b46372d2118 Mon Sep 17 00:00:00 2001
+From 49cc6aa775b4453c5af70ce56c3a9079dd3ebb87 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Fri, 19 Sep 2014 01:55:12 +0300
 Subject: [PATCH 16/27] [aml] Change the sample rates that are supported by
@@ -790,10 +790,10 @@ index 6bf2c53..32ab888 100644
  
    unsigned int channelCount = inconfig.channels;
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 7b92a7b98e8350cb7746179e25128eabeedc6c00 Mon Sep 17 00:00:00 2001
+From fb398f633faec5f42218e0395f88a5ef1c16236a Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
 Subject: [PATCH 17/27] [aml] Fill audio packets completely when resampling to
@@ -820,10 +820,10 @@ index 7460457..4e09342 100644
    m_empty = true;
    m_procSample = NULL;
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 6dae58c9f85b8277382b69fd9ef8b25f325336b1 Mon Sep 17 00:00:00 2001
+From 4b0aef7a6697dbf2ffe78466a1082cb6d597cb36 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 3 Feb 2015 17:58:19 +0100
 Subject: [PATCH 18/27] [aml] Disable deinterlacing for HD content while video
@@ -851,10 +851,10 @@ index 5dc6592..2103042 100644
    // fix them.
    dst_rect.x2--;
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 3ed4995fccf2ad67fc419a5473055407c25c4c81 Mon Sep 17 00:00:00 2001
+From ca70804fd50ffd68f8a2775fe3b3dfe95f37459a Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Mon, 2 Mar 2015 09:48:14 +0100
 Subject: [PATCH 19/27] [aml] Fix stuttering during a playback of a video with
@@ -878,10 +878,10 @@ index 2103042..edf8f8a 100644
            //CLog::Log(LOGDEBUG, "CAMLCodec::Process pts diff = %f", error);
            if (abs_error > 0.150)
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From e29487d5c30a2ce2661565a7dbfacfa7fa600036 Mon Sep 17 00:00:00 2001
+From 77685f193771b6cf07aa42df43b0eef4f2baa492 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Mon, 8 Sep 2014 23:29:40 +0300
 Subject: [PATCH 20/27] [wetek] Reorder libraries in configure script to
@@ -896,10 +896,10 @@ libresolv.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure.ac b/configure.ac
-index 28fbd2a..b2097cf 100644
+index f18e857..564d3e9 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1429,7 +1429,7 @@ fi
+@@ -1359,7 +1359,7 @@ fi
  # samba
  if test "x$use_samba" != "xno"; then
    PKG_CHECK_MODULES([SAMBA], [smbclient],
@@ -909,10 +909,10 @@ index 28fbd2a..b2097cf 100644
        use_samba=no;AC_MSG_ERROR($missing_library))
        USE_LIBSMBCLIENT=0
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From ca2980d245711a2dde29420eec4bf0b08ad12b42 Mon Sep 17 00:00:00 2001
+From 19c5d228e72ac4e47d0aead930b2a3194baa7908 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
 Subject: [PATCH 21/27] [wetek] fix compiler badness when compiling with
@@ -936,10 +936,10 @@ index 7880c06..bd083b7 100644
  
  ifeq (@USE_ANDROID@,1)
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 78a7a933a51c19531d964cfa6c3ae86c9a3ee151 Mon Sep 17 00:00:00 2001
+From 1c372b632b05081f0db9811805b7240259832f26 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:25:44 +0200
 Subject: [PATCH 22/27] [wetek] perform suspend instead of powerdown
@@ -985,10 +985,10 @@ index 4e5bcc6..ad5847d 100644
  
  bool CLogindUPowerSyscall::Reboot()
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 175c3f452d2243dcf7a410db5076c026d7ef7944 Mon Sep 17 00:00:00 2001
+From 4773bd0b232b49bfba1ef32e6dd11ca78f9c5e89 Mon Sep 17 00:00:00 2001
 From: "Chris \\\"Koying\\\" Browet" <cbro@semperpax.com>
 Date: Fri, 19 Dec 2014 12:30:04 +0100
 Subject: [PATCH 23/27] [aml] FIX: [renderer] hide meaningless skips from users
@@ -998,7 +998,7 @@ Subject: [PATCH 23/27] [aml] FIX: [renderer] hide meaningless skips from users
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
-index 8bb27e4..67f3b1e 100644
+index e28c625..22a15df 100644
 --- a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
 @@ -1410,7 +1410,8 @@ void CRenderManager::PrepareNextRender()
@@ -1012,10 +1012,10 @@ index 8bb27e4..67f3b1e 100644
  
      m_presentstep   = PRESENT_FLIP;
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 9b52b6fa9eb5cc61451bc17bcd97b593ae5472e8 Mon Sep 17 00:00:00 2001
+From 9c31fba6206439550f23cbd3d22a8347a80b8979 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
 Subject: [PATCH 24/27] [aml] Ugly workaround to show DTS/AC3 caps
@@ -1043,10 +1043,10 @@ index 32ab888..d4eb0be 100644
      return AE_DEVTYPE_HDMI;
    else if (name.substr(0, 6) == "iec958" || name.substr(0, 5) == "spdif")
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From d9f0f0259220eef360682ab7a14357260d4271d7 Mon Sep 17 00:00:00 2001
+From dd55e37f752f0c0d9e8988ae48d104bef6b30839 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Wed, 1 Jul 2015 23:37:11 +0200
 Subject: [PATCH 25/27] [aml] Add support for 4k resolutions
@@ -1261,10 +1261,10 @@ index 6867c38..9ca41d4 100644
 +  RESOLUTION_INFO m_maxResolution;
  };
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 40f7c89df87c3e96e4d7d3b28b116448a5512755 Mon Sep 17 00:00:00 2001
+From 4a08fbd04fb31fdcb97260ea9cbc18659fafed3e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
 Subject: [PATCH 26/27] TEMP: [aml] use software decoding for sd
@@ -1296,10 +1296,10 @@ index ed6bd67..2025065 100644
          return false;
        m_pFormatName = "am-mpeg4";
 -- 
-2.7.0.rc3
+2.7.0
 
 
-From 81c946758c7386c1cdf1dd961d74ce4d4c906751 Mon Sep 17 00:00:00 2001
+From 7d56a41e081005d47ae80df66d1b4978bf874825 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Jan 2016 20:37:31 +0200
 Subject: [PATCH 27/27] TEMP: volume steps
@@ -1322,5 +1322,5 @@ index 98e842b..a2eaced 100644
  // replay gain settings struct for quick access by the player multiple
  // times per second (saves doing settings lookup)
 -- 
-2.7.0.rc3
+2.7.0
 
