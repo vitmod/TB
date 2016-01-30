@@ -22,7 +22,7 @@ PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
 PKG_URL="https://github.com/xbmc/FFmpeg/archive/${PKG_VERSION}.tar.gz"
 PKG_SOURCE_DIR="FFmpeg-${PKG_VERSION}"
-PKG_DEPENDS_TARGET="toolchain yasm:host zlib bzip2 libvorbis"
+PKG_DEPENDS_TARGET="toolchain zlib bzip2 libvorbis"
 PKG_SHORTDESC="FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video."
 
 case "$TARGET_ARCH" in
@@ -164,6 +164,6 @@ configure_target() {
               --enable-asm \
               --disable-altivec \
               $FFMPEG_FPU \
-              --enable-yasm \
+              --disable-yasm \
               --disable-symver
 }
