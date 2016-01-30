@@ -24,16 +24,8 @@ PKG_URL="http://www.bzip.org/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="bzip2 data compressor"
 
-pre_make_target() {
-  sed -e "s,ln -s (lib.*),ln -snf \$$1; ln -snf libbz2.so.$PKG_VERSION libbz2.so,g" -i Makefile-libbz2_so
-}
-
 make_target() {
   make CC=$TARGET_CC CFLAGS="$CFLAGS -fPIC -DPIC" libbz2.a
-}
-
-post_make_target() {
-  ln -snf libbz2.so.1.0 libbz2.so
 }
 
 makeinstall_target() {
