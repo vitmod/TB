@@ -24,8 +24,7 @@ PKG_URL="$SOURCEFORGE_SRC/swig/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_HOST=""
 PKG_SHORTDESC="SWIG: a software development tool that connects programs written in C and C++ with a variety of high-level programming languages."
 
-PKG_CONFIGURE_OPTS_HOST="--with-pcre-prefix=$ROOT/$TOOLCHAIN \
-                         --with-boost=no \
+PKG_CONFIGURE_OPTS_HOST="--with-boost=no \
                          --without-pcre \
                          --without-x \
                          --without-tcl \
