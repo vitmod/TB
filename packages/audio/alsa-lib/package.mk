@@ -29,14 +29,6 @@ PKG_CONFIGURE_OPTS_TARGET="--with-plugindir=/usr/lib/alsa \
                            --without-debug \
                            --disable-dependency-tracking"
 
-pre_configure_target() {
-  CFLAGS="$CFLAGS -fPIC -DPIC"
-}
-
-post_configure_target() {
-  sed -i 's/.*PKGLIBDIR.*/#define PKGLIBDIR ""/' include/config.h
-}
-
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin
 }
