@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="kodi"
-PKG_VERSION="17.0-alpha1-a08dc7b"
+PKG_VERSION="17.0-alpha1-c5ec416"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
@@ -25,7 +25,7 @@ PKG_DEPENDS_TARGET="toolchain kodi:host swig:host"
 PKG_DEPENDS_HOST="lzo:host libpng:host libjpeg-turbo:host giflib:host"
 PKG_SHORTDESC="kodi: Kodi Mediacenter"
 
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa boost bzip2 crossguid curl dbus ffmpeg"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa bzip2 crossguid curl dbus ffmpeg"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET fontconfig freetype fribidi giflib libass"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libogg libpng libvorbis"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxml2 libxslt lzo pcre Python sqlite"
