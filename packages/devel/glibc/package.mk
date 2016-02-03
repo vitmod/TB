@@ -106,6 +106,13 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/*.map
   rm -rf $INSTALL/var
 
+  rm -rf $INSTALL/usr/lib/libnss_compat*so*
+  rm -rf $INSTALL/lib/libnss_compat*so*
+  rm -rf $INSTALL/usr/lib/libnss_hesiod*so*
+  rm -rf $INSTALL/lib/libnss_hesiod*so*
+  rm -rf $INSTALL/usr/lib/libnss_nis*so*
+  rm -rf $INSTALL/lib/libnss_nis*so*
+
   # remove locales and charmaps
   rm -rf $INSTALL/usr/share/i18n/charmaps
   rm -rf $INSTALL/usr/share/i18n/locales
