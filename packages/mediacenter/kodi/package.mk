@@ -26,7 +26,7 @@ PKG_DEPENDS_HOST="lzo:host libpng:host libjpeg-turbo:host giflib:host"
 PKG_SHORTDESC="kodi: Kodi Mediacenter"
 
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa bzip2 crossguid curl dbus ffmpeg"
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET fontconfig freetype fribidi giflib libass"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET fontconfig freetype fribidi libass"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libogg libpng libvorbis"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxml2 libxslt lzo pcre Python sqlite"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET systemd taglib tinyxml yajl zlib libsquish"
@@ -113,7 +113,7 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-ssh \
                            --disable-airplay \
                            --disable-airtunes \
-                           --enable-gif \
+                           --disable-gif \
                            --enable-non-free \
                            $KODI_WEBSERVER \
                            --disable-optical-drive \
