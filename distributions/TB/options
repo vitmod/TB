@@ -10,9 +10,6 @@
 # build and install with KODI webfrontend (yes / no)
   KODI_WEBSERVER_SUPPORT="yes"
 
-# build with Samba Client support (mounting SAMBA shares with KODI) (yes / no)
-  KODI_SAMBA_SUPPORT="yes"
-
 # build with NFS Client support (mounting NFS shares with KODI) (yes / no)
   KODI_NFS_SUPPORT="yes"
 

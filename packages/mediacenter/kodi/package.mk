@@ -38,13 +38,6 @@ else
   KODI_OPENGLES="--disable-gles"
 fi
 
-if [ "$KODI_SAMBA_SUPPORT" = yes ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET samba"
-  KODI_SAMBA="--enable-samba"
-else
-  KODI_SAMBA="--disable-samba"
-fi
-
 if [ "$KODI_NFS_SUPPORT" = yes ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libnfs"
   KODI_NFS="--enable-nfs"
@@ -101,7 +94,7 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --enable-alsa \
                            --disable-pulse \
                            --disable-rtmp \
-                           $KODI_SAMBA \
+                           --disable-samba \
                            $KODI_NFS \
                            --disable-libbluetooth \
                            --disable-libcap \
