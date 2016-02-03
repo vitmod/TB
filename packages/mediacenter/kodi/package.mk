@@ -38,13 +38,6 @@ else
   KODI_OPENGLES="--disable-gles"
 fi
 
-if [ "$KODI_NFS_SUPPORT" = yes ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libnfs"
-  KODI_NFS="--enable-nfs"
-else
-  KODI_NFS="--disable-nfs"
-fi
-
 if [ "$KODI_WEBSERVER_SUPPORT" = yes ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libmicrohttpd"
   KODI_WEBSERVER="--enable-webserver"
@@ -95,7 +88,7 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-pulse \
                            --disable-rtmp \
                            --disable-samba \
-                           $KODI_NFS \
+                           --disable-nfs \
                            --disable-libbluetooth \
                            --disable-libcap \
                            --enable-dvdcss \

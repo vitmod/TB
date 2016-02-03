@@ -10,9 +10,6 @@
 # build and install with KODI webfrontend (yes / no)
   KODI_WEBSERVER_SUPPORT="yes"
 
-# build with NFS Client support (mounting NFS shares with KODI) (yes / no)
-  KODI_NFS_SUPPORT="yes"
-
 # Distribution Specific source location
   DISTRO_MIRROR="http://sources.openelec.tv/mirror"
   DISTRO_SRC="http://sources.openelec.tv/$OPENELEC_VERSION"

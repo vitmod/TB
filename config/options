@@ -204,7 +204,6 @@ show_config() {
   config_message="$config_message\n\n Kodi configuration:"
   config_message="$config_message\n $dashes$dashes"
   config_message="$config_message\n - Kodi Player driver:\t\t\t $KODIPLAYER_DRIVER"
-  config_message="$config_message\n - Kodi NFS client support:\t\t $KODI_NFS_SUPPORT"
   config_message="$config_message\n - Kodi Webserver support:\t\t $KODI_WEBSERVER_SUPPORT"
   config_message="$config_message\n"
 
