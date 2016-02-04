@@ -34,7 +34,7 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-shared \
                            --without-glib"
 
 pre_configure_target() {
-  CFLAGS="$CFLAGS -DFRIBIDI_CHUNK_SIZE=4080 -fPIC -DPIC"
+  CFLAGS="$CFLAGS -DFRIBIDI_CHUNK_SIZE=4080"
 }
 
 post_makeinstall_target() {
