@@ -25,4 +25,4 @@ PKG_DEPENDS_HOST="autoconf:host"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="libtool: Generic library support script"
 
-PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared"
+PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared HELP2MAN=/bin/true"
