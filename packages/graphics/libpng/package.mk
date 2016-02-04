@@ -25,22 +25,14 @@ PKG_DEPENDS_HOST="zlib:host"
 PKG_DEPENDS_TARGET="toolchain zlib"
 PKG_SHORTDESC="libpng: Portable Network Graphics (PNG) Reference Library"
 
-PKG_AUTORECONF="yes"
-
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_lib_z_zlibVersion=yes \
-                           --enable-static \
-                           --disable-shared"
+                           --enable-static --disable-shared \
+                           --with-sysroot=$SYSROOT_PREFIX"
 
 PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared"
 
 pre_configure_host() {
-  export CFLAGS="$CFLAGS -fPIC -DPIC"
   export CPPFLAGS="$CPPFLAGS -I$ROOT/$TOOLCHAIN/include"
-}
-
-pre_configure_target() {
-  export CFLAGS="$CFLAGS -fPIC -DPIC"
-  export CPPFLAGS="$CPPFLAGS -I$SYSROOT_PREFIX/usr/include"
 }
 
 post_makeinstall_target() {
