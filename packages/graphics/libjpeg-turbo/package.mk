@@ -22,7 +22,7 @@ PKG_LICENSE="GPL"
 PKG_SITE="http://libjpeg-turbo.virtualgl.org/"
 PKG_URL="$SOURCEFORGE_SRC/libjpeg-turbo/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="libjpeg-turbo: a high-speed version of libjpeg for x86 and x86-64 processors which uses SIMD instructions (MMX, SSE2, etc.) to accelerate baseline JPEG compression and decompression."
+PKG_SHORTDESC="libjpeg-turbo: a high-speed version of libjpeg"
 
 PKG_CONFIGURE_OPTS_HOST="--enable-static \
                          --disable-shared \
@@ -30,14 +30,6 @@ PKG_CONFIGURE_OPTS_HOST="--enable-static \
                          --without-simd"
 
 PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared --with-jpeg8"
-
-pre_configure_host() {
-  export CFLAGS="$CFLAGS -fPIC -DPIC"
-}
-
-pre_configure_target() {
-  export CFLAGS="$CFLAGS -fPIC -DPIC"
-}
 
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin
