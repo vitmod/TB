@@ -30,12 +30,6 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-shared \
                            --enable-unicode-properties \
                            --with-gnu-ld"
 
-pre_configure_target() {
-  CFLAGS="$CFLAGS -fPIC"
-  CXXFLAGS="$CXXFLAGS -fPIC"
-  LDFLAGS="$LDFLAGS -fPIC"
-}
-
 post_makeinstall_target() {
   sed -e "s:\(['= ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" -i $SYSROOT_PREFIX/usr/bin/pcre-config
   rm -rf $INSTALL/usr/bin
