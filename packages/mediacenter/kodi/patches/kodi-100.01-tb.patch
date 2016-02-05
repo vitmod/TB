@@ -1,7 +1,7 @@
-From fffe9b702168213db1ec517b2fb7a0d54f51dd2e Mon Sep 17 00:00:00 2001
+From c32ab73ba7a36e6d5b927d774ba30b49fdae3cad Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:12:49 +0300
-Subject: [PATCH 01/28] [tb] enable PYTHONOPTIMIZE with external Python
+Subject: [PATCH 01/26] [tb] enable PYTHONOPTIMIZE with external Python
 
 ---
  xbmc/interfaces/python/XBPython.cpp | 7 +++----
@@ -29,10 +29,10 @@ index 788fa37..7b29b22 100644
 2.7.0
 
 
-From 50bf52eb52f2695897f9905a600c807f26796b50 Mon Sep 17 00:00:00 2001
+From a0c20cec30556101ca6f54af9142e161e72e47b2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
-Subject: [PATCH 02/28] [tb] disable online check
+Subject: [PATCH 02/26] [tb] disable online check
 
 ---
  xbmc/GUIInfoManager.cpp              | 1 -
@@ -91,10 +91,10 @@ index 4184db0..0cd539e 100644
 2.7.0
 
 
-From db95b41a1fd92902ab82b9eab2af9b2f2c63e4a6 Mon Sep 17 00:00:00 2001
+From 39ac91477637fcef6b60b622525958a219cfdcfc Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 03/28] [tb] make binary addons executable
+Subject: [PATCH 03/26] [tb] make binary addons executable
 
 add executable mode to all files in addon's bin folder
 
@@ -151,20 +151,20 @@ index f437306..2c31f3c 100644
 2.7.0
 
 
-From 350fd4e287259316fd0b01d3e95e0e591df46b01 Mon Sep 17 00:00:00 2001
+From 5fab1acbcbb83d424c9d75bee32dd8cf68083a2d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 04/28] [tb] disable minimize
+Subject: [PATCH 04/26] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 159a5d7..3b83c87 100644
+index 0191da9..a33fd4e 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4988,7 +4988,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4987,7 +4987,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -176,10 +176,10 @@ index 159a5d7..3b83c87 100644
 2.7.0
 
 
-From 72d278ab4fffb7b089e8a485911a131d75d08b3d Mon Sep 17 00:00:00 2001
+From 47167256a388f218c7f400a465e1b3a47318fabc Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 05/28] [tb] setup timezone
+Subject: [PATCH 05/26] [tb] setup timezone
 
 on TZ country setting change, store the value in format
 TIMEZONE=Xx/Yyy to /storage/.cache/timezone to be used with
@@ -222,10 +222,10 @@ index ea44d40..b780e62 100644
 2.7.0
 
 
-From 963064d22594c711eaf3209a3f5af04931b316e1 Mon Sep 17 00:00:00 2001
+From 0f75117b907fe776a194e09ca02b9f75df29244d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 06/28] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 06/26] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -318,10 +318,10 @@ index dc638ea..c46804e 100644
 2.7.0
 
 
-From 0d48ff3b172eb498734ac2cad9ab402e968f2645 Mon Sep 17 00:00:00 2001
+From f1d112ea94135a9f801e48dccb4b45189ca3827d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 07/28] [tb] handle SIGTERM
+Subject: [PATCH 07/26] [tb] handle SIGTERM
 
 0. CApplication::Stop cant be trusted. (deadlocks crashes and boo)
 
@@ -343,10 +343,10 @@ so, when shutdown/reboot is requested:
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 3b83c87..a408e6a 100644
+index a33fd4e..af37680 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2451,12 +2451,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2450,12 +2450,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
    switch (pMsg->dwMessage)
    {
    case TMSG_POWERDOWN:
@@ -361,7 +361,7 @@ index 3b83c87..a408e6a 100644
      break;
    
    case TMSG_SHUTDOWN:
-@@ -2477,12 +2477,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2476,12 +2476,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
  
    case TMSG_RESTART:
    case TMSG_RESET:
@@ -376,7 +376,7 @@ index 3b83c87..a408e6a 100644
      Stop(EXITCODE_RESTARTAPP);
  #endif
      break;
-@@ -2870,12 +2871,19 @@ bool CApplication::Cleanup()
+@@ -2869,12 +2870,19 @@ bool CApplication::Cleanup()
    }
  }
  
@@ -397,7 +397,7 @@ index 3b83c87..a408e6a 100644
      CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2902,7 +2910,6 @@ void CApplication::Stop(int exitCode)
+@@ -2901,7 +2909,6 @@ void CApplication::Stop(int exitCode)
  
      m_bStop = true;
      m_AppFocused = false;
@@ -477,10 +477,10 @@ index b6b7035..9e7309b 100644
 2.7.0
 
 
-From a89753a1a880dd95826002989329ca7d855cd58e Mon Sep 17 00:00:00 2001
+From 2aca9174cc739faaea727d96535efd61847f7a20 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:45:54 +0300
-Subject: [PATCH 08/28] [tb] prevent kodi switching to windowed mode
+Subject: [PATCH 08/26] [tb] prevent kodi switching to windowed mode
 
 ---
  xbmc/windowing/X11/WinSystemX11.h | 1 +
@@ -502,10 +502,10 @@ index 7edddbc..1db131e 100644
 2.7.0
 
 
-From 56b018b37aaa8bebdbff5bb313c06f615e76da87 Mon Sep 17 00:00:00 2001
+From 9eb02925bee45d3fddb9f3f33b881d9822bcd620 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
-Subject: [PATCH 09/28] [tb] udevprovider: filter out OE specific mounts
+Subject: [PATCH 09/26] [tb] udevprovider: filter out OE specific mounts
 
 ---
  xbmc/storage/linux/UDevProvider.cpp | 14 ++++++++++++++
@@ -540,17 +540,17 @@ index 6fda5a5..525e6b7 100644
 2.7.0
 
 
-From e463342de31da5e6e8162013179af1b260627432 Mon Sep 17 00:00:00 2001
+From c1871df993b49d87f055934ae5eff98909651191 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
-Subject: [PATCH 10/28] [tb] our ffmpeg is doing well
+Subject: [PATCH 10/26] [tb] our ffmpeg is doing well
 
 ---
  xbmc/Application.cpp | 7 -------
  1 file changed, 7 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index a408e6a..9167ba9 100644
+index af37680..d35bd93 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
 @@ -523,13 +523,6 @@ bool CApplication::Create()
@@ -571,10 +571,10 @@ index a408e6a..9167ba9 100644
 2.7.0
 
 
-From 86bc5b3745e30354c97c18588b537ebab2454d88 Mon Sep 17 00:00:00 2001
+From 50037d79630d993f789acd3921ce48f987838e75 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
-Subject: [PATCH 11/28] [tb] meh addon sonames
+Subject: [PATCH 11/26] [tb] meh addon sonames
 
 ---
  project/cmake/scripts/common/addon-helpers.cmake | 3 +++
@@ -598,10 +598,10 @@ index 9541df4..9e2e398 100644
 2.7.0
 
 
-From c12e77bce08fbc48b718c6c5d1a8e8d196522166 Mon Sep 17 00:00:00 2001
+From 4c584bd8d793ffb5800676a2f0589615bdb16b72 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 10 Nov 2015 14:27:27 +0200
-Subject: [PATCH 12/28] [tb] bye dcadec
+Subject: [PATCH 12/26] [tb] bye dcadec
 
 ---
  Makefile.in  | 2 +-
@@ -622,10 +622,10 @@ index 8a06e6f..d038610 100644
  $(FFMPEGOBJS): dvdpcodecs
  endif
 diff --git a/configure.ac b/configure.ac
-index 3c46909..85267fa 100644
+index c217029..f2382e7 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -980,7 +980,6 @@ fi
+@@ -972,7 +972,6 @@ fi
  AC_CHECK_HEADER([ass/ass.h],, AC_MSG_ERROR($missing_library))
  AC_CHECK_HEADER([ogg/ogg.h],,        AC_MSG_ERROR($missing_library))
  AC_CHECK_HEADER([vorbis/vorbisfile.h],, AC_MSG_ERROR($missing_library))
@@ -637,10 +637,10 @@ index 3c46909..85267fa 100644
 2.7.0
 
 
-From 000c89b62cc2408aac5de534f589a2039a525eed Mon Sep 17 00:00:00 2001
+From 7d35d2310c5931c104d2a57b360fa64d120cc361 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 13/28] [tb] sledgehammer. fix crash while importing channels
+Subject: [PATCH 13/26] [tb] sledgehammer. fix crash while importing channels
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -666,10 +666,10 @@ index aef2fa2..e3e0214 100644
 2.7.0
 
 
-From 29cac2f6c63a87cd1d477fd867a1e769953661d6 Mon Sep 17 00:00:00 2001
+From 07d968a2c4f0b7c0a30e6d93c9e84a8021e2d2f5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
-Subject: [PATCH 14/28] [tb] meh past epg data
+Subject: [PATCH 14/26] [tb] meh past epg data
 
 ---
  xbmc/pvr/windows/GUIWindowPVRGuide.cpp | 2 +-
@@ -692,10 +692,10 @@ index a4156aa..f4419cf 100644
 2.7.0
 
 
-From 8c60cf3e041fd90996d506afd4e9dbcc0efe4c4b Mon Sep 17 00:00:00 2001
+From 54973546973338888e3a1b84ef3f069eb5e0644b Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Wed, 16 Apr 2014 22:02:01 +0300
-Subject: [PATCH 15/28] [aml] Fix ALSA sound output for Amlogic-based devices.
+Subject: [PATCH 15/26] [aml] Fix ALSA sound output for Amlogic-based devices.
 
 ---
  xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp | 19 +++++++++++++++++++
@@ -748,10 +748,10 @@ index fbccce0..6bf2c53 100644
 2.7.0
 
 
-From 4d8879e3dd64362115e894c7e6fde921d6b3f9f7 Mon Sep 17 00:00:00 2001
+From c636a7bfd084fe1007ab72e3c40eeb17eeaac79d Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Fri, 19 Sep 2014 01:55:12 +0300
-Subject: [PATCH 16/28] [aml] Change the sample rates that are supported by
+Subject: [PATCH 16/26] [aml] Change the sample rates that are supported by
  ALSA but unsupported by HDMI to the closest supported value
 
 ---
@@ -793,10 +793,10 @@ index 6bf2c53..32ab888 100644
 2.7.0
 
 
-From e7741663c54dd6a45aea5361e1391c48a0db2511 Mon Sep 17 00:00:00 2001
+From 561c0e1f3604af59d3e1020182d33b12d5553369 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 17/28] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 17/26] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -823,10 +823,10 @@ index 7460457..4e09342 100644
 2.7.0
 
 
-From 790a2fde703cd5629ce7702f0b7f7516cd22b069 Mon Sep 17 00:00:00 2001
+From 2d1a3405f4c4a7130becb7623777fffaa5534292 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 3 Feb 2015 17:58:19 +0100
-Subject: [PATCH 18/28] [aml] Disable deinterlacing for HD content while video
+Subject: [PATCH 18/26] [aml] Disable deinterlacing for HD content while video
  is being played in a window
 
 ... to prevent screen blinking in 1080p50/60hz display modes
@@ -854,10 +854,10 @@ index e9c73ac..5771909 100644
 2.7.0
 
 
-From b5361b83d676db04730d3272db151538d90fadf5 Mon Sep 17 00:00:00 2001
+From d1ae36685bd35f577e82a0661f7a9bd474de19e7 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Mon, 2 Mar 2015 09:48:14 +0100
-Subject: [PATCH 19/28] [aml] Fix stuttering during a playback of a video with
+Subject: [PATCH 19/26] [aml] Fix stuttering during a playback of a video with
  23.976 FPS
 
 ---
@@ -881,10 +881,10 @@ index 5771909..2034c4d 100644
 2.7.0
 
 
-From f1693ee8d59bd8bd31ecd12b62e62d01f0104212 Mon Sep 17 00:00:00 2001
+From cb971198437d6d68d73b02b75eaa25ed0db3d5d5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
-Subject: [PATCH 21/28] [wetek] fix compiler badness when compiling with
+Subject: [PATCH 20/26] [wetek] fix compiler badness when compiling with
  amcodec
 
 ---
@@ -908,10 +908,10 @@ index 7880c06..bd083b7 100644
 2.7.0
 
 
-From 30bc651e83b23f1172fe9f0e13e6db1f7dfa51f9 Mon Sep 17 00:00:00 2001
+From 57118c6e3b5b9d3d8c82819bfe63254b53d99c4d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:25:44 +0200
-Subject: [PATCH 22/28] [wetek] perform suspend instead of powerdown
+Subject: [PATCH 21/26] [wetek] perform suspend instead of powerdown
 
 ---
  system/keymaps/keyboard.xml                        | 2 +-
@@ -957,10 +957,10 @@ index 4e5bcc6..ad5847d 100644
 2.7.0
 
 
-From 9569fa30a661b1428601170faad7d28967b4667a Mon Sep 17 00:00:00 2001
+From 02eb12bee8b0d43c7c915707dc63b282a009850a Mon Sep 17 00:00:00 2001
 From: "Chris \\\"Koying\\\" Browet" <cbro@semperpax.com>
 Date: Fri, 19 Dec 2014 12:30:04 +0100
-Subject: [PATCH 23/28] [aml] FIX: [renderer] hide meaningless skips from users
+Subject: [PATCH 22/26] [aml] FIX: [renderer] hide meaningless skips from users
 
 ---
  xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp | 3 ++-
@@ -984,10 +984,10 @@ index e28c625..22a15df 100644
 2.7.0
 
 
-From 18f8013554fd6d57866cd4f16cb822b1d721f003 Mon Sep 17 00:00:00 2001
+From faf6d6cf3144691fd8755b92bec4d1d62848649a Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
-Subject: [PATCH 24/28] [aml] Ugly workaround to show DTS/AC3 caps
+Subject: [PATCH 23/26] [aml] Ugly workaround to show DTS/AC3 caps
 
 ... but don't run into multi channel issues as we can only open 2 pcm channels
 ---
@@ -1015,228 +1015,10 @@ index 32ab888..d4eb0be 100644
 2.7.0
 
 
-From ef62356ae994de7158aa74026fe98f6621ed3fa6 Mon Sep 17 00:00:00 2001
-From: Alex Deryskyba <alex@codesnake.com>
-Date: Wed, 1 Jul 2015 23:37:11 +0200
-Subject: [PATCH 25/28] [aml] Add support for 4k resolutions
-
----
- xbmc/utils/AMLUtils.cpp                     | 16 +++---
- xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp | 81 ++++++++++++++++++++++-------
- xbmc/windowing/egl/EGLNativeTypeAmlogic.h   |  2 +
- 3 files changed, 73 insertions(+), 26 deletions(-)
-
-diff --git a/xbmc/utils/AMLUtils.cpp b/xbmc/utils/AMLUtils.cpp
-index 1b54435..05f2cd0 100644
---- a/xbmc/utils/AMLUtils.cpp
-+++ b/xbmc/utils/AMLUtils.cpp
-@@ -449,8 +449,8 @@ bool aml_mode_to_resolution(const char *mode, RESOLUTION_INFO *res)
-   }
-   else if (StringUtils::EqualsNoCase(fromMode, "4k2ksmpte") || StringUtils::EqualsNoCase(fromMode, "smpte24hz"))
-   {
--    res->iWidth = 1920;
--    res->iHeight= 1080;
-+    res->iWidth = 4096;
-+    res->iHeight= 2160;
-     res->iScreenWidth = 4096;
-     res->iScreenHeight= 2160;
-     res->fRefreshRate = 24;
-@@ -467,8 +467,8 @@ bool aml_mode_to_resolution(const char *mode, RESOLUTION_INFO *res)
-   }
-   else if (StringUtils::EqualsNoCase(fromMode, "4k2k24hz") || StringUtils::EqualsNoCase(fromMode, "2160p24hz"))
-   {
--    res->iWidth = 1920;
--    res->iHeight= 1080;
-+    res->iWidth = 3840;
-+    res->iHeight= 2160;
-     res->iScreenWidth = 3840;
-     res->iScreenHeight= 2160;
-     res->fRefreshRate = 24;
-@@ -476,8 +476,8 @@ bool aml_mode_to_resolution(const char *mode, RESOLUTION_INFO *res)
-   }
-   else if (StringUtils::EqualsNoCase(fromMode, "4k2k25hz") || StringUtils::EqualsNoCase(fromMode, "2160p25hz"))
-   {
--    res->iWidth = 1920;
--    res->iHeight= 1080;
-+    res->iWidth = 3840;
-+    res->iHeight= 2160;
-     res->iScreenWidth = 3840;
-     res->iScreenHeight= 2160;
-     res->fRefreshRate = 25;
-@@ -494,8 +494,8 @@ bool aml_mode_to_resolution(const char *mode, RESOLUTION_INFO *res)
-   }
-   else if (StringUtils::EqualsNoCase(fromMode, "4k2k30hz") || StringUtils::EqualsNoCase(fromMode, "2160p30hz"))
-   {
--    res->iWidth = 1920;
--    res->iHeight= 1080;
-+    res->iWidth = 3840;
-+    res->iHeight= 2160;
-     res->iScreenWidth = 3840;
-     res->iScreenHeight= 2160;
-     res->fRefreshRate = 30;
-diff --git a/xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp b/xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp
-index 21256ef..2103f0b 100644
---- a/xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp
-+++ b/xbmc/windowing/egl/EGLNativeTypeAmlogic.cpp
-@@ -65,7 +65,22 @@ void CEGLNativeTypeAmlogic::Initialize()
- {
-   aml_permissions();
-   DisableFreeScale();
-+  GetMaxResolution(m_maxResolution);
- }
-+
-+void CEGLNativeTypeAmlogic::GetMaxResolution(RESOLUTION_INFO &maxResolution)
-+{
-+  std::vector<RESOLUTION_INFO> resolutions;
-+  ProbeResolutions(resolutions);
-+
-+  maxResolution = {0};
-+  for (size_t i = 0; i < resolutions.size(); i++)
-+  {
-+    if (resolutions[i].iScreenWidth > maxResolution.iScreenWidth || resolutions[i].iScreenHeight > maxResolution.iScreenHeight)
-+      maxResolution = resolutions[i];
-+  }
-+}
-+
- void CEGLNativeTypeAmlogic::Destroy()
- {
-   return;
-@@ -84,8 +99,8 @@ bool CEGLNativeTypeAmlogic::CreateNativeWindow()
-   if (!nativeWindow)
-     return false;
- 
--  nativeWindow->width = 1920;
--  nativeWindow->height = 1080;
-+  nativeWindow->width = m_maxResolution.iScreenWidth;
-+  nativeWindow->height = m_maxResolution.iScreenHeight;
-   m_nativeWindow = nativeWindow;
- 
-   SetFramebufferResolution(nativeWindow->width, nativeWindow->height);
-@@ -142,48 +157,78 @@ bool CEGLNativeTypeAmlogic::SetNativeResolution(const RESOLUTION_INFO &res)
-   }
- #endif
- 
--  switch((int)(0.5 + res.fRefreshRate))
-+  switch((int)(res.fRefreshRate*10))
-   {
-     default:
--    case 60:
-+    case 600:
-       switch(res.iScreenWidth)
-       {
-         default:
-         case 1280:
--          SetDisplayResolution("720p");
-+          return SetDisplayResolution("720p");
-           break;
-         case 1920:
-           if (res.dwFlags & D3DPRESENTFLAG_INTERLACED)
--            SetDisplayResolution("1080i");
-+            return SetDisplayResolution("1080i");
-           else
--            SetDisplayResolution("1080p");
-+            return SetDisplayResolution("1080p");
-           break;
-       }
-       break;
--    case 50:
-+    case 500:
-       switch(res.iScreenWidth)
-       {
-         default:
-         case 1280:
--          SetDisplayResolution("720p50hz");
-+          return SetDisplayResolution("720p50hz");
-           break;
-         case 1920:
-           if (res.dwFlags & D3DPRESENTFLAG_INTERLACED)
--            SetDisplayResolution("1080i50hz");
-+            return SetDisplayResolution("1080i50hz");
-           else
--            SetDisplayResolution("1080p50hz");
-+            return SetDisplayResolution("1080p50hz");
-           break;
-       }
-       break;
--    case 30:
--      SetDisplayResolution("1080p30hz");
-+    case 300:
-+      switch(res.iScreenWidth)
-+      {
-+        case 3840:
-+          return SetDisplayResolution("4k2k30hz");
-+          break;
-+        default:
-+          return SetDisplayResolution("1080p30hz");
-+          break;
-+      }
-       break;
--    case 24:
--      SetDisplayResolution("1080p24hz");
-+    case 250:
-+      switch(res.iScreenWidth)
-+      {
-+        case 3840:
-+          return SetDisplayResolution("4k2k25hz");
-+          break;
-+        default:
-+          return SetDisplayResolution("1080p25hz");
-+          break;
-+      }
-+      break;
-+    case 240:
-+      switch(res.iScreenWidth)
-+      {
-+        case 3840:
-+          return SetDisplayResolution("4k2k24hz");
-+          break;
-+        case 4096:
-+          return SetDisplayResolution("4k2ksmpte");
-+          break;
-+        default:
-+          return SetDisplayResolution("1080p24hz");
-+          break;
-+      }
-       break;
-   }
- 
--  return true;
-+  return false;
- }
- 
- bool CEGLNativeTypeAmlogic::ProbeResolutions(std::vector<RESOLUTION_INFO> &resolutions)
-@@ -280,8 +325,8 @@ void CEGLNativeTypeAmlogic::SetFramebufferResolution(int width, int height) cons
-     {
-       vinfo.xres = width;
-       vinfo.yres = height;
--      vinfo.xres_virtual = 1920;
--      vinfo.yres_virtual = 2160;
-+      vinfo.xres_virtual = m_maxResolution.iScreenWidth;
-+      vinfo.yres_virtual = m_maxResolution.iScreenHeight * 2;
-       vinfo.bits_per_pixel = 32;
-       vinfo.activate = FB_ACTIVATE_ALL;
-       ioctl(fd0, FBIOPUT_VSCREENINFO, &vinfo);
-diff --git a/xbmc/windowing/egl/EGLNativeTypeAmlogic.h b/xbmc/windowing/egl/EGLNativeTypeAmlogic.h
-index 6867c38..9ca41d4 100644
---- a/xbmc/windowing/egl/EGLNativeTypeAmlogic.h
-+++ b/xbmc/windowing/egl/EGLNativeTypeAmlogic.h
-@@ -55,6 +55,8 @@ protected:
- private:
-   void SetFramebufferResolution(const RESOLUTION_INFO &res) const;
-   void SetFramebufferResolution(int width, int height) const;
-+  void GetMaxResolution(RESOLUTION_INFO &maxResolution);
- 
-   std::string m_framebuffer_name;
-+  RESOLUTION_INFO m_maxResolution;
- };
--- 
-2.7.0
-
-
-From 26b1991ee97c615da807f968bebb975e891a4168 Mon Sep 17 00:00:00 2001
+From a189146ac66d7d68e97677990cf11ab7392cb8d2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
-Subject: [PATCH 26/28] [aml] prefer libamcodec.so
+Subject: [PATCH 24/26] [aml] prefer libamcodec.so
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 6 +++---
@@ -1270,10 +1052,10 @@ index 2034c4d..0bb627f 100644
 2.7.0
 
 
-From efe258682b024783294bca0aaa102eaabca5f416 Mon Sep 17 00:00:00 2001
+From f224394b06e96d133a063dcf80e6cf3288aa457e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
-Subject: [PATCH 27/28] TEMP: [aml] use software decoding for sd
+Subject: [PATCH 25/26] TEMP: [aml] use software decoding for sd
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
@@ -1305,10 +1087,10 @@ index ed6bd67..2025065 100644
 2.7.0
 
 
-From e76a8eaab65202813f18e0e1c565ac3924a61f42 Mon Sep 17 00:00:00 2001
+From 8c07e61829df0a415c41e2b8ac2c1443e8050b07 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Jan 2016 20:37:31 +0200
-Subject: [PATCH 28/28] TEMP: volume steps
+Subject: [PATCH 26/26] TEMP: volume steps
 
 ---
  xbmc/Application.h | 2 +-

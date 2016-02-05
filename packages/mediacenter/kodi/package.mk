@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="kodi"
-PKG_VERSION="17.0-alpha1-c5ec416"
+PKG_VERSION="17.0-alpha1-a052938"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
@@ -99,7 +99,6 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-ssh \
                            --disable-airplay \
                            --disable-airtunes \
-                           --disable-gif \
                            --enable-non-free \
                            $KODI_WEBSERVER \
                            --disable-optical-drive \
