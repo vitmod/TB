@@ -33,26 +33,23 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET systemd taglib tinyxml yajl zlib libsqui
 
 if [ -n "$OPENGLES" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $OPENGLES"
-  KODI_OPENGLES="--enable-gles"
+  KODI_CONFIG="$KODI_CONFIG --enable-gles"
 else
-  KODI_OPENGLES="--disable-gles"
+  KODI_CONFIG="$KODI_CONFIG --disable-gles"
 fi
 
 if [ "$KODI_WEBSERVER_SUPPORT" = yes ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libmicrohttpd"
-  KODI_WEBSERVER="--enable-webserver"
+  KODI_CONFIG="$KODI_CONFIG --enable-webserver"
 else
-  KODI_WEBSERVER="--disable-webserver"
+  KODI_CONFIG="$KODI_CONFIG --disable-webserver"
 fi
 
-if [ ! "$KODIPLAYER_DRIVER" = default ]; then
+if [ -n "$KODIPLAYER_DRIVER" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $KODIPLAYER_DRIVER"
-
-  if [ "$KODIPLAYER_DRIVER" = libamcodec ]; then
-    KODI_CODEC="--enable-codec=amcodec"
-  else
-    KODI_OPENMAX="--disable-openmax"
-  fi
+fi
+if [ "$KODIPLAYER_DRIVER" = libamcodec ]; then
+  KODI_CONFIG="$KODI_CONFIG --enable-codec=amcodec"
 fi
 
 export CXX_FOR_BUILD="$HOST_CXX"
@@ -71,8 +68,6 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-debug \
                            --disable-optimizations \
                            --disable-gl \
-                           $KODI_OPENGLES \
-                           $KODI_OPENMAX \
                            --disable-vdpau \
                            --disable-vaapi \
                            --disable-vtbdecoder \
@@ -100,42 +95,28 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-airplay \
                            --disable-airtunes \
                            --enable-non-free \
-                           $KODI_WEBSERVER \
                            --disable-optical-drive \
                            --disable-libbluray \
                            --enable-texturepacker \
                            --with-ffmpeg=auto \
                            --disable-gtest \
-                           $KODI_CODEC"
-
-pre_configure_host() {
-  cd $ROOT/$PKG_BUILD
-  rm -rf .$HOST_NAME
-}
+                           $KODI_CONFIG"
 
 make_host() {
-  rm -rf tools/depends/native/JsonSchemaBuilder/native
-  rm -rf tools/depends/native/TexturePacker/native
   make -C tools/depends/native/JsonSchemaBuilder
   make -C tools/depends/native/TexturePacker
 }
 
 makeinstall_host() {
   cp -PR tools/depends/native/JsonSchemaBuilder/native/JsonSchemaBuilder $ROOT/$TOOLCHAIN/bin
-  rm -f $ROOT/$TOOLCHAIN/bin/TexturePacker
   cp -PR tools/depends/native/TexturePacker/native/TexturePacker $ROOT/$TOOLCHAIN/bin
-}
-
-pre_build_target() {
-  # autoreconf
-  BOOTSTRAP_STANDALONE=1 make -C $PKG_BUILD -f bootstrap.mk
 }
 
 pre_configure_target() {
   cd $ROOT/$PKG_BUILD
   rm -rf .$TARGET_NAME
 
-  export LIBS="$LIBS -lz"
+  BOOTSTRAP_STANDALONE=1 make -f bootstrap.mk
   export JSON_BUILDER=$ROOT/$TOOLCHAIN/bin/JsonSchemaBuilder
 }
 
