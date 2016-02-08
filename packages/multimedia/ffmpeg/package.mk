@@ -17,11 +17,10 @@
 ################################################################################
 
 PKG_NAME="ffmpeg"
-PKG_VERSION="2.8.6-Jarvis-rc2"
+PKG_VERSION="2.8.6"
 PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
-PKG_URL="https://github.com/xbmc/FFmpeg/archive/${PKG_VERSION}.tar.gz"
-PKG_SOURCE_DIR="FFmpeg-${PKG_VERSION}"
+PKG_URL="http://ffmpeg.org/releases/${PKG_NAME}-${PKG_VERSION}.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain zlib bzip2 libvorbis"
 PKG_SHORTDESC="FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video."
 
