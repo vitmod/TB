@@ -29,7 +29,7 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa bzip2 crossguid curl dbus ffmpeg"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET fontconfig freetype fribidi libass"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libogg libpng libvorbis"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxml2 libxslt lzo pcre Python sqlite"
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET systemd taglib tinyxml yajl zlib libsquish"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET systemd taglib tinyxml yajl zlib"
 
 if [ -n "$OPENGLES" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $OPENGLES"
