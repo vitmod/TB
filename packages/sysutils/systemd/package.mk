@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="systemd"
-PKG_VERSION="228"
+PKG_VERSION="229"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.freedesktop.org/wiki/Software/systemd"
 PKG_URL="https://github.com/systemd/systemd/archive/v$PKG_VERSION.tar.gz"
@@ -56,8 +56,8 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --disable-elfutils \
                            --disable-libcryptsetup \
                            --disable-qrencode \
-                           --disable-microhttpd \
                            --disable-gnutls \
+                           --disable-microhttpd \
                            --disable-libcurl \
                            --disable-libidn \
                            --disable-libiptc \
