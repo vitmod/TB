@@ -58,13 +58,12 @@ export CXXFLAGS_FOR_BUILD="$HOST_CXXFLAGS"
 export CFLAGS_FOR_BUILD="$HOST_CFLAGS"
 export LDFLAGS_FOR_BUILD="$HOST_LDFLAGS"
 
-export PYTHON_VERSION="2.7"
-export PYTHON_CPPFLAGS="-I$SYSROOT_PREFIX/usr/include/python$PYTHON_VERSION"
-export PYTHON_LDFLAGS="-L$SYSROOT_PREFIX/usr/lib/python$PYTHON_VERSION -lpython$PYTHON_VERSION"
-export PYTHON_SITE_PKG="$SYSROOT_PREFIX/usr/lib/python$PYTHON_VERSION/site-packages"
-export ac_python_version="$PYTHON_VERSION"
+export PYTHON_CPPFLAGS="-I$SYSROOT_PREFIX/usr/include/python2.7"
+export PYTHON_LDFLAGS="-L$SYSROOT_PREFIX/usr/lib/python2.7 -lpython2.7"
+export PYTHON_SITE_PKG="$SYSROOT_PREFIX/usr/lib/python2.7/site-packages"
 
 PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
+                           ac_python_version=2.7 \
                            --disable-debug \
                            --disable-optimizations \
                            --disable-gl \
@@ -132,9 +131,15 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin/xbmc
   rm -rf $INSTALL/usr/bin/xbmc-standalone
   rm -rf $INSTALL/usr/lib/kodi/*.cmake
+  rm -rf $INSTALL/usr/share/applications
+  rm -rf $INSTALL/usr/share/icons
+  rm -rf $INSTALL/usr/share/kodi/addons/service.xbmc.versioncheck
+  rm -rf $INSTALL/usr/share/kodi/addons/visualization.vortex
+  rm -rf $INSTALL/usr/share/xsessions
+  find $INSTALL/usr/share/kodi/addons/skin.confluence/media/ ! -name Textures.xbt -exec rm -f {} ";" 2>/dev/null
 
-  # more binaddons cross compile badness meh
-  sed -i -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR $SYSROOT_PREFIX/usr/include/kodi:g" $SYSROOT_PREFIX/usr/lib/kodi/kodi-config.cmake
+  mkdir -p $INSTALL/usr/bin
+  cp tools/EventClients/Clients/Kodi\ Send/kodi-send.py $INSTALL/usr/bin/kodi-send
 
   mkdir -p $INSTALL/usr/lib/kodi
   cp $PKG_DIR/scripts/kodi.sh $INSTALL/usr/lib/kodi
@@ -142,16 +147,8 @@ post_makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/openelec
   cp $PKG_DIR/scripts/systemd-addon-wrapper $INSTALL/usr/lib/openelec
 
-  mkdir -p $INSTALL/usr/bin
-  cp tools/EventClients/Clients/Kodi\ Send/kodi-send.py $INSTALL/usr/bin/kodi-send
-
-  find $INSTALL/usr/share/kodi/addons/skin.confluence/media/ ! -name Textures.xbt -exec rm -f {} ";" 2>/dev/null
-
-  rm -rf $INSTALL/usr/share/applications
-  rm -rf $INSTALL/usr/share/icons
-  rm -rf $INSTALL/usr/share/kodi/addons/service.xbmc.versioncheck
-  rm -rf $INSTALL/usr/share/kodi/addons/visualization.vortex
-  rm -rf $INSTALL/usr/share/xsessions
+  mkdir -p $INSTALL/usr/lib/python2.7/site-packages/kodi
+  cp -R tools/EventClients/lib/python/* $INSTALL/usr/lib/python2.7/site-packages/kodi
 
   mkdir -p $INSTALL/usr/share/kodi/addons
   cp -R $PKG_DIR/config/os.openelec.tv $INSTALL/usr/share/kodi/addons
@@ -159,14 +156,12 @@ post_makeinstall_target() {
   cp -R $PKG_DIR/config/repository.saraev.ca $INSTALL/usr/share/kodi/addons
   sed "s|@ADDON_URL@|$ADDON_URL|g" -i $INSTALL/usr/share/kodi/addons/repository.saraev.ca/addon.xml
 
-  mkdir -p $INSTALL/usr/lib/python"$PYTHON_VERSION"/site-packages/kodi
-  cp -R tools/EventClients/lib/python/* $INSTALL/usr/lib/python"$PYTHON_VERSION"/site-packages/kodi
-
-  mkdir -p $INSTALL/usr/share/kodi/system/
-  cp $PKG_DIR/config/advancedsettings.xml $INSTALL/usr/share/kodi/system/
-
   mkdir -p $INSTALL/usr/share/kodi/system/settings
+  cp $PKG_DIR/config/advancedsettings.xml $INSTALL/usr/share/kodi/system
   cp $PKG_DIR/config/appliance.xml $INSTALL/usr/share/kodi/system/settings
+
+  # more binaddons cross compile badness meh
+  sed -i -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR $SYSROOT_PREFIX/usr/include/kodi:g" $SYSROOT_PREFIX/usr/lib/kodi/kodi-config.cmake
 
   # TODO remove. use distro splash
   cp $DISTRO_DIR/$DISTRO/splash/splash.png $INSTALL/usr/share/kodi/media/Splash.png
@@ -175,10 +170,7 @@ post_makeinstall_target() {
 }
 
 post_install() {
-  # link default.target to kodi.target
   ln -sf kodi.target $INSTALL/usr/lib/systemd/system/default.target
-
-  # enable default services
   enable_service kodi-autostart.service
   enable_service kodi-waitonnetwork.service
   enable_service kodi.service
