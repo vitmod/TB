@@ -195,8 +195,6 @@ post_makeinstall_target() {
 
   ln -sf /run/systemd/resolve/resolv.conf $INSTALL/etc/resolv.conf
 
-  rm -rf $INSTALL/etc/sysctl.d
-  ln -sf /storage/.config/sysctl.d $INSTALL/etc/sysctl.d
   rm -rf $INSTALL/etc/udev/hwdb.d
   ln -sf /storage/.config/hwdb.d $INSTALL/etc/udev/hwdb.d
   rm -rf $INSTALL/etc/udev/rules.d
