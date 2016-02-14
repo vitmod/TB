@@ -1,17 +1,17 @@
-From b3af1f9aae25d7542f9652c5ebcf13ab49153b19 Mon Sep 17 00:00:00 2001
+From 75ea2f06c74914c2f3e5d48257aefd4c279e8659 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:12:49 +0300
-Subject: [PATCH 01/26] [tb] enable PYTHONOPTIMIZE with external Python
+Subject: [PATCH 01/25] [tb] enable PYTHONOPTIMIZE with external Python
 
 ---
  xbmc/interfaces/python/XBPython.cpp | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/xbmc/interfaces/python/XBPython.cpp b/xbmc/interfaces/python/XBPython.cpp
-index 788fa37..7b29b22 100644
+index 1b27903..c8de485 100644
 --- a/xbmc/interfaces/python/XBPython.cpp
 +++ b/xbmc/interfaces/python/XBPython.cpp
-@@ -568,10 +568,9 @@ bool XBPython::OnScriptInitialized(ILanguageInvoker *invoker)
+@@ -569,10 +569,9 @@ bool XBPython::OnScriptInitialized(ILanguageInvoker *invoker)
      // at http://docs.python.org/using/cmdline.html#environment-variables
  
  #if !defined(TARGET_WINDOWS) && !defined(TARGET_ANDROID)
@@ -29,10 +29,10 @@ index 788fa37..7b29b22 100644
 2.7.0
 
 
-From 7251d09dd62fffb86a5aa8e2164c3c2ae8fd42c3 Mon Sep 17 00:00:00 2001
+From 0fd0d0adfe4313813ae9a589ad6f36e54c667c63 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
-Subject: [PATCH 02/26] [tb] disable online check
+Subject: [PATCH 02/25] [tb] disable online check
 
 ---
  xbmc/GUIInfoManager.cpp              | 1 -
@@ -41,7 +41,7 @@ Subject: [PATCH 02/26] [tb] disable online check
  3 files changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/xbmc/GUIInfoManager.cpp b/xbmc/GUIInfoManager.cpp
-index 0a0cecd..c5244f9 100644
+index 798779c..0103ea3 100644
 --- a/xbmc/GUIInfoManager.cpp
 +++ b/xbmc/GUIInfoManager.cpp
 @@ -298,7 +298,6 @@ const infomap system_labels[] =  {{ "hasnetwork",       SYSTEM_ETHERNET_LINK_ACT
@@ -91,10 +91,10 @@ index 4184db0..0cd539e 100644
 2.7.0
 
 
-From 84b112706020a3877172c2547ccfcd78cfdd7806 Mon Sep 17 00:00:00 2001
+From f74dc779ad803f842ec417ca3cfcb43756ad3f1a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 03/26] [tb] make binary addons executable
+Subject: [PATCH 03/25] [tb] make binary addons executable
 
 add executable mode to all files in addon's bin folder
 
@@ -104,7 +104,7 @@ credits to vpeter4 for the patch
  1 file changed, 26 insertions(+)
 
 diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
-index f437306..2c31f3c 100644
+index 897b4f9..d8e5f0b 100644
 --- a/xbmc/addons/Addon.cpp
 +++ b/xbmc/addons/Addon.cpp
 @@ -50,6 +50,10 @@
@@ -118,7 +118,7 @@ index f437306..2c31f3c 100644
  using XFILE::CDirectory;
  using XFILE::CFile;
  
-@@ -679,6 +683,28 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
+@@ -472,6 +476,28 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
    if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_REPOSITORY))
      CRepositoryUpdater::GetInstance().ScheduleUpdate(); //notify updater there is a new addon or version
  
@@ -151,10 +151,10 @@ index f437306..2c31f3c 100644
 2.7.0
 
 
-From 54bd600b9038e48d3241fb90dd4bf8b6d5815b87 Mon Sep 17 00:00:00 2001
+From e32d4fa6693178c3f8fc7a3fda6aae76fd2b8e31 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 04/26] [tb] disable minimize
+Subject: [PATCH 04/25] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
@@ -176,10 +176,10 @@ index 6b5815f..d976092 100644
 2.7.0
 
 
-From 59e9e599ca285bf48684e88c798c28e172f8be6a Mon Sep 17 00:00:00 2001
+From 17b951c0bfc2d01f9c42cfab878ebe9baeaeee72 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 05/26] [tb] setup timezone
+Subject: [PATCH 05/25] [tb] setup timezone
 
 on TZ country setting change, store the value in format
 TIMEZONE=Xx/Yyy to /storage/.cache/timezone to be used with
@@ -222,21 +222,21 @@ index ea44d40..b780e62 100644
 2.7.0
 
 
-From 5147290bba63380abc5ab176bc98bb1866c434a5 Mon Sep 17 00:00:00 2001
+From 44e42cb83af23f997b623029c0dc1016c186b285 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 06/26] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 06/25] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
- xbmc/addons/Addon.h   |  2 ++
- 2 files changed, 32 insertions(+)
+ xbmc/addons/Addon.h   |  1 +
+ 2 files changed, 31 insertions(+)
 
 diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
-index 2c31f3c..e7658fa 100644
+index d8e5f0b..6e9e12c 100644
 --- a/xbmc/addons/Addon.cpp
 +++ b/xbmc/addons/Addon.cpp
-@@ -623,6 +623,13 @@ AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
+@@ -416,6 +416,13 @@ AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
    return AddonVersion("0.0.0");
  }
  
@@ -250,7 +250,7 @@ index 2c31f3c..e7658fa 100644
  void OnEnabled(const std::string& id)
  {
    // If the addon is a special, call enabled handler
-@@ -631,6 +638,11 @@ void OnEnabled(const std::string& id)
+@@ -424,6 +431,11 @@ void OnEnabled(const std::string& id)
        CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_ADSPDLL))
      return addon->OnEnabled();
  
@@ -262,7 +262,7 @@ index 2c31f3c..e7658fa 100644
    if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE))
      std::static_pointer_cast<CService>(addon)->Start();
  
-@@ -651,6 +663,11 @@ void OnDisabled(const std::string& id)
+@@ -444,6 +456,11 @@ void OnDisabled(const std::string& id)
    if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE, false))
      std::static_pointer_cast<CService>(addon)->Stop();
  
@@ -274,7 +274,7 @@ index 2c31f3c..e7658fa 100644
    if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_CONTEXT_ITEM, false))
      CContextMenuManager::GetInstance().Unregister(std::static_pointer_cast<CContextMenuAddon>(addon));
  }
-@@ -674,6 +691,14 @@ void OnPreInstall(const AddonPtr& addon)
+@@ -467,6 +484,14 @@ void OnPreInstall(const AddonPtr& addon)
  void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
  {
    AddonPtr localAddon;
@@ -289,7 +289,7 @@ index 2c31f3c..e7658fa 100644
    if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_SERVICE))
      std::static_pointer_cast<CService>(localAddon)->Start();
  
-@@ -711,6 +736,11 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
+@@ -504,6 +529,11 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
  void OnPreUnInstall(const AddonPtr& addon)
  {
    AddonPtr localAddon;
@@ -302,26 +302,25 @@ index 2c31f3c..e7658fa 100644
      std::static_pointer_cast<CService>(localAddon)->Stop();
  
 diff --git a/xbmc/addons/Addon.h b/xbmc/addons/Addon.h
-index dc638ea..c46804e 100644
+index 7bbad65..03dc5b6 100644
 --- a/xbmc/addons/Addon.h
 +++ b/xbmc/addons/Addon.h
-@@ -170,6 +170,8 @@ public:
+@@ -171,6 +171,7 @@ public:
    const InfoMap &ExtraInfo() const { return m_props.extrainfo; }
    const ADDONDEPS &GetDeps() const { return m_props.dependencies; }
  
 +  void CallOEWrapper(const std::string& ID, bool disable);
-+
+ 
    /*! \brief get the required version of a dependency.
     \param dependencyID the addon ID of the dependency.
-    \return the version this addon requires.
 -- 
 2.7.0
 
 
-From 8aad47fadb7db6a05784d3d8ee55fafe52444b66 Mon Sep 17 00:00:00 2001
+From 416d2de758605d011b8359b253a7a11760d19bfd Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 07/26] [tb] handle SIGTERM
+Subject: [PATCH 07/25] [tb] handle SIGTERM
 
 0. CApplication::Stop cant be trusted. (deadlocks crashes and boo)
 
@@ -477,10 +476,10 @@ index b6b7035..9e7309b 100644
 2.7.0
 
 
-From fadff5c2308bd73b5f4dff146d40059bc2140ae8 Mon Sep 17 00:00:00 2001
+From 82240136e5fcf0dbb7d1e838cd3c377a7945b771 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:45:54 +0300
-Subject: [PATCH 08/26] [tb] prevent kodi switching to windowed mode
+Subject: [PATCH 08/25] [tb] prevent kodi switching to windowed mode
 
 ---
  xbmc/windowing/X11/WinSystemX11.h | 1 +
@@ -502,10 +501,10 @@ index 7edddbc..1db131e 100644
 2.7.0
 
 
-From a4a6d78f6a08d635353a11bf17d10f7b060571aa Mon Sep 17 00:00:00 2001
+From 3667c851136cb064ac3788f36133a237dc1e9ee8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
-Subject: [PATCH 09/26] [tb] udevprovider: filter out OE specific mounts
+Subject: [PATCH 09/25] [tb] udevprovider: filter out OE specific mounts
 
 ---
  xbmc/storage/linux/UDevProvider.cpp | 14 ++++++++++++++
@@ -540,10 +539,10 @@ index 6fda5a5..525e6b7 100644
 2.7.0
 
 
-From c1d59025a37dac8a2f586b8faed3c756ab72512f Mon Sep 17 00:00:00 2001
+From 162fe071d69fdb0b9b3ddf91fc8d42c5741acb0f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
-Subject: [PATCH 10/26] [tb] our ffmpeg is doing well
+Subject: [PATCH 10/25] [tb] our ffmpeg is doing well
 
 ---
  xbmc/Application.cpp | 7 -------
@@ -571,10 +570,10 @@ index ce1134a..799e5aa 100644
 2.7.0
 
 
-From c1d0ce95d7c9e758105cf151dd4f9cf21fd366ab Mon Sep 17 00:00:00 2001
+From 1135e562db9270f5762ed29b0024f0dd51928057 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
-Subject: [PATCH 11/26] [tb] meh addon sonames
+Subject: [PATCH 11/25] [tb] meh addon sonames
 
 ---
  project/cmake/scripts/common/addon-helpers.cmake | 3 +++
@@ -598,10 +597,10 @@ index 9541df4..9e2e398 100644
 2.7.0
 
 
-From 102e6cbe908023f028dc1054daa32019db2b7e31 Mon Sep 17 00:00:00 2001
+From 8a7db4f3e5de648d44dc57a6d83cbfae424bdfac Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 10 Nov 2015 14:27:27 +0200
-Subject: [PATCH 12/26] [tb] bye dcadec
+Subject: [PATCH 12/25] [tb] bye dcadec
 
 ---
  Makefile.in  | 2 +-
@@ -637,10 +636,10 @@ index c217029..f2382e7 100644
 2.7.0
 
 
-From b18cbf0213427d57adc1b980ee52c524d05430b7 Mon Sep 17 00:00:00 2001
+From b09e1c81b113a865a64915bc4ba2e06d198e8a8f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 13/26] [tb] sledgehammer. fix crash while importing channels
+Subject: [PATCH 13/25] [tb] sledgehammer. fix crash while importing channels
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -666,10 +665,10 @@ index aef2fa2..e3e0214 100644
 2.7.0
 
 
-From fee81826c107710bc90e4869fe891501ce6e79f5 Mon Sep 17 00:00:00 2001
+From 9f79d3447fe71d79a868728e3df5467e50254c0f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
-Subject: [PATCH 14/26] [tb] meh past epg data
+Subject: [PATCH 14/25] [tb] meh past epg data
 
 ---
  xbmc/pvr/windows/GUIWindowPVRGuide.cpp | 2 +-
@@ -692,10 +691,10 @@ index a4156aa..f4419cf 100644
 2.7.0
 
 
-From 57a99bb7fb449219861c0e73be1068f988e775ca Mon Sep 17 00:00:00 2001
+From 2d2da735ca5f9fa2c59bb694abf28ab322c3da78 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Wed, 16 Apr 2014 22:02:01 +0300
-Subject: [PATCH 15/26] [aml] Fix ALSA sound output for Amlogic-based devices.
+Subject: [PATCH 15/25] [aml] Fix ALSA sound output for Amlogic-based devices.
 
 ---
  xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp | 19 +++++++++++++++++++
@@ -748,10 +747,10 @@ index fbccce0..6bf2c53 100644
 2.7.0
 
 
-From 5f6e71d910e30515cb4e792c0f6cc1bdb744ea2c Mon Sep 17 00:00:00 2001
+From 6b1df2a425cb307cde255e7b760d4b434e21446e Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Fri, 19 Sep 2014 01:55:12 +0300
-Subject: [PATCH 16/26] [aml] Change the sample rates that are supported by
+Subject: [PATCH 16/25] [aml] Change the sample rates that are supported by
  ALSA but unsupported by HDMI to the closest supported value
 
 ---
@@ -793,10 +792,10 @@ index 6bf2c53..32ab888 100644
 2.7.0
 
 
-From 52fa2214455dbaf2b17a492491d103f06a793ec0 Mon Sep 17 00:00:00 2001
+From c823d19c5f0cbcb878bcf73d3085624b30d9b6a4 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 17/26] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 17/25] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -823,10 +822,10 @@ index 7460457..4e09342 100644
 2.7.0
 
 
-From 3ebdb214cf3eb2c3994f13e359143bca7a88072f Mon Sep 17 00:00:00 2001
+From 608584c5ea0dfb554c55edf2cf2bd13510aacca6 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 3 Feb 2015 17:58:19 +0100
-Subject: [PATCH 18/26] [aml] Disable deinterlacing for HD content while video
+Subject: [PATCH 18/25] [aml] Disable deinterlacing for HD content while video
  is being played in a window
 
 ... to prevent screen blinking in 1080p50/60hz display modes
@@ -854,10 +853,10 @@ index e9c73ac..5771909 100644
 2.7.0
 
 
-From 19f87357bc5d25ff3245f03130d4945ede6fc19d Mon Sep 17 00:00:00 2001
+From 333dc65db192b67aa9a00207fc9ffca2fa3d6e65 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Mon, 2 Mar 2015 09:48:14 +0100
-Subject: [PATCH 19/26] [aml] Fix stuttering during a playback of a video with
+Subject: [PATCH 19/25] [aml] Fix stuttering during a playback of a video with
  23.976 FPS
 
 ---
@@ -881,10 +880,10 @@ index 5771909..2034c4d 100644
 2.7.0
 
 
-From 2d9af0dafd8f1086a9e7cd6990dbd7344848106a Mon Sep 17 00:00:00 2001
+From 3ae06b01c3c7229b7cdc80e1c227e54542dbeb1e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
-Subject: [PATCH 20/26] [wetek] fix compiler badness when compiling with
+Subject: [PATCH 20/25] [wetek] fix compiler badness when compiling with
  amcodec
 
 ---
@@ -908,10 +907,10 @@ index 7880c06..bd083b7 100644
 2.7.0
 
 
-From 772ac28c32705de1dee77ddf7dc0f834d4744832 Mon Sep 17 00:00:00 2001
+From 6fbf3b36e7ff7f45a15727cfa9d989acad14c1ba Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:25:44 +0200
-Subject: [PATCH 21/26] [wetek] perform suspend instead of powerdown
+Subject: [PATCH 21/25] [wetek] perform suspend instead of powerdown
 
 ---
  system/keymaps/keyboard.xml                        | 2 +-
@@ -957,37 +956,10 @@ index 4e5bcc6..ad5847d 100644
 2.7.0
 
 
-From 74684f80fcc39d6d44f17171c5bb6c4c25f1e8aa Mon Sep 17 00:00:00 2001
-From: "Chris \\\"Koying\\\" Browet" <cbro@semperpax.com>
-Date: Fri, 19 Dec 2014 12:30:04 +0100
-Subject: [PATCH 22/26] [aml] FIX: [renderer] hide meaningless skips from users
-
----
- xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
-index e28c625..22a15df 100644
---- a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
-+++ b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
-@@ -1410,7 +1410,8 @@ void CRenderManager::PrepareNextRender()
-     while(m_queued.front() != idx)
-     {
-       requeue(m_discard, m_queued);
--      m_QueueSkip++;
-+      if (m_format != RENDER_FMT_AML)  // skips scares users ;)
-+        m_QueueSkip++;
-     }
- 
-     m_presentstep   = PRESENT_FLIP;
--- 
-2.7.0
-
-
-From 765482c1cce9c3bfab35f846afb704066b3926b2 Mon Sep 17 00:00:00 2001
+From d145ebf5f76f30776a80b824bf2f1a34781a806b Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
-Subject: [PATCH 23/26] [aml] Ugly workaround to show DTS/AC3 caps
+Subject: [PATCH 22/25] [aml] Ugly workaround to show DTS/AC3 caps
 
 ... but don't run into multi channel issues as we can only open 2 pcm channels
 ---
@@ -1015,10 +987,10 @@ index 32ab888..d4eb0be 100644
 2.7.0
 
 
-From f267c877f16c43ead5081ac6d997a10b410ed57b Mon Sep 17 00:00:00 2001
+From 2388fa94db26295d06e1345c0847293eee8b2601 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
-Subject: [PATCH 24/26] [aml] prefer libamcodec.so
+Subject: [PATCH 23/25] [aml] prefer libamcodec.so
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 6 +++---
@@ -1052,10 +1024,10 @@ index 2034c4d..0bb627f 100644
 2.7.0
 
 
-From 118284b0ed267b153d75554045156f6d277cd7b5 Mon Sep 17 00:00:00 2001
+From 41062cd450770e4ca8b15ea5d4f6f118f1b54e80 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
-Subject: [PATCH 25/26] TEMP: [aml] use software decoding for sd
+Subject: [PATCH 24/25] TEMP: [aml] use software decoding for sd
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
@@ -1087,10 +1059,10 @@ index ed6bd67..2025065 100644
 2.7.0
 
 
-From e1d461add325011fdc0795709052fff01f74fdbe Mon Sep 17 00:00:00 2001
+From d0341270c9f40a971defe1ae1c56c595c10f070f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Jan 2016 20:37:31 +0200
-Subject: [PATCH 26/26] TEMP: volume steps
+Subject: [PATCH 25/25] TEMP: volume steps
 
 ---
  xbmc/Application.h | 2 +-
