@@ -18,8 +18,4 @@
 if [ ! -f /storage/.cache/hostname ] ; then
   cat /proc/sys/kernel/hostname > /storage/.cache/hostname
 fi
-HOSTNAME=$(cat /storage/.cache/hostname)
-cat /storage/.cache/hostname > /proc/sys/kernel/hostname
-cat /storage/.config/hosts.conf > /etc/hosts
-echo "127.0.0.1 localhost $HOSTNAME" >> /etc/hosts
-echo "::1       localhost ip6-localhost ip6-loopback $HOSTNAME" >> /etc/hosts
+hostname $(cat /storage/.cache/hostname)

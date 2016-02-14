@@ -95,9 +95,7 @@ makeinstall_target() {
 
   mkdir -p $INSTALL/etc
   cp $PKG_DIR/config/profile $INSTALL/etc
-
-  mkdir -p $INSTALL/usr/config
-  cp $PKG_DIR/config/hosts.conf $INSTALL/usr/config
+  cp $PKG_DIR/config/hosts $INSTALL/etc
 
   # /etc/fstab is needed by...
   touch $INSTALL/etc/fstab
@@ -107,9 +105,6 @@ makeinstall_target() {
 
   # /etc/mtab is needed by e2fsprogs
   ln -sf /proc/self/mounts $INSTALL/etc/mtab
-
-  # /etc/hosts must be writeable
-  ln -sf /var/cache/hosts $INSTALL/etc/hosts
 
   # create /etc/hostname
   ln -sf /storage/.cache/hostname $INSTALL/etc/hostname
