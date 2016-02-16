@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.hts"
-PKG_VERSION="95b98ab"
+PKG_VERSION="0814da4"
 PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
