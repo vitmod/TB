@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.vdr.vnsi"
-PKG_VERSION="894555c"
+PKG_VERSION="2089549"
 PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
