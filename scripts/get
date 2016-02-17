@@ -36,7 +36,6 @@ if [ -n "$PKG_URL" ]; then
   SOURCE_NAME="`basename $PKG_URL`"
   PACKAGE="$SOURCES/$1/$SOURCE_NAME"
   PACKAGE_MIRROR="$DISTRO_MIRROR/$PKG_NAME/$SOURCE_NAME"
-  PACKAGE_ALT="$DISTRO_ALT_SRC/$SOURCE_NAME"
   WGET_CMD="wget --timeout=30 --no-check-certificate -c -nv --show-progress -P $SOURCES/$1"
   STAMP="$PACKAGE.url"
 
@@ -58,7 +57,7 @@ if [ -n "$PKG_URL" ]; then
   fi
 
   NBWGET="1"
-  until [ -f "$STAMP" ] || $WGET_CMD $PKG_URL || $WGET_CMD $PACKAGE_MIRROR || $WGET_CMD $PACKAGE_ALT ; do
+  until [ -f "$STAMP" ] || $WGET_CMD $PKG_URL || $WGET_CMD $PACKAGE_MIRROR ; do
     NBWGET=$(($NBWGET+1))
     if [ "$NBWGET" -gt "5" ]; then
       echo -e "\nCant't get $1 sources : $PKG_URL\n Try later !!"

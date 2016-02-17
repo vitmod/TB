@@ -13,7 +13,6 @@
 # Distribution Specific source location
   DISTRO_MIRROR="http://sources.openelec.tv/mirror"
   DISTRO_SRC="http://sources.openelec.tv/$OPENELEC_VERSION"
-  DISTRO_ALT_SRC="http://saraev.ca/openelec"
   SOURCEFORGE_SRC="http://prdownloads.sourceforge.net"
 
 # addons
