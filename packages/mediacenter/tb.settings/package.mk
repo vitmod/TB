@@ -14,10 +14,10 @@
 ################################################################################
 
 PKG_NAME="tb.settings"
-PKG_VERSION="0.0.1"
+PKG_VERSION="991aa62"
 PKG_LICENSE="GPLv2"
-PKG_SITE="http://www.openelec.tv"
-PKG_URL="http://saraev.ca/openelec/$PKG_NAME-$PKG_VERSION.tar.gz"
+PKG_SITE="git+https://github.com/stefansaraev/tb.settings.git"
+PKG_URL="http://saraev.ca/openelec/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="tb.settings: settings dialog"
 
