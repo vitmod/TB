@@ -19,7 +19,7 @@
 PKG_NAME="kodi"
 PKG_VERSION="17.0-alpha1-30d35be"
 PKG_LICENSE="GPL"
-PKG_SITE="http://www.kodi.tv"
+PKG_SITE="git+https://github.com/xbmc/xbmc.git"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain kodi:host swig:host"
 PKG_DEPENDS_HOST="lzo:host libpng:host libjpeg-turbo:host giflib:host"
@@ -100,6 +100,19 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --with-ffmpeg=auto \
                            --disable-gtest \
                            $KODI_CONFIG"
+
+pre_package() {
+  GIT_HASH=`git log -n1 --format=%h`
+  VERSION_MAJOR=$(grep ^VERSION_MAJOR version.txt | cut -d" " -f2)
+  VERSION_MINOR=$(grep ^VERSION_MINOR version.txt | cut -d" " -f2)
+  VERSION_TAG=$(grep ^VERSION_TAG version.txt | cut -d" " -f2 | tr A-Z a-z)
+  PKG_VERSION="17.0-alpha1-c58fd4e"
+  # hack: empty version tag on release builds:
+  if [ "$VERSION_TAG" = "version_tag" ] ; then
+    PKG_VERSION="17.0-alpha1-c58fd4e"
+  fi
+  export REV=$PKG_VERSION
+}
 
 make_host() {
   make -C tools/depends/native/JsonSchemaBuilder
