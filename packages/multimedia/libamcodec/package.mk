@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="libamcodec"
-PKG_VERSION="45a1086"
+PKG_VERSION="5e23a81"
 PKG_LICENSE="other"
 PKG_SITE="git+https://github.com/codesnake/libamcodec.git"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
