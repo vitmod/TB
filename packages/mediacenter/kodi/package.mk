@@ -173,6 +173,16 @@ post_makeinstall_target() {
   cp $PKG_DIR/config/advancedsettings.xml $INSTALL/usr/share/kodi/system
   cp $PKG_DIR/config/appliance.xml $INSTALL/usr/share/kodi/system/settings
 
+  # update addon manifest
+  xmlstarlet ed -L -d "/addons/addon[text()='service.xbmc.versioncheck']" \
+    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
+  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "os.openelec.tv" \
+    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
+  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "repository.saraev.ca" \
+    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
+  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "tb.settings" \
+    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
+
   # more binaddons cross compile badness meh
   sed -i -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR $SYSROOT_PREFIX/usr/include/kodi:g" $SYSROOT_PREFIX/usr/lib/kodi/kodi-config.cmake
 
