@@ -1,0 +1,129 @@
+#!/bin/sh
+################################################################################
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+usage() {
+  echo "  usage: '$0 -l' to list packages"
+  echo "         '$0 -a' to update all packagegs"
+  echo "         '$0 PKG_NAME' to creaet package tar"
+}
+
+if [ -z "$1" ] ; then
+  usage
+  exit 0
+fi
+
+if [ "$1" == "-l" ] ; then
+  for i in `find packages/ -type f -name package.mk | sort`; do
+    GET_PKG=`grep ^PKG_NAME= $i | sed -e "s,\",,g" -e "s,PKG_NAME=,,"`
+    GET_SITE=`grep ^PKG_SITE= $i | sed -e "s,\",,g" -e "s,PKG_SITE=,,"`
+    GET_REPO=$(echo $GET_SITE | grep ^git+ | awk -F '+' '{print $2}')
+    if [ -z "$GET_REPO" ] ; then
+      GET_REPO=$(echo $GET_SITE | grep ^svn+ | awk -F '+' '{print $2}')
+    fi
+    if [ -n "$GET_REPO" ] ; then
+      METHOD=$(echo $GET_SITE | grep -E '^git|svn' | awk -F '+' '{print $1}')
+      printf "* %-32s %-6s %s\n" $GET_PKG "($METHOD)" $GET_REPO
+    fi
+  done
+  exit 0
+fi
+
+if [ "$1" == "-a" ] ; then
+  for i in `find packages/ -type f -name package.mk | sort`; do
+    GET_PKG=`grep ^PKG_NAME= $i | sed -e "s,\",,g" -e "s,PKG_NAME=,,"`
+    GET_SITE=`grep ^PKG_SITE= $i | sed -e "s,\",,g" -e "s,PKG_SITE=,,"`
+    GET_REPO=$(echo $GET_SITE | grep ^git+ | awk -F '+' '{print $2}')
+    if [ -z "$GET_REPO" ] ; then
+      GET_REPO=$(echo $GET_SITE | grep ^svn+ | awk -F '+' '{print $2}')
+    fi
+    if [ -n "$GET_REPO" ] ; then
+      $0 $GET_PKG
+    fi
+  done
+  exit 0
+fi
+
+. config/options
+
+REPO=$(echo $PKG_SITE | grep -E '^git|svn' | awk -F '+' '{print $2}')
+METHOD=$(echo $PKG_SITE | grep -E '^git|svn' | awk -F '+' '{print $1}')
+
+if [ -n "$2" ] ; then
+  FORCED_REV="$2"
+fi
+
+if [ -n "$REPO" ] ; then
+  mkdir -p .work/sources
+  cd .work/sources
+  echo "[mkpkg] Checking out $REPO ..."
+  if [ ! -d $PKG_NAME.$METHOD ]; then
+    git clone $REPO -b master $PKG_NAME.$METHOD &>/dev/null
+  fi
+
+  cd $PKG_NAME.$METHOD
+    if [ "$METHOD" = "git" ] ; then
+      git checkout master
+      git pull
+      if [ -n "$FORCED_REV" ] ; then
+        REV=`git log $2 -n1 --format=%h`
+        git branch -D "ref-$REV" &>/dev/null || :
+        git checkout "$FORCED_REV" -b "ref-$REV" || exit 1
+      fi
+      REV=`git log -n1 --format=%h`
+      if [ "$(type -t pre_package)" = "function" ]; then
+        pre_package
+      fi
+    fi
+    if [ "$METHOD" = "svn" ] ; then
+      svn up
+      if [ -n "$FORCED_REV" ] ; then
+        svn up -r"$FORCED_REV" || exit 1
+      fi
+      REV=`LANG=C svn info 2>/dev/null | grep Revision: | sed -e 's/.*\: //'`
+      if [ "$(type -t pre_package)" = "function" ]; then
+        pre_package
+      fi
+    fi
+  cd ..
+
+  TAR="$ROOT/$SOURCES/$PKG_NAME/$PKG_NAME-$REV.tar.xz"
+  if [ ! -e $TAR ] ; then
+    mkdir -p $ROOT/$SOURCES/$PKG_NAME
+    echo "[mkpkg] Copying sources: $PKG_NAME-$REV ..."
+    rm -rf $PKG_NAME-$REV
+    cp -R $PKG_NAME.$METHOD $PKG_NAME-$REV
+
+    echo "[mkpkg] Cleaning $PKG_NAME-$REV ..."
+    rm -rf $PKG_NAME-$REV/.git
+    find $PKG_NAME-$REV -iname .svn -exec rm -rf {} \; &>/dev/null || :
+
+    echo "[mkpkg] => Packaging $TAR ..."
+    tar cvJf $TAR $PKG_NAME-$REV &>/dev/null
+    echo $PKG_URL > $TAR.url
+  else
+    echo "[mkpkg] $TAR already exists ..."
+  fi
+
+  if [ ! "$PKG_VERSION" = "$REV" ] ; then
+    echo "[mkpkg] Updating $PKG_DIR/package.mk"
+    sed -i "s|PKG_VERSION=.*|PKG_VERSION=\"$REV\"|g" $PKG_DIR/package.mk
+  fi
+
+  echo "[mkpkg] Cleaning up $PKG_NAME-$REV sources ..."
+  rm -rf $PKG_NAME-$REV
+else
+  exit 1
+fi
