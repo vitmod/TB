@@ -1,4 +1,4 @@
-From 75ea2f06c74914c2f3e5d48257aefd4c279e8659 Mon Sep 17 00:00:00 2001
+From 762c32383b29291a2dc8d01f56ec30c65727b469 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:12:49 +0300
 Subject: [PATCH 01/25] [tb] enable PYTHONOPTIMIZE with external Python
@@ -29,7 +29,7 @@ index 1b27903..c8de485 100644
 2.7.0
 
 
-From 0fd0d0adfe4313813ae9a589ad6f36e54c667c63 Mon Sep 17 00:00:00 2001
+From ba2e1332ff98a77c80926189f15f3a9025e2c9e4 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
 Subject: [PATCH 02/25] [tb] disable online check
@@ -91,7 +91,7 @@ index 4184db0..0cd539e 100644
 2.7.0
 
 
-From f74dc779ad803f842ec417ca3cfcb43756ad3f1a Mon Sep 17 00:00:00 2001
+From fd114bb0b22192a109a555d1139b3f945d4ac2a7 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
 Subject: [PATCH 03/25] [tb] make binary addons executable
@@ -104,7 +104,7 @@ credits to vpeter4 for the patch
  1 file changed, 26 insertions(+)
 
 diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
-index 897b4f9..d8e5f0b 100644
+index 5864561..c846842 100644
 --- a/xbmc/addons/Addon.cpp
 +++ b/xbmc/addons/Addon.cpp
 @@ -50,6 +50,10 @@
@@ -118,7 +118,7 @@ index 897b4f9..d8e5f0b 100644
  using XFILE::CDirectory;
  using XFILE::CFile;
  
-@@ -472,6 +476,28 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
+@@ -455,6 +459,28 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
    if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_REPOSITORY))
      CRepositoryUpdater::GetInstance().ScheduleUpdate(); //notify updater there is a new addon or version
  
@@ -151,7 +151,7 @@ index 897b4f9..d8e5f0b 100644
 2.7.0
 
 
-From e32d4fa6693178c3f8fc7a3fda6aae76fd2b8e31 Mon Sep 17 00:00:00 2001
+From b049ef63b58e48665b818a47cc84df6d5311f324 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
 Subject: [PATCH 04/25] [tb] disable minimize
@@ -176,7 +176,7 @@ index 6b5815f..d976092 100644
 2.7.0
 
 
-From 17b951c0bfc2d01f9c42cfab878ebe9baeaeee72 Mon Sep 17 00:00:00 2001
+From b518a30e5a1d74c1bcd043502ed09a7c78aa5f12 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
 Subject: [PATCH 05/25] [tb] setup timezone
@@ -222,7 +222,7 @@ index ea44d40..b780e62 100644
 2.7.0
 
 
-From 44e42cb83af23f997b623029c0dc1016c186b285 Mon Sep 17 00:00:00 2001
+From b6bdbf9ca2046b3c09e05950c6e681266f92a0ac Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
 Subject: [PATCH 06/25] [tb] use a wrapper to setup systemd services
@@ -233,10 +233,10 @@ Subject: [PATCH 06/25] [tb] use a wrapper to setup systemd services
  2 files changed, 31 insertions(+)
 
 diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
-index d8e5f0b..6e9e12c 100644
+index c846842..972f387 100644
 --- a/xbmc/addons/Addon.cpp
 +++ b/xbmc/addons/Addon.cpp
-@@ -416,6 +416,13 @@ AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
+@@ -399,6 +399,13 @@ AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
    return AddonVersion("0.0.0");
  }
  
@@ -250,7 +250,7 @@ index d8e5f0b..6e9e12c 100644
  void OnEnabled(const std::string& id)
  {
    // If the addon is a special, call enabled handler
-@@ -424,6 +431,11 @@ void OnEnabled(const std::string& id)
+@@ -407,6 +414,11 @@ void OnEnabled(const std::string& id)
        CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_ADSPDLL))
      return addon->OnEnabled();
  
@@ -262,7 +262,7 @@ index d8e5f0b..6e9e12c 100644
    if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE))
      std::static_pointer_cast<CService>(addon)->Start();
  
-@@ -444,6 +456,11 @@ void OnDisabled(const std::string& id)
+@@ -427,6 +439,11 @@ void OnDisabled(const std::string& id)
    if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE, false))
      std::static_pointer_cast<CService>(addon)->Stop();
  
@@ -274,7 +274,7 @@ index d8e5f0b..6e9e12c 100644
    if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_CONTEXT_ITEM, false))
      CContextMenuManager::GetInstance().Unregister(std::static_pointer_cast<CContextMenuAddon>(addon));
  }
-@@ -467,6 +484,14 @@ void OnPreInstall(const AddonPtr& addon)
+@@ -450,6 +467,14 @@ void OnPreInstall(const AddonPtr& addon)
  void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
  {
    AddonPtr localAddon;
@@ -289,7 +289,7 @@ index d8e5f0b..6e9e12c 100644
    if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_SERVICE))
      std::static_pointer_cast<CService>(localAddon)->Start();
  
-@@ -504,6 +529,11 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
+@@ -487,6 +512,11 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
  void OnPreUnInstall(const AddonPtr& addon)
  {
    AddonPtr localAddon;
@@ -302,10 +302,10 @@ index d8e5f0b..6e9e12c 100644
      std::static_pointer_cast<CService>(localAddon)->Stop();
  
 diff --git a/xbmc/addons/Addon.h b/xbmc/addons/Addon.h
-index 7bbad65..03dc5b6 100644
+index becf556..4b18970 100644
 --- a/xbmc/addons/Addon.h
 +++ b/xbmc/addons/Addon.h
-@@ -171,6 +171,7 @@ public:
+@@ -167,6 +167,7 @@ public:
    const InfoMap &ExtraInfo() const { return m_props.extrainfo; }
    const ADDONDEPS &GetDeps() const { return m_props.dependencies; }
  
@@ -317,7 +317,7 @@ index 7bbad65..03dc5b6 100644
 2.7.0
 
 
-From 416d2de758605d011b8359b253a7a11760d19bfd Mon Sep 17 00:00:00 2001
+From 5bc401ac5e9d727bb0fd9e4baf6d0508ed1bdfe5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
 Subject: [PATCH 07/25] [tb] handle SIGTERM
@@ -476,7 +476,7 @@ index b6b7035..9e7309b 100644
 2.7.0
 
 
-From 82240136e5fcf0dbb7d1e838cd3c377a7945b771 Mon Sep 17 00:00:00 2001
+From fde3f2bcbadc4c14af760ede1e401d5f8bad6a79 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:45:54 +0300
 Subject: [PATCH 08/25] [tb] prevent kodi switching to windowed mode
@@ -501,7 +501,7 @@ index 7edddbc..1db131e 100644
 2.7.0
 
 
-From 3667c851136cb064ac3788f36133a237dc1e9ee8 Mon Sep 17 00:00:00 2001
+From c302a0f5160219eb996eaaa71fe0e60d26af19ca Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
 Subject: [PATCH 09/25] [tb] udevprovider: filter out OE specific mounts
@@ -539,7 +539,7 @@ index 6fda5a5..525e6b7 100644
 2.7.0
 
 
-From 162fe071d69fdb0b9b3ddf91fc8d42c5741acb0f Mon Sep 17 00:00:00 2001
+From bdf8c4874d9845a1ab6e102ad1770c0ef15f04c8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
 Subject: [PATCH 10/25] [tb] our ffmpeg is doing well
@@ -570,7 +570,7 @@ index ce1134a..799e5aa 100644
 2.7.0
 
 
-From 1135e562db9270f5762ed29b0024f0dd51928057 Mon Sep 17 00:00:00 2001
+From cebd5d5993dfcb3fdc9be6d54159fbc997079fd2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
 Subject: [PATCH 11/25] [tb] meh addon sonames
@@ -597,7 +597,7 @@ index 9541df4..9e2e398 100644
 2.7.0
 
 
-From 8a7db4f3e5de648d44dc57a6d83cbfae424bdfac Mon Sep 17 00:00:00 2001
+From 4a20099c04c07e33477792f5320dd4552aea92ce Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 10 Nov 2015 14:27:27 +0200
 Subject: [PATCH 12/25] [tb] bye dcadec
@@ -621,7 +621,7 @@ index 8a06e6f..d038610 100644
  $(FFMPEGOBJS): dvdpcodecs
  endif
 diff --git a/configure.ac b/configure.ac
-index c217029..f2382e7 100644
+index 9a22b6c..a3b03ed 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -972,7 +972,6 @@ fi
@@ -636,7 +636,7 @@ index c217029..f2382e7 100644
 2.7.0
 
 
-From b09e1c81b113a865a64915bc4ba2e06d198e8a8f Mon Sep 17 00:00:00 2001
+From 63b1d8bb4b0e05f5162bfc9c7b576c2473c7a55e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
 Subject: [PATCH 13/25] [tb] sledgehammer. fix crash while importing channels
@@ -665,7 +665,7 @@ index aef2fa2..e3e0214 100644
 2.7.0
 
 
-From 9f79d3447fe71d79a868728e3df5467e50254c0f Mon Sep 17 00:00:00 2001
+From c8a08a68acf397667411f59136b9875d1cf80c76 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
 Subject: [PATCH 14/25] [tb] meh past epg data
@@ -691,7 +691,7 @@ index a4156aa..f4419cf 100644
 2.7.0
 
 
-From 2d2da735ca5f9fa2c59bb694abf28ab322c3da78 Mon Sep 17 00:00:00 2001
+From b5eba997cc9ef0acd489989e9ed4ebdda46772be Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Wed, 16 Apr 2014 22:02:01 +0300
 Subject: [PATCH 15/25] [aml] Fix ALSA sound output for Amlogic-based devices.
@@ -747,7 +747,7 @@ index fbccce0..6bf2c53 100644
 2.7.0
 
 
-From 6b1df2a425cb307cde255e7b760d4b434e21446e Mon Sep 17 00:00:00 2001
+From ae4120f677b4507f8c2e4675a53802b82b868215 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Fri, 19 Sep 2014 01:55:12 +0300
 Subject: [PATCH 16/25] [aml] Change the sample rates that are supported by
@@ -792,7 +792,7 @@ index 6bf2c53..32ab888 100644
 2.7.0
 
 
-From c823d19c5f0cbcb878bcf73d3085624b30d9b6a4 Mon Sep 17 00:00:00 2001
+From 7a6473dd2efea06911fed23cee9c8e7c409efc7e Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
 Subject: [PATCH 17/25] [aml] Fill audio packets completely when resampling to
@@ -822,7 +822,7 @@ index 7460457..4e09342 100644
 2.7.0
 
 
-From 608584c5ea0dfb554c55edf2cf2bd13510aacca6 Mon Sep 17 00:00:00 2001
+From 487e3facce79f1fcbf9c5b3a8d574843be990a56 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 3 Feb 2015 17:58:19 +0100
 Subject: [PATCH 18/25] [aml] Disable deinterlacing for HD content while video
@@ -853,7 +853,7 @@ index e9c73ac..5771909 100644
 2.7.0
 
 
-From 333dc65db192b67aa9a00207fc9ffca2fa3d6e65 Mon Sep 17 00:00:00 2001
+From 9656b81267611d15348a96c2cb397ef117867a8f Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Mon, 2 Mar 2015 09:48:14 +0100
 Subject: [PATCH 19/25] [aml] Fix stuttering during a playback of a video with
@@ -880,7 +880,7 @@ index 5771909..2034c4d 100644
 2.7.0
 
 
-From 3ae06b01c3c7229b7cdc80e1c227e54542dbeb1e Mon Sep 17 00:00:00 2001
+From 533ab53c75c3af0a13f09d9bd43110b990de6a58 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
 Subject: [PATCH 20/25] [wetek] fix compiler badness when compiling with
@@ -907,7 +907,7 @@ index 7880c06..bd083b7 100644
 2.7.0
 
 
-From 6fbf3b36e7ff7f45a15727cfa9d989acad14c1ba Mon Sep 17 00:00:00 2001
+From 91f844db9511679de1965e0ef2409dc6b912db15 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:25:44 +0200
 Subject: [PATCH 21/25] [wetek] perform suspend instead of powerdown
@@ -956,7 +956,7 @@ index 4e5bcc6..ad5847d 100644
 2.7.0
 
 
-From d145ebf5f76f30776a80b824bf2f1a34781a806b Mon Sep 17 00:00:00 2001
+From a60f6779b69a1bb127c9ba318576d068f7022736 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
 Subject: [PATCH 22/25] [aml] Ugly workaround to show DTS/AC3 caps
@@ -987,7 +987,7 @@ index 32ab888..d4eb0be 100644
 2.7.0
 
 
-From 2388fa94db26295d06e1345c0847293eee8b2601 Mon Sep 17 00:00:00 2001
+From a21ee42987232c462b262b12515c3b28ebdd32fb Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
 Subject: [PATCH 23/25] [aml] prefer libamcodec.so
@@ -1024,7 +1024,7 @@ index 2034c4d..0bb627f 100644
 2.7.0
 
 
-From 41062cd450770e4ca8b15ea5d4f6f118f1b54e80 Mon Sep 17 00:00:00 2001
+From b6b67caeb1f858425a6574957b0f3bc6d9df3df3 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
 Subject: [PATCH 24/25] TEMP: [aml] use software decoding for sd
@@ -1059,7 +1059,7 @@ index ed6bd67..2025065 100644
 2.7.0
 
 
-From d0341270c9f40a971defe1ae1c56c595c10f070f Mon Sep 17 00:00:00 2001
+From 2fb7153f724558bfbf214c696a829b588f67ef17 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Jan 2016 20:37:31 +0200
 Subject: [PATCH 25/25] TEMP: volume steps
