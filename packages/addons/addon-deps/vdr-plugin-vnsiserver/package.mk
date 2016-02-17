@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="vdr-plugin-vnsiserver"
-PKG_VERSION="d96f211"
+PKG_VERSION="00b5779"
 PKG_LICENSE="GPL"
 PKG_SITE="git+https://github.com/FernetMenta/vdr-plugin-vnsiserver.git"
 PKG_URL="http://saraev.ca/openelec/$PKG_NAME-$PKG_VERSION.tar.xz"
