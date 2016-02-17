@@ -17,30 +17,21 @@
 ################################################################################
 
 PKG_NAME="ffmpeg"
-PKG_VERSION="2.8.6"
+PKG_VERSION="3.0"
 PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
 PKG_URL="http://ffmpeg.org/releases/${PKG_NAME}-${PKG_VERSION}.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain zlib bzip2 libvorbis"
 PKG_SHORTDESC="FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video."
 
-case "$TARGET_ARCH" in
-  arm)
-      FFMPEG_TABLES="--enable-hardcoded-tables"
-  ;;
-  x86_64)
-      FFMPEG_TABLES="--disable-hardcoded-tables"
-  ;;
-esac
-
 case "$TARGET_FPU" in
   neon*)
       FFMPEG_FPU="--enable-neon"
   ;;
-  *)
-      FFMPEG_FPU=""
-  ;;
 esac
+
+# HACK: force disable neon. crashes now.
+FFMPEG_FPU="--disable-neon"
 
 pre_configure_target() {
   cd $ROOT/$PKG_BUILD
@@ -49,120 +40,76 @@ pre_configure_target() {
 
 configure_target() {
   ./configure --prefix=/usr \
-              --cpu=$TARGET_CPU \
               --arch=$TARGET_ARCH \
-              --enable-cross-compile \
+              --cpu=$TARGET_CPU \
               --cross-prefix=$TARGET_PREFIX \
+              --enable-cross-compile \
               --sysroot=$SYSROOT_PREFIX \
               --sysinclude="$SYSROOT_PREFIX/usr/include" \
               --target-os="linux" \
-              --extra-version="$PKG_VERSION" \
-              --nm="$NM" \
-              --ar="$AR" \
-              --as="$CC" \
-              --cc="$CC" \
-              --ld="$CC" \
-              --host-cc="$HOST_CC" \
-              --host-cflags="$HOST_CFLAGS" \
-              --host-ldflags="$HOST_LDFLAGS" \
-              --host-libs="-lm" \
+              --pkg-config="$ROOT/$TOOLCHAIN/bin/pkg-config" \
               --extra-cflags="$CFLAGS" \
-              --extra-ldflags="$LDFLAGS -fPIC" \
-              --extra-libs="" \
-              --extra-version="" \
+              --extra-version="$PKG_VERSION" \
               --build-suffix="" \
-              --enable-static \
-              --disable-shared \
+              --enable-pic \
+              --disable-logging \
               --enable-gpl \
               --disable-version3 \
               --disable-nonfree \
-              --disable-logging \
-              --disable-doc \
-              --disable-debug --enable-stripping \
-              --enable-pic \
-              --pkg-config="$ROOT/$TOOLCHAIN/bin/pkg-config" \
-              --enable-optimizations \
-              --disable-extra-warnings \
-              --disable-ffprobe \
-              --disable-ffplay \
-              --disable-ffserver \
+              --enable-static \
+              --disable-shared \
+              --disable-small \
+              --enable-runtime-cpudetect \
+              --disable-gray \
+              --enable-swscale-alpha \
               --disable-ffmpeg \
+              --disable-ffplay \
+              --disable-ffprobe \
+              --disable-ffserver \
+              --disable-doc \
+              --disable-htmlpages \
+              --disable-manpages \
+              --disable-podpages \
+              --disable-txtpages \
               --disable-avdevice \
               --enable-avcodec \
               --enable-avformat \
+              --enable-swresample \
               --enable-swscale \
               --enable-postproc \
               --enable-avfilter \
-              --disable-devices \
               --enable-pthreads \
               --disable-w32threads \
-              --disable-x11grab \
               --enable-network \
-              --disable-gnutls --disable-openssl \
-              --disable-gray \
-              --enable-swscale-alpha \
-              --disable-small \
-              --enable-dct \
-              --enable-fft \
               --enable-mdct \
               --enable-rdft \
-              --disable-crystalhd \
-              --disable-vaapi \
-              --disable-vdpau \
+              --enable-fft \
+              --disable-d3d11va \
               --disable-dxva2 \
-              --enable-runtime-cpudetect \
-              $FFMPEG_TABLES \
-              --disable-memalign-hack \
+              --disable-vaapi \
+              --disable-vda \
+              --disable-vdpau \
               --disable-encoders \
-              --enable-encoder=ac3 \
-              --enable-encoder=aac \
-              --enable-encoder=wmav2 \
-              --enable-encoder=mjpeg \
-              --enable-encoder=png \
+              --enable-encoder=aac,ac3,mjpeg,png,wmav2 \
               --disable-decoder=mpeg_xvmc \
-              --enable-hwaccels \
               --disable-muxers \
-              --enable-muxer=spdif \
-              --enable-muxer=adts \
-              --enable-muxer=asf \
-              --enable-muxer=ipod \
-              --enable-muxer=mpegts \
-              --enable-demuxers \
-              --enable-parsers \
-              --enable-bsfs \
-              --enable-protocol=http \
+              --enable-muxer=adts,asf,ipod,mpegts,ogg,spdif \
               --disable-indevs \
               --disable-outdevs \
-              --enable-filters \
-              --disable-avisynth \
+              --disable-devices \
               --enable-bzlib \
-              --disable-frei0r \
-              --disable-libopencore-amrnb \
-              --disable-libopencore-amrwb \
-              --disable-libopencv \
-              --disable-libdc1394 \
-              --disable-libdcadec \
-              --disable-libfaac \
-              --disable-libfreetype \
-              --disable-libgsm \
-              --disable-libmp3lame \
-              --disable-libnut \
-              --disable-libopenjpeg \
-              --disable-librtmp \
-              --disable-libschroedinger \
-              --disable-libspeex \
-              --disable-libtheora \
-              --disable-libvo-aacenc \
-              --disable-libvo-amrwbenc \
-              --enable-libvorbis --enable-muxer=ogg \
-              --disable-libvpx \
-              --disable-libx264 \
-              --disable-libxavs \
-              --disable-libxvid \
+              --disable-gnutls \
+              --enable-libvorbis \
+              --disable-openssl \
               --enable-zlib \
+              --disable-symver \
+              --disable-memalign-hack \
               --enable-asm \
               --disable-altivec \
-              $FFMPEG_FPU \
               --disable-yasm \
-              --disable-symver
+              --disable-debug \
+              --enable-optimizations \
+              --disable-extra-warnings \
+              --enable-stripping \
+              $FFMPEG_FPU
 }
