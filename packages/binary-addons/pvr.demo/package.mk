@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.demo"
-PKG_VERSION="3295294"
+PKG_VERSION="116a172"
 PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
