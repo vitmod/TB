@@ -49,6 +49,14 @@ if [ -n "$PKG_URL" ]; then
 
   mkdir -p $SOURCES/$1
 
+  VCS=$(echo $PKG_SITE | grep "+" | awk -F '+' '{print $1}')
+  if [ -n "$VCS" ] ; then
+    GET_REPO=$(echo $PKG_SITE | awk -F '+' '{print $2}')
+    if [ -n $GET_REPO ] ; then
+      $SCRIPTS/mkpkg $PKG_NAME $PKG_VERSION && exit 0
+    fi
+  fi
+
   NBWGET="1"
   until [ -f "$STAMP" ] || $WGET_CMD $PKG_URL || $WGET_CMD $PACKAGE_MIRROR || $WGET_CMD $PACKAGE_ALT ; do
     NBWGET=$(($NBWGET+1))
