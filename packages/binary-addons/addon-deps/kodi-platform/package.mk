@@ -16,7 +16,7 @@
 PKG_NAME="kodi-platform"
 PKG_VERSION="fed924e"
 PKG_LICENSE="GPL"
-PKG_SITE="http://www.kodi.tv"
+PKG_SITE="git+https://github.com/xbmc/kodi-platform.git"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain tinyxml kodi p8-platform"
 PKG_SHORTDESC=""
