@@ -17,7 +17,7 @@ PKG_NAME="oscam"
 PKG_VERSION="11209"
 PKG_REV="1"
 PKG_LICENSE="GPL"
-PKG_SITE="http://www.streamboard.tv/oscam/wiki"
+PKG_SITE="svn+http://www.streamboard.tv/svn/oscam/trunk"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain libusb"
 PKG_SECTION="service"
@@ -30,6 +30,10 @@ PKG_ADDON_TYPE="xbmc.service"
 
 PKG_DISCLAIMER="using oscam may be illegal in your country. if in doubt, do not install"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
+
+pre_package() {
+  echo r$REV > VERSION
+}
 
 configure_target() {
   cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
