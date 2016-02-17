@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="kodi-platform"
-PKG_VERSION="fed924e"
+PKG_VERSION="92583ef"
 PKG_LICENSE="GPL"
 PKG_SITE="git+https://github.com/xbmc/kodi-platform.git"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
