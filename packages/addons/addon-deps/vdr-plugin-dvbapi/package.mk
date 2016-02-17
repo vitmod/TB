@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="vdr-plugin-dvbapi"
-PKG_VERSION="31f409d"
+PKG_VERSION="54d41d4"
 PKG_LICENSE="GPL"
 PKG_SITE="git+https://github.com/manio/vdr-plugin-dvbapi.git"
 PKG_URL="http://saraev.ca/openelec/$PKG_NAME-$PKG_VERSION.tar.xz"
