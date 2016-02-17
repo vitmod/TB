@@ -19,7 +19,7 @@
 PKG_NAME="mkbootimg"
 PKG_VERSION="6668fc2"
 PKG_LICENSE="GPL"
-PKG_SITE="https://android.googlesource.com/platform/system/core/+/master/mkbootimg/"
+PKG_SITE="git+https://github.com/codesnake/mkbootimg.git"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST=""
 PKG_SHORTDESC="mkbootimg: Creates kernel boot images for Android"
