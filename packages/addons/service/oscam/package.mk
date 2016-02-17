@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="oscam"
-PKG_VERSION="11209"
+PKG_VERSION="11211"
 PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="svn+http://www.streamboard.tv/svn/oscam/trunk"
