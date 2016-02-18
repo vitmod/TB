@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="sqlite"
-PKG_VERSION="autoconf-3100200"
+PKG_VERSION="autoconf-3110000"
 PKG_LICENSE="PublicDomain"
 PKG_SITE="https://www.sqlite.org/"
 PKG_URL="https://www.sqlite.org/2016/$PKG_NAME-$PKG_VERSION.tar.gz"
