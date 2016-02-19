@@ -130,6 +130,7 @@ post_install() {
   enable_service fs-resize.service
   enable_service network.service
   enable_service network-online.service
+  enable_service autostart.service
 }
 
 makeinstall_init() {

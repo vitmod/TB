@@ -1,7 +1,7 @@
 [Unit]
-Description=Kodi user autostart script
-Before=kodi.service
-After=graphical.target
+Description=Autostart script
+After=network-online.target
+Requires=network-online.target
 ConditionPathExists=/storage/.config/autostart.sh
 
 [Service]
@@ -11,4 +11,4 @@ ExecStart=-/bin/sh -c ". /etc/profile; exec /bin/sh /storage/.config/autostart.s
 RemainAfterExit=yes
 
 [Install]
-WantedBy=kodi.service
+WantedBy=multi-user.target

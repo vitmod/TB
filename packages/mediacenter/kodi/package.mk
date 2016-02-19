@@ -194,6 +194,5 @@ post_makeinstall_target() {
 
 post_install() {
   ln -sf kodi.target $INSTALL/usr/lib/systemd/system/default.target
-  enable_service kodi-autostart.service
   enable_service kodi.service
 }
