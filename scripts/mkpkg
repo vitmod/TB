@@ -70,7 +70,12 @@ if [ -n "$REPO" ] ; then
   cd .work/sources
   echo "[mkpkg] Checking out $REPO ..."
   if [ ! -d $PKG_NAME.$METHOD ]; then
-    git clone $REPO -b master $PKG_NAME.$METHOD &>/dev/null
+    if [ "$METHOD" = "git" ] ; then
+      git clone $REPO -b master $PKG_NAME.$METHOD &>/dev/null
+    fi
+    if [ "$METHOD" = "svn" ] ; then
+      svn checkout $REPO $PKG_NAME.$METHOD &>/dev/null
+    fi
   fi
 
   cd $PKG_NAME.$METHOD
