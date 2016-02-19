@@ -1,7 +1,7 @@
 [Unit]
-Description=Wait on network
+Description=Wait for Network to be Configured
 After=network.target
-Before=kodi-autostart.service kodi.service
+Before=network-online.target
 ConditionPathExists=/storage/.cache/network_wait
 
 [Service]
@@ -13,4 +13,4 @@ StandardOutput=tty
 RemainAfterExit=yes
 
 [Install]
-WantedBy=kodi.service
+WantedBy=network-online.target
