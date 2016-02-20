@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="kodi"
-PKG_VERSION="c58fd4e"
+PKG_VERSION="e4dd1f5"
 PKG_LICENSE="GPL"
 PKG_SITE="git+https://github.com/xbmc/xbmc.git"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
