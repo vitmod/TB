@@ -14,10 +14,10 @@
 ################################################################################
 
 PKG_NAME="boblightd"
-PKG_VERSION="478"
+PKG_VERSION="479"
 PKG_REV="1"
 PKG_LICENSE="GPL"
-PKG_SITE="http://code.google.com/p/boblight"
+PKG_SITE="svn+http://boblight.googlecode.com/svn/trunk"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain libusb"
 PKG_SECTION="service"
