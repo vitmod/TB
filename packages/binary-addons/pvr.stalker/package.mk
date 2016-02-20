@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.stalker"
-PKG_VERSION="a74fc3e"
+PKG_VERSION="0402f46"
 PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="git+https://github.com/kodi-pvr/pvr.stalker.git"
