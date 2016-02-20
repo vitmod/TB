@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.iptvsimple"
-PKG_VERSION="5ee3a53"
+PKG_VERSION="1dfc354"
 PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="git+https://github.com/kodi-pvr/pvr.iptvsimple.git"
