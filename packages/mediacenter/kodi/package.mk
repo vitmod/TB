@@ -22,7 +22,7 @@ PKG_LICENSE="GPL"
 PKG_SITE="git+https://github.com/xbmc/xbmc.git"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain kodi:host swig:host"
-PKG_DEPENDS_HOST="lzo:host libpng:host libjpeg-turbo:host giflib:host"
+PKG_DEPENDS_HOST=""
 PKG_SHORTDESC="kodi: Kodi Mediacenter"
 
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa bzip2 crossguid curl dbus ffmpeg"
@@ -96,19 +96,17 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --enable-non-free \
                            --disable-optical-drive \
                            --disable-libbluray \
-                           --enable-texturepacker \
+                           --disable-texturepacker \
                            --with-ffmpeg=auto \
                            --disable-gtest \
                            $KODI_CONFIG"
 
 make_host() {
   make -C tools/depends/native/JsonSchemaBuilder
-  make -C tools/depends/native/TexturePacker
 }
 
 makeinstall_host() {
   cp -PR tools/depends/native/JsonSchemaBuilder/native/JsonSchemaBuilder $ROOT/$TOOLCHAIN/bin
-  cp -PR tools/depends/native/TexturePacker/native/TexturePacker $ROOT/$TOOLCHAIN/bin
 }
 
 pre_configure_target() {
@@ -136,7 +134,6 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/share/kodi/addons/service.xbmc.versioncheck
   rm -rf $INSTALL/usr/share/kodi/addons/visualization.vortex
   rm -rf $INSTALL/usr/share/xsessions
-  find $INSTALL/usr/share/kodi/addons/skin.confluence/media/ ! -name Textures.xbt -exec rm -f {} ";" 2>/dev/null
 
   mkdir -p $INSTALL/usr/bin
   cp tools/EventClients/Clients/Kodi\ Send/kodi-send.py $INSTALL/usr/bin/kodi-send
