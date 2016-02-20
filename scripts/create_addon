@@ -32,10 +32,6 @@ pack_addon() {
     cp config/addon/${PKG_ADDON_TYPE}.xml $ADDON_BUILD/$PKG_ADDON_ID/addon.xml
     ADDONVER=$ADDON_VERSION.$PKG_REV
   else
-    if [ ! $(which xmlstarlet) ]; then
-      echo "*** ERROR: $ADDON has addon.xml shipped, you need 'xmlstarlet' ***"
-      exit 255
-    fi
     ADDONVER=$(xmlstarlet sel -t -v "/addon/@version" $ADDON_BUILD/$PKG_ADDON_ID/addon.xml)
   fi
 
@@ -78,6 +74,13 @@ pack_addon() {
 }
 
 if [ "$PKG_IS_ADDON" = "yes" ] ; then
+  if [ "$(type -t addon)" = "function" ]; then
+    addon
+  else
+    echo "*** ERROR: $PKG_NAME does not have addon() defined ***"
+    exit 1
+  fi
+
   $SCRIPTS/build $@
 
   printf  "%${BUILD_INDENT}c CREATE ADDON  ($PROJECT/$TARGET_ARCH) $1\n" ' '
@@ -85,11 +88,5 @@ if [ "$PKG_IS_ADDON" = "yes" ] ; then
 
   rm -rf $ADDON_BUILD
 
-  if [ "$(type -t addon)" = "function" ]; then
-    addon
-  else
-    echo "*** unsupported package format. please convert your package ***"
-    exit 1
-  fi
   pack_addon
 fi
