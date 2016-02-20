@@ -101,6 +101,15 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-gtest \
                            $KODI_CONFIG"
 
+pre_configure_host() {
+  cd $ROOT/$PKG_BUILD
+  rm -rf .$TARGET_NAME
+}
+
+configure_host() {
+  : # not needed
+}
+
 make_host() {
   make -C tools/depends/native/JsonSchemaBuilder
 }
