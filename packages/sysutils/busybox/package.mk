@@ -40,42 +40,30 @@ PKG_MAKE_OPTS_INIT="ARCH=$TARGET_ARCH \
                     KBUILD_VERBOSE=0 \
                     install"
 
-pre_build_target() {
-  mkdir -p $PKG_BUILD/.$TARGET_NAME
-  cp -RP $PKG_BUILD/* $PKG_BUILD/.$TARGET_NAME
-}
-
-pre_build_host() {
-  mkdir -p $PKG_BUILD/.$HOST_NAME
-  cp -RP $PKG_BUILD/* $PKG_BUILD/.$HOST_NAME
-}
-
-pre_build_init() {
-  mkdir -p $PKG_BUILD/.$TARGET_NAME-init
-  cp -RP $PKG_BUILD/* $PKG_BUILD/.$TARGET_NAME-init
-}
-
 configure_host() {
+  mkdir -p $ROOT/$PKG_BUILD/.$HOST_NAME
   cd $ROOT/$PKG_BUILD/.$HOST_NAME
   cp $PKG_DIR/config/busybox-host.conf .config
   sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$ROOT/$PKG_BUILD/.install_host\"|" .config
-  make oldconfig
-}
-
-configure_target() {
-  cd $ROOT/$PKG_BUILD/.$TARGET_NAME
-  cp $PKG_DIR/config/busybox-target.conf .config
-  sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
-  LDFLAGS="$LDFLAGS -fwhole-program"
-  make oldconfig
+  make O=`pwd` -C ../ oldconfig
 }
 
 configure_init() {
+  mkdir -p $ROOT/$PKG_BUILD/.$TARGET_NAME-init
   cd $ROOT/$PKG_BUILD/.$TARGET_NAME-init
   cp $PKG_DIR/config/busybox-init.conf .config
   sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
   LDFLAGS="$LDFLAGS -fwhole-program"
-  make oldconfig
+  make O=`pwd` -C ../ oldconfig
+}
+
+configure_target() {
+  mkdir -p $ROOT/$PKG_BUILD/.$TARGET_NAME
+  cd $ROOT/$PKG_BUILD/.$TARGET_NAME
+  cp $PKG_DIR/config/busybox-target.conf .config
+  sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
+  LDFLAGS="$LDFLAGS -fwhole-program"
+  make O=`pwd` -C ../ oldconfig
 }
 
 makeinstall_host() {
@@ -83,35 +71,41 @@ makeinstall_host() {
   cp -R $ROOT/$PKG_BUILD/.install_host/bin/* $ROOT/$TOOLCHAIN/bin
 }
 
+makeinstall_init() {
+  mkdir -p $INSTALL/bin
+  ln -sf busybox $INSTALL/bin/sh
+  chmod 4755 $INSTALL/bin/busybox
+
+  mkdir -p $INSTALL/etc
+  touch $INSTALL/etc/fstab
+  ln -sf /proc/self/mounts $INSTALL/etc/mtab
+
+  if [ -f $PROJECT_DIR/$PROJECT/initramfs/platform_init ]; then
+    cp $PROJECT_DIR/$PROJECT/initramfs/platform_init $INSTALL
+    chmod 755 $INSTALL/platform_init
+  fi
+
+  cp $PKG_DIR/scripts/init $INSTALL
+  chmod 755 $INSTALL/init
+}
+
 makeinstall_target() {
   mkdir -p $INSTALL/usr/bin
-  ln -sf /bin/busybox $INSTALL/usr/bin/env          #/usr/bin/env is needed for most python scripts
-  cp $PKG_DIR/scripts/pastebinit $INSTALL/usr/bin/
-  cp -P $PKG_DIR/scripts/cm-online $INSTALL/usr/bin
+  ln -sf /bin/busybox $INSTALL/usr/bin/env
+  cp $PKG_DIR/scripts/pastebinit $INSTALL/usr/bin
+  cp $PKG_DIR/scripts/cm-online $INSTALL/usr/bin
 
   mkdir -p $INSTALL/usr/lib/openelec
   cp $PKG_DIR/scripts/fs-resize $INSTALL/usr/lib/openelec
   cp $PKG_DIR/scripts/network-setup $INSTALL/usr/lib/openelec
 
   mkdir -p $INSTALL/etc
+  touch $INSTALL/etc/fstab
   cp $PKG_DIR/config/profile $INSTALL/etc
   cp $PKG_DIR/config/hosts $INSTALL/etc
-
-  # /etc/fstab is needed by...
-  touch $INSTALL/etc/fstab
-
-  # /etc/machine-id, needed by systemd and dbus
-  ln -sf /storage/.cache/machine-id $INSTALL/etc/machine-id
-
-  # /etc/mtab is needed by e2fsprogs
   ln -sf /proc/self/mounts $INSTALL/etc/mtab
-
-  # create /etc/hostname
   ln -sf /storage/.cache/hostname $INSTALL/etc/hostname
-
-  # systemd wants /usr/bin/mkdir
-  mkdir -p $INSTALL/usr/bin
-  ln -sf /bin/busybox $INSTALL/usr/bin/mkdir
+  ln -sf /storage/.cache/machine-id $INSTALL/etc/machine-id
 }
 
 post_install() {
@@ -131,22 +125,4 @@ post_install() {
   enable_service network.service
   enable_service network-online.service
   enable_service autostart.service
-}
-
-makeinstall_init() {
-  mkdir -p $INSTALL/bin
-  ln -sf busybox $INSTALL/bin/sh
-  chmod 4755 $INSTALL/bin/busybox
-
-  mkdir -p $INSTALL/etc
-  touch $INSTALL/etc/fstab
-  ln -sf /proc/self/mounts $INSTALL/etc/mtab
-
-  if [ -f $PROJECT_DIR/$PROJECT/initramfs/platform_init ]; then
-    cp $PROJECT_DIR/$PROJECT/initramfs/platform_init $INSTALL
-    chmod 755 $INSTALL/platform_init
-  fi
-
-  cp $PKG_DIR/scripts/init $INSTALL
-  chmod 755 $INSTALL/init
 }
