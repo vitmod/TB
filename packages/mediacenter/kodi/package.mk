@@ -111,11 +111,15 @@ configure_host() {
 }
 
 make_host() {
-  make -C tools/depends/native/JsonSchemaBuilder
+  if [ ! -f $ROOT/$TOOLCHAIN/bin/JsonSchemaBuilder ] ; then
+    make -C tools/depends/native/JsonSchemaBuilder
+  fi
 }
 
 makeinstall_host() {
-  cp -PR tools/depends/native/JsonSchemaBuilder/native/JsonSchemaBuilder $ROOT/$TOOLCHAIN/bin
+  if [ ! -f $ROOT/$TOOLCHAIN/bin/JsonSchemaBuilder ] ; then
+    cp -PR tools/depends/native/JsonSchemaBuilder/native/JsonSchemaBuilder $ROOT/$TOOLCHAIN/bin
+  fi
 }
 
 pre_configure_target() {
