@@ -1,4 +1,5 @@
 #!/bin/sh
+
 ################################################################################
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -27,15 +28,12 @@ fi
 
 if [ "$1" == "-l" ] ; then
   for i in `find packages/ -type f -name package.mk | sort`; do
-    GET_PKG=`grep ^PKG_NAME= $i | sed -e "s,\",,g" -e "s,PKG_NAME=,,"`
-    GET_SITE=`grep ^PKG_SITE= $i | sed -e "s,\",,g" -e "s,PKG_SITE=,,"`
-    GET_REPO=$(echo $GET_SITE | grep ^git+ | awk -F '+' '{print $2}')
-    if [ -z "$GET_REPO" ] ; then
-      GET_REPO=$(echo $GET_SITE | grep ^svn+ | awk -F '+' '{print $2}')
-    fi
-    if [ -n "$GET_REPO" ] ; then
-      METHOD=$(echo $GET_SITE | grep -E '^git|svn' | awk -F '+' '{print $1}')
-      printf "* %-32s %-6s %s\n" $GET_PKG "($METHOD)" $GET_REPO
+    PKG_FETCH=""
+    . $i
+    REPO=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $2}')
+    if [ -n "$REPO" ] ; then
+      METHOD=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $1}')
+      printf "* %-32s %-6s %s\n" $PKG_NAME "($METHOD)" $REPO
     fi
   done
   exit 0
@@ -43,14 +41,11 @@ fi
 
 if [ "$1" == "-a" ] ; then
   for i in `find packages/ -type f -name package.mk | sort`; do
-    GET_PKG=`grep ^PKG_NAME= $i | sed -e "s,\",,g" -e "s,PKG_NAME=,,"`
-    GET_SITE=`grep ^PKG_SITE= $i | sed -e "s,\",,g" -e "s,PKG_SITE=,,"`
-    GET_REPO=$(echo $GET_SITE | grep ^git+ | awk -F '+' '{print $2}')
-    if [ -z "$GET_REPO" ] ; then
-      GET_REPO=$(echo $GET_SITE | grep ^svn+ | awk -F '+' '{print $2}')
-    fi
-    if [ -n "$GET_REPO" ] ; then
-      $0 $GET_PKG
+    PKG_FETCH=""
+    . $i
+    REPO=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $2}')
+    if [ -n "$REPO" ] ; then
+      $0 $REPO
     fi
   done
   exit 0
@@ -58,8 +53,8 @@ fi
 
 . config/options
 
-REPO=$(echo $PKG_SITE | grep -E '^git|svn' | awk -F '+' '{print $2}')
-METHOD=$(echo $PKG_SITE | grep -E '^git|svn' | awk -F '+' '{print $1}')
+REPO=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $2}')
+METHOD=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $1}')
 
 if [ -n "$2" ] ; then
   FORCED_REV="$2"

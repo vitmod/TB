@@ -69,17 +69,23 @@ if [ "$(type -t unpack)" = "function" ]; then
 else
   if [ -n "$PKG_URL" ]; then
     SOURCE_NAME="`basename $PKG_URL`"
-    PACKAGE="$SOURCES/$1/$SOURCE_NAME"
-    case $PKG_URL in
-      *.tar|*.tar.bz2|*.tbz|*.tar.gz|*.tgz|*.tar.xz|*.txz)
-        tar xf $PACKAGE -C $BUILD
-        ;;
-      *.zip)
-        mkdir -p $BUILD/$1
-        unzip -q $PACKAGE -d $BUILD/$1
-        ;;
-    esac
+  elif [ -n "$PKG_FETCH" ] ; then
+    SOURCE_NAME="$PKG_NAME-$PKG_VERSION.tar.xz"
   fi
+  if [ -z "$SOURCE_NAME" ] ; then
+    exit 0
+  fi
+
+  PACKAGE="$SOURCES/$1/$SOURCE_NAME"
+  case $PACKAGE in
+    *.tar|*.tar.bz2|*.tbz|*.tar.gz|*.tgz|*.tar.xz|*.txz)
+      tar xf $PACKAGE -C $BUILD
+      ;;
+    *.zip)
+      mkdir -p $BUILD/$1
+      unzip -q $PACKAGE -d $BUILD/$1
+      ;;
+  esac
 fi
 
 if [ -n "$PKG_SOURCE_DIR" ]; then

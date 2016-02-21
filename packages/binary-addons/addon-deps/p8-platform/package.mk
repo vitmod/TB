@@ -16,8 +16,8 @@
 PKG_NAME="p8-platform"
 PKG_VERSION="38343e0"
 PKG_LICENSE="GPL"
-PKG_SITE="git+https://github.com/Pulse-Eight/platform.git"
-PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_SITE="http://www.kodi.tv"
+PKG_FETCH="git+https://github.com/Pulse-Eight/platform.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC=""
 
