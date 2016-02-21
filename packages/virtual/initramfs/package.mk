@@ -31,6 +31,6 @@ post_install() {
       ln -s /lib $ROOT/$BUILD/initramfs/lib64
     fi
     mkdir -p $ROOT/$BUILD/image/
-    find . | cpio -H newc -ov -R 0:0 > $ROOT/$BUILD/image/initramfs.cpio
+    find . | cpio -H newc -ov -R 0:0 | gzip > $ROOT/$BUILD/image/initramfs.cpio
   cd -
 }
