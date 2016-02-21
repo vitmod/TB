@@ -110,21 +110,20 @@ configure_host() {
 }
 
 make_host() {
-  if [ ! -f $ROOT/$TOOLCHAIN/bin/JsonSchemaBuilder ] ; then
-    make -C tools/depends/native/JsonSchemaBuilder
-  fi
+  mkdir -p tools/depends/native/JsonSchemaBuilder/bin && cd $_
+  cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        ..
+  make
 }
 
 makeinstall_host() {
-  if [ ! -f $ROOT/$TOOLCHAIN/bin/JsonSchemaBuilder ] ; then
-    cp -PR tools/depends/native/JsonSchemaBuilder/native/JsonSchemaBuilder $ROOT/$TOOLCHAIN/bin
-  fi
+  : # not needed
 }
 
 pre_configure_target() {
   rm -rf $PKG_BUILD/.$TARGET_NAME
   BOOTSTRAP_STANDALONE=1 make -f bootstrap.mk
-  export JSON_BUILDER=$ROOT/$TOOLCHAIN/bin/JsonSchemaBuilder
 }
 
 make_target() {
