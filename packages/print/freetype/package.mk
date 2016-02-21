@@ -30,7 +30,7 @@ PKG_CONFIGURE_OPTS_TARGET="LIBPNG_CFLAGS=-I$SYSROOT_PREFIX/usr/include \
 
 pre_configure_target() {
   # unset LIBTOOL because freetype uses its own
-  ( cd ..
+  ( cd $PKG_BUILD
     unset LIBTOOL
     sh autogen.sh
   )

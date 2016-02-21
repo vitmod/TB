@@ -34,7 +34,7 @@ PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 PKG_CONFIGURE_SCRIPT="Project/GNU/CLI/configure"
 
 pre_configure_target() {
-  cd $ROOT/$PKG_BUILD/Project/GNU/CLI
+  cd $PKG_BUILD/Project/GNU/CLI
   do_autoreconf
 }
 

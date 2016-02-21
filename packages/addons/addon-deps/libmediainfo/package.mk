@@ -31,7 +31,7 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-static \
                            --without-libtinyxml2"
 
 pre_configure_target() {
-  cd $ROOT/$PKG_BUILD/Project/GNU/Library
+  cd $PKG_BUILD/Project/GNU/Library
   do_autoreconf
 }
 

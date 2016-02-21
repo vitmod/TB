@@ -118,12 +118,12 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/share/i18n/charmaps
   rm -rf $INSTALL/usr/share/i18n/locales
   mkdir -p $INSTALL/usr/share/i18n/locales
-  cp -PR $ROOT/$PKG_BUILD/localedata/locales/POSIX $INSTALL/usr/share/i18n/locales
+  cp -PR $PKG_BUILD/localedata/locales/POSIX $INSTALL/usr/share/i18n/locales
 
   # create default configs
   mkdir -p $INSTALL/etc
-  cp $ROOT/$PKG_BUILD/nss/nsswitch.conf $INSTALL/etc
-  cp $ROOT/$PKG_BUILD/posix/gai.conf $INSTALL/etc
+  cp $PKG_BUILD/nss/nsswitch.conf $INSTALL/etc
+  cp $PKG_BUILD/posix/gai.conf $INSTALL/etc
   echo "multi on" > $INSTALL/etc/host.conf
 
   if [ "$TARGET_ARCH" = "arm" -a "$TARGET_FLOAT" = "hard" ]; then
@@ -132,8 +132,7 @@ post_makeinstall_target() {
 }
 
 configure_init() {
-  cd $ROOT/$PKG_BUILD
-  rm -rf $ROOT/$PKG_BUILD/.$TARGET_NAME-init
+  rm -rf $PKG_BUILD/.$TARGET_NAME-init
 }
 
 make_init() {
@@ -142,10 +141,10 @@ make_init() {
 
 makeinstall_init() {
   mkdir -p $INSTALL/lib
-  cp -PR $ROOT/$PKG_BUILD/.$TARGET_NAME/elf/ld*.so* $INSTALL/lib
-  cp $ROOT/$PKG_BUILD/.$TARGET_NAME/libc.so.6 $INSTALL/lib
-  cp $ROOT/$PKG_BUILD/.$TARGET_NAME/nptl/libpthread.so.0 $INSTALL/lib
-  cp -PR $ROOT/$PKG_BUILD/.$TARGET_NAME/rt/librt.so* $INSTALL/lib
+  cp -PR $PKG_BUILD/.$TARGET_NAME/elf/ld*.so* $INSTALL/lib
+  cp $PKG_BUILD/.$TARGET_NAME/libc.so.6 $INSTALL/lib
+  cp $PKG_BUILD/.$TARGET_NAME/nptl/libpthread.so.0 $INSTALL/lib
+  cp -PR $PKG_BUILD/.$TARGET_NAME/rt/librt.so* $INSTALL/lib
 
   if [ "$TARGET_ARCH" = "arm" -a "$TARGET_FLOAT" = "hard" ]; then
     ln -sf ld.so $INSTALL/lib/ld-linux.so.3

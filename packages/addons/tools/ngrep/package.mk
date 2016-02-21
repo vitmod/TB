@@ -33,8 +33,7 @@ PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 PKG_CONFIGURE_OPTS_TARGET="--with-pcap-includes=$SYSROOT_PREFIX/usr/include --disable-dropprivs"
 
 pre_configure_target() {
-  cd $ROOT/$PKG_BUILD
-  rm -rf .$TARGET_NAME
+  rm -rf $PKG_BUILD/.$TARGET_NAME
 }
 
 makeinstall_target() {

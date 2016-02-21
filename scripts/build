@@ -195,10 +195,13 @@ if [ ! -f $STAMP ]; then
 
   # virtual packages dont must be build, they only contains dependencies, so dont go further here
   if [ ! "$PKG_SECTION" = "virtual" ]; then
+    mkdir -p $PKG_BUILD
+    cd $PKG_BUILD
+
     if [ "$TARGET" = "target" ]; then
-      INSTALL=$ROOT/$PKG_BUILD/.install_pkg
+      INSTALL=$PKG_BUILD/.install_pkg
     elif [ "$TARGET" = "init" ]; then
-      INSTALL=$ROOT/$PKG_BUILD/.install_init
+      INSTALL=$PKG_BUILD/.install_init
     fi
 
     if [ ! -z "$INSTALL" -a -d "$INSTALL" ] ; then
@@ -207,14 +210,14 @@ if [ ! -f $STAMP ]; then
 
     # setup configure script
     if [ -z "$PKG_CONFIGURE_SCRIPT" ]; then
-      PKG_CONFIGURE_SCRIPT="$ROOT/$PKG_BUILD/configure"
+      PKG_CONFIGURE_SCRIPT="$PKG_BUILD/configure"
     else
-      PKG_CONFIGURE_SCRIPT="$ROOT/$PKG_BUILD/$PKG_CONFIGURE_SCRIPT"
+      PKG_CONFIGURE_SCRIPT="$PKG_BUILD/$PKG_CONFIGURE_SCRIPT"
     fi
     if [ -z "$PKG_CMAKE_SCRIPT" ]; then
-      PKG_CMAKE_SCRIPT="$ROOT/$PKG_BUILD/CMakeLists.txt"
+      PKG_CMAKE_SCRIPT="$PKG_BUILD/CMakeLists.txt"
     else
-      PKG_CMAKE_SCRIPT="$ROOT/$PKG_BUILD/$PKG_CMAKE_SCRIPT"
+      PKG_CMAKE_SCRIPT="$PKG_BUILD/$PKG_CMAKE_SCRIPT"
     fi
 
     # include build template and build
@@ -222,35 +225,29 @@ if [ ! -f $STAMP ]; then
       pre_build_$TARGET
     fi
 
-    mkdir -p $PKG_BUILD
-    cd $PKG_BUILD
-
-    if [ "$TARGET" = "target" ]; then
-      if [ -f "$PKG_CONFIGURE_SCRIPT" -o -f "$PKG_CMAKE_SCRIPT" ]; then
-        mkdir -p .$TARGET_NAME
-        cd .$TARGET_NAME
+    if [ -f "$PKG_CONFIGURE_SCRIPT" -o -f "$PKG_CMAKE_SCRIPT" ]; then
+      if [ "$TARGET" = "target" ]; then
+        PKG_BUILD_SUBDIR=$PKG_BUILD/.$TARGET_NAME
+      elif [ "$TARGET" = "host" ]; then
+        PKG_BUILD_SUBDIR=$PKG_BUILD/.$HOST_NAME
+      elif [ "$TARGET" = "init" ]; then
+        PKG_BUILD_SUBDIR=$PKG_BUILD/.$TARGET_NAME-init
+      elif [ "$TARGET" = "bootstrap" ]; then
+        PKG_BUILD_SUBDIR=$PKG_BUILD/.$TARGET_NAME-bootstrap
       fi
-    elif [ "$TARGET" = "host" ]; then
-      if [ -f "$PKG_CONFIGURE_SCRIPT" -o -f "$PKG_CMAKE_SCRIPT" ]; then
-        mkdir -p .$HOST_NAME
-        cd .$HOST_NAME
-      fi
-    elif [ "$TARGET" = "init" ]; then
-      if [ -f "$PKG_CONFIGURE_SCRIPT" -o -f "$PKG_CMAKE_SCRIPT" ]; then
-        mkdir -p .$TARGET_NAME-init
-        cd .$TARGET_NAME-init
-      fi
-    elif [ "$TARGET" = "bootstrap" ]; then
-      if [ -f "$PKG_CONFIGURE_SCRIPT" -o -f "$PKG_CMAKE_SCRIPT" ]; then
-        mkdir -p .$TARGET_NAME-bootstrap
-        cd .$TARGET_NAME-bootstrap
-      fi
+      mkdir -p $PKG_BUILD_SUBDIR
     fi
 
     # configure
     if [ "$(type -t pre_configure_$TARGET)" = "function" ]; then
       pre_configure_$TARGET
     fi
+
+    if [ -n "$PKG_BUILD_SUBDIR" -a -d "$PKG_BUILD_SUBDIR" ] ; then
+      # chdir to a build subdir
+      cd $PKG_BUILD_SUBDIR
+    fi
+
     if [ "$(type -t configure_$TARGET)" = "function" ]; then
       configure_$TARGET
     elif [ -f "$PKG_CONFIGURE_SCRIPT" ]; then

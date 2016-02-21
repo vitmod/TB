@@ -37,8 +37,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_utempter_h=no \
                            --disable-socket-dir"
 
 pre_configure_target() {
-  cd $ROOT/$PKG_BUILD
-  rm -rf .$TARGET_NAME
+  rm -rf $PKG_BUILD/.$TARGET_NAME
 }
 
 makeinstall_target() {

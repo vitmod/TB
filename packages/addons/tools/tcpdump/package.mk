@@ -32,12 +32,12 @@ PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 PKG_CONFIGURE_OPTS_TARGET="--with-pcap=linux --with-crypto=no --disable-ipv6"
 
 pre_configure_target() {
-  sed -i -e 's/ac_cv_linux_vers=unknown/ac_cv_linux_vers=2/' ../configure
+  sed -i -e 's/ac_cv_linux_vers=unknown/ac_cv_linux_vers=2/' configure
 }
 
 pre_build_target() {
   # discard native system includes
-  sed -i "s%-I/usr/include%%g" Makefile
+  sed -i "s%-I/usr/include%%g" Makefile.in
 }
 
 makeinstall_target() {

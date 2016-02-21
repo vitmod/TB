@@ -102,8 +102,7 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            $KODI_CONFIG"
 
 pre_configure_host() {
-  cd $ROOT/$PKG_BUILD
-  rm -rf .$TARGET_NAME
+  rm -rf $PKG_BUILD/.$HOST_NAME
 }
 
 configure_host() {
@@ -123,9 +122,7 @@ makeinstall_host() {
 }
 
 pre_configure_target() {
-  cd $ROOT/$PKG_BUILD
-  rm -rf .$TARGET_NAME
-
+  rm -rf $PKG_BUILD/.$TARGET_NAME
   BOOTSTRAP_STANDALONE=1 make -f bootstrap.mk
   export JSON_BUILDER=$ROOT/$TOOLCHAIN/bin/JsonSchemaBuilder
 }

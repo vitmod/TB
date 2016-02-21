@@ -32,7 +32,7 @@ PKG_CONFIGURE_OPTS_TARGET="LIBS=-lpthread \
                            --disable-canusb"
 
 pre_configure_target() {
-  sed -i -e 's/ac_cv_linux_vers=unknown/ac_cv_linux_vers=2/' ../configure
+  sed -i -e 's/ac_cv_linux_vers=unknown/ac_cv_linux_vers=2/' configure
 }
 
 post_makeinstall_target() {

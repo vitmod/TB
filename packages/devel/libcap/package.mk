@@ -31,7 +31,7 @@ make_target() {
        RANLIB=$TARGET_RANLIB \
        CFLAGS="$TARGET_CFLAGS" \
        BUILD_CC=$HOST_CC \
-       BUILD_CFLAGS="$HOST_CFLAGS -I$ROOT/$PKG_BUILD/libcap/include" \
+       BUILD_CFLAGS="$HOST_CFLAGS -I$PKG_BUILD/libcap/include" \
        PAM_CAP=no \
        lib=/lib \
        -C libcap libcap.pc libcap.a

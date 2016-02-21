@@ -397,7 +397,7 @@ if [ "$PKG_IS_ADDON" = "yes" ] ; then
   fi
 fi
 
-PKG_BUILD="$BUILD/${PKG_NAME}-${PKG_VERSION}"
+PKG_BUILD="$ROOT/$BUILD/${PKG_NAME}-${PKG_VERSION}"
 
 SSL_CERTIFICATES="/etc/ssl"
 

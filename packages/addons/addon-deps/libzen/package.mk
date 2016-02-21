@@ -26,7 +26,7 @@ PKG_CONFIGURE_SCRIPT="Project/GNU/Library/configure"
 PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared"
 
 pre_configure_target() {
-  cd $ROOT/$PKG_BUILD/Project/GNU/Library
+  cd $PKG_BUILD/Project/GNU/Library
   do_autoreconf
 }
 

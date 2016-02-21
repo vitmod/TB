@@ -34,8 +34,7 @@ esac
 FFMPEG_FPU="--disable-neon"
 
 pre_configure_target() {
-  cd $ROOT/$PKG_BUILD
-  rm -rf .$TARGET_NAME
+  rm -rf $PKG_BUILD/.$TARGET_NAME
 }
 
 configure_target() {

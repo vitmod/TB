@@ -41,16 +41,16 @@ PKG_MAKE_OPTS_INIT="ARCH=$TARGET_ARCH \
                     install"
 
 configure_host() {
-  mkdir -p $ROOT/$PKG_BUILD/.$HOST_NAME
-  cd $ROOT/$PKG_BUILD/.$HOST_NAME
+  mkdir -p $PKG_BUILD/.$HOST_NAME
+  cd $PKG_BUILD/.$HOST_NAME
   cp $PKG_DIR/config/busybox-host.conf .config
-  sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$ROOT/$PKG_BUILD/.install_host\"|" .config
+  sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$PKG_BUILD/.install_host\"|" .config
   make O=`pwd` -C ../ oldconfig
 }
 
 configure_init() {
-  mkdir -p $ROOT/$PKG_BUILD/.$TARGET_NAME-init
-  cd $ROOT/$PKG_BUILD/.$TARGET_NAME-init
+  mkdir -p $PKG_BUILD/.$TARGET_NAME-init
+  cd $PKG_BUILD/.$TARGET_NAME-init
   cp $PKG_DIR/config/busybox-init.conf .config
   sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
   LDFLAGS="$LDFLAGS -fwhole-program"
@@ -58,8 +58,8 @@ configure_init() {
 }
 
 configure_target() {
-  mkdir -p $ROOT/$PKG_BUILD/.$TARGET_NAME
-  cd $ROOT/$PKG_BUILD/.$TARGET_NAME
+  mkdir -p $PKG_BUILD/.$TARGET_NAME
+  cd $PKG_BUILD/.$TARGET_NAME
   cp $PKG_DIR/config/busybox-target.conf .config
   sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
   LDFLAGS="$LDFLAGS -fwhole-program"
@@ -68,7 +68,7 @@ configure_target() {
 
 makeinstall_host() {
   mkdir -p $ROOT/$TOOLCHAIN/bin
-  cp -R $ROOT/$PKG_BUILD/.install_host/bin/* $ROOT/$TOOLCHAIN/bin
+  cp -R $PKG_BUILD/.install_host/bin/* $ROOT/$TOOLCHAIN/bin
 }
 
 makeinstall_init() {
