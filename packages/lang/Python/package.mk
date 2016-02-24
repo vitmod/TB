@@ -97,7 +97,8 @@ make_target() {
         HOSTPGEN=$ROOT/$TOOLCHAIN/bin/pgen \
         PYTHON_DISABLE_MODULES="$PY_DISABLED_MODULES" \
         PYTHON_MODULES_INCLUDE="$TARGET_INCDIR" \
-        PYTHON_MODULES_LIB="$TARGET_LIBDIR"
+        PYTHON_MODULES_LIB="$TARGET_LIBDIR" \
+        LDFLAGS="$TARGET_LDFLAGS -L$PKG_BUILD/.$TARGET_NAME"
 }
 
 makeinstall_target() {
@@ -130,13 +131,6 @@ post_makeinstall_target() {
 
   python -Wi -t -B ../Lib/compileall.py $INSTALL/usr/lib/python*/ -f
   rm -rf `find $INSTALL/usr/lib/python*/ -name "*.py"`
-
-  if [ ! -f $INSTALL/usr/lib/python*/lib-dynload/_socket.so ]; then
-    echo "sometimes Python dont build '_socket.so' for some reasons and continues without failing,"
-    echo "let it fail here, to be sure '_socket.so' will be installed. A rebuild of Python fixes"
-    echo "the issue in most cases"
-    exit 1
-  fi
 
   rm -rf $INSTALL/usr/lib/python*/config
   rm -rf $INSTALL/usr/bin/2to3
