@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="amremote"
-PKG_VERSION="aa0a9e8"
+PKG_VERSION="a4a7c4e"
 PKG_LICENSE="other"
 PKG_SITE="http://www.amlogic.com"
 PKG_FETCH="git+https://github.com/codesnake/amremote.git"
