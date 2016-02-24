@@ -42,10 +42,11 @@ fi
 if [ "$1" == "-a" ] ; then
   for i in `find packages/ -type f -name package.mk | sort`; do
     PKG_FETCH=""
+    PKG_NAME=""
     . $i
     REPO=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $2}')
     if [ -n "$REPO" ] ; then
-      $0 $REPO
+      $0 $PKG_NAME
     fi
   done
   exit 0
