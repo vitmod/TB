@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="gdb"
-PKG_VERSION="7.10.1"
+PKG_VERSION="7.11"
 PKG_REV="3"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/gdb/"
@@ -59,7 +59,6 @@ makeinstall_target() {
 addon() {
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/bin
   cp -P $PKG_BUILD/.$TARGET_NAME/gdb/gdb $ADDON_BUILD/$PKG_ADDON_ID/bin/
-  cp -P $PKG_BUILD/.$TARGET_NAME/gdb/gdbserver/gdbserver $ADDON_BUILD/$PKG_ADDON_ID/bin/
 
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/data/gdb
   cp -PR $PKG_BUILD/.$TARGET_NAME/gdb/data-directory/syscalls $ADDON_BUILD/$PKG_ADDON_ID/data/gdb/
