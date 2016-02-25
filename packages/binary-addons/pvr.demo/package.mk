@@ -15,7 +15,6 @@
 
 PKG_NAME="pvr.demo"
 PKG_VERSION="116a172"
-PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/kodi-pvr/pvr.demo.git"
