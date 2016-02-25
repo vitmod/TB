@@ -15,7 +15,7 @@
 
 PKG_NAME="mediainfo"
 PKG_VERSION="0.7.80"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://mediaarea.net/en/MediaInfo/Download/Source"
 PKG_URL="http://mediaarea.net/download/source/mediainfo/$PKG_VERSION/mediainfo_$PKG_VERSION.tar.bz2"
@@ -28,7 +28,6 @@ PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nMediaInfo is a convenient unified display 
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_SCRIPT="Project/GNU/CLI/configure"

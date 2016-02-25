@@ -15,7 +15,7 @@
 
 PKG_NAME="screen"
 PKG_VERSION="4.2.1"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/screen/"
 PKG_URL="http://ftp.gnu.org/gnu/screen/screen-${PKG_VERSION}.tar.gz"
@@ -27,7 +27,6 @@ PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nscreen is a terminal multiplexor that runs
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_utempter_h=no \

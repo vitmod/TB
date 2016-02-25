@@ -15,7 +15,7 @@
 
 PKG_NAME="tsdecrypt"
 PKG_VERSION="10.0"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://georgi.unixsol.org/programs/tsdecrypt"
 PKG_URL="http://georgi.unixsol.org/programs/tsdecrypt/${PKG_NAME}-${PKG_VERSION}.tar.bz2"
@@ -27,7 +27,6 @@ PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\ntsdecrypt reads incoming mpeg transport st
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 makeinstall_target() {

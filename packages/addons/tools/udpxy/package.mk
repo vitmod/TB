@@ -15,7 +15,7 @@
 
 PKG_NAME="udpxy"
 PKG_VERSION="1.0.23-0"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.openelec.tv"
 PKG_URL="$SOURCEFORGE_SRC/project/udpxy/udpxy/Chipmunk-1.0/${PKG_NAME}.${PKG_VERSION}-prod.tar.gz"
@@ -27,7 +27,6 @@ PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nudpxy is a UDP-to-HTTP multicast traffic r
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 makeinstall_target() {

@@ -16,7 +16,7 @@
 
 . /etc/profile
 
-oe_setup_addon service.multimedia.boblightd
+oe_setup_addon service.boblightd
 
 if [ ! -f $ADDON_HOME/boblight.conf ] ; then
   cp $ADDON_DIR/config/boblight.conf $ADDON_HOME/boblight.conf

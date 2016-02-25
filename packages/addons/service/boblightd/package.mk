@@ -15,7 +15,7 @@
 
 PKG_NAME="boblightd"
 PKG_VERSION="479"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://code.google.com/p/boblight"
 PKG_FETCH="svn+http://boblight.googlecode.com/svn/trunk"
@@ -29,7 +29,6 @@ PKG_ADDON_TYPE="xbmc.service"
 
 PKG_AUTORECONF="yes"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_TARGET="--without-opengl --without-x11 --without-portaudio"

@@ -15,7 +15,7 @@
 
 PKG_NAME="tvheadend"
 PKG_VERSION="4.0.8"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.tvheadend.org"
 PKG_URL="https://github.com/tvheadend/tvheadend/archive/v${PKG_VERSION}.tar.gz"
@@ -28,15 +28,15 @@ PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="Tvheadend PVR Backend"
 PKG_ADDON_TYPE="xbmc.service"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
-
 
 pre_build_target() {
   sed -e 's/VER="0.0.0~unknown"/VER="'$PKG_VERSION'"/g' -i $PKG_BUILD/support/version
-  mkdir -p $PKG_BUILD/.$TARGET_NAME
-  cp -RP $PKG_BUILD/* $PKG_BUILD/.$TARGET_NAME
   export CROSS_COMPILE=$TARGET_PREFIX
+}
+
+pre_configure_target() {
+  rm -rf $PKG_BUILD/.$TARGET_NAME
 }
 
 configure_target() {
@@ -69,5 +69,5 @@ makeinstall_target() {
 
 addon() {
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/bin
-  cp -P $PKG_BUILD/.$TARGET_NAME/build.linux/tvheadend $ADDON_BUILD/$PKG_ADDON_ID/bin
+  cp -P $PKG_BUILD/build.linux/tvheadend $ADDON_BUILD/$PKG_ADDON_ID/bin
 }

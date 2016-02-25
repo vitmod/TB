@@ -15,7 +15,7 @@
 
 PKG_NAME="tcpdump"
 PKG_VERSION="4.7.4"
-PKG_REV="1"
+PKG_REV="2"
 PKG_SITE="http://www.tcpdump.org/"
 PKG_URL="http://www.tcpdump.org/release/tcpdump-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libpcap"
@@ -26,7 +26,6 @@ PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nThis program allows you to dump the traffi
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_TARGET="--with-pcap=linux --with-crypto=no --disable-ipv6"

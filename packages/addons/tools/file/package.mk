@@ -15,7 +15,7 @@
 
 PKG_NAME="file"
 PKG_VERSION="5.19"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.darwinsys.com/file/"
 PKG_URL="ftp://ftp.astron.com/pub/file/$PKG_NAME-$PKG_VERSION.tar.gz"
@@ -28,7 +28,6 @@ PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nThe file(1) utility is used to determine t
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_HOST="--enable-fsect-man5 --enable-static --disable-shared"

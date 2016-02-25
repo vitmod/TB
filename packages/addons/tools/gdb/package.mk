@@ -15,7 +15,7 @@
 
 PKG_NAME="gdb"
 PKG_VERSION="7.10.1"
-PKG_REV="2"
+PKG_REV="3"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/gdb/"
 PKG_URL="http://ftp.gnu.org/gnu/gdb/$PKG_NAME-$PKG_VERSION.tar.xz"
@@ -27,11 +27,7 @@ PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nThe purpose of a debugger such as GDB is t
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
-
-CC_FOR_BUILD="$HOST_CC"
-CFLAGS_FOR_BUILD="$HOST_CFLAGS"
 
 PKG_CONFIGURE_OPTS_TARGET="bash_cv_have_mbstate_t=set \
                            --disable-shared \
@@ -50,6 +46,11 @@ PKG_CONFIGURE_OPTS_TARGET="bash_cv_have_mbstate_t=set \
                            --without-libexpat-prefix \
                            --disable-libssp \
                            --disable-werror"
+
+pre_configure_target() {
+  export CC_FOR_BUILD="$HOST_CC"
+  export CFLAGS_FOR_BUILD="$HOST_CFLAGS"
+}
 
 makeinstall_target() {
   : # meh

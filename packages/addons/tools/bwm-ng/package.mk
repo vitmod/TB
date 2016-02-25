@@ -15,7 +15,7 @@
 
 PKG_NAME="bwm-ng"
 PKG_VERSION="0.6.1"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gropp.org/?id=projects&sub=bwm-ng"
 PKG_URL="http://www.gropp.org/bwm-ng/bwm-ng-$PKG_VERSION.tar.gz"
@@ -27,7 +27,6 @@ PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nBandwidth Monitor NG is a small and simple
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_TARGET="--with-time \

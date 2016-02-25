@@ -16,7 +16,7 @@
 
 . /etc/profile
 
-oe_setup_addon service.multimedia.tvheadend
+oe_setup_addon service.tvheadend
 
 if [ "$WAIT_FOR_NET" == "true" ] ; then
   cm-online $WAIT_FOR_NET_TIME

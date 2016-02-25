@@ -15,7 +15,7 @@
 
 PKG_NAME="strace"
 PKG_VERSION="4.10"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="BSD"
 PKG_SITE="http://sourceforge.net/projects/strace/"
 PKG_URL="$SOURCEFORGE_SRC/strace/strace/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
@@ -27,7 +27,6 @@ PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nIn the simplest case strace runs the speci
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 makeinstall_target() {

@@ -15,7 +15,7 @@
 
 PKG_NAME="evtest"
 PKG_VERSION="1.31"
-PKG_REV="1"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://cgit.freedesktop.org/evtest/"
 PKG_URL="http://cgit.freedesktop.org/evtest/snapshot/$PKG_NAME-$PKG_VERSION.tar.bz2"
@@ -29,7 +29,6 @@ PKG_ADDON_TYPE="xbmc.python.script"
 
 PKG_AUTORECONF="yes"
 
-PKG_DISCLAIMER="this is an unofficial addon. please don't ask for support in openelec forum / irc channel"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 makeinstall_target() {
