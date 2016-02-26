@@ -23,7 +23,7 @@
     KERNEL_MAKE_EXTRACMD=""
 
   # Kernel to use
-    LINUX="default"
+    LINUX="wetekcore"
 
   # OpenGL-ES implementation to use (opengl-meson8)
     OPENGLES="opengl-meson8"
