@@ -35,6 +35,10 @@ pre_configure_host() {
   export CPPFLAGS="$CPPFLAGS -I$ROOT/$TOOLCHAIN/include"
 }
 
+pre_configure_target() {
+  export CPPFLAGS="$CPPFLAGS -fPIC"
+}
+
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin
   rm -rf $ROOT/$TOOLCHAIN/bin/libpng*-config
