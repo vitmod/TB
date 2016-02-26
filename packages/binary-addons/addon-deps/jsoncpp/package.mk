@@ -25,7 +25,7 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC=""
 
 pre_configure_target() {
-  export CFLAGS="$CFLAGS -fPIC"
+  export CXXFLAGS="$CXXFLAGS -fPIC"
 }
 
 pre_build_target() {
