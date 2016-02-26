@@ -31,6 +31,10 @@ PKG_CONFIGURE_OPTS_HOST="--enable-static \
 
 PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared --with-jpeg8"
 
+pre_configure_target() {
+  export CPPFLAGS="$CPPFLAGS -fPIC"
+}
+
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin
 }
