@@ -30,7 +30,7 @@ case "$LINUX" in
     ;;
 esac
 
-PKG_MAKE_OPTS_HOST="ARCH=$TARGET_ARCH headers_check"
+PKG_MAKE_OPTS_HOST="ARCH=$TARGET_KERNEL_ARCH headers_check"
 
 if [ -n "$KERNEL_UBOOT_TARGET" ]; then
   KERNEL_IMAGE="$KERNEL_UBOOT_TARGET"
@@ -47,7 +47,7 @@ post_patch() {
 
   sed -i -e "s|^HOSTCC[[:space:]]*=.*$|HOSTCC = $HOST_CC|" \
          -e "s|^HOSTCXX[[:space:]]*=.*$|HOSTCXX = $HOST_CXX|" \
-         -e "s|^ARCH[[:space:]]*?=.*$|ARCH = $TARGET_ARCH|" \
+         -e "s|^ARCH[[:space:]]*?=.*$|ARCH = $TARGET_KERNEL_ARCH|" \
          -e "s|^CROSS_COMPILE[[:space:]]*?=.*$|CROSS_COMPILE = $TARGET_PREFIX|" \
          $PKG_BUILD/Makefile
 
@@ -63,7 +63,7 @@ post_patch() {
 }
 
 makeinstall_host() {
-  make ARCH=$TARGET_ARCH INSTALL_HDR_PATH=dest headers_install
+  make ARCH=$TARGET_KERNEL_ARCH INSTALL_HDR_PATH=dest headers_install
   mkdir -p $SYSROOT_PREFIX/usr/include
   cp -R dest/include/* $SYSROOT_PREFIX/usr/include
 }
@@ -92,9 +92,9 @@ make_target() {
   LDFLAGS="" make $KERNEL_IMAGE $KERNEL_MAKE_EXTRACMD
 
   if [ "$BUILD_ANDROID_BOOTIMG" = "yes" ]; then
-    LDFLAGS="" mkbootimg --kernel arch/arm/boot/$KERNEL_IMAGE --ramdisk $ROOT/$BUILD/image/initramfs.cpio \
-      --second "$ANDROID_BOOTIMG_SECOND" --output arch/arm/boot/boot.img
-    mv -f arch/arm/boot/boot.img arch/arm/boot/$KERNEL_IMAGE
+    LDFLAGS="" mkbootimg --kernel arch/$TARGET_KERNEL_ARCH/boot/$KERNEL_IMAGE --ramdisk $ROOT/$BUILD/image/initramfs.cpio \
+      --second "$ANDROID_BOOTIMG_SECOND" --output arch/$TARGET_KERNEL_ARCH/boot/boot.img
+    mv -f arch/$TARGET_KERNEL_ARCH/boot/boot.img arch/$TARGET_KERNEL_ARCH/boot/$KERNEL_IMAGE
   fi
 }
 
