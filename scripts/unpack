@@ -113,6 +113,15 @@ if [ "$(type -t post_patch)" = "function" ]; then
   post_patch
 fi
 
+for config in `find $BUILD/$1* -name config.guess | sed 's/config.guess//'`; do
+  printf "%${BUILD_INDENT}c ${boldyellow}FIXCONFIG${endcolor}   $config\n" ' '
+
+  [ -f "$config/config.guess" ] && cp -f $SCRIPTS/configtools/config.guess $config
+  [ -f "$config/config.sub" ] && cp -f $SCRIPTS/configtools/config.sub $config
+  [ -f "$config/configure.guess" ] && cp -f $SCRIPTS/configtools/config.guess $config/configure.guess
+  [ -f "$config/configure.sub" ] && cp -f $SCRIPTS/configtools/config.sub $config/configure.sub
+done
+
 rm -f $STAMPS/$1/build_*
 
 PKG_DEEPMD5=$(find $STAMP_DEPENDS -exec md5sum {} \; 2>/dev/null | sort | md5sum | cut -d" " -f1)
