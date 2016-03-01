@@ -8,7 +8,7 @@
     TARGET_FPU="neon-fp16"
 
   # Kernel target for u-boot (uImage / zImage)
-    KERNEL_UBOOT_TARGET="uImage-dtb"
+    KERNEL_TARGET="uImage-dtb"
 
   # Kernel extra targets to build
     KERNEL_UBOOT_EXTRA_TARGET="meson8m2_wetek_core.dtd meson8m2_wetek_core.dtb"
