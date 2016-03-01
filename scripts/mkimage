@@ -91,7 +91,7 @@ mount "$LOOP" "$OE_TMP"
 
 echo "image: copying files to part1..."
 cp $TARGET_IMG/$IMAGE_NAME.kernel "$OE_TMP/$KERNEL_NAME"
-cp $TARGET_IMG/$IMAGE_NAME.system "$OE_TMP/SYSTEM"
+cp $TARGET_IMG/$IMAGE_NAME.system "$OE_TMP/root.sqfs"
 
 echo "image: unmounting part1..."
 sync

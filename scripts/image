@@ -130,8 +130,8 @@ if [ "$1" = "release" -o "$1" = "mkimage" ]; then
   rm -rf $TARGET_IMG/$IMAGE_NAME.img.gz
 
   mkdir -p $RELEASE_DIR
-  cp $TARGET_IMG/$IMAGE_NAME.system $RELEASE_DIR/SYSTEM
-  cp $TARGET_IMG/$IMAGE_NAME.kernel $RELEASE_DIR/KERNEL
+  cp $TARGET_IMG/$IMAGE_NAME.system $RELEASE_DIR/root.sqfs
+  cp $TARGET_IMG/$IMAGE_NAME.kernel $RELEASE_DIR/kernel.img
 
   # create target directory
   mkdir -p $TARGET_IMG
@@ -146,7 +146,7 @@ if [ "$1" = "release" -o "$1" = "mkimage" ]; then
   if [ "$1" = "mkimage" ]; then
     # projects can set KERNEL_NAME (kernel.img)
     if [ -z "$KERNEL_NAME" ] ; then
-      KERNEL_NAME="KERNEL"
+      KERNEL_NAME="kernel.img"
     fi
     echo "mkimage: boo. now root access (sudo) is required..."
     echo "mkimage: see scripts/image and scripts/mkimage if you dont trust us :)"

@@ -36,8 +36,7 @@
 /bin/busybox mount -t tmpfs tmpfs /var
 
 UPDATE_DIR=/storage/.update
-IMAGE_KERNEL="KERNEL"
-IMAGE_SYSTEM="SYSTEM"
+IMAGE_KERNEL="kernel.img"
 
 BOOT_STEP="start"
 RUN_FSCK_DISKS=""
@@ -67,24 +66,13 @@ for arg in $(cat /proc/cmdline); do
     BOOT_IMAGE=*)
       IMAGE_KERNEL="${arg#*=}"
       ;;
-    SYSTEM_IMAGE=*)
-      IMAGE_SYSTEM="${arg#*=}"
-      ;;
     boot=*)
       boot="${arg#*=}"
-      case $boot in
-        /dev/*|LABEL=*|UUID=*)
-          RUN_FSCK_DISKS="$RUN_FSCK_DISKS $boot"
-          ;;
-      esac
+      RUN_FSCK_DISKS="$RUN_FSCK_DISKS $boot"
       ;;
     disk=*)
       disk="${arg#*=}"
-      case $disk in
-        /dev/*|LABEL=*|UUID=*)
-          RUN_FSCK_DISKS="$RUN_FSCK_DISKS $disk"
-          ;;
-      esac
+      RUN_FSCK_DISKS="$RUN_FSCK_DISKS $disk"
       ;;
   esac
 done
@@ -117,7 +105,7 @@ mount_common() {
 mount_part() {
   MOUNT_TARGET="${1#*=}"
   case $1 in
-    LABEL=*|UUID=*|/*)
+    UUID=*|/*)
       MOUNT_CMD="mount_common"
       MOUNT_TARGET="$1"
       ;;
@@ -129,10 +117,10 @@ mount_part() {
 }
 
 update() {
-  if [ -f "$UPDATE_DIR/$2" -a -f "$3" ]; then
+  if [ -f "$UPDATE_DIR/$1" -a -f "$2" ]; then
     echo "updating $1..."
     mount -o remount,rw /flash
-    mv $UPDATE_DIR/$2 $3 2>/dev/null
+    mv $UPDATE_DIR/$1 $2 2>/dev/null
     mount -o remount,ro /flash
     sync
   fi
@@ -225,16 +213,16 @@ check_update() {
     rm -rf "$UPDATE_TAR" &>/dev/null
   fi
 
-  if [ -f "$UPDATE_DIR/KERNEL" -a -f "$UPDATE_DIR/SYSTEM" ] ; then
-    update "Kernel" "KERNEL" "/flash/$IMAGE_KERNEL"
-    update "System" "SYSTEM" "/flash/$IMAGE_SYSTEM"
+  if [ -f "$UPDATE_DIR/kernel.img" -a -f "$UPDATE_DIR/root.sqfs" ] ; then
+    update "$IMAGE_KERNEL" "/flash/$IMAGE_KERNEL"
+    update "root.sqfs" "/flash/root.sqfs"
     rm -rf $UPDATE_DIR/[0-9a-zA-Z]* &>/dev/null
     do_reboot
   fi
 }
 
 prepare_sysroot() {
-  mount_part "/flash/$IMAGE_SYSTEM" "/sysroot" "ro,loop"
+  mount_part "/flash/root.sqfs" "/sysroot" "ro,loop"
 
   mkdir -p /storage/.cache
   mkdir -p /storage/.config
