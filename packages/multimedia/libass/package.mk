@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="libass"
-PKG_VERSION="0.13.1"
+PKG_VERSION="0.13.2"
 PKG_LICENSE="BSD"
 PKG_SITE="https://github.com/libass/libass"
 PKG_URL="https://github.com/libass/libass/releases/download/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
