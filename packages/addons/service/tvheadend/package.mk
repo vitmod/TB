@@ -14,11 +14,11 @@
 ################################################################################
 
 PKG_NAME="tvheadend"
-PKG_VERSION="4.0.8"
-PKG_REV="2"
+PKG_VERSION="52ed773"
+PKG_REV="3"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.tvheadend.org"
-PKG_URL="https://github.com/tvheadend/tvheadend/archive/v${PKG_VERSION}.tar.gz"
+PKG_FETCH="git+https://github.com/tvheadend/tvheadend.git"
 PKG_DEPENDS_TARGET="toolchain libressl curl libdvbcsa"
 PKG_SECTION="service"
 PKG_SHORTDESC="TV streaming server for Linux"
@@ -47,10 +47,16 @@ configure_target() {
             --disable-satip_server \
             --disable-satip_client \
             --disable-hdhomerun_client \
+            --disable-hdhomerun_static \
             --disable-trace \
             --disable-avahi \
             --disable-libav \
-            --disable-libffmpeg_static_x264 \
+            --disable-libffmpeg_static \
+            --disable-libx264_static \
+            --disable-libx265_static \
+            --disable-vdpau \
+            --disable-nvenc \
+            --disable-libmfx_static \
             --enable-inotify \
             --enable-epoll \
             --disable-uriparser \
