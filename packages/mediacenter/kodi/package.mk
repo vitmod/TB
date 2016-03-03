@@ -140,6 +140,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/kodi/*.cmake
   rm -rf $INSTALL/usr/share/applications
   rm -rf $INSTALL/usr/share/icons
+  rm -rf $INSTALL/usr/share/kodi/addons/skin.estouchy
   rm -rf $INSTALL/usr/share/kodi/addons/service.xbmc.versioncheck
   rm -rf $INSTALL/usr/share/kodi/addons/visualization.vortex
   rm -rf $INSTALL/usr/share/xsessions
@@ -168,6 +169,8 @@ post_makeinstall_target() {
 
   # update addon manifest
   xmlstarlet ed -L -d "/addons/addon[text()='service.xbmc.versioncheck']" \
+    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
+  xmlstarlet ed -L -d "/addons/addon[text()='skin.estouchy']" \
     $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "os.openelec.tv" \
     $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
