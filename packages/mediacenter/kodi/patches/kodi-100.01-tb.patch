@@ -1,7 +1,7 @@
-From 3ba0d6359ba53a7d71cd82accc481f1eef507f47 Mon Sep 17 00:00:00 2001
+From dcb4472002973adcf575533120b78481ac5870d8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:12:49 +0300
-Subject: [PATCH 01/24] [tb] enable PYTHONOPTIMIZE with external Python
+Subject: [PATCH 01/26] [tb] enable PYTHONOPTIMIZE with external Python
 
 ---
  xbmc/interfaces/python/XBPython.cpp | 7 +++----
@@ -29,10 +29,10 @@ index 1b27903..c8de485 100644
 2.7.0
 
 
-From a727a5de37eac6116c357010666e084681e31cf2 Mon Sep 17 00:00:00 2001
+From 14e6e082139aaffd41fb7bdb113a0069e496ade3 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
-Subject: [PATCH 02/24] [tb] disable online check
+Subject: [PATCH 02/26] [tb] disable online check
 
 ---
  xbmc/GUIInfoManager.cpp              | 1 -
@@ -41,7 +41,7 @@ Subject: [PATCH 02/24] [tb] disable online check
  3 files changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/xbmc/GUIInfoManager.cpp b/xbmc/GUIInfoManager.cpp
-index 8d146d4..0a3561b 100644
+index 49d0e5d..84c318e1b 100644
 --- a/xbmc/GUIInfoManager.cpp
 +++ b/xbmc/GUIInfoManager.cpp
 @@ -298,7 +298,6 @@ const infomap system_labels[] =  {{ "hasnetwork",       SYSTEM_ETHERNET_LINK_ACT
@@ -91,10 +91,10 @@ index 4184db0..0cd539e 100644
 2.7.0
 
 
-From 2147d93fd09fb33270e7beb3c2b7ca3b780a5e43 Mon Sep 17 00:00:00 2001
+From 5f0e53efaf088f86c82c90d2585b9aca7cc52070 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 03/24] [tb] make binary addons executable
+Subject: [PATCH 03/26] [tb] make binary addons executable
 
 add executable mode to all files in addon's bin folder
 
@@ -151,10 +151,10 @@ index e187823..cb6b8c7 100644
 2.7.0
 
 
-From 0c6ec708757c019c4fff569d7075f9a78722508a Mon Sep 17 00:00:00 2001
+From c4c5c7f3483e1720f590c00db163932406bfbf64 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 04/24] [tb] disable minimize
+Subject: [PATCH 04/26] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
@@ -176,10 +176,10 @@ index 9241384..94adaae 100644
 2.7.0
 
 
-From 1745d893d669e637ea348f52306d619960705188 Mon Sep 17 00:00:00 2001
+From a3384f64e444626767a5b74e0240f9df606aa79c Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 05/24] [tb] setup timezone
+Subject: [PATCH 05/26] [tb] setup timezone
 
 on TZ country setting change, store the value in format
 TIMEZONE=Xx/Yyy to /storage/.cache/timezone to be used with
@@ -222,10 +222,10 @@ index ea44d40..b780e62 100644
 2.7.0
 
 
-From 7ac508e97c1616e14da1ffb63a3534573f51ea7f Mon Sep 17 00:00:00 2001
+From 3669bee36fbc93b64746e5ffa3886be256d7e364 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 06/24] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 06/26] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -317,10 +317,10 @@ index bc5338c..1079952 100644
 2.7.0
 
 
-From 6265b3c6708a96d22f474bb005eda782ae487b89 Mon Sep 17 00:00:00 2001
+From cb342279d1c459aa40609f2bd7ba1e7cad21c24b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 07/24] [tb] handle SIGTERM
+Subject: [PATCH 07/26] [tb] handle SIGTERM
 
 0. CApplication::Stop cant be trusted. (deadlocks crashes and boo)
 
@@ -476,10 +476,10 @@ index b6b7035..9e7309b 100644
 2.7.0
 
 
-From 7b5696895d5e6b6ed4e4247fe3c1ff2a3b38b15e Mon Sep 17 00:00:00 2001
+From 160100ce9a8bcaab0a8eb315a97eb71c3bd54409 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:45:54 +0300
-Subject: [PATCH 08/24] [tb] prevent kodi switching to windowed mode
+Subject: [PATCH 08/26] [tb] prevent kodi switching to windowed mode
 
 ---
  xbmc/windowing/X11/WinSystemX11.h | 1 +
@@ -501,10 +501,10 @@ index 7edddbc..1db131e 100644
 2.7.0
 
 
-From 2c717bb1a6d5dba4272d14c703eee0619f3dc275 Mon Sep 17 00:00:00 2001
+From bd121892c0db8e96f4972c122f6af9c6ef3dfa07 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
-Subject: [PATCH 09/24] [tb] udevprovider: filter out OE specific mounts
+Subject: [PATCH 09/26] [tb] udevprovider: filter out OE specific mounts
 
 ---
  xbmc/storage/linux/UDevProvider.cpp | 14 ++++++++++++++
@@ -539,10 +539,10 @@ index 6fda5a5..525e6b7 100644
 2.7.0
 
 
-From c4e0ae50670ed68250827521b6cd0a683e13acec Mon Sep 17 00:00:00 2001
+From 57144730d5c0617a3e2d812187033570c4b194d5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
-Subject: [PATCH 10/24] [tb] our ffmpeg is doing well
+Subject: [PATCH 10/26] [tb] our ffmpeg is doing well
 
 ---
  xbmc/Application.cpp | 7 -------
@@ -570,10 +570,10 @@ index 1a8d0f7..b6efcbb 100644
 2.7.0
 
 
-From cc270afd1b3af1fa4ba84b2b23cb8fd6224392a3 Mon Sep 17 00:00:00 2001
+From d7560af752fb227e3fce796536554a16133a3e90 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
-Subject: [PATCH 11/24] [tb] meh addon sonames
+Subject: [PATCH 11/26] [tb] meh addon sonames
 
 ---
  project/cmake/scripts/common/addon-helpers.cmake | 3 +++
@@ -597,10 +597,10 @@ index 9541df4..9e2e398 100644
 2.7.0
 
 
-From aa70c65a7839085138e535d981a45d0678905088 Mon Sep 17 00:00:00 2001
+From 53d91db3004dcb20efaab7efd0b18e32ce958161 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 10 Nov 2015 14:27:27 +0200
-Subject: [PATCH 12/24] [tb] bye dcadec
+Subject: [PATCH 12/26] [tb] bye dcadec
 
 ---
  Makefile.in  | 2 +-
@@ -608,10 +608,10 @@ Subject: [PATCH 12/24] [tb] bye dcadec
  2 files changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index 8a06e6f..d038610 100644
+index 10afc8b..2d9a5a2 100644
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -371,7 +371,7 @@ FFMPEGOBJS = @FFMPEG_LIBDIR@/libavcodec.a \
+@@ -368,7 +368,7 @@ FFMPEGOBJS = @FFMPEG_LIBDIR@/libavcodec.a \
               @FFMPEG_LIBDIR@/libpostproc.a \
               @FFMPEG_LIBDIR@/libswscale.a
  DYNOBJSXBMC+= $(FFMPEGOBJS)
@@ -621,10 +621,10 @@ index 8a06e6f..d038610 100644
  $(FFMPEGOBJS): dvdpcodecs
  endif
 diff --git a/configure.ac b/configure.ac
-index bdf239a..187dcf2 100644
+index 4549020..6e2c628 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -963,7 +963,6 @@ fi
+@@ -977,7 +977,6 @@ fi
  AC_CHECK_HEADER([ass/ass.h],, AC_MSG_ERROR($missing_library))
  AC_CHECK_HEADER([ogg/ogg.h],,        AC_MSG_ERROR($missing_library))
  AC_CHECK_HEADER([vorbis/vorbisfile.h],, AC_MSG_ERROR($missing_library))
@@ -636,17 +636,17 @@ index bdf239a..187dcf2 100644
 2.7.0
 
 
-From d3f44e08d47284cc04992147e068571081031495 Mon Sep 17 00:00:00 2001
+From 650f54ce529339baf5158152099b0e4f14a611e0 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 13/24] [tb] sledgehammer. fix crash while importing channels
+Subject: [PATCH 13/26] [tb] sledgehammer. fix crash while importing channels
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
  1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/xbmc/pvr/channels/PVRChannel.cpp b/xbmc/pvr/channels/PVRChannel.cpp
-index aef2fa2..e3e0214 100644
+index b084263..6e26067 100644
 --- a/xbmc/pvr/channels/PVRChannel.cpp
 +++ b/xbmc/pvr/channels/PVRChannel.cpp
 @@ -220,10 +220,7 @@ bool CPVRChannel::Persist()
@@ -665,10 +665,10 @@ index aef2fa2..e3e0214 100644
 2.7.0
 
 
-From 2926acdd9a1bc0b2ee16fad5bef4a661b36b96ec Mon Sep 17 00:00:00 2001
+From c864069657ce1bd3905a6eeea0242d0a9500068c Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
-Subject: [PATCH 14/24] [tb] meh past epg data
+Subject: [PATCH 14/26] [tb] meh past epg data
 
 ---
  xbmc/pvr/windows/GUIWindowPVRGuide.cpp | 2 +-
@@ -691,10 +691,10 @@ index a4156aa..f4419cf 100644
 2.7.0
 
 
-From 17350db074594825c9cdc9684279b2530d92c940 Mon Sep 17 00:00:00 2001
+From 04a4c15cb04a722e33723b1f5a4a8b020462986a Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Wed, 16 Apr 2014 22:02:01 +0300
-Subject: [PATCH 15/24] [aml] Fix ALSA sound output for Amlogic-based devices.
+Subject: [PATCH 15/26] [aml] Fix ALSA sound output for Amlogic-based devices.
 
 ---
  xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp | 19 +++++++++++++++++++
@@ -747,10 +747,10 @@ index fbccce0..6bf2c53 100644
 2.7.0
 
 
-From c96dad0337ad65ffbdef42bc94f0bd3cea1ba608 Mon Sep 17 00:00:00 2001
+From 044f43d93025170b72bfab7d5d47a43b65d0219b Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Fri, 19 Sep 2014 01:55:12 +0300
-Subject: [PATCH 16/24] [aml] Change the sample rates that are supported by
+Subject: [PATCH 16/26] [aml] Change the sample rates that are supported by
  ALSA but unsupported by HDMI to the closest supported value
 
 ---
@@ -792,10 +792,10 @@ index 6bf2c53..32ab888 100644
 2.7.0
 
 
-From cc28fb6e4da58dc3e9073dbba96513815d7ac202 Mon Sep 17 00:00:00 2001
+From 47e1b14f24511f8286817859cdf7a444f332acdd Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 17/24] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 17/26] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -822,10 +822,10 @@ index 7460457..4e09342 100644
 2.7.0
 
 
-From f84a5b920275930f042d6cff890c7fb4e520e504 Mon Sep 17 00:00:00 2001
+From cc3d5f8f74d0c268a34b2ea026740737e3c6e80e Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 3 Feb 2015 17:58:19 +0100
-Subject: [PATCH 18/24] [aml] Disable deinterlacing for HD content while video
+Subject: [PATCH 18/26] [aml] Disable deinterlacing for HD content while video
  is being played in a window
 
 ... to prevent screen blinking in 1080p50/60hz display modes
@@ -853,10 +853,10 @@ index ace2550..c4c55f0 100644
 2.7.0
 
 
-From d044bff7421770122f2ece09b8bc18d00019e44e Mon Sep 17 00:00:00 2001
+From b5979d8dd59c9a7b7eb37832a8f06e5134aa3972 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
-Subject: [PATCH 19/24] [wetek] fix compiler badness when compiling with
+Subject: [PATCH 19/26] [wetek] fix compiler badness when compiling with
  amcodec
 
 ---
@@ -880,10 +880,10 @@ index 7880c06..bd083b7 100644
 2.7.0
 
 
-From fdf4c4bd7bd0f9760ea701d73af3ce4b19e8a322 Mon Sep 17 00:00:00 2001
+From 4e025a1235aff4540713dbd05c4f697f7c69aef5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:25:44 +0200
-Subject: [PATCH 20/24] [wetek] perform suspend instead of powerdown
+Subject: [PATCH 20/26] [wetek] perform suspend instead of powerdown
 
 ---
  system/keymaps/keyboard.xml                        | 2 +-
@@ -929,10 +929,10 @@ index 4e5bcc6..ad5847d 100644
 2.7.0
 
 
-From c771453e03be50531939260b9a3683258f8faa1b Mon Sep 17 00:00:00 2001
+From 5f9f94ee11b2349bf89b0a9cd41d0299114bc095 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
-Subject: [PATCH 21/24] [aml] Ugly workaround to show DTS/AC3 caps
+Subject: [PATCH 21/26] [aml] Ugly workaround to show DTS/AC3 caps
 
 ... but don't run into multi channel issues as we can only open 2 pcm channels
 ---
@@ -960,10 +960,10 @@ index 32ab888..d4eb0be 100644
 2.7.0
 
 
-From 4efa5e7b126104a90ef12687555ec981aec9cb62 Mon Sep 17 00:00:00 2001
+From c9fb5efd054a6539f66a9effb616cb9ea99facd5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
-Subject: [PATCH 22/24] [aml] prefer libamcodec.so
+Subject: [PATCH 22/26] [aml] prefer libamcodec.so
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 6 +++---
@@ -997,10 +997,111 @@ index c4c55f0..5fb2760 100644
 2.7.0
 
 
-From 78cdaf2470f6a43d6be9797651e732bbbd029c1c Mon Sep 17 00:00:00 2001
+From 6a8c6c610be3a2045305fae8d2349305b71417d3 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Tue, 1 Mar 2016 20:20:36 +0200
+Subject: [PATCH 23/26] [aml] workarounds ;)
+
+---
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
+index 5fb2760..005b09e 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
+@@ -1411,6 +1411,10 @@ CAMLCodec::~CAMLCodec()
+ 
+ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
+ {
++  // add a little delay before opening in case
++  // we are reopened too fast.
++  usleep(500 * 1000);
++
+ #ifdef TARGET_ANDROID
+   CLog::Log(LOGDEBUG, "CAMLCodec::OpenDecoder, android version %d", CAndroidFeatures::GetVersion());
+ #endif
+@@ -1726,7 +1730,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+ 
+   if (pData)
+   {
+-    m_player_pts = pts;
+     am_private->am_pkt.data = pData;
+     am_private->am_pkt.data_size = iSize;
+ 
+@@ -1804,10 +1807,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+   if (iSize < 20)
+     target_timesize = 2.0;
+ 
+-  // keep hw buffered demux above 1 second
+-  if (GetTimeSize() < target_timesize && m_speed == DVD_PLAYSPEED_NORMAL)
+-    return VC_BUFFER;
+-
+   // wait until we get a new frame or 25ms,
+   if (m_old_pictcnt == m_cur_pictcnt)
+     m_ready_event.WaitMSec(25);
+@@ -1815,7 +1814,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+   // we must return VC_BUFFER or VC_PICTURE,
+   // default to VC_BUFFER.
+   int rtn = VC_BUFFER;
+-  m_player_pts = DVD_NOPTS_VALUE;
+   if (m_old_pictcnt != m_cur_pictcnt)
+   {
+     m_old_pictcnt++;
+@@ -1826,6 +1824,10 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+     // we also check to make sure we keep from filling hw buffer.
+     if (GetTimeSize() < 2.0 && GetDataSize() < m_vbufsize/3)
+       rtn |= VC_BUFFER;
++
++    // keep hw buffered demux above 1 second
++    if (GetTimeSize() < target_timesize && m_speed == DVD_PLAYSPEED_NORMAL)
++      rtn = VC_BUFFER;
+   }
+ /*
+   CLog::Log(LOGDEBUG, "CAMLCodec::Decode: "
+-- 
+2.7.0
+
+
+From 5a5a1b17c8cb99ccab6b52eb071d8fd3a5491eb7 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sun, 17 Jan 2016 15:15:47 +0200
+Subject: [PATCH 24/26] TEMP: [aml] use software decoding for sd
+
+---
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
+index 7525947..941d0ac 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
+@@ -81,8 +81,6 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
+     case AV_CODEC_ID_MJPEG:
+       m_pFormatName = "am-mjpeg";
+       break;
+-    case AV_CODEC_ID_MPEG1VIDEO:
+-    case AV_CODEC_ID_MPEG2VIDEO:
+     case AV_CODEC_ID_MPEG2VIDEO_XVMC:
+       m_mpeg2_sequence_pts = 0;
+       m_mpeg2_sequence = new mpeg2_sequence;
+@@ -122,6 +120,8 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
+     case AV_CODEC_ID_MPEG4:
+     case AV_CODEC_ID_MSMPEG4V2:
+     case AV_CODEC_ID_MSMPEG4V3:
++    case AV_CODEC_ID_MPEG1VIDEO:
++    case AV_CODEC_ID_MPEG2VIDEO:
+       if (hints.width <= 800)
+         return false;
+       m_pFormatName = "am-mpeg4";
+-- 
+2.7.0
+
+
+From 20249356df06c69352868402d8dbfbffb9ad2e31 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Jan 2016 20:37:31 +0200
-Subject: [PATCH 23/24] TEMP: volume steps
+Subject: [PATCH 25/26] TEMP: volume steps
 
 ---
  xbmc/Application.h | 2 +-
@@ -1023,17 +1124,17 @@ index 98e842b..a2eaced 100644
 2.7.0
 
 
-From 176c67eded87e17d4478050126fbb6239b204960 Mon Sep 17 00:00:00 2001
+From 6c805c95c956d066fbc94a29ae21ba83bc0fd6d5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 24 Feb 2016 18:27:13 +0200
-Subject: [PATCH 24/24] TEMP: meh libdvd
+Subject: [PATCH 26/26] TEMP: meh libdvd
 
 ---
  Makefile.in | 2 --
  1 file changed, 2 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index d038610..3466864 100644
+index 2d9a5a2..3a253bd 100644
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -11,7 +11,6 @@ EC_DIRS= \
@@ -1044,7 +1145,7 @@ index d038610..3466864 100644
  
  VideoPlayer_ARCHIVES=xbmc/cores/VideoPlayer/VideoPlayer.a \
                     xbmc/cores/VideoPlayer/DVDCodecs/DVDCodecs.a \
-@@ -321,7 +320,6 @@ libaddon: exports
+@@ -318,7 +317,6 @@ libaddon: exports
  	$(MAKE) -C lib/addons/library.kodi.guilib
  	$(MAKE) -C lib/addons/library.xbmc.pvr
  dvdpcodecs: dllloader
