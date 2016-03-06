@@ -148,57 +148,47 @@ enable_service () {
 }
 
 check_config() {
-dashes="==========================="
   if [ ! -d $PROJECT_DIR/$PROJECT ]; then
-    check_project="$check_project\n $dashes$dashes$dashes"
-    check_project="$check_project\n ERROR: Project not found, use a valid project or create a new config"
-    check_project="$check_project\n $dashes$dashes$dashes"
-    check_project="$check_project\n\n Valid projects:"
-
+    msg="$msg\n ======================================================"
+    msg="$msg\n ERROR: Project not found."
+    msg="$msg\n ======================================================"
+    msg="$msg\n\n Valid projects:"
     for projects in $PROJECT_DIR/*; do
-      check_project="$check_project\n - $(basename $projects)"
+      msg="$msg\n - $(basename $projects)"
     done
-    echo -e $check_project
+    echo -e $msg
     exit 1
   fi
 
   if [ ! -f $PROJECT_DIR/$PROJECT/linux/linux.$TARGET_ARCH.conf ]; then
-    check_arch="$check_arch\n $dashes$dashes$dashes"
-    check_arch="$check_arch\n ERROR: Architecture not found, use a valid Architecture"
-    check_arch="$check_arch\n for your project or create a new config"
-    check_arch="$check_arch\n $dashes$dashes$dashes"
-    check_arch="$check_arch\n\n Valid Architectures for your project: $PROJECT"
-
+    msg="$msg\n ======================================================"
+    msg="$msg\n ERROR: Architecture not found."
+    msg="$msg\n ======================================================"
+    msg="$msg\n\n Valid Architectures for your project: $PROJECT"
     for arch in $PROJECT_DIR/$PROJECT/linux/*.conf; do
-      check_arch="$check_arch\n - $(basename $arch | cut -f2 -d".")"
+      msg="$msg\n - $(basename $arch | cut -f2 -d".")"
     done
-    echo -e $check_arch
+    echo -e $msg
     exit 1
   fi
 }
 
 show_config() {
-  dashes="==========================="
-
-  # OS configuration
-  config_message="$config_message\n OS configuration:"
-  config_message="$config_message\n $dashes$dashes"
-  config_message="$config_message\n - CPU (ARCH):\t\t\t\t $TARGET_CPU ($TARGET_ARCH)"
+  msg="$msg\n OS configuration:"
+  msg="$msg\n ======================================================"
+  msg="$msg\n - CPU (ARCH):\t\t\t $TARGET_CPU ($TARGET_ARCH)"
   if [ -n "$OPENGLES" ] ; then
-    config_message="$config_message\n - OpenGLES:\t\t\t\t $OPENGLES"
+    msg="$msg\n - OpenGLES:\t\t\t $OPENGLES"
   fi
   for config_package in $ADDITIONAL_PACKAGES; do
-    config_message="$config_message\n - Include package:\t\t\t $config_package"
+    msg="$msg\n - Include package:\t\t $config_package"
   done
-
-  # Kodi configuration
-  config_message="$config_message\n\n Kodi configuration:"
-  config_message="$config_message\n $dashes$dashes"
-  config_message="$config_message\n - Kodi Player driver:\t\t\t $KODIPLAYER_DRIVER"
-  config_message="$config_message\n - Kodi Webserver support:\t\t $KODI_WEBSERVER_SUPPORT"
-  config_message="$config_message\n"
-
-  echo -e "$config_message"
+  msg="$msg\n\n Kodi configuration:"
+  msg="$msg\n ======================================================"
+  msg="$msg\n - Kodi Player driver:\t\t $KODIPLAYER_DRIVER"
+  msg="$msg\n - Kodi Webserver support:\t $KODI_WEBSERVER_SUPPORT"
+  msg="$msg\n"
+  echo -e "$msg"
 }
 
 # strip
