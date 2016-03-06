@@ -52,22 +52,11 @@ get_module_dir() {
 # get package's build dir
 get_build_dir() {
   if [ ! -z $1 ] ; then
-    local _PKG_DIR=$(find $ROOT/packages -name $1 2>/dev/null)
+    local _PKG_DIR=$(find $ROOT/packages -name $1 | head -n1 2>/dev/null)
     if [ -d "$_PKG_DIR" -a -f $_PKG_DIR/package.mk ] ; then
       . $_PKG_DIR/package.mk
     fi
     echo $ROOT/$BUILD/${PKG_NAME}-${PKG_VERSION}
-  fi
-}
-
-# get package's version
-get_pkg_version() {
-  if [ ! -z $1 ] ; then
-    local _PKG_DIR=$(find $ROOT/packages -name $1 2>/dev/null)
-    if [ -d "$_PKG_DIR" -a -f $_PKG_DIR/package.mk ] ; then
-      . $_PKG_DIR/package.mk
-    fi
-    echo ${PKG_VERSION}
   fi
 }
 
@@ -295,7 +284,6 @@ set -e
 # setup initial directorys (relative to root)
 CONFIG=config
 SCRIPTS=scripts
-PACKAGES=packages
 SOURCES=sources
 BUILD_BASE=build
 TARGET=target
@@ -346,48 +334,10 @@ PKG_IS_ADDON="no"
 
 if [ -n "$1" ]; then
   _PKG_ROOT_NAME=$(echo $1 | cut -d: -f1)
-  _ALL_DIRS=""
-  _FOUND=0
-  PKG_DIR=""
-
-  # first check project folder for a package
-  for DIR in $(find $ROOT/projects/$PROJECT/packages -type d -name $_PKG_ROOT_NAME 2>/dev/null); do
-    if [ -r "$DIR/package.mk" ]; then
-      # found first, set $PKG_DIR
-      PKG_DIR="$DIR"
-      # keep track of dirs with package.mk for detecting multiple folders
-      _ALL_DIRS="${_ALL_DIRS}${DIR}\\n"
-      _FOUND=$((_FOUND+1))
-      if [ $_FOUND -gt 1 ]; then
-        # _FOUND more ? fail
-        echo "Error - multiple package folders:"
-        echo -e "$_ALL_DIRS"
-        exit 1
-      fi
-    fi
-  done
-
-  # then check packages folder if not found already
-  if [ $_FOUND -eq 0 ]; then
-    for DIR in $(find $ROOT/$PACKAGES -type d -name $_PKG_ROOT_NAME 2>/dev/null); do
-      if [ -r "$DIR/package.mk" ]; then
-        # found first, set $PKG_DIR
-        PKG_DIR="$DIR"
-        # keep track of dirs with package.mk for detecting multiple folders
-        _ALL_DIRS="${_ALL_DIRS}${DIR}\\n"
-        _FOUND=$((_FOUND+1))
-        if [ $_FOUND -gt 1 ]; then
-          # found more ? fail
-          echo "Error - multiple package folders:"
-          echo -e "$_ALL_DIRS"
-          exit 1
-        fi
-      fi
-    done
-  fi
+  PKG_DIR=$(find $ROOT/packages -name $_PKG_ROOT_NAME | head -n1 2>/dev/null)
 fi
 
-if [ -r $PKG_DIR/package.mk ]; then
+if [ -e $PKG_DIR/package.mk ]; then
   . $PKG_DIR/package.mk
 fi
 
