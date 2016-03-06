@@ -17,18 +17,14 @@
 ################################################################################
 
 PKG_NAME="linux"
+PKG_VERSION="$KERNEL_VERSION"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kernel.org"
+PKG_URL="$KERNEL_URL"
 PKG_DEPENDS_HOST=""
 PKG_DEPENDS_TARGET="toolchain cpio:host kmod:host"
 PKG_NEED_UNPACK="$LINUX_DEPENDS"
 PKG_SHORTDESC="linux26: The Linux kernel 2.6 precompiled kernel binary image and modules"
-case "$LINUX" in
-  wetekcore)
-    PKG_VERSION="amlogic-3.10-ca65e57"
-    PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
-    ;;
-esac
 
 PKG_MAKE_OPTS_HOST="ARCH=$TARGET_KERNEL_ARCH headers_check"
 

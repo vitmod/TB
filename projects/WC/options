@@ -23,7 +23,8 @@
     KERNEL_MAKE_EXTRACMD=""
 
   # Kernel to use
-    LINUX="wetekcore"
+    KERNEL_VERSION="amlogic-3.10-0f60813"
+    KERNEL_URL="$DISTRO_SRC/linux-$KERNEL_VERSION.tar.xz"
 
   # OpenGL-ES implementation to use (opengl-meson8)
     OPENGLES="opengl-meson8"
