@@ -85,24 +85,16 @@ upload() {
 }
 
 build() {
-#  for PROJECT in $(ls -1 projects) ; do
-  for PROJECT in WC ; do
-    for archfile in projects/$PROJECT/linux/linux.*.conf ; do
-      ARCH=`echo $archfile | sed -n '$s/\.conf//;$s/.*\.//p'`
-      for package in packages/binary-addons/*.* ; do
-        ADDON=$(basename $package)
-        PROJECT=$PROJECT ARCH=$ARCH ./scripts/create_addon $ADDON
-      done
-      if [ "$1" = "-all" ] ; then
-        for package in $(find packages/addons -iname package.mk) ; do
-          . $package
-          if [ "$PKG_IS_ADDON" = "yes" ] ; then
-            ADDON=$PKG_NAME
-            PROJECT=$PROJECT ARCH=$ARCH ./scripts/create_addon $ADDON
-          fi
-        done
-      fi
-    done
+  DIRS="packages/binary-addons"
+  if [ "$1" = "-all" ] ; then
+    DIRS="$DIRS packages/addons"
+  fi
+  for package in $(find $DIRS -iname package.mk) ; do
+    PKG_IS_ADDON=""
+    . $package
+    if [ "$PKG_IS_ADDON" = "yes" ] ; then
+      PROJECT=$PROJECT ARCH=$TARGET_ARCH ./scripts/create_addon $PKG_NAME
+    fi
   done
 }
 
