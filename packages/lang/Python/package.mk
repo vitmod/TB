@@ -24,6 +24,7 @@ PKG_URL="http://www.python.org/ftp/python/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.ta
 PKG_DEPENDS_HOST="zlib:host"
 PKG_DEPENDS_TARGET="toolchain sqlite expat zlib bzip2 libressl Python:host"
 PKG_SHORTDESC="python: The Python programming language"
+PKG_AUTORECONF="yes"
 
 PY_DISABLED_MODULES="readline _curses _curses_panel _tkinter nis gdbm bsddb ossaudiodev"
 
@@ -69,10 +70,8 @@ make_host() {
        PYTHON_MODULES_LIB="$HOST_LIBDIR" \
        PYTHON_DISABLE_MODULES="$PY_DISABLED_MODULES"
 
-  sed -e "s|$ROOT/$TOOLCHAIN/include|$SYSROOT_PREFIX/usr/include|g" \
-      -e "s|$ROOT/$TOOLCHAIN/lib|$SYSROOT_PREFIX/usr/lib|g" \
-      -e "s|$ROOT/$TOOLCHAIN/bin/host-gcc|${TARGET_PREFIX}gcc|g" \
-      -i build/lib.linux-$(uname -m)-2.7/_sysconfigdata.py
+  # python distutils per default adds -L$LIBDIR when linking binary extensions
+    sed -e "s|^ 'LIBDIR':.*| 'LIBDIR': '/usr/lib',|g" -i $(cat pybuilddir.txt)/_sysconfigdata.py
 }
 
 makeinstall_host() {
@@ -112,10 +111,6 @@ makeinstall_target() {
         PYTHON_MODULES_INCLUDE="$TARGET_INCDIR" \
         PYTHON_MODULES_LIB="$TARGET_LIBDIR" \
         install
-
-  # python distutils per default adds -L$LIBDIR when linking binary extensions
-  sed -e "s|^LIBDIR=.*|LIBDIR= $SYSROOT_PREFIX/usr/lib|" \
-      -i $SYSROOT_PREFIX/usr/lib/python*/config/Makefile
 
   make  -j1 CC="$TARGET_CC" \
         DESTDIR=$INSTALL \
