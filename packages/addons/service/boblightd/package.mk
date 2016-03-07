@@ -15,7 +15,7 @@
 
 PKG_NAME="boblightd"
 PKG_VERSION="479"
-PKG_REV="2"
+PKG_REV="3"
 PKG_LICENSE="GPL"
 PKG_SITE="http://code.google.com/p/boblight"
 PKG_FETCH="svn+http://boblight.googlecode.com/svn/trunk"
@@ -25,6 +25,7 @@ PKG_SHORTDESC="boblightd: an ambilight controller."
 PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nBoblight's main purpose is to create light effects from an external input, such as a video stream"
 
 PKG_IS_ADDON="yes"
+PKG_ADDON_NAME="Boblight daemon"
 PKG_ADDON_TYPE="xbmc.service"
 
 PKG_AUTORECONF="yes"
