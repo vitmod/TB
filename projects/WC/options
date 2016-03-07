@@ -23,7 +23,7 @@
     KERNEL_MAKE_EXTRACMD=""
 
   # Kernel to use
-    KERNEL_VERSION="amlogic-3.10-0f60813"
+    KERNEL_VERSION="amlogic-3.10-c8d5b2f"
     KERNEL_URL="$DISTRO_SRC/linux-$KERNEL_VERSION.tar.xz"
 
   # OpenGL-ES implementation to use (opengl-meson8)
