@@ -1,8 +1,8 @@
 diff --git a/sshconnect2.c b/sshconnect2.c
-index d6af0b9..22c0aa6 100644
+index f79c96b..6c8cdd3 100644
 --- a/sshconnect2.c
 +++ b/sshconnect2.c
-@@ -1320,8 +1320,7 @@ load_identity_file(char *filename, int userprovided)
+@@ -1205,8 +1205,7 @@ load_identity_file(Identity *id)
  	struct stat st;
  
  	if (stat(id->filename, &st) < 0) {
@@ -11,4 +11,4 @@ index d6af0b9..22c0aa6 100644
 +		debug3("no such identity: %s", id->filename);
  		return NULL;
  	}
- 	private = key_load_private_type(KEY_UNSPEC, filename, "", NULL, &perm_ok);
+ 	snprintf(prompt, sizeof prompt,

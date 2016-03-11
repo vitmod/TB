@@ -1,5 +1,5 @@
 diff --git a/Makefile.in b/Makefile.in
-index 06be3d5..5272bda 100644
+index d401787..f9f2bcd 100644
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -30,8 +30,10 @@ PRIVSEP_PATH=@PRIVSEP_PATH@
@@ -13,7 +13,7 @@ index 06be3d5..5272bda 100644
  	-D_PATH_SSH_PROGRAM=\"$(SSH_PROGRAM)\" \
  	-D_PATH_SSH_ASKPASS_DEFAULT=\"$(ASKPASS_PROGRAM)\" \
  	-D_PATH_SFTP_SERVER=\"$(SFTP_SERVER)\" \
-@@ -121,11 +123,11 @@ PATHSUBS	= \
+@@ -125,11 +127,11 @@ PATHSUBS	= \
  	-e 's|/etc/ssh/sshd_config|$(sysconfdir)/sshd_config|g' \
  	-e 's|/usr/libexec|$(libexecdir)|g' \
  	-e 's|/etc/shosts.equiv|$(sysconfdir)/shosts.equiv|g' \
@@ -31,10 +31,10 @@ index 06be3d5..5272bda 100644
  	-e 's|/etc/moduli|$(sysconfdir)/moduli|g' \
  	-e 's|/etc/ssh/moduli|$(sysconfdir)/moduli|g' \
 diff --git a/configure.ac b/configure.ac
-index 67c4486..b4297bf 100644
+index 7258cc0..ae0b938 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -4429,6 +4429,17 @@ AC_ARG_WITH([superuser-path],
+@@ -4579,6 +4579,17 @@ AC_ARG_WITH([superuser-path],
  	]
  )
  
@@ -52,7 +52,7 @@ index 67c4486..b4297bf 100644
  
  AC_MSG_CHECKING([if we need to convert IPv4 in IPv6-mapped addresses])
  IPV4_IN6_HACK_MSG="no"
-@@ -4799,6 +4810,7 @@ G=`eval echo ${piddir}` ; G=`eval echo ${G}`
+@@ -4949,6 +4960,7 @@ G=`eval echo ${piddir}` ; G=`eval echo ${G}`
  H=`eval echo ${PRIVSEP_PATH}` ; H=`eval echo ${H}`
  I=`eval echo ${user_path}` ; I=`eval echo ${I}`
  J=`eval echo ${superuser_path}` ; J=`eval echo ${J}`
@@ -60,7 +60,7 @@ index 67c4486..b4297bf 100644
  
  echo ""
  echo "OpenSSH has been configured with the following options:"
-@@ -4822,6 +4834,9 @@ fi
+@@ -4972,6 +4984,9 @@ fi
  if test ! -z "$superuser_path" ; then
  echo "          sshd superuser user PATH: $J"
  fi

@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="openssh"
-PKG_VERSION="7.2p1"
+PKG_VERSION="7.2p2"
 PKG_LICENSE="OSS"
 PKG_SITE="http://www.openssh.com/"
 PKG_URL="ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$PKG_NAME-$PKG_VERSION.tar.gz"
