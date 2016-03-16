@@ -20,7 +20,7 @@ PKG_NAME="yajl"
 PKG_VERSION="2.1.0"
 PKG_LICENSE="ISC"
 PKG_SITE="http://lloyd.github.com/yajl/"
-PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="https://github.com/lloyd/yajl/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="yajl: Yet Another JSON Library (YAJL) is a small event-driven (SAX-style) JSON parser"
 
