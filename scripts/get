@@ -61,11 +61,11 @@ if [ -n "$PKG_FETCH" ] ; then
   fi
 elif [ -n "$PKG_URL" ] ; then
   PACKAGE_MIRROR="$DISTRO_MIRROR/$PKG_NAME/$SOURCE_NAME"
-  WGET_CMD="wget --timeout=30 --no-check-certificate -c -nv --show-progress -P $SOURCES/$1"
+  WGET_CMD="wget --timeout=30 --tries=2 --no-check-certificate -c -nv --show-progress -P $SOURCES/$1"
   NBWGET="1"
   until [ -f "$STAMP" ] || $WGET_CMD $PKG_URL || $WGET_CMD $PACKAGE_MIRROR ; do
     NBWGET=$(($NBWGET+1))
-    if [ "$NBWGET" -gt "5" ]; then
+    if [ "$NBWGET" -gt "2" ]; then
       echo "*** Cant't get $1 sources : $PKG_URL. Try later ***"
       exit 1
     fi
