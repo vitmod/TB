@@ -1,7 +1,7 @@
 From cecd1b5ba146b50f134205d51953b8ebf43445f9 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:12:49 +0300
-Subject: [PATCH 01/24] [tb] enable PYTHONOPTIMIZE with external Python
+Subject: [PATCH 01/25] [tb] enable PYTHONOPTIMIZE with external Python
 
 ---
  xbmc/interfaces/python/XBPython.cpp | 7 +++----
@@ -32,7 +32,7 @@ index 1b27903..c8de485 100644
 From dd11ae08c408ac0200d96555a14e58a0130a0225 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
-Subject: [PATCH 02/24] [tb] disable online check
+Subject: [PATCH 02/25] [tb] disable online check
 
 ---
  xbmc/GUIInfoManager.cpp              | 1 -
@@ -94,7 +94,7 @@ index 4184db0..0cd539e 100644
 From e63adcd9142dfa37f44546cc813a30d62a55f8cf Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 03/24] [tb] make binary addons executable
+Subject: [PATCH 03/25] [tb] make binary addons executable
 
 add executable mode to all files in addon's bin folder
 
@@ -154,7 +154,7 @@ index 889935c..deb21b2 100644
 From c2c80cec068e80a5e918e1e5ccde69ed5c65a12e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 04/24] [tb] disable minimize
+Subject: [PATCH 04/25] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
@@ -179,7 +179,7 @@ index 72e4e613..4065338 100644
 From 5fa63e29660a8a25120e986fef00f1498f0e3c1d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 05/24] [tb] setup timezone
+Subject: [PATCH 05/25] [tb] setup timezone
 
 on TZ country setting change, store the value in format
 TIMEZONE=Xx/Yyy to /storage/.cache/timezone to be used with
@@ -225,7 +225,7 @@ index ea44d40..b780e62 100644
 From ba5ede8c3b3c91c7d026e5976b549d4a477e0b30 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 06/24] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 06/25] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -320,7 +320,7 @@ index bc5338c..1079952 100644
 From 3cbffdae56c39d740f53e1a9965f26acbd3e23c5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 07/24] [tb] handle SIGTERM
+Subject: [PATCH 07/25] [tb] handle SIGTERM
 
 0. CApplication::Stop cant be trusted. (deadlocks crashes and boo)
 
@@ -479,7 +479,7 @@ index b6b7035..9e7309b 100644
 From 10b56d68f3e2f9800f2a090e74e29454b8a07280 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:45:54 +0300
-Subject: [PATCH 08/24] [tb] prevent kodi switching to windowed mode
+Subject: [PATCH 08/25] [tb] prevent kodi switching to windowed mode
 
 ---
  xbmc/windowing/X11/WinSystemX11.h | 1 +
@@ -504,7 +504,7 @@ index 7edddbc..1db131e 100644
 From 6f9500389246efa95d7ce111159d39133a449ea3 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
-Subject: [PATCH 09/24] [tb] udevprovider: filter out OE specific mounts
+Subject: [PATCH 09/25] [tb] udevprovider: filter out OE specific mounts
 
 ---
  xbmc/storage/linux/UDevProvider.cpp | 14 ++++++++++++++
@@ -542,7 +542,7 @@ index 6fda5a5..525e6b7 100644
 From e9e917c4a6fafb165c91e0d80e5043f06b106744 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
-Subject: [PATCH 10/24] [tb] our ffmpeg is doing well
+Subject: [PATCH 10/25] [tb] our ffmpeg is doing well
 
 ---
  xbmc/Application.cpp | 7 -------
@@ -573,7 +573,7 @@ index 461766b..ceacf0b 100644
 From 36eeca23d743205e46a54a03755ecf3dac44bf92 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 11/24] [tb] sledgehammer. fix crash while importing channels
+Subject: [PATCH 11/25] [tb] sledgehammer. fix crash while importing channels
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -602,7 +602,7 @@ index b084263..6e26067 100644
 From 4c2a3b0ef3de7078e05e0470dd4b7d101ceb04ef Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 15 Mar 2016 21:29:43 +0200
-Subject: [PATCH 12/24] [tb] add advancedsetting to configure number of volume
+Subject: [PATCH 12/25] [tb] add advancedsetting to configure number of volume
  control steps
 
 ---
@@ -676,7 +676,7 @@ index ae05f9b..6db5f12 100644
 From 09918998786b260320f3534cbaacde8112dafdc4 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
-Subject: [PATCH 13/24] [tb] meh addon sonames
+Subject: [PATCH 13/25] [tb] meh addon sonames
 
 ---
  project/cmake/scripts/common/addon-helpers.cmake | 3 +++
@@ -703,7 +703,7 @@ index 9541df4..9e2e398 100644
 From 3822a1be9fa4814a02a71541b90c71a6705aecf1 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
-Subject: [PATCH 14/24] [tb] meh past epg data
+Subject: [PATCH 14/25] [tb] meh past epg data
 
 ---
  xbmc/pvr/windows/GUIWindowPVRGuide.cpp | 2 +-
@@ -729,7 +729,7 @@ index ba68408..90457e9 100644
 From bf69f5f60099595acc833393d214ef673139fa8b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 10 Nov 2015 14:27:27 +0200
-Subject: [PATCH 15/24] [tb] bye dcadec
+Subject: [PATCH 15/25] [tb] bye dcadec
 
 ---
  Makefile.in  | 2 +-
@@ -768,7 +768,7 @@ index d1e443d..fc03f28 100644
 From c8cf5ddb3270e5124da0e500c925df6f87e4a576 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 24 Feb 2016 18:27:13 +0200
-Subject: [PATCH 16/24] [tb] bye libdvd
+Subject: [PATCH 16/25] [tb] bye libdvd
 
 ---
  Makefile.in | 2 --
@@ -801,7 +801,7 @@ index 238f2e4..953a230 100644
 From f6fa1b51cfe3aa99260888631a773231a66f8c0c Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 17/24] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 17/25] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -831,7 +831,7 @@ index 7460457..4e09342 100644
 From 63fd60a460a06cdeab96554c53fd7ad1ec1afbec Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
-Subject: [PATCH 18/24] [aml] Ugly workaround to show DTS/AC3 caps
+Subject: [PATCH 18/25] [aml] Ugly workaround to show DTS/AC3 caps
 
 ... but don't run into multi channel issues as we can only open 2 pcm channels
 ---
@@ -862,7 +862,7 @@ index fbccce0..bc2a506 100644
 From 9d42fc5269dec2b8f5e8b8078942333b51e44991 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
-Subject: [PATCH 19/24] [aml] fix compiler badness when compiling with amcodec
+Subject: [PATCH 19/25] [aml] fix compiler badness when compiling with amcodec
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in | 2 --
@@ -888,7 +888,7 @@ index ea71883..c252179 100644
 From 3776dbe0ba85235c5354d089ae034ddecd97a1de Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:25:44 +0200
-Subject: [PATCH 20/24] [aml] perform suspend instead of powerdown
+Subject: [PATCH 20/25] [aml] perform suspend instead of powerdown
 
 ---
  system/keymaps/keyboard.xml                        | 2 +-
@@ -937,7 +937,7 @@ index 4e5bcc6..ad5847d 100644
 From 74f036a8986c481758a7fe9195ed5b1334f7522a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
-Subject: [PATCH 21/24] [aml] prefer libamcodec.so
+Subject: [PATCH 21/25] [aml] prefer libamcodec.so
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 6 +++---
@@ -974,7 +974,7 @@ index 0a97893..1fface4 100644
 From 63857760e8bc109e50a43164e14a77707e700f87 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 22:43:07 +0200
-Subject: [PATCH 22/24] [aml] re-add IVPClockCallback
+Subject: [PATCH 22/25] [aml] re-add IVPClockCallback
 
 nobody cared. is amcodec dead?
 ---
@@ -1343,7 +1343,7 @@ index 5149066..32b80e0 100644
 From b66d4021f0375193ea863c5d0679ea40437d13d0 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Mar 2016 00:31:37 +0200
-Subject: [PATCH 23/24] [aml] add rendercapture
+Subject: [PATCH 23/25] [aml] add rendercapture
 
 ---
  .../VideoPlayer/VideoRenderers/RenderCapture.cpp   | 47 ++++++++++++
@@ -1613,10 +1613,38 @@ index 744fd06..3c50589 100644
 2.7.0
 
 
-From fa28a765b8e4fd105b8a7e31e576a753a2c75564 Mon Sep 17 00:00:00 2001
+From ad62822e76a6465b15046d617993cc6f90feec5c Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Wed, 16 Mar 2016 23:47:54 +0200
+Subject: [PATCH 24/25] [aml] pvr can reopen too fast, slow us down a little
+
+---
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
+index a3cb24c..e6327b4 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
+@@ -1680,6 +1680,10 @@ void CAMLCodec::CloseDecoder()
+   SysfsUtils::SetInt("/sys/class/tsync/enable", 1);
+ 
+   ShowMainVideo(false);
++
++  // add a little delay after closing in case
++  // we are reopened too fast.
++  usleep(500 * 1000);
+ }
+ 
+ void CAMLCodec::Reset()
+-- 
+2.7.0
+
+
+From c81940664304af86d25c56355c01e1e0f395dc1a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
-Subject: [PATCH 24/24] [aml] TEMP: use software decoding for sd
+Subject: [PATCH 25/25] [aml] TEMP: use software decoding for sd
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
