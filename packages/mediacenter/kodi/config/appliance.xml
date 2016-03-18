@@ -16,6 +16,16 @@
     </category>
   </section>
 
+  <section id="videos">
+    <category id="videoplayer">
+      <group id="3">
+        <setting id="videoplayer.adjustrefreshrate">
+          <default>2</default> <!-- ADJUST_REFRESHRATE_ON_STARTSTOP -->
+        </setting>
+      </group>
+    </category>
+  </section>
+
   <section id="pvr">
     <category id="pvrmanager">
       <group id="2">
