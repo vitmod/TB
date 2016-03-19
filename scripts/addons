@@ -20,8 +20,7 @@
 update_addons_xml() {
   echo "[*] cleanup addons ..."
   olddir=""
-  # natsort https://github.com/sourcefrog/natsort
-  find target/addons/$ADDON_VERSION -iname 'changelog*.txt' | natsort -r | while read line ; do
+  find target/addons/$ADDON_VERSION -iname 'changelog*.txt' | sort -rV | while read line ; do
     dir=$(dirname $line)
     if [ "$olddir" = "$dir" ] ; then
       rm -f $line
@@ -30,7 +29,7 @@ update_addons_xml() {
   done
 
   olddir=""
-  find target/addons/$ADDON_VERSION -iname '*.zip' | natsort -r | while read line ; do
+  find target/addons/$ADDON_VERSION -iname '*.zip' | sort -rV | while read line ; do
     dir=$(dirname $line)
     if [ "$olddir" = "$dir" ] ; then
       rm -f $line
