@@ -15,11 +15,11 @@
 
 PKG_NAME="hyperion"
 PKG_VERSION="8865ff4"
-PKG_REV="0"
+PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/tvdzwan/hyperion"
 PKG_FETCH="git+https://github.com/tvdzwan/hyperion.git"
-PKG_DEPENDS_TARGET="toolchain libusb qt"
+PKG_DEPENDS_TARGET="toolchain Python libusb qt"
 PKG_SECTION="service"
 PKG_SHORTDESC="hyperion: an ambilight controller"
 PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nHyperion is an opensource 'AmbiLight' implementation"
@@ -61,7 +61,9 @@ addon() {
   cp -P $PKG_BUILD/.$TARGET_NAME/bin/hyperion-remote $ADDON_BUILD/$PKG_ADDON_ID/bin
 
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/config
-  cp -P $PKG_BUILD/config/hyperion.config.json $ADDON_BUILD/$PKG_ADDON_ID/config
+  cp -P $PKG_BUILD/config/hyperion.config.json $ADDON_BUILD/$PKG_ADDON_ID/config/hyperion.config.json.sample
+  sed -i -e "s,/opt/hyperion/effects,/storage/.kodi/addons/service.hyperion/effects,g" \
+    $ADDON_BUILD/$PKG_ADDON_ID/config/hyperion.config.json.sample
 
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/effects
   cp -PR $PKG_BUILD/effects/* $ADDON_BUILD/$PKG_ADDON_ID/effects
