@@ -14,12 +14,12 @@
 ################################################################################
 
 PKG_NAME="qt"
-PKG_VERSION="4.8.6"
+PKG_VERSION="4.8.7"
 PKG_LICENSE="OSS"
 PKG_SITE="http://qt-project.org"
 PKG_URL="http://download.qt-project.org/official_releases/qt/4.8/${PKG_VERSION}/qt-everywhere-opensource-src-${PKG_VERSION}.tar.gz"
 PKG_SOURCE_DIR="qt-everywhere-opensource-src-${PKG_VERSION}"
-PKG_DEPENDS_TARGET="bzip2 Python zlib:host zlib libpng libjpeg-turbo"
+PKG_DEPENDS_TARGET="toolchain Python zlib:host zlib"
 PKG_SHORTDESC="Qt GUI toolkit"
 PKG_LONGDESC="Qt GUI toolkit"
 
@@ -27,16 +27,49 @@ QMAKE_CONF_DIR="mkspecs/qws/linux-openelec-g++"
 QMAKE_CONF="${QMAKE_CONF_DIR}/qmake.conf"
 
 
-PKG_CONFIGURE_OPTS_TARGET="-xplatform qws/linux-openelec-g++ -opensource -confirm-license \
-                           -release -force-pkg-config -v -no-neon \
-                           -hostprefix $SYSROOT_PREFIX -prefix /usr -plugindir /usr/lib/plugins \
-                           -force-pkg-config -no-qt3support -no-libmng -no-audio-backend -no-phonon \
-                           -no-svg -no-dbus -no-glib -no-xmlpatterns -no-multimedia -no-libtiff \
-                           -no-scripttools -no-declarative -no-sql-mysql -no-xinerama -no-cups -no-nis \
-                           -no-separate-debug-info -fast -no-rpath -no-pch -optimized-qmake \
-                           -reduce-relocations -reduce-exports \
-                           -nomake docs -nomake demos -nomake translations -nomake examples \
-                           -static -no-webkit -no-sql-sqlite -no-openssl -no-script -embedded $TARGET_ARCH"
+PKG_CONFIGURE_OPTS_TARGET="-prefix /usr \
+                           -hostprefix $SYSROOT_PREFIX \
+                           -xplatform qws/linux-openelec-g++ \
+                           -make libs \
+                           -force-pkg-config \
+                           -release \
+                           -opensource -confirm-license \
+                           -static \
+                           -fast \
+                           -no-accessibility \
+                           -no-sql-mysql -no-sql-sqlite \
+                           -no-qt3support \
+                           -no-xmlpatterns \
+                           -no-multimedia \
+                           -no-audio-backend \
+                           -no-phonon -no-phonon-backend \
+                           -no-svg \
+                           -no-webkit \
+                           -no-javascript-jit \
+                           -no-script \
+                           -no-scripttools \
+                           -no-declarative -no-declarative-debug \
+                           -no-neon \
+                           -system-zlib \
+                           -no-gif \
+                           -no-libtiff \
+                           -no-libpng \
+                           -no-libmng \
+                           -no-libjpeg \
+                           -no-openssl \
+                           -no-rpath \
+                           -silent \
+                           -optimized-qmake \
+                           -no-nis \
+                           -no-cups \
+                           -no-pch \
+                           -no-dbus \
+                           -reduce-relocations \
+                           -reduce-exports \
+                           -no-separate-debug-info \
+                           -no-fontconfig \
+                           -no-glib \
+                           -embedded $TARGET_ARCH"
 
 configure_target() {
   cd ..
@@ -67,5 +100,5 @@ configure_target() {
 
 post_makeinstall_target() {
   mkdir -p $ROOT/$TOOLCHAIN/bin
-  cp -R $PKG_BUILD/bin/qmake $ROOT/$TOOLCHAIN/bin
+  cp -P $PKG_BUILD/bin/qmake $ROOT/$TOOLCHAIN/bin
 }
