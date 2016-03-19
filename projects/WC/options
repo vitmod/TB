@@ -11,7 +11,7 @@
     KERNEL_TARGET="uImage-dtb"
 
   # Kernel extra targets to build
-    KERNEL_UBOOT_EXTRA_TARGET="meson8m2_wetek_core.dtd meson8m2_wetek_core.dtb"
+    KERNEL_EXTRA_TARGET="meson8m2_wetek_core.dtd meson8m2_wetek_core.dtb"
 
   # Build Android kernel image using mkbootimg
     BUILD_ANDROID_BOOTIMG="yes"

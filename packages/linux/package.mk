@@ -73,8 +73,8 @@ make_target() {
     $SCRIPTS/install initramfs
   )
 
-  if [ -n "$KERNEL_UBOOT_EXTRA_TARGET" ]; then
-    for extra_target in "$KERNEL_UBOOT_EXTRA_TARGET"; do
+  if [ -n "$KERNEL_EXTRA_TARGET" ]; then
+    for extra_target in "$KERNEL_EXTRA_TARGET"; do
       LDFLAGS="" make $extra_target
     done
   fi
