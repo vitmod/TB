@@ -48,7 +48,10 @@ print_crash_report()
   if [ ! -d $CRASHLOG_DIR ] ; then
     mkdir -p $CRASHLOG_DIR
   fi
-  FILE="$CRASHLOG_DIR/.kodi_crashlog.log"
+  FILE="$CRASHLOG_DIR/kodi_crashlog.log"
+  if [ -f $FILE ] ; then
+    mv $FILE $FILE.old
+  fi
   echo "############## kodi CRASH LOG ###############" > $FILE
   echo >> $FILE
   echo "################ SYSTEM INFO ################" >> $FILE
@@ -79,9 +82,6 @@ print_crash_report()
   echo "############### END LOG FILE ################" >> $FILE
   echo >> $FILE
   echo "############ END kodi CRASH LOG #############" >> $FILE
-  OFILE="$FILE"
-  FILE="$CRASHLOG_DIR/kodi_crashlog.log"
-  mv "$OFILE" "$FILE"
   echo "Crash report available at $FILE"
 }
 
