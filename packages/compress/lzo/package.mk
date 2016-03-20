@@ -21,9 +21,11 @@ PKG_VERSION="2.09"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.oberhumer.com/opensource/lzo"
 PKG_URL="http://www.oberhumer.com/opensource/lzo/download/$PKG_NAME-$PKG_VERSION.tar.gz"
+PKG_DEPENDS_HOST=""
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="LZO data compressor"
 
 PKG_AUTORECONF="yes"
 
+PKG_CONFIGURE_OPTS_HOST="--disable-shared --enable-static"
 PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static"
