@@ -18,7 +18,7 @@ PKG_VERSION="c175c4f"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/xbmc/skin.confluence.git"
-PKG_DEPENDS_TARGET="toolchain"
+PKG_DEPENDS_TARGET="toolchain kodi:host"
 PKG_SECTION=""
 PKG_SHORTDESC=""
 
@@ -29,4 +29,7 @@ make_target() {
 makeinstall_target() {
   mkdir -p $INSTALL/usr/share/kodi/addons/skin.confluence
   cp -PR $PKG_BUILD/* $INSTALL/usr/share/kodi/addons/skin.confluence
+  TexturePacker -input $INSTALL/usr/share/kodi/addons/skin.confluence/media/ \
+    -output $INSTALL/usr/share/kodi/addons/skin.confluence/media/Textures.xbt -dupecheck
+  find $INSTALL/usr/share/kodi/addons/skin.confluence/media/ -not -iname "*.xbt" -exec rm -f {} \; 2>/dev/null || :
 }
