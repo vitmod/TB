@@ -22,7 +22,7 @@ PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/xbmc/xbmc.git"
 PKG_DEPENDS_TARGET="toolchain kodi:host swig:host"
-PKG_DEPENDS_HOST=""
+PKG_DEPENDS_HOST="lzo:host libpng:host libjpeg-turbo:host giflib:host"
 PKG_SHORTDESC="kodi: Kodi Mediacenter"
 
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa bzip2 crossguid curl dbus ffmpeg"
@@ -95,15 +95,22 @@ configure_host() {
 }
 
 make_host() {
-  mkdir -p tools/depends/native/JsonSchemaBuilder/bin && cd $_
+  mkdir -p $PKG_BUILD/tools/depends/native/JsonSchemaBuilder/bin && cd $_
   cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
         -DCMAKE_INSTALL_PREFIX=/usr \
+        ..
+  make
+  mkdir -p $PKG_BUILD/tools/depends/native/TexturePacker/bin && cd $_
+  cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCORE_SOURCE_DIR=$PKG_BUILD \
+        -DCMAKE_CXX_FLAGS="-std=c++11 -DTARGET_POSIX -DTARGET_LINUX -D_LINUX -I$PKG_BUILD/xbmc/linux" \
         ..
   make
 }
 
 makeinstall_host() {
-  : # not needed
+  cp -P $PKG_BUILD/tools/depends/native/TexturePacker/bin/TexturePacker $ROOT/$TOOLCHAIN/bin
 }
 
 pre_configure_target() {
