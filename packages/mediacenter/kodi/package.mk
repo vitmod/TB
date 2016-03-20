@@ -124,6 +124,7 @@ makeinstall_host() {
 pre_configure_target() {
   rm -rf $PKG_BUILD/.$TARGET_NAME
   BOOTSTRAP_STANDALONE=1 make -f bootstrap.mk
+  sed "s|skin.estuary|skin.confluence|g" -i $PKG_BUILD/xbmc/system.h
 }
 
 make_target() {
@@ -141,6 +142,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/share/applications
   rm -rf $INSTALL/usr/share/icons
   rm -rf $INSTALL/usr/share/kodi/addons/skin.estouchy
+  rm -rf $INSTALL/usr/share/kodi/addons/skin.estuary
   rm -rf $INSTALL/usr/share/kodi/addons/service.xbmc.versioncheck
   rm -rf $INSTALL/usr/share/kodi/addons/visualization.vortex
   rm -rf $INSTALL/usr/share/xsessions
@@ -172,9 +174,13 @@ post_makeinstall_target() {
     $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
   xmlstarlet ed -L -d "/addons/addon[text()='skin.estouchy']" \
     $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
+  xmlstarlet ed -L -d "/addons/addon[text()='skin.estuary']" \
+    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "os.openelec.tv" \
     $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "repository.saraev.ca" \
+    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
+  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "skin.confluence" \
     $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "tb.settings" \
     $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
