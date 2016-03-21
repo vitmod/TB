@@ -76,6 +76,9 @@ makeinstall_init() {
   ln -sf busybox $INSTALL/bin/sh
   chmod 4755 $INSTALL/bin/busybox
 
+  mkdir -p $INSTALL/usr/share/tb
+  cp $PKG_DIR/config/functions $INSTALL/usr/share/tb
+
   mkdir -p $INSTALL/etc
   touch $INSTALL/etc/fstab
   ln -sf /proc/self/mounts $INSTALL/etc/mtab
@@ -94,6 +97,9 @@ makeinstall_target() {
   ln -sf /bin/busybox $INSTALL/usr/bin/env
   cp $PKG_DIR/scripts/pastebinit $INSTALL/usr/bin
   cp $PKG_DIR/scripts/cm-online $INSTALL/usr/bin
+
+  mkdir -p $INSTALL/usr/share/tb
+  cp $PKG_DIR/config/functions $INSTALL/usr/share/tb
 
   mkdir -p $INSTALL/usr/lib/openelec
   cp $PKG_DIR/scripts/fs-resize $INSTALL/usr/lib/openelec
