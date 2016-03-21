@@ -20,6 +20,8 @@
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
+. /usr/share/tb/functions
+
 # create directories
 /bin/busybox mkdir -p /dev
 /bin/busybox mkdir -p /proc
@@ -56,9 +58,7 @@ fi
 
 # clear screen and hide cursor
 clear
-if [ -f /sys/devices/virtual/graphics/fbcon/cursor_blink ] ; then
-  echo 0 > /sys/devices/virtual/graphics/fbcon/cursor_blink
-fi
+hidecursor
 
 # parse command line arguments
 for arg in $(cat /proc/cmdline); do
@@ -79,7 +79,7 @@ done
 
 debug_shell() {
   echo "### Starting debugging shell... type 'exit' to quit ###"
-  echo 0 > /sys/devices/virtual/graphics/fbcon/cursor_blink
+  showcursor
   sh </dev/tty1 >/dev/tty1 2>&1
 }
 
@@ -118,11 +118,10 @@ mount_part() {
 
 update() {
   if [ -f "$UPDATE_DIR/$1" -a -f "$2" ]; then
-    echo "updating $1..."
     mount -o remount,rw /flash
-    mv $UPDATE_DIR/$1 $2 2>/dev/null
+    start_progress percent "updating $1... " $2 $(stat -t "$UPDATE_DIR/$1" | cut -d" " -f2) \
+      "dd if=$UPDATE_DIR/$1 of=$2 bs=1M conv=fsync 2>/dev/null" "done" "failed"
     mount -o remount,ro /flash
-    sync
   fi
 }
 
@@ -139,7 +138,7 @@ load_kmap() {
 }
 
 do_reboot() {
-  echo "System reboots now..."
+  start_progress spinner "system reboots now... "
   mountpoint -q /flash && umount /flash
   mountpoint -q /storage && umount /storage
   sync
@@ -147,6 +146,7 @@ do_reboot() {
 }
 
 force_fsck() {
+  echo -en "\033[$(($(stty size | cut -d" " -f1)-5));1H"
   echo "Filesystem corruption has been detected"
   echo "To prevent an automatic repair attempt continuing"
   echo "press any key or power off your system within the next 60 seconds"
@@ -168,7 +168,7 @@ force_fsck() {
     fi
     do_reboot
   else
-    echo "shutting down..."
+    start_progress spinner "shutting down... "
     sync
     poweroff
   fi
@@ -202,12 +202,12 @@ mount_storage() {
 check_update() {
   UPDATE_TAR=`ls -1 "$UPDATE_DIR"/*.tar 2>/dev/null | head -n 1`
   if [ -f "$UPDATE_TAR" ] ; then
-    echo "Extracting $(basename $UPDATE_TAR)..."
-    tar -xf "$UPDATE_TAR" -C $UPDATE_DIR &>/dev/null
+    echo -en "\033[$(($(stty size | cut -d" " -f1)-5));1H"
+    start_progress spinner "Extracting $(basename $UPDATE_TAR)... " \
+      "tar -xf $UPDATE_TAR -C $UPDATE_DIR &>/dev/null" "done" "failed"
     if [ "$?" -ne "0" ] ; then
-      echo "$UPDATE_TAR corrupted. normal startup in 10s"
       rm -rf $UPDATE_DIR/[0-9a-zA-Z]* &>/dev/null
-      usleep 10000000
+      start_progress countdown "$UPDATE_TAR corrupted. normal startup in 10s... "
       return 0
     fi
     rm -rf "$UPDATE_TAR" &>/dev/null
