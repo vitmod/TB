@@ -15,7 +15,11 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
+. /usr/share/tb/functions
+
 if [ -e /storage/.please_resize_me ] ; then
+  hidecursor
+
   # get the disk. /storage on 2nd partition
   PART=$(grep "/storage " /proc/mounts | cut -d" " -f1 | grep '2$')
 
@@ -40,18 +44,17 @@ if [ -e /storage/.please_resize_me ] ; then
     # failed to get partition start offset ?
     if [ ! -z "$PART_START" ] ; then
       umount $PART
-      echo "resizing /storage..."
-      echo "this may take a while. please do not reboot or turn off your computer"
-      echo "... parted -s -m $DISK rm 2"
-      parted -s -m $DISK rm 2 &>/dev/null
-      echo "... parted -s -m $DISK unit b mkpart primary $PART_START 100%"
-      parted -s -m $DISK unit b mkpart primary $PART_START 100% &>/dev/null
-      echo "... e2fsck -f -p $PART"
-      e2fsck -f -p $PART &>/dev/null
-      echo "... resize2fs $PART"
-      resize2fs $PART &>/dev/null
-      echo "...done. rebooting in 15s"
-      sleep 15
+      echo -en "\033[$(($(stty size | cut -d" " -f1)-5));1H"
+      echo "resizing /storage, please wait...."
+      start_progress spinner "deleting /storage... " \
+        "parted -s -m $DISK rm 2 &>/dev/null"
+      start_progress spinner "re-creating /storage... " \
+        "parted -s -m $DISK unit b mkpart primary $PART_START 100% &>/dev/null"
+      start_progress spinner "checking /storage... " \
+        "e2fsck -f -p $PART &>/dev/null"
+      start_progress spinner "resizing /storage... " \
+        "resize2fs $PART &>/dev/null"
+      start_progress countdown "...done. rebooting in 15s " 15
     fi
   fi
 fi
