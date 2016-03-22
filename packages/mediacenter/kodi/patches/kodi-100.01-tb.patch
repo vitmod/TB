@@ -1,7 +1,7 @@
-From 78439e455f954bdb01343bcef8d4e34150d7b162 Mon Sep 17 00:00:00 2001
+From 8e631a2837216f69cd19257a9d727f8219dba5d2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:12:49 +0300
-Subject: [PATCH 01/24] [tb] enable PYTHONOPTIMIZE with external Python
+Subject: [PATCH 01/23] [tb] enable PYTHONOPTIMIZE with external Python
 
 ---
  xbmc/interfaces/python/XBPython.cpp | 7 +++----
@@ -29,10 +29,10 @@ index 1b27903..c8de485 100644
 2.7.3
 
 
-From 46b5d4c5d8da7138e97e5dd9c53325e2ecbc4407 Mon Sep 17 00:00:00 2001
+From 5da2c077364f25f37b4ad931e29c793b62b2b580 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
-Subject: [PATCH 02/24] [tb] disable online check
+Subject: [PATCH 02/23] [tb] disable online check
 
 ---
  xbmc/GUIInfoManager.cpp              | 1 -
@@ -41,7 +41,7 @@ Subject: [PATCH 02/24] [tb] disable online check
  3 files changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/xbmc/GUIInfoManager.cpp b/xbmc/GUIInfoManager.cpp
-index 226dc43..e5d2a45 100644
+index 8de7fa1..541a937 100644
 --- a/xbmc/GUIInfoManager.cpp
 +++ b/xbmc/GUIInfoManager.cpp
 @@ -309,7 +309,6 @@ const infomap system_labels[] =  {{ "hasnetwork",       SYSTEM_ETHERNET_LINK_ACT
@@ -91,10 +91,10 @@ index 4184db0..0cd539e 100644
 2.7.3
 
 
-From 6170212c25c88046de270445a3250e8e1dbc99c7 Mon Sep 17 00:00:00 2001
+From 150744805bea94cc5729693acb04e9dad749ac5e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 03/24] [tb] make binary addons executable
+Subject: [PATCH 03/23] [tb] make binary addons executable
 
 add executable mode to all files in addon's bin folder
 
@@ -151,20 +151,20 @@ index 889935c..deb21b2 100644
 2.7.3
 
 
-From b821b46a7b150d03a208bbc5c6af9331ba1b82fc Mon Sep 17 00:00:00 2001
+From 5d1f19dcbf297873db94a3c8a55df087a86788ad Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 04/24] [tb] disable minimize
+Subject: [PATCH 04/23] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index a42c344..4f8adbe 100644
+index de12c99..cb65845 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4973,7 +4973,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4967,7 +4967,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -176,10 +176,10 @@ index a42c344..4f8adbe 100644
 2.7.3
 
 
-From 74016e1bed6b4b6b6b50bdd32552e95f308937aa Mon Sep 17 00:00:00 2001
+From fcaacd648c8493c30b504830de63c34225e348da Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 05/24] [tb] setup timezone
+Subject: [PATCH 05/23] [tb] setup timezone
 
 on TZ country setting change, store the value in format
 TIMEZONE=Xx/Yyy to /storage/.cache/timezone to be used with
@@ -222,10 +222,10 @@ index ea44d40..b780e62 100644
 2.7.3
 
 
-From 3524b0d0c776e008a4998fb0c86511adef5daed8 Mon Sep 17 00:00:00 2001
+From eb00760731f4d50dcb5f41f81d57d50581df0b92 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 06/24] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 06/23] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -317,10 +317,10 @@ index bc5338c..1079952 100644
 2.7.3
 
 
-From 9b6a54c1a3b7bea7550a51e8434ded3a3c348426 Mon Sep 17 00:00:00 2001
+From 1900409f040c576d788b807a20bb5d1a538ed4ce Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 07/24] [tb] handle SIGTERM
+Subject: [PATCH 07/23] [tb] handle SIGTERM
 
 0. CApplication::Stop cant be trusted. (deadlocks crashes and boo)
 
@@ -342,10 +342,10 @@ so, when shutdown/reboot is requested:
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 4f8adbe..68bb4f2 100644
+index cb65845..658d375 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2431,12 +2431,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2432,12 +2432,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
    switch (pMsg->dwMessage)
    {
    case TMSG_POWERDOWN:
@@ -360,7 +360,7 @@ index 4f8adbe..68bb4f2 100644
      break;
    
    case TMSG_SHUTDOWN:
-@@ -2457,12 +2457,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2458,12 +2458,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
  
    case TMSG_RESTART:
    case TMSG_RESET:
@@ -375,7 +375,7 @@ index 4f8adbe..68bb4f2 100644
      Stop(EXITCODE_RESTARTAPP);
  #endif
      break;
-@@ -2855,12 +2856,19 @@ bool CApplication::Cleanup()
+@@ -2864,12 +2865,19 @@ bool CApplication::Cleanup()
    }
  }
  
@@ -396,7 +396,7 @@ index 4f8adbe..68bb4f2 100644
      CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2887,7 +2895,6 @@ void CApplication::Stop(int exitCode)
+@@ -2896,7 +2904,6 @@ void CApplication::Stop(int exitCode)
  
      m_bStop = true;
      m_AppFocused = false;
@@ -476,35 +476,10 @@ index b6b7035..9e7309b 100644
 2.7.3
 
 
-From ccdeba63267b3863e73d2a37c62cb9c81b56209e Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sat, 18 Apr 2015 15:45:54 +0300
-Subject: [PATCH 08/24] [tb] prevent kodi switching to windowed mode
-
----
- xbmc/windowing/X11/WinSystemX11.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/xbmc/windowing/X11/WinSystemX11.h b/xbmc/windowing/X11/WinSystemX11.h
-index 297dc88..56b7835 100644
---- a/xbmc/windowing/X11/WinSystemX11.h
-+++ b/xbmc/windowing/X11/WinSystemX11.h
-@@ -44,6 +44,7 @@ public:
-   bool ResizeWindow(int newWidth, int newHeight, int newLeft, int newTop) override;
-   bool SetFullScreen(bool fullScreen, RESOLUTION_INFO& res, bool blankOtherDisplays) override;
-   void UpdateResolutions() override;
-+  bool CanDoWindowed() override { return false; }
-   int  GetNumScreens() override { return 1; }
-   int  GetCurrentScreen() override { return m_nScreen; }
-   void ShowOSMouse(bool show) override;
--- 
-2.7.3
-
-
-From ceae324067f60112682c3da18848a19a1758bcc5 Mon Sep 17 00:00:00 2001
+From 60b5784f9c79c75b4cda7ebcc9a4c52b415e225a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
-Subject: [PATCH 09/24] [tb] udevprovider: filter out OE specific mounts
+Subject: [PATCH 08/23] [tb] udevprovider: filter out OE specific mounts
 
 ---
  xbmc/storage/linux/UDevProvider.cpp | 14 ++++++++++++++
@@ -539,20 +514,20 @@ index 6fda5a5..525e6b7 100644
 2.7.3
 
 
-From 2e6ea18fddf86202c3a0e79e3473967b45343fa9 Mon Sep 17 00:00:00 2001
+From 0c6f027df5d8d7e4b2cda8bb52003f9ff2ace126 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
-Subject: [PATCH 10/24] [tb] our ffmpeg is doing well
+Subject: [PATCH 09/23] [tb] our ffmpeg is doing well
 
 ---
  xbmc/Application.cpp | 7 -------
  1 file changed, 7 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 68bb4f2..83200cc 100644
+index 658d375..62ab623 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -523,13 +523,6 @@ bool CApplication::Create()
+@@ -529,13 +529,6 @@ bool CApplication::Create()
  #else  // !USE_STATIC_FFMPEG
    CLog::Log(LOGNOTICE, "FFmpeg version: %s", FFMPEG_VERSION);
  #endif // !USE_STATIC_FFMPEG
@@ -570,10 +545,10 @@ index 68bb4f2..83200cc 100644
 2.7.3
 
 
-From 7d71408fc8a95c726377be0b3ea88fb0addffa76 Mon Sep 17 00:00:00 2001
+From d2a1a5df67590ce9db2fe475d927a770a96a52c6 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 11/24] [tb] sledgehammer. fix crash while importing channels
+Subject: [PATCH 10/23] [tb] sledgehammer. fix crash while importing channels
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -599,10 +574,10 @@ index b084263..6e26067 100644
 2.7.3
 
 
-From ed85a977d06bc3c2e1ee99d3432462fe541f566e Mon Sep 17 00:00:00 2001
+From a332c9ff9de1e7a452efce882b144399df896dcd Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 15 Mar 2016 21:29:43 +0200
-Subject: [PATCH 12/24] [tb] add advancedsetting to configure number of volume
+Subject: [PATCH 11/23] [tb] add advancedsetting to configure number of volume
  control steps
 
 ---
@@ -613,10 +588,10 @@ Subject: [PATCH 12/24] [tb] add advancedsetting to configure number of volume
  4 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 83200cc..1cc0d49 100644
+index 62ab623..66b7496 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2378,7 +2378,7 @@ bool CApplication::OnAction(const CAction &action)
+@@ -2379,7 +2379,7 @@ bool CApplication::OnAction(const CAction &action)
  #if defined(TARGET_ANDROID)
        float step = (VOLUME_MAXIMUM - VOLUME_MINIMUM) / CXBMCApp::GetMaxSystemVolume();
  #else
@@ -673,10 +648,10 @@ index ae05f9b..6db5f12 100644
 2.7.3
 
 
-From 25fde749d3814010b52e9eea00a8cf1bcc54635c Mon Sep 17 00:00:00 2001
+From 192e8cda038fb2d2524fc2c321488376f5b00e9a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
-Subject: [PATCH 13/24] [tb] meh addon sonames
+Subject: [PATCH 12/23] [tb] meh addon sonames
 
 ---
  project/cmake/scripts/common/addon-helpers.cmake | 3 +++
@@ -700,20 +675,20 @@ index 9541df4..9e2e398 100644
 2.7.3
 
 
-From e488e8d1555943bd723e30a13ac4e9a82b206905 Mon Sep 17 00:00:00 2001
+From 2062de58e44af155573586644bd3ccc19fc03a0c Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
-Subject: [PATCH 14/24] [tb] meh past epg data
+Subject: [PATCH 13/23] [tb] meh past epg data
 
 ---
  xbmc/pvr/windows/GUIWindowPVRGuide.cpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
-index 57a5179..634c664 100644
+index 628a10a..2ec8104 100644
 --- a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
 +++ b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
-@@ -485,7 +485,7 @@ void CGUIWindowPVRGuide::GetViewTimelineItems(CFileItemList &items)
+@@ -493,7 +493,7 @@ void CGUIWindowPVRGuide::GetViewTimelineItems(CFileItemList &items)
      endDate = startDate;
  
    // limit start to linger time
@@ -726,10 +701,10 @@ index 57a5179..634c664 100644
 2.7.3
 
 
-From eeb92e8f8a829110bb7741a7c6c1dffd7f80c9be Mon Sep 17 00:00:00 2001
+From 5df78ee519414acee646f9ee9704806d2250fd92 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 10 Nov 2015 14:27:27 +0200
-Subject: [PATCH 15/24] [tb] bye dcadec
+Subject: [PATCH 14/23] [tb] bye dcadec
 
 ---
  Makefile.in  | 2 +-
@@ -765,10 +740,10 @@ index 174c2d3..db195e4 100644
 2.7.3
 
 
-From 365df6c70296ec7e75a7dc926acc930bddc14b0e Mon Sep 17 00:00:00 2001
+From 37104e1c62f88aca715ed4410d29957dbb954dfb Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 24 Feb 2016 18:27:13 +0200
-Subject: [PATCH 16/24] [tb] bye libdvd
+Subject: [PATCH 15/23] [tb] bye libdvd
 
 ---
  Makefile.in | 2 --
@@ -798,10 +773,10 @@ index 238f2e4..953a230 100644
 2.7.3
 
 
-From f7b6878d683e182caaa08178ac492ed9177bf3c0 Mon Sep 17 00:00:00 2001
+From be5ad0f93c0b90a2f0767947ecf47cd0567bd83f Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 17/24] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 16/23] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -828,10 +803,10 @@ index 7460457..4e09342 100644
 2.7.3
 
 
-From 99644972712426dfaebe5e422d619d29a67c8b51 Mon Sep 17 00:00:00 2001
+From 17ddff114607ba97c5cbcb0c1493689515405c2a Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
-Subject: [PATCH 18/24] [aml] Ugly workaround to show DTS/AC3 caps
+Subject: [PATCH 17/23] [aml] Ugly workaround to show DTS/AC3 caps
 
 ... but don't run into multi channel issues as we can only open 2 pcm channels
 ---
@@ -859,10 +834,10 @@ index fbccce0..bc2a506 100644
 2.7.3
 
 
-From 820862aa01a8cc525aa4434d64f7c46b1c264c78 Mon Sep 17 00:00:00 2001
+From f34d10af4d7eb58e645604187f114e9a3647caff Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
-Subject: [PATCH 19/24] [aml] fix compiler badness when compiling with amcodec
+Subject: [PATCH 18/23] [aml] fix compiler badness when compiling with amcodec
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in | 2 --
@@ -885,10 +860,10 @@ index a1a3447..1bf5a89 100644
 2.7.3
 
 
-From 4b352167966bf8a7a8e9b01bb16ac2267262ce33 Mon Sep 17 00:00:00 2001
+From 0a521dc64f31f161031f8d81f1d8cff1fbfd3ba2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:25:44 +0200
-Subject: [PATCH 20/24] [aml] perform suspend instead of powerdown
+Subject: [PATCH 19/23] [aml] perform suspend instead of powerdown
 
 ---
  system/keymaps/keyboard.xml                        | 2 +-
@@ -896,7 +871,7 @@ Subject: [PATCH 20/24] [aml] perform suspend instead of powerdown
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/system/keymaps/keyboard.xml b/system/keymaps/keyboard.xml
-index 9833cff..0ce105e 100644
+index 49d6fb8..26626d9 100644
 --- a/system/keymaps/keyboard.xml
 +++ b/system/keymaps/keyboard.xml
 @@ -91,7 +91,7 @@
@@ -934,10 +909,10 @@ index 4e5bcc6..ad5847d 100644
 2.7.3
 
 
-From b24df9c7cd83e138b7532fdf8524dc8fca4f8158 Mon Sep 17 00:00:00 2001
+From 7501689de53981d5c1d17db7b51f90f038b9ac77 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
-Subject: [PATCH 21/24] [aml] prefer libamcodec.so
+Subject: [PATCH 20/23] [aml] prefer libamcodec.so
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 6 +++---
@@ -971,10 +946,10 @@ index 0a97893..1fface4 100644
 2.7.3
 
 
-From 01b2d3d9daa9c1badc755170e8940fde1b01d7e1 Mon Sep 17 00:00:00 2001
+From fc435d7fa7acc81e4ae84eb84bbd8e0b23ddbcdf Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 22:43:07 +0200
-Subject: [PATCH 22/24] [aml] re-add IVPClockCallback
+Subject: [PATCH 21/23] [aml] re-add IVPClockCallback
 
 nobody cared. is amcodec dead?
 ---
@@ -1340,10 +1315,10 @@ index 5149066..32b80e0 100644
 2.7.3
 
 
-From d4617f1434803770fec812f0f7a383bdab859cc1 Mon Sep 17 00:00:00 2001
+From 7982b157a6f6097a79ff12a96bb4f67d32b393a2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 23:47:54 +0200
-Subject: [PATCH 23/24] [aml] pvr can reopen too fast, slow us down a little
+Subject: [PATCH 22/23] [aml] pvr can reopen too fast, slow us down a little
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 4 ++++
@@ -1368,10 +1343,10 @@ index a3cb24c..e6327b4 100644
 2.7.3
 
 
-From 08bab129b7defafc22a16ea70159fc16f3d6c66f Mon Sep 17 00:00:00 2001
+From 6a322a40a28a299349f576b5dee1c256a98b0e8e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
-Subject: [PATCH 24/24] [aml] TEMP: use software decoding for sd
+Subject: [PATCH 23/23] [aml] TEMP: use software decoding for sd
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
