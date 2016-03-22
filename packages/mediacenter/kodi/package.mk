@@ -170,20 +170,14 @@ post_makeinstall_target() {
   cp $PKG_DIR/config/appliance.xml $INSTALL/usr/share/kodi/system/settings
 
   # update addon manifest
-  xmlstarlet ed -L -d "/addons/addon[text()='service.xbmc.versioncheck']" \
-    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
-  xmlstarlet ed -L -d "/addons/addon[text()='skin.estouchy']" \
-    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
-  xmlstarlet ed -L -d "/addons/addon[text()='skin.estuary']" \
-    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
-  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "os.openelec.tv" \
-    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
-  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "repository.saraev.ca" \
-    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
-  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "skin.confluence" \
-    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
-  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon"  -v "tb.settings" \
-    $INSTALL/usr/share/kodi/system/addon-manifest.xml || :
+  ADDON_MANIFEST=$INSTALL/usr/share/kodi/system/addon-manifest.xml
+  xmlstarlet ed -L -d "/addons/addon[text()='service.xbmc.versioncheck']" $ADDON_MANIFEST
+  xmlstarlet ed -L -d "/addons/addon[text()='skin.estouchy']" $ADDON_MANIFEST
+  xmlstarlet ed -L -d "/addons/addon[text()='skin.estuary']" $ADDON_MANIFEST
+  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "os.openelec.tv" $ADDON_MANIFEST
+  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "repository.saraev.ca" $ADDON_MANIFEST
+  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "skin.confluence" $ADDON_MANIFEST
+  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "tb.settings" $ADDON_MANIFEST
 
   # more binaddons cross compile badness meh
   sed -i -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR $SYSROOT_PREFIX/usr/include/kodi:g" $SYSROOT_PREFIX/usr/lib/kodi/kodi-config.cmake
