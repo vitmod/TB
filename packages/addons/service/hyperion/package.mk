@@ -14,8 +14,8 @@
 ################################################################################
 
 PKG_NAME="hyperion"
-PKG_VERSION="8865ff4"
-PKG_REV="1"
+PKG_VERSION="35d177b"
+PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/tvdzwan/hyperion"
 PKG_FETCH="git+https://github.com/tvdzwan/hyperion.git"
@@ -31,9 +31,11 @@ PKG_ADDON_TYPE="xbmc.service"
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 configure_target() {
+  echo "" > ../cmake/FindGitVersion.cmake
   cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_PREFIX_PATH=$SYSROOT_PREFIX/usr \
+        -DHYPERION_VERSION_ID="$PKG_VERSION" \
         -DENABLE_AMLOGIC=1 \
         -DENABLE_DISPMANX=0 \
         -DENABLE_FB=1 \
@@ -46,6 +48,7 @@ configure_target() {
         -DENABLE_WS281XPWM=0 \
         -DENABLE_X11=0 \
         -DENABLE_QT5=0 \
+        -DENABLE_TESTS=0 \
         -Wno-dev \
         ..
 }
