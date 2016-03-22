@@ -21,7 +21,7 @@ PKG_VERSION="ecdf401"
 PKG_LICENSE="other"
 PKG_SITE="http://www.amlogic.com"
 PKG_FETCH="git+https://github.com/codesnake/amremote.git"
-PKG_DEPENDS_TARGET="toolchain usbutils"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="amremote - IR remote configuration utility for Amlogic-based devices"
 
 makeinstall_target() {
@@ -30,9 +30,6 @@ makeinstall_target() {
 
   mkdir -p $INSTALL/usr/lib/openelec
   cp $PKG_DIR/scripts/* $INSTALL/usr/lib/openelec
-
-  mkdir -p $INSTALL/etc/amremote
-  cp $PKG_DIR/config/*.conf $INSTALL/etc/amremote
 }
 
 post_install() {
