@@ -163,6 +163,7 @@ post_makeinstall_target() {
   cp -R $PKG_DIR/config/os.openelec.tv $INSTALL/usr/share/kodi/addons
   sed "s|@OS_VERSION@|$OS_VERSION|g" -i $INSTALL/usr/share/kodi/addons/os.openelec.tv/addon.xml
   cp -R $PKG_DIR/config/repository.saraev.ca $INSTALL/usr/share/kodi/addons
+  sed "s|@OS_VERSION@|$OS_VERSION|g" -i $INSTALL/usr/share/kodi/addons/repository.saraev.ca/addon.xml
   sed "s|@ADDON_URL@|$ADDON_URL|g" -i $INSTALL/usr/share/kodi/addons/repository.saraev.ca/addon.xml
 
   mkdir -p $INSTALL/usr/share/kodi/system/settings
