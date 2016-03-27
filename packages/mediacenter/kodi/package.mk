@@ -27,7 +27,7 @@ PKG_SHORTDESC="kodi: Kodi Mediacenter"
 
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa bzip2 crossguid curl dbus ffmpeg"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET fontconfig freetype fribidi libass"
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libogg libpng libvorbis"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libmicrohttpd libogg libpng libvorbis"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxml2 libxslt lzo pcre Python sqlite"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET systemd taglib tinyxml yajl zlib"
 
@@ -36,13 +36,6 @@ if [ -n "$OPENGLES" ]; then
   KODI_CONFIG="$KODI_CONFIG --enable-gles"
 else
   KODI_CONFIG="$KODI_CONFIG --disable-gles"
-fi
-
-if [ "$KODI_WEBSERVER_SUPPORT" = yes ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libmicrohttpd"
-  KODI_CONFIG="$KODI_CONFIG --enable-webserver"
-else
-  KODI_CONFIG="$KODI_CONFIG --disable-webserver"
 fi
 
 if [ -n "$KODIPLAYER_DRIVER" ]; then
@@ -94,6 +87,7 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-airplay \
                            --disable-airtunes \
                            --enable-non-free \
+                           --enable-webserver \
                            --disable-optical-drive \
                            --disable-libbluray \
                            --disable-texturepacker \

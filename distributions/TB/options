@@ -7,9 +7,6 @@
 # additional packages to install. space separated list
   ADDITIONAL_PACKAGES=""
 
-# build and install with KODI webfrontend (yes / no)
-  KODI_WEBSERVER_SUPPORT="yes"
-
 # Distribution Specific source location
   DISTRO_MIRROR="http://sources.openelec.tv/mirror"
   DISTRO_SRC="http://sources.openelec.tv/$OPENELEC_VERSION"

@@ -189,7 +189,6 @@ show_config() {
   msg="$msg\n\n Kodi configuration:"
   msg="$msg\n ======================================================"
   msg="$msg\n - Kodi Player driver:\t\t $KODIPLAYER_DRIVER"
-  msg="$msg\n - Kodi Webserver support:\t $KODI_WEBSERVER_SUPPORT"
   msg="$msg\n"
   echo -e "$msg"
 }
