@@ -124,7 +124,6 @@ makeinstall_host() {
 pre_configure_target() {
   rm -rf $PKG_BUILD/.$TARGET_NAME
   BOOTSTRAP_STANDALONE=1 make -f bootstrap.mk
-  sed "s|skin.estuary|skin.confluence|g" -i $PKG_BUILD/xbmc/system.h
 }
 
 make_target() {
@@ -185,6 +184,9 @@ post_makeinstall_target() {
 
   # TODO remove. use distro splash
   cp $DISTRO_DIR/$DISTRO/splash/splash.png $INSTALL/usr/share/kodi/media/Splash.png
+
+  # set default skin
+  sed "s|skin.estuary|skin.confluence|g" -i $INSTALL/usr/share/kodi/system/settings/settings.xml
 
   debug_strip $INSTALL/usr/lib/kodi/kodi.bin
 }
