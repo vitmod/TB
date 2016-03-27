@@ -30,26 +30,17 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET fontconfig freetype fribidi libass"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libmicrohttpd libogg libpng libvorbis"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxml2 libxslt lzo pcre Python sqlite"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET systemd taglib tinyxml yajl zlib"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $OPENGLES $KODIPLAYER_DRIVER"
 
 if [ -n "$OPENGLES" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $OPENGLES"
   KODI_CONFIG="$KODI_CONFIG --enable-gles"
 else
   KODI_CONFIG="$KODI_CONFIG --disable-gles"
 fi
 
-if [ -n "$KODIPLAYER_DRIVER" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $KODIPLAYER_DRIVER"
-fi
 if [ "$KODIPLAYER_DRIVER" = libamcodec ]; then
   KODI_CONFIG="$KODI_CONFIG --enable-codec=amcodec"
 fi
-
-export CXX_FOR_BUILD="$HOST_CXX"
-export CC_FOR_BUILD="$HOST_CC"
-export CXXFLAGS_FOR_BUILD="$HOST_CXXFLAGS"
-export CFLAGS_FOR_BUILD="$HOST_CFLAGS"
-export LDFLAGS_FOR_BUILD="$HOST_LDFLAGS"
 
 export PYTHON_CPPFLAGS="-I$SYSROOT_PREFIX/usr/include/python2.7"
 export PYTHON_LDFLAGS="-L$SYSROOT_PREFIX/usr/lib/python2.7 -lpython2.7"
@@ -127,17 +118,15 @@ make_target() {
 }
 
 post_makeinstall_target() {
+  rm -rf $INSTALL/usr/*/xbmc*
   rm -rf $INSTALL/usr/bin/kodi
   rm -rf $INSTALL/usr/bin/kodi-standalone
-  rm -rf $INSTALL/usr/bin/xbmc
-  rm -rf $INSTALL/usr/bin/xbmc-standalone
   rm -rf $INSTALL/usr/lib/kodi/*.cmake
   rm -rf $INSTALL/usr/share/applications
   rm -rf $INSTALL/usr/share/icons
-  rm -rf $INSTALL/usr/share/kodi/addons/skin.estouchy
-  rm -rf $INSTALL/usr/share/kodi/addons/skin.estuary
   rm -rf $INSTALL/usr/share/kodi/addons/service.xbmc.versioncheck
-  rm -rf $INSTALL/usr/share/kodi/addons/visualization.vortex
+  rm -rf $INSTALL/usr/share/kodi/addons/skin.*
+  rm -rf $INSTALL/usr/share/kodi/addons/visualization.*
   rm -rf $INSTALL/usr/share/xsessions
 
   mkdir -p $INSTALL/usr/bin
@@ -152,16 +141,16 @@ post_makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/python2.7/site-packages/kodi
   cp -R tools/EventClients/lib/python/* $INSTALL/usr/lib/python2.7/site-packages/kodi
 
+  mkdir -p $INSTALL/usr/share/kodi/system/settings
+  cp $PKG_DIR/config/advancedsettings.xml $INSTALL/usr/share/kodi/system
+  cp $PKG_DIR/config/appliance.xml $INSTALL/usr/share/kodi/system/settings
+
   mkdir -p $INSTALL/usr/share/kodi/addons
   cp -R $PKG_DIR/config/os.openelec.tv $INSTALL/usr/share/kodi/addons
   sed "s|@OS_VERSION@|$OS_VERSION|g" -i $INSTALL/usr/share/kodi/addons/os.openelec.tv/addon.xml
   cp -R $PKG_DIR/config/repository.saraev.ca $INSTALL/usr/share/kodi/addons
   sed "s|@OS_VERSION@|$OS_VERSION|g" -i $INSTALL/usr/share/kodi/addons/repository.saraev.ca/addon.xml
   sed "s|@ADDON_URL@|$ADDON_URL|g" -i $INSTALL/usr/share/kodi/addons/repository.saraev.ca/addon.xml
-
-  mkdir -p $INSTALL/usr/share/kodi/system/settings
-  cp $PKG_DIR/config/advancedsettings.xml $INSTALL/usr/share/kodi/system
-  cp $PKG_DIR/config/appliance.xml $INSTALL/usr/share/kodi/system/settings
 
   # update addon manifest
   ADDON_MANIFEST=$INSTALL/usr/share/kodi/system/addon-manifest.xml
@@ -173,14 +162,13 @@ post_makeinstall_target() {
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "skin.confluence" $ADDON_MANIFEST
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "tb.settings" $ADDON_MANIFEST
 
-  # more binaddons cross compile badness meh
-  sed -i -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR $SYSROOT_PREFIX/usr/include/kodi:g" $SYSROOT_PREFIX/usr/lib/kodi/kodi-config.cmake
-
-  # TODO remove. use distro splash
+  # distro splash / skin
   cp $DISTRO_DIR/$DISTRO/splash/splash.png $INSTALL/usr/share/kodi/media/Splash.png
-
-  # set default skin
   sed "s|skin.estuary|skin.confluence|g" -i $INSTALL/usr/share/kodi/system/settings/settings.xml
+
+  # more binaddons cross compile badness meh
+  sed -i -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR $SYSROOT_PREFIX/usr/include/kodi:g" \
+    $SYSROOT_PREFIX/usr/lib/kodi/kodi-config.cmake
 
   debug_strip $INSTALL/usr/lib/kodi/kodi.bin
 }
