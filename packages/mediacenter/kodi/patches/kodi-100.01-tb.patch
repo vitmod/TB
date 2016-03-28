@@ -1,4 +1,4 @@
-From 1c824457b85fe92fcf6fb60884da9c494f1eb955 Mon Sep 17 00:00:00 2001
+From 42bfcdc5e94680057164ff08c06368cb169a8725 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:12:49 +0300
 Subject: [PATCH 01/24] [tb] enable PYTHONOPTIMIZE with external Python
@@ -29,7 +29,7 @@ index 1b27903..c8de485 100644
 2.7.4
 
 
-From b06474ace8edaaf6e6fa78655db7130431b4d47b Mon Sep 17 00:00:00 2001
+From 27f1d9471a513680e21559de6c64404954e981cf Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
 Subject: [PATCH 02/24] [tb] disable online check
@@ -91,7 +91,7 @@ index 4184db0..0cd539e 100644
 2.7.4
 
 
-From a2d1e1384722bc4e0d4ef29d217de684248c51ee Mon Sep 17 00:00:00 2001
+From 99ae9839fa2487fe8f0f9d31b8b51a74016e4386 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
 Subject: [PATCH 03/24] [tb] make binary addons executable
@@ -151,7 +151,7 @@ index 889935c..deb21b2 100644
 2.7.4
 
 
-From 5f076aeb35ca061b8072fb0dab52d407571eddf0 Mon Sep 17 00:00:00 2001
+From 87abe64a771eee2eac4188adc18a39d413faa6e5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
 Subject: [PATCH 04/24] [tb] disable minimize
@@ -176,7 +176,7 @@ index 0fce825..9be990a 100644
 2.7.4
 
 
-From 0b2139f309ca049220aec4c74f3a63e03d3b0440 Mon Sep 17 00:00:00 2001
+From 20b7a1c9a8b35253964d6988452971990133c771 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
 Subject: [PATCH 05/24] [tb] setup timezone
@@ -222,7 +222,7 @@ index ea44d40..b780e62 100644
 2.7.4
 
 
-From 919a5b0ad05f2f4405c84d496d8d31d286a7b7cf Mon Sep 17 00:00:00 2001
+From 73ce3dc16be3d7beef4be3be3b2b759c602fee2d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
 Subject: [PATCH 06/24] [tb] use a wrapper to setup systemd services
@@ -317,7 +317,7 @@ index bc5338c..1079952 100644
 2.7.4
 
 
-From c1b25ec594e52b4f4e7d61e66557c52ee676af18 Mon Sep 17 00:00:00 2001
+From 3ce88856836ce8f36f871644b731fdaa177dd519 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
 Subject: [PATCH 07/24] [tb] handle SIGTERM
@@ -476,7 +476,7 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From c2e162c7da5a7d3e8454078ad0be05e3e1770a22 Mon Sep 17 00:00:00 2001
+From 938effe0dff5e65f45478b36b752076e9b4825b1 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
 Subject: [PATCH 08/24] [tb] udevprovider: filter out OE specific mounts
@@ -514,7 +514,7 @@ index 6fda5a5..525e6b7 100644
 2.7.4
 
 
-From 25ba5da1299ea5a697293917e73417c24e91c719 Mon Sep 17 00:00:00 2001
+From 27db5c703da1616ce7f38460658dc290870ddf70 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
 Subject: [PATCH 09/24] [tb] our ffmpeg is doing well
@@ -545,7 +545,7 @@ index aa5e23c..9a872b5 100644
 2.7.4
 
 
-From 57d21643ce677021ebce9752e8c75047dfc7d6ee Mon Sep 17 00:00:00 2001
+From 42e8438188db55dbe7300dad000c397f926e9182 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
 Subject: [PATCH 10/24] [tb] sledgehammer. fix crash while importing channels
@@ -574,7 +574,7 @@ index b084263..6e26067 100644
 2.7.4
 
 
-From 93affa4d36fa117ec2918d44c7fb69c4fcaadd20 Mon Sep 17 00:00:00 2001
+From 6e38db09ac64290a7c7b4cea82167a989e670872 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 15 Mar 2016 21:29:43 +0200
 Subject: [PATCH 11/24] [tb] add advancedsetting to configure number of volume
@@ -648,7 +648,7 @@ index ae05f9b..6db5f12 100644
 2.7.4
 
 
-From 6a1ea7df207db89e1b039a298161c76d9109bd7a Mon Sep 17 00:00:00 2001
+From 239fdfe6c9d0b84f129170c70d26eb420693c99b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
 Subject: [PATCH 12/24] [tb] meh addon sonames
@@ -675,7 +675,7 @@ index 9541df4..9e2e398 100644
 2.7.4
 
 
-From 39a6773f550c0f7c7195af7213aeb18c94b8f19d Mon Sep 17 00:00:00 2001
+From 81913217eeccee3cb6e5d6ed3db386ec4f81c66d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
 Subject: [PATCH 13/24] [tb] meh past epg data
@@ -701,7 +701,7 @@ index 654de4b..d4c8871 100644
 2.7.4
 
 
-From ea3f7356912e8ad48576ed99397f8bdc15920f5b Mon Sep 17 00:00:00 2001
+From dbdb79c3e5021b449363518f209d3d35e76bc276 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 10 Nov 2015 14:27:27 +0200
 Subject: [PATCH 14/24] [tb] bye dcadec
@@ -740,7 +740,7 @@ index 174c2d3..db195e4 100644
 2.7.4
 
 
-From 4c63f3844eabfa3700fd0dfb6feb44efbc191b68 Mon Sep 17 00:00:00 2001
+From f5b8c9c115965bf70e9d3a8ad2820db85c16f114 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 24 Feb 2016 18:27:13 +0200
 Subject: [PATCH 15/24] [tb] bye libdvd
@@ -773,7 +773,7 @@ index 238f2e4..953a230 100644
 2.7.4
 
 
-From 6bad96139e0c07bbacb835f0762aaf8b9f852c49 Mon Sep 17 00:00:00 2001
+From fdd73c2cb78815e7dc43b6ea037305b2f730b982 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
 Subject: [PATCH 16/24] [aml] Fill audio packets completely when resampling to
@@ -803,7 +803,7 @@ index 7460457..4e09342 100644
 2.7.4
 
 
-From a6f3470c30cf963561b2f9f771198a998a0b9403 Mon Sep 17 00:00:00 2001
+From 0fc6f0cd02ede5beb3175f18bfb32b64777d635c Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
 Subject: [PATCH 17/24] [aml] Ugly workaround to show DTS/AC3 caps
@@ -834,7 +834,7 @@ index fbccce0..bc2a506 100644
 2.7.4
 
 
-From 1644c3fb2ab6eabf5e7a19abe685e3d667b8a345 Mon Sep 17 00:00:00 2001
+From 006d7458b2dcf60330b8d98a8bf681895da0a0b2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
 Subject: [PATCH 18/24] [aml] fix compiler badness when compiling with amcodec
@@ -860,7 +860,7 @@ index a1a3447..1bf5a89 100644
 2.7.4
 
 
-From d23756590bf5d2436f3906825645133886d9fc3e Mon Sep 17 00:00:00 2001
+From f3fb3a62041001f6580ad3894f3c658b29487f9f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:25:44 +0200
 Subject: [PATCH 19/24] [aml] perform suspend instead of powerdown
@@ -909,7 +909,7 @@ index 4e5bcc6..ad5847d 100644
 2.7.4
 
 
-From bd1dde58a0ef3e568f7e4e51bf4cdd47717dd2ed Mon Sep 17 00:00:00 2001
+From ee6729e2afc643a1ecc395049473dc8afda384c0 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
 Subject: [PATCH 20/24] [aml] prefer libamcodec.so
@@ -946,7 +946,7 @@ index 0a97893..1fface4 100644
 2.7.4
 
 
-From 0136b2977f896c04061f9e8611dcf2720ec98e89 Mon Sep 17 00:00:00 2001
+From 570b410c0da973de64b83a05a8be71434795447f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 22:43:07 +0200
 Subject: [PATCH 21/24] [aml] re-add IVPClockCallback
@@ -1008,7 +1008,7 @@ index 45e794b..06a5c0b 100644
    static CDVDOverlayCodec* CreateOverlayCodec(CDVDStreamInfo &hint );
  
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index 1fface4..a3cb24c 100644
+index 1fface4..617d2ec 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 @@ -26,6 +26,7 @@
@@ -1098,7 +1098,7 @@ index 1fface4..a3cb24c 100644
 +        if (abs_error > 0)
 +        {
 +          //CLog::Log(LOGDEBUG, "CAMLCodec::Process pts diff = %f", error);
-+          if (abs_error > 0.150)
++          if (abs_error > 0.300)
 +          {
 +            // big error so try to reset pts_pcrscr
 +            SetVideoPtsSeconds(app_pts);
@@ -1315,7 +1315,7 @@ index 5149066..32b80e0 100644
 2.7.4
 
 
-From 9279007dbe63e0c407aa7ee68e254f33668ea197 Mon Sep 17 00:00:00 2001
+From 0cd70a3f08a3cb771b1de15eaf7045cf2658ac3d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 23:47:54 +0200
 Subject: [PATCH 22/24] [aml] pvr can reopen too fast, slow us down a little
@@ -1325,7 +1325,7 @@ Subject: [PATCH 22/24] [aml] pvr can reopen too fast, slow us down a little
  1 file changed, 4 insertions(+)
 
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index a3cb24c..e6327b4 100644
+index 617d2ec..ae14ceb 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 @@ -1680,6 +1680,10 @@ void CAMLCodec::CloseDecoder()
@@ -1343,7 +1343,7 @@ index a3cb24c..e6327b4 100644
 2.7.4
 
 
-From c8469c897ffecc411c696c3f53e822c13a3c76d1 Mon Sep 17 00:00:00 2001
+From daf7a869b60028209aeef09b30d01bf1c791b880 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
 Subject: [PATCH 23/24] [aml] TEMP: use software decoding for sd
@@ -1378,24 +1378,25 @@ index 702dd3c..1d66b85 100644
 2.7.4
 
 
-From 6c8d5c862104d2cbf452d006454819a806cd3ae7 Mon Sep 17 00:00:00 2001
+From 5f9e56fd38f04ba275d3e85a327882b9d8fa54b0 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 24/24] [wtf] user pre-installed addons should be enabled!
+Subject: [PATCH 24/24] [addons] all user pre-installed addons should be
+ enabled
 
 ---
  xbmc/addons/AddonDatabase.cpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/xbmc/addons/AddonDatabase.cpp b/xbmc/addons/AddonDatabase.cpp
-index 6fe0566..9c8bf3c 100644
+index e442c33..c0b235e 100644
 --- a/xbmc/addons/AddonDatabase.cpp
 +++ b/xbmc/addons/AddonDatabase.cpp
-@@ -218,7 +218,7 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids)
-     BeginMultipleExecute();
+@@ -218,7 +218,7 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids, const std::
+     BeginTransaction();
      for (const auto& id : added)
        m_pDS->exec(PrepareSQL("INSERT INTO installed(addonID, enabled, installDate) "
--          "VALUES('%s', 0, '%s')", id.c_str(), now.c_str()));
+-          "VALUES('%s', '%d', '%s')", id.c_str(), enabled.find(id) != enabled.end() ? 1 : 0, now.c_str()));
 +          "VALUES('%s', 1, '%s')", id.c_str(), now.c_str()));
  
      for (const auto& id : removed)
