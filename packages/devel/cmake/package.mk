@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="cmake"
-PKG_VERSION="3.5.0"
+PKG_VERSION="3.5.1"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.cmake.org/"
 PKG_URL="http://www.cmake.org/files/v3.5/$PKG_NAME-$PKG_VERSION.tar.gz"
