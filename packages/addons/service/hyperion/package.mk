@@ -14,8 +14,8 @@
 ################################################################################
 
 PKG_NAME="hyperion"
-PKG_VERSION="35d177b"
-PKG_REV="2"
+PKG_VERSION="f64b6eb"
+PKG_REV="3"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/tvdzwan/hyperion"
 PKG_FETCH="git+https://github.com/tvdzwan/hyperion.git"
