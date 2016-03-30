@@ -30,9 +30,6 @@ case "$TARGET_FPU" in
   ;;
 esac
 
-# HACK: force disable neon. crashes now.
-FFMPEG_FPU="--disable-neon"
-
 pre_configure_target() {
   rm -rf $PKG_BUILD/.$TARGET_NAME
 }
