@@ -48,7 +48,6 @@ configure_target() {
               --target-os="linux" \
               --pkg-config="$ROOT/$TOOLCHAIN/bin/pkg-config" \
               --extra-cflags="$CFLAGS" \
-              --extra-version="$PKG_VERSION" \
               --build-suffix="" \
               --enable-pic \
               --disable-logging \
