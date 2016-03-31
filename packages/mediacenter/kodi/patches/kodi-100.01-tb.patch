@@ -1,4 +1,4 @@
-From 42bfcdc5e94680057164ff08c06368cb169a8725 Mon Sep 17 00:00:00 2001
+From 24e46828fc9024af6f8a16bd959ad817531777cc Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:12:49 +0300
 Subject: [PATCH 01/24] [tb] enable PYTHONOPTIMIZE with external Python
@@ -29,7 +29,7 @@ index 1b27903..c8de485 100644
 2.7.4
 
 
-From 27f1d9471a513680e21559de6c64404954e981cf Mon Sep 17 00:00:00 2001
+From f666f5a0bd80f4defe22106e532d2be1e5188af6 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
 Subject: [PATCH 02/24] [tb] disable online check
@@ -91,7 +91,7 @@ index 4184db0..0cd539e 100644
 2.7.4
 
 
-From 99ae9839fa2487fe8f0f9d31b8b51a74016e4386 Mon Sep 17 00:00:00 2001
+From aa9dc197c92798916283d30f8b902186278d7295 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
 Subject: [PATCH 03/24] [tb] make binary addons executable
@@ -151,7 +151,7 @@ index 889935c..deb21b2 100644
 2.7.4
 
 
-From 87abe64a771eee2eac4188adc18a39d413faa6e5 Mon Sep 17 00:00:00 2001
+From bc1241ca9c2a29335d2682d576756dd914c604b7 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
 Subject: [PATCH 04/24] [tb] disable minimize
@@ -176,7 +176,7 @@ index 0fce825..9be990a 100644
 2.7.4
 
 
-From 20b7a1c9a8b35253964d6988452971990133c771 Mon Sep 17 00:00:00 2001
+From e6c234a1537438ffad965f311bb2ceb09f19d40b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
 Subject: [PATCH 05/24] [tb] setup timezone
@@ -222,7 +222,7 @@ index ea44d40..b780e62 100644
 2.7.4
 
 
-From 73ce3dc16be3d7beef4be3be3b2b759c602fee2d Mon Sep 17 00:00:00 2001
+From 84cc8bb46b080842696c7034dff9fe4858351731 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
 Subject: [PATCH 06/24] [tb] use a wrapper to setup systemd services
@@ -317,7 +317,7 @@ index bc5338c..1079952 100644
 2.7.4
 
 
-From 3ce88856836ce8f36f871644b731fdaa177dd519 Mon Sep 17 00:00:00 2001
+From 75ff0d54dad59ea53283c0f6fd77e41f7f56625b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
 Subject: [PATCH 07/24] [tb] handle SIGTERM
@@ -476,7 +476,7 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 938effe0dff5e65f45478b36b752076e9b4825b1 Mon Sep 17 00:00:00 2001
+From 63bb5ddcc4f93f30979874a7a062ede704a86089 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
 Subject: [PATCH 08/24] [tb] udevprovider: filter out OE specific mounts
@@ -514,7 +514,7 @@ index 6fda5a5..525e6b7 100644
 2.7.4
 
 
-From 27db5c703da1616ce7f38460658dc290870ddf70 Mon Sep 17 00:00:00 2001
+From b179615419b7ec6a11fa469f8e4d5579879b614f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
 Subject: [PATCH 09/24] [tb] our ffmpeg is doing well
@@ -545,39 +545,10 @@ index aa5e23c..9a872b5 100644
 2.7.4
 
 
-From 42e8438188db55dbe7300dad000c397f926e9182 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 10/24] [tb] sledgehammer. fix crash while importing channels
-
----
- xbmc/pvr/channels/PVRChannel.cpp | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/xbmc/pvr/channels/PVRChannel.cpp b/xbmc/pvr/channels/PVRChannel.cpp
-index b084263..6e26067 100644
---- a/xbmc/pvr/channels/PVRChannel.cpp
-+++ b/xbmc/pvr/channels/PVRChannel.cpp
-@@ -220,10 +220,7 @@ bool CPVRChannel::Persist()
- 
-   if (CPVRDatabase *database = GetPVRDatabase())
-   {
--    bool bReturn = database->Persist(*this) && database->CommitInsertQueries();
--    CSingleLock lock(m_critSection);
--    m_bChanged = !bReturn;
--    return bReturn;
-+    // meh
-   }
- 
-   return false;
--- 
-2.7.4
-
-
-From 6e38db09ac64290a7c7b4cea82167a989e670872 Mon Sep 17 00:00:00 2001
+From 67f15515eafdaa06ee63af9b3ad3644fadb76bb9 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 15 Mar 2016 21:29:43 +0200
-Subject: [PATCH 11/24] [tb] add advancedsetting to configure number of volume
+Subject: [PATCH 10/24] [tb] add advancedsetting to configure number of volume
  control steps
 
 ---
@@ -648,10 +619,10 @@ index ae05f9b..6db5f12 100644
 2.7.4
 
 
-From 239fdfe6c9d0b84f129170c70d26eb420693c99b Mon Sep 17 00:00:00 2001
+From a05ff05d6b10ec77c707c9dedbc5db3380fa68a1 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
-Subject: [PATCH 12/24] [tb] meh addon sonames
+Subject: [PATCH 11/24] [tb] meh addon sonames
 
 ---
  project/cmake/scripts/common/addon-helpers.cmake | 3 +++
@@ -675,20 +646,20 @@ index 9541df4..9e2e398 100644
 2.7.4
 
 
-From 81913217eeccee3cb6e5d6ed3db386ec4f81c66d Mon Sep 17 00:00:00 2001
+From b44fb3cddc665ed9eaabb6d957cc742ca2815a7a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
-Subject: [PATCH 13/24] [tb] meh past epg data
+Subject: [PATCH 12/24] [tb] meh past epg data
 
 ---
  xbmc/pvr/windows/GUIWindowPVRGuide.cpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
-index 654de4b..d4c8871 100644
+index c0f2530..1ecb46f 100644
 --- a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
 +++ b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
-@@ -561,7 +561,7 @@ void CGUIWindowPVRGuide::GetViewTimelineItems(CFileItemList &items)
+@@ -563,7 +563,7 @@ void CGUIWindowPVRGuide::GetViewTimelineItems(CFileItemList &items)
      endDate = startDate;
  
    // limit start to linger time
@@ -701,56 +672,17 @@ index 654de4b..d4c8871 100644
 2.7.4
 
 
-From dbdb79c3e5021b449363518f209d3d35e76bc276 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Tue, 10 Nov 2015 14:27:27 +0200
-Subject: [PATCH 14/24] [tb] bye dcadec
-
----
- Makefile.in  | 2 +-
- configure.ac | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/Makefile.in b/Makefile.in
-index 4b805e0..238f2e4 100644
---- a/Makefile.in
-+++ b/Makefile.in
-@@ -389,7 +389,7 @@ FFMPEGOBJS = @FFMPEG_LIBDIR@/libavcodec.a \
-              @FFMPEG_LIBDIR@/libpostproc.a \
-              @FFMPEG_LIBDIR@/libswscale.a
- DYNOBJSXBMC+= $(FFMPEGOBJS)
--LIBS+= @GNUTLS_ALL_LIBS@ @VORBISENC_ALL_LIBS@ @DCADEC_ALL_LIBS@
-+LIBS+= @GNUTLS_ALL_LIBS@ @VORBISENC_ALL_LIBS@
- 
- $(FFMPEGOBJS): dvdpcodecs
- endif
-diff --git a/configure.ac b/configure.ac
-index 174c2d3..db195e4 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -965,7 +965,6 @@ fi
- AC_CHECK_HEADER([ass/ass.h],, AC_MSG_ERROR($missing_library))
- AC_CHECK_HEADER([ogg/ogg.h],,        AC_MSG_ERROR($missing_library))
- AC_CHECK_HEADER([vorbis/vorbisfile.h],, AC_MSG_ERROR($missing_library))
--PKG_CHECK_MODULES([LIBDCADEC], [dcadec],, AC_MSG_ERROR([libdcadec not found]))
- 
- PKG_CHECK_MODULES([LIBCURL], [libcurl],, AC_MSG_ERROR([libcurl not found]))
- XB_FIND_SONAME([CURL], [curl])
--- 
-2.7.4
-
-
-From f5b8c9c115965bf70e9d3a8ad2820db85c16f114 Mon Sep 17 00:00:00 2001
+From 914e3a37b51c98269b1533d122912669737bdab3 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 24 Feb 2016 18:27:13 +0200
-Subject: [PATCH 15/24] [tb] bye libdvd
+Subject: [PATCH 13/24] [tb] bye libdvd
 
 ---
  Makefile.in | 2 --
  1 file changed, 2 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index 238f2e4..953a230 100644
+index 4b805e0..9a2b212 100644
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -11,7 +11,6 @@ EC_DIRS= \
@@ -773,10 +705,103 @@ index 238f2e4..953a230 100644
 2.7.4
 
 
-From fdd73c2cb78815e7dc43b6ea037305b2f730b982 Mon Sep 17 00:00:00 2001
+From ab8ddab5bf51974db546f0beff8f91f98848653a Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 26 Sep 2015 00:32:42 +0300
+Subject: [PATCH 14/24] [tb] TEMP: fix crash while importing channels
+
+---
+ xbmc/pvr/channels/PVRChannel.cpp | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/xbmc/pvr/channels/PVRChannel.cpp b/xbmc/pvr/channels/PVRChannel.cpp
+index b084263..6e26067 100644
+--- a/xbmc/pvr/channels/PVRChannel.cpp
++++ b/xbmc/pvr/channels/PVRChannel.cpp
+@@ -220,10 +220,7 @@ bool CPVRChannel::Persist()
+ 
+   if (CPVRDatabase *database = GetPVRDatabase())
+   {
+-    bool bReturn = database->Persist(*this) && database->CommitInsertQueries();
+-    CSingleLock lock(m_critSection);
+-    m_bChanged = !bReturn;
+-    return bReturn;
++    // meh
+   }
+ 
+   return false;
+-- 
+2.7.4
+
+
+From 02442058ca85aa47ea9e312910b724c5e8acc47a Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sun, 27 Mar 2016 15:06:13 +0300
+Subject: [PATCH 15/24] [addondb] all user pre-installed addons should be
+ enabled
+
+---
+ xbmc/addons/AddonDatabase.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xbmc/addons/AddonDatabase.cpp b/xbmc/addons/AddonDatabase.cpp
+index 00bd7a5..e3a210b 100644
+--- a/xbmc/addons/AddonDatabase.cpp
++++ b/xbmc/addons/AddonDatabase.cpp
+@@ -236,7 +236,7 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids, const std::
+     BeginTransaction();
+     for (const auto& id : added)
+       m_pDS->exec(PrepareSQL("INSERT INTO installed(addonID, enabled, installDate) "
+-          "VALUES('%s', 0, '%s')", id.c_str(), now.c_str()));
++          "VALUES('%s', 1, '%s')", id.c_str(), now.c_str()));
+ 
+     for (const auto& id : removed)
+       m_pDS->exec(PrepareSQL("DELETE FROM installed WHERE addonID='%s'", id.c_str()));
+-- 
+2.7.4
+
+
+From 8847679a36cdb7255ea29a331bd0c451fde2695c Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Mon, 28 Mar 2016 22:52:32 +0300
+Subject: [PATCH 16/24] [addondb] disable installed pvr/audiodecoder addons on
+ first run
+
+---
+ xbmc/addons/AddonDatabase.cpp | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/xbmc/addons/AddonDatabase.cpp b/xbmc/addons/AddonDatabase.cpp
+index e3a210b..5f975f6 100644
+--- a/xbmc/addons/AddonDatabase.cpp
++++ b/xbmc/addons/AddonDatabase.cpp
+@@ -235,8 +235,17 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids, const std::
+     std::string now = CDateTime::GetCurrentDateTime().GetAsDBDateTime();
+     BeginTransaction();
+     for (const auto& id : added)
++    {
++      int enable = 1;
++      // HACK: pvrmanager doing stupid things. disable pvr client addons
++      if (!CAddonMgr::GetInstance().IsSystemAddon(id.c_str()) && StringUtils::StartsWith(id.c_str(), "pvr."))
++        enable = 0;
++      // HACK: audiodecoder addons should be disabled per default
++      if (!CAddonMgr::GetInstance().IsSystemAddon(id.c_str()) && StringUtils::StartsWith(id.c_str(), "audiodecoder."))
++        enable = 0;
+       m_pDS->exec(PrepareSQL("INSERT INTO installed(addonID, enabled, installDate) "
+-          "VALUES('%s', 1, '%s')", id.c_str(), now.c_str()));
++          "VALUES('%s', %d, '%s')", id.c_str(), enable, now.c_str()));
++    }
+ 
+     for (const auto& id : removed)
+       m_pDS->exec(PrepareSQL("DELETE FROM installed WHERE addonID='%s'", id.c_str()));
+-- 
+2.7.4
+
+
+From 4ad32f125ea75de78a35712cb79fc37324474bbd Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 16/24] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 17/24] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -803,10 +828,10 @@ index 7460457..4e09342 100644
 2.7.4
 
 
-From 0fc6f0cd02ede5beb3175f18bfb32b64777d635c Mon Sep 17 00:00:00 2001
+From dc16e895ea3cc0f0221007cd09a70361ded1d9fb Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
-Subject: [PATCH 17/24] [aml] Ugly workaround to show DTS/AC3 caps
+Subject: [PATCH 18/24] [aml] Ugly workaround to show DTS/AC3 caps
 
 ... but don't run into multi channel issues as we can only open 2 pcm channels
 ---
@@ -834,10 +859,10 @@ index fbccce0..bc2a506 100644
 2.7.4
 
 
-From 006d7458b2dcf60330b8d98a8bf681895da0a0b2 Mon Sep 17 00:00:00 2001
+From 8958f320f62cbf828749de65ca6628e79a6afa65 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
-Subject: [PATCH 18/24] [aml] fix compiler badness when compiling with amcodec
+Subject: [PATCH 19/24] [aml] fix compiler badness when compiling with amcodec
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in | 2 --
@@ -860,10 +885,10 @@ index a1a3447..1bf5a89 100644
 2.7.4
 
 
-From f3fb3a62041001f6580ad3894f3c658b29487f9f Mon Sep 17 00:00:00 2001
+From 73c3184ee873d7cd917f6193b87b521be3ffde35 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:25:44 +0200
-Subject: [PATCH 19/24] [aml] perform suspend instead of powerdown
+Subject: [PATCH 20/24] [aml] perform suspend instead of powerdown
 
 ---
  system/keymaps/keyboard.xml                        | 2 +-
@@ -909,10 +934,10 @@ index 4e5bcc6..ad5847d 100644
 2.7.4
 
 
-From ee6729e2afc643a1ecc395049473dc8afda384c0 Mon Sep 17 00:00:00 2001
+From 5a46494a7190257c362144c835553dcbef9a2f3a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
-Subject: [PATCH 20/24] [aml] prefer libamcodec.so
+Subject: [PATCH 21/24] [aml] prefer libamcodec.so
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 6 +++---
@@ -946,10 +971,10 @@ index 0a97893..1fface4 100644
 2.7.4
 
 
-From 570b410c0da973de64b83a05a8be71434795447f Mon Sep 17 00:00:00 2001
+From 013180594b93a1be982a2283168a554b96448888 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 22:43:07 +0200
-Subject: [PATCH 21/24] [aml] re-add IVPClockCallback
+Subject: [PATCH 22/24] [aml] re-add IVPClockCallback
 
 nobody cared. is amcodec dead?
 ---
@@ -1315,10 +1340,10 @@ index 5149066..32b80e0 100644
 2.7.4
 
 
-From 0cd70a3f08a3cb771b1de15eaf7045cf2658ac3d Mon Sep 17 00:00:00 2001
+From 84598e8df86b4afe5ddda639761a82d2319b863d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 23:47:54 +0200
-Subject: [PATCH 22/24] [aml] pvr can reopen too fast, slow us down a little
+Subject: [PATCH 23/24] [aml] pvr can reopen too fast, slow us down a little
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 4 ++++
@@ -1343,10 +1368,10 @@ index 617d2ec..ae14ceb 100644
 2.7.4
 
 
-From daf7a869b60028209aeef09b30d01bf1c791b880 Mon Sep 17 00:00:00 2001
+From 46b93aa5a331baae84635310bfa80acd8924421e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
-Subject: [PATCH 23/24] [aml] TEMP: use software decoding for sd
+Subject: [PATCH 24/24] [aml] TEMP: use software decoding for sd
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
@@ -1374,33 +1399,6 @@ index 702dd3c..1d66b85 100644
        if (hints.width <= 800)
          return false;
        m_pFormatName = "am-mpeg4";
--- 
-2.7.4
-
-
-From 5f9e56fd38f04ba275d3e85a327882b9d8fa54b0 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 24/24] [addons] all user pre-installed addons should be
- enabled
-
----
- xbmc/addons/AddonDatabase.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/xbmc/addons/AddonDatabase.cpp b/xbmc/addons/AddonDatabase.cpp
-index e442c33..c0b235e 100644
---- a/xbmc/addons/AddonDatabase.cpp
-+++ b/xbmc/addons/AddonDatabase.cpp
-@@ -218,7 +218,7 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids, const std::
-     BeginTransaction();
-     for (const auto& id : added)
-       m_pDS->exec(PrepareSQL("INSERT INTO installed(addonID, enabled, installDate) "
--          "VALUES('%s', '%d', '%s')", id.c_str(), enabled.find(id) != enabled.end() ? 1 : 0, now.c_str()));
-+          "VALUES('%s', 1, '%s')", id.c_str(), now.c_str()));
- 
-     for (const auto& id : removed)
-       m_pDS->exec(PrepareSQL("DELETE FROM installed WHERE addonID='%s'", id.c_str()));
 -- 
 2.7.4
 
