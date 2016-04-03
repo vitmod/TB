@@ -100,7 +100,7 @@ if [ -n "$REPO" ] ; then
     fi
   cd ..
 
-  TAR="$ROOT/$SOURCES/$PKG_NAME/$PKG_NAME-$REV.tar.xz"
+  TAR="$ROOT/$SOURCES/$PKG_NAME/$PKG_NAME-$REV.tar.gz"
   if [ ! -e $TAR ] ; then
     mkdir -p $ROOT/$SOURCES/$PKG_NAME
     echo "[mkpkg] Copying sources: $PKG_NAME-$REV ..."
@@ -112,7 +112,7 @@ if [ -n "$REPO" ] ; then
     find $PKG_NAME-$REV -iname .svn -exec rm -rf {} \; &>/dev/null || :
 
     echo "[mkpkg] => Packaging $TAR ..."
-    tar cvJf $TAR $PKG_NAME-$REV &>/dev/null
+    tar czf $TAR $PKG_NAME-$REV
     echo $PKG_URL > $TAR.url
   else
     echo "[mkpkg] $TAR already exists ..."

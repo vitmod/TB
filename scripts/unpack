@@ -70,7 +70,7 @@ else
   if [ -n "$PKG_URL" ]; then
     SOURCE_NAME="`basename $PKG_URL`"
   elif [ -n "$PKG_FETCH" ] ; then
-    SOURCE_NAME="$PKG_NAME-$PKG_VERSION.tar.xz"
+    SOURCE_NAME="$PKG_NAME-$PKG_VERSION.tar.gz"
   fi
   if [ -z "$SOURCE_NAME" ] ; then
     exit 0
