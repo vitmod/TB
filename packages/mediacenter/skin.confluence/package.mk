@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="skin.confluence"
-PKG_VERSION="97da8fa"
+PKG_VERSION="872ec1c"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/xbmc/skin.confluence.git"
