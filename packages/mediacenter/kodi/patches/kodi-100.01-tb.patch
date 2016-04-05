@@ -1,38 +1,7 @@
-From 24e46828fc9024af6f8a16bd959ad817531777cc Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sat, 18 Apr 2015 15:12:49 +0300
-Subject: [PATCH 01/24] [tb] enable PYTHONOPTIMIZE with external Python
-
----
- xbmc/interfaces/python/XBPython.cpp | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/xbmc/interfaces/python/XBPython.cpp b/xbmc/interfaces/python/XBPython.cpp
-index 1b27903..c8de485 100644
---- a/xbmc/interfaces/python/XBPython.cpp
-+++ b/xbmc/interfaces/python/XBPython.cpp
-@@ -569,10 +569,9 @@ bool XBPython::OnScriptInitialized(ILanguageInvoker *invoker)
-     // at http://docs.python.org/using/cmdline.html#environment-variables
- 
- #if !defined(TARGET_WINDOWS) && !defined(TARGET_ANDROID)
--    /* PYTHONOPTIMIZE is set off intentionally when using external Python.
--    Reason for this is because we cannot be sure what version of Python
--    was used to compile the various Python object files (i.e. .pyo,
--    .pyc, etc.). */
-+    // Required for python to find optimized code (pyo) files
-+    setenv("PYTHONOPTIMIZE", "1", 1);
-+
-     // check if we are running as real xbmc.app or just binary
-     if (!CUtil::GetFrameworksPath(true).empty())
-     {
--- 
-2.7.4
-
-
-From f666f5a0bd80f4defe22106e532d2be1e5188af6 Mon Sep 17 00:00:00 2001
+From beca4770b1155a69617f044160ad3b79525f74ff Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 15:03:31 +0300
-Subject: [PATCH 02/24] [tb] disable online check
+Subject: [PATCH 01/22] [tb] disable online check
 
 ---
  xbmc/GUIInfoManager.cpp              | 1 -
@@ -41,10 +10,10 @@ Subject: [PATCH 02/24] [tb] disable online check
  3 files changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/xbmc/GUIInfoManager.cpp b/xbmc/GUIInfoManager.cpp
-index 6c8e11b..8bae4ae 100644
+index 1a3e648..7c1b7c0 100644
 --- a/xbmc/GUIInfoManager.cpp
 +++ b/xbmc/GUIInfoManager.cpp
-@@ -1155,7 +1155,6 @@ const infomap system_labels[] =  {{ "hasnetwork",       SYSTEM_ETHERNET_LINK_ACT
+@@ -1159,7 +1159,6 @@ const infomap system_labels[] =  {{ "hasnetwork",       SYSTEM_ETHERNET_LINK_ACT
                                    { "currentcontrol",   SYSTEM_CURRENT_CONTROL },
                                    { "currentcontrolid", SYSTEM_CURRENT_CONTROL_ID },
                                    { "dvdlabel",         SYSTEM_DVD_LABEL },
@@ -53,10 +22,10 @@ index 6c8e11b..8bae4ae 100644
                                    { "kernelversion",    SYSTEM_OS_VERSION_INFO }, // old, not correct name
                                    { "uptime",           SYSTEM_UPTIME },
 diff --git a/xbmc/utils/SystemInfo.cpp b/xbmc/utils/SystemInfo.cpp
-index eb85abb..123e99d 100644
+index 03b9f65..1705242 100644
 --- a/xbmc/utils/SystemInfo.cpp
 +++ b/xbmc/utils/SystemInfo.cpp
-@@ -247,7 +247,6 @@ bool CSysInfoJob::DoWork()
+@@ -248,7 +248,6 @@ bool CSysInfoJob::DoWork()
  {
    m_info.systemUptime      = GetSystemUpTime(false);
    m_info.systemTotalUptime = GetSystemUpTime(true);
@@ -64,7 +33,7 @@ index eb85abb..123e99d 100644
    m_info.videoEncoder      = GetVideoEncoder();
    m_info.cpuFrequency      = GetCPUFreqInfo();
    m_info.osVersionInfo     = CSysInfo::GetOsPrettyNameWithVersion() + " (kernel: " + CSysInfo::GetKernelName() + " " + CSysInfo::GetKernelVersionFull() + ")";
-@@ -1023,9 +1022,7 @@ int CSysInfo::GetXbmcBitness(void)
+@@ -1024,9 +1023,7 @@ int CSysInfo::GetXbmcBitness(void)
  
  bool CSysInfo::HasInternet()
  {
@@ -91,10 +60,10 @@ index 4184db0..0cd539e 100644
 2.7.4
 
 
-From aa9dc197c92798916283d30f8b902186278d7295 Mon Sep 17 00:00:00 2001
+From 602a3a38f03633587d5c6111686d69bd6813c5e9 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 03/24] [tb] make binary addons executable
+Subject: [PATCH 02/22] [tb] make binary addons executable
 
 add executable mode to all files in addon's bin folder
 
@@ -151,17 +120,17 @@ index 889935c..deb21b2 100644
 2.7.4
 
 
-From bc1241ca9c2a29335d2682d576756dd914c604b7 Mon Sep 17 00:00:00 2001
+From ff069a68300b34b1fcb9ded541c123e8ad432b93 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 04/24] [tb] disable minimize
+Subject: [PATCH 03/22] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 0fce825..9be990a 100644
+index 7c0c9d5..62f6483 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
 @@ -4954,7 +4954,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
@@ -176,10 +145,10 @@ index 0fce825..9be990a 100644
 2.7.4
 
 
-From e6c234a1537438ffad965f311bb2ceb09f19d40b Mon Sep 17 00:00:00 2001
+From cded6da92ec128c7d1accf042f72a0309fead168 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 05/24] [tb] setup timezone
+Subject: [PATCH 04/22] [tb] setup timezone
 
 on TZ country setting change, store the value in format
 TIMEZONE=Xx/Yyy to /storage/.cache/timezone to be used with
@@ -222,10 +191,10 @@ index ea44d40..b780e62 100644
 2.7.4
 
 
-From 84cc8bb46b080842696c7034dff9fe4858351731 Mon Sep 17 00:00:00 2001
+From c175f0735c8cd28e84ae4f6a7173c5b9a86196b2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 06/24] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 05/22] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -317,10 +286,10 @@ index bc5338c..1079952 100644
 2.7.4
 
 
-From 75ff0d54dad59ea53283c0f6fd77e41f7f56625b Mon Sep 17 00:00:00 2001
+From 47727423eb095913669c20658425fbcb27e5984a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 07/24] [tb] handle SIGTERM
+Subject: [PATCH 06/22] [tb] handle SIGTERM
 
 0. CApplication::Stop cant be trusted. (deadlocks crashes and boo)
 
@@ -342,7 +311,7 @@ so, when shutdown/reboot is requested:
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 9be990a..aa5e23c 100644
+index 62f6483..e551f7c 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
 @@ -2426,12 +2426,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
@@ -417,10 +386,10 @@ index 59cfd99..db6f622 100644
    void RestartApp();
    void UnloadSkin(bool forReload = false);
 diff --git a/xbmc/XBApplicationEx.cpp b/xbmc/XBApplicationEx.cpp
-index 048a6c1..fa99ac1 100644
+index f6fffd8..4583b41 100644
 --- a/xbmc/XBApplicationEx.cpp
 +++ b/xbmc/XBApplicationEx.cpp
-@@ -40,6 +40,7 @@ CXBApplicationEx::CXBApplicationEx()
+@@ -43,6 +43,7 @@ CXBApplicationEx::CXBApplicationEx()
    m_bStop = false;
    m_AppFocused = true;
    m_ExitCode = EXITCODE_QUIT;
@@ -476,10 +445,10 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 63bb5ddcc4f93f30979874a7a062ede704a86089 Mon Sep 17 00:00:00 2001
+From 22eb788fb352b26592a66a654391da1bbbb60ba1 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 26 Apr 2015 15:13:15 +0300
-Subject: [PATCH 08/24] [tb] udevprovider: filter out OE specific mounts
+Subject: [PATCH 07/22] [tb] udevprovider: filter out OE specific mounts
 
 ---
  xbmc/storage/linux/UDevProvider.cpp | 14 ++++++++++++++
@@ -514,20 +483,20 @@ index 6fda5a5..525e6b7 100644
 2.7.4
 
 
-From b179615419b7ec6a11fa469f8e4d5579879b614f Mon Sep 17 00:00:00 2001
+From d6ae4adc91f2d151c4a2cc37ac3b2b72379be03f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 13 Dec 2015 12:25:29 +0200
-Subject: [PATCH 09/24] [tb] our ffmpeg is doing well
+Subject: [PATCH 08/22] [tb] our ffmpeg is doing well
 
 ---
  xbmc/Application.cpp | 7 -------
  1 file changed, 7 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index aa5e23c..9a872b5 100644
+index e551f7c..b061b2c 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -529,13 +529,6 @@ bool CApplication::Create()
+@@ -530,13 +530,6 @@ bool CApplication::Create()
  #else  // !USE_STATIC_FFMPEG
    CLog::Log(LOGNOTICE, "FFmpeg version: %s", FFMPEG_VERSION);
  #endif // !USE_STATIC_FFMPEG
@@ -545,10 +514,10 @@ index aa5e23c..9a872b5 100644
 2.7.4
 
 
-From 67f15515eafdaa06ee63af9b3ad3644fadb76bb9 Mon Sep 17 00:00:00 2001
+From 30fbaaad4fe46f8b539fe50b8dc42da18ac83c8a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 15 Mar 2016 21:29:43 +0200
-Subject: [PATCH 10/24] [tb] add advancedsetting to configure number of volume
+Subject: [PATCH 09/22] [tb] add advancedsetting to configure number of volume
  control steps
 
 ---
@@ -559,7 +528,7 @@ Subject: [PATCH 10/24] [tb] add advancedsetting to configure number of volume
  4 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 9a872b5..f0f9259 100644
+index b061b2c..aef11cb 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
 @@ -2373,7 +2373,7 @@ bool CApplication::OnAction(const CAction &action)
@@ -619,10 +588,10 @@ index ae05f9b..6db5f12 100644
 2.7.4
 
 
-From a05ff05d6b10ec77c707c9dedbc5db3380fa68a1 Mon Sep 17 00:00:00 2001
+From 11ec34eb829d7acc4dc4fbd98060986b898e9122 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 25 Aug 2015 10:55:11 +0300
-Subject: [PATCH 11/24] [tb] meh addon sonames
+Subject: [PATCH 10/22] [tb] meh addon sonames
 
 ---
  project/cmake/scripts/common/addon-helpers.cmake | 3 +++
@@ -646,10 +615,10 @@ index 9541df4..9e2e398 100644
 2.7.4
 
 
-From b44fb3cddc665ed9eaabb6d957cc742ca2815a7a Mon Sep 17 00:00:00 2001
+From 11337c6a7fad2f568909ae48356cfe926b5a9e83 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Dec 2015 14:47:11 +0200
-Subject: [PATCH 12/24] [tb] meh past epg data
+Subject: [PATCH 11/22] [tb] meh past epg data
 
 ---
  xbmc/pvr/windows/GUIWindowPVRGuide.cpp | 2 +-
@@ -672,17 +641,17 @@ index c0f2530..1ecb46f 100644
 2.7.4
 
 
-From 914e3a37b51c98269b1533d122912669737bdab3 Mon Sep 17 00:00:00 2001
+From 8e29239c37f17508b1afeb8187357ac09ee204e8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 24 Feb 2016 18:27:13 +0200
-Subject: [PATCH 13/24] [tb] bye libdvd
+Subject: [PATCH 12/22] [tb] bye libdvd
 
 ---
  Makefile.in | 2 --
  1 file changed, 2 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index 4b805e0..9a2b212 100644
+index 972e052..8420a4c 100644
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -11,7 +11,6 @@ EC_DIRS= \
@@ -693,7 +662,7 @@ index 4b805e0..9a2b212 100644
  
  VideoPlayer_ARCHIVES=xbmc/cores/VideoPlayer/VideoPlayer.a \
                     xbmc/cores/VideoPlayer/DVDCodecs/DVDCodecs.a \
-@@ -339,7 +338,6 @@ libaddon: exports
+@@ -341,7 +340,6 @@ libaddon: exports
  	$(MAKE) -C lib/addons/library.xbmc.pvr
  	$(MAKE) -C lib/addons/library.kodi.inputstream
  dvdpcodecs: dllloader
@@ -705,10 +674,10 @@ index 4b805e0..9a2b212 100644
 2.7.4
 
 
-From ab8ddab5bf51974db546f0beff8f91f98848653a Mon Sep 17 00:00:00 2001
+From c6640ea78c89e0e507cb2978c7ec43d7b55e90e2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 14/24] [tb] TEMP: fix crash while importing channels
+Subject: [PATCH 13/22] [tb] TEMP: fix crash while importing channels
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -734,10 +703,10 @@ index b084263..6e26067 100644
 2.7.4
 
 
-From 02442058ca85aa47ea9e312910b724c5e8acc47a Mon Sep 17 00:00:00 2001
+From e0d164fcccb54983233edb2e83a5d3d3a9388709 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 15/24] [addondb] all user pre-installed addons should be
+Subject: [PATCH 14/22] [addondb] all user pre-installed addons should be
  enabled
 
 ---
@@ -745,7 +714,7 @@ Subject: [PATCH 15/24] [addondb] all user pre-installed addons should be
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/xbmc/addons/AddonDatabase.cpp b/xbmc/addons/AddonDatabase.cpp
-index 00bd7a5..e3a210b 100644
+index d5eac2b..95eb9cb 100644
 --- a/xbmc/addons/AddonDatabase.cpp
 +++ b/xbmc/addons/AddonDatabase.cpp
 @@ -236,7 +236,7 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids, const std::
@@ -761,10 +730,10 @@ index 00bd7a5..e3a210b 100644
 2.7.4
 
 
-From 8847679a36cdb7255ea29a331bd0c451fde2695c Mon Sep 17 00:00:00 2001
+From 1cd2890959916fe7327aaf94e926ff5ac17426cc Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 28 Mar 2016 22:52:32 +0300
-Subject: [PATCH 16/24] [addondb] disable installed pvr/audiodecoder addons on
+Subject: [PATCH 15/22] [addondb] disable installed pvr/audiodecoder addons on
  first run
 
 ---
@@ -772,7 +741,7 @@ Subject: [PATCH 16/24] [addondb] disable installed pvr/audiodecoder addons on
  1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/xbmc/addons/AddonDatabase.cpp b/xbmc/addons/AddonDatabase.cpp
-index e3a210b..5f975f6 100644
+index 95eb9cb..81ad43e 100644
 --- a/xbmc/addons/AddonDatabase.cpp
 +++ b/xbmc/addons/AddonDatabase.cpp
 @@ -235,8 +235,17 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids, const std::
@@ -798,10 +767,10 @@ index e3a210b..5f975f6 100644
 2.7.4
 
 
-From 4ad32f125ea75de78a35712cb79fc37324474bbd Mon Sep 17 00:00:00 2001
+From 678d1cafc3176a430452d202ea4b2827d7953212 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 17/24] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 16/22] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -809,7 +778,7 @@ Subject: [PATCH 17/24] [aml] Fill audio packets completely when resampling to
  1 file changed, 4 insertions(+)
 
 diff --git a/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp b/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
-index 7460457..4e09342 100644
+index ff26118..9de73fa 100644
 --- a/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
 +++ b/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
 @@ -159,7 +159,11 @@ CActiveAEBufferPoolResample::CActiveAEBufferPoolResample(AEAudioFormat inputForm
@@ -828,10 +797,10 @@ index 7460457..4e09342 100644
 2.7.4
 
 
-From dc16e895ea3cc0f0221007cd09a70361ded1d9fb Mon Sep 17 00:00:00 2001
+From 0bd625ab1cc3d13cb5afc736a4f618514cdd27d3 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
-Subject: [PATCH 18/24] [aml] Ugly workaround to show DTS/AC3 caps
+Subject: [PATCH 17/22] [aml] Ugly workaround to show DTS/AC3 caps
 
 ... but don't run into multi channel issues as we can only open 2 pcm channels
 ---
@@ -839,10 +808,10 @@ Subject: [PATCH 18/24] [aml] Ugly workaround to show DTS/AC3 caps
  1 file changed, 6 insertions(+)
 
 diff --git a/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp b/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
-index fbccce0..bc2a506 100644
+index 95db8cf..c842dd2 100644
 --- a/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
 +++ b/xbmc/cores/AudioEngine/Sinks/AESinkALSA.cpp
-@@ -1297,6 +1297,12 @@ void CAESinkALSA::EnumerateDevicesEx(AEDeviceInfoList &list, bool force)
+@@ -1301,6 +1301,12 @@ void CAESinkALSA::EnumerateDevicesEx(AEDeviceInfoList &list, bool force)
  
  AEDeviceType CAESinkALSA::AEDeviceTypeFromName(const std::string &name)
  {
@@ -859,10 +828,10 @@ index fbccce0..bc2a506 100644
 2.7.4
 
 
-From 8958f320f62cbf828749de65ca6628e79a6afa65 Mon Sep 17 00:00:00 2001
+From 5a380058df08c4dd7048b9fa5f474aa91be68ed7 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
-Subject: [PATCH 19/24] [aml] fix compiler badness when compiling with amcodec
+Subject: [PATCH 18/22] [aml] fix compiler badness when compiling with amcodec
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in | 2 --
@@ -885,59 +854,10 @@ index a1a3447..1bf5a89 100644
 2.7.4
 
 
-From 73c3184ee873d7cd917f6193b87b521be3ffde35 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sat, 7 Nov 2015 16:25:44 +0200
-Subject: [PATCH 20/24] [aml] perform suspend instead of powerdown
-
----
- system/keymaps/keyboard.xml                        | 2 +-
- xbmc/powermanagement/linux/LogindUPowerSyscall.cpp | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/system/keymaps/keyboard.xml b/system/keymaps/keyboard.xml
-index 49d6fb8..26626d9 100644
---- a/system/keymaps/keyboard.xml
-+++ b/system/keymaps/keyboard.xml
-@@ -91,7 +91,7 @@
-       <backslash>ToggleFullScreen</backslash>
-       <home>FirstPage</home>
-       <end>LastPage</end>
--      <power>ActivateWindow(shutdownmenu)</power>
-+      <power>XBMC.Powerdown()</power>
-       <sleep>ActivateWindow(shutdownmenu)</sleep>
-       <!-- PVR windows -->
-       <e>ActivateWindow(TVGuide)</e>
-diff --git a/xbmc/powermanagement/linux/LogindUPowerSyscall.cpp b/xbmc/powermanagement/linux/LogindUPowerSyscall.cpp
-index 4e5bcc6..ad5847d 100644
---- a/xbmc/powermanagement/linux/LogindUPowerSyscall.cpp
-+++ b/xbmc/powermanagement/linux/LogindUPowerSyscall.cpp
-@@ -53,7 +53,7 @@ CLogindUPowerSyscall::CLogindUPowerSyscall()
-   m_canPowerdown = LogindCheckCapability("CanPowerOff");
-   m_canReboot    = LogindCheckCapability("CanReboot");
-   m_canHibernate = LogindCheckCapability("CanHibernate");
--  m_canSuspend   = LogindCheckCapability("CanSuspend");
-+  m_canSuspend   = false;
- 
-   InhibitDelayLock();
- 
-@@ -98,7 +98,7 @@ CLogindUPowerSyscall::~CLogindUPowerSyscall()
- 
- bool CLogindUPowerSyscall::Powerdown()
- {
--  return LogindSetPowerState("PowerOff");
-+  return Suspend();
- }
- 
- bool CLogindUPowerSyscall::Reboot()
--- 
-2.7.4
-
-
-From 5a46494a7190257c362144c835553dcbef9a2f3a Mon Sep 17 00:00:00 2001
+From c582c14db6c61de71f2f4581afe45c6d91561a9d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
-Subject: [PATCH 21/24] [aml] prefer libamcodec.so
+Subject: [PATCH 19/22] [aml] prefer libamcodec.so
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 6 +++---
@@ -971,10 +891,10 @@ index 0a97893..1fface4 100644
 2.7.4
 
 
-From 013180594b93a1be982a2283168a554b96448888 Mon Sep 17 00:00:00 2001
+From f4ecf167b1bd5eedca74b381c67d7fa3f0a07791 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 22:43:07 +0200
-Subject: [PATCH 22/24] [aml] re-add IVPClockCallback
+Subject: [PATCH 20/22] [aml] re-add IVPClockCallback
 
 nobody cared. is amcodec dead?
 ---
@@ -1278,10 +1198,10 @@ index 0000000..1a5b11e
 +  virtual double GetInterpolatedClock() = 0;
 +};
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-index bd3fe73..657e5db 100644
+index 6d04b3a..331d0be 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-@@ -131,7 +131,7 @@ bool CVideoPlayerVideo::OpenStream( CDVDStreamInfo &hint )
+@@ -132,7 +132,7 @@ bool CVideoPlayerVideo::OpenStream( CDVDStreamInfo &hint )
      return false;
  
    CLog::Log(LOGNOTICE, "Creating video codec with codec id: %i", hint.codec);
@@ -1290,7 +1210,7 @@ index bd3fe73..657e5db 100644
    if(!codec)
    {
      CLog::Log(LOGERROR, "Unsupported video codec");
-@@ -1174,6 +1174,14 @@ int CVideoPlayerVideo::CalcDropRequirement(double pts)
+@@ -1175,6 +1175,14 @@ int CVideoPlayerVideo::CalcDropRequirement(double pts)
    return result;
  }
  
@@ -1306,7 +1226,7 @@ index bd3fe73..657e5db 100644
  {
    m_gain.clear();
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
-index 5149066..32b80e0 100644
+index 34a4c7d..f61efd7 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
 @@ -22,6 +22,7 @@
@@ -1315,9 +1235,9 @@ index 5149066..32b80e0 100644
  #include "IVideoPlayer.h"
 +#include "Interfaces/IVPClockCallback.h"
  #include "DVDMessageQueue.h"
+ #include "DVDStreamInfo.h"
  #include "DVDCodecs/Video/DVDVideoCodec.h"
- #include "DVDClock.h"
-@@ -57,7 +58,7 @@ public:
+@@ -58,7 +59,7 @@ public:
    unsigned int m_dropRequests;
  };
  
@@ -1326,7 +1246,7 @@ index 5149066..32b80e0 100644
  {
  public:
    CVideoPlayerVideo(CDVDClock* pClock
-@@ -96,6 +97,9 @@ public:
+@@ -97,6 +98,9 @@ public:
    std::string GetStereoMode();
    void SetSpeed(int iSpeed);
  
@@ -1340,10 +1260,10 @@ index 5149066..32b80e0 100644
 2.7.4
 
 
-From 84598e8df86b4afe5ddda639761a82d2319b863d Mon Sep 17 00:00:00 2001
+From 167243620471b309c6aa05c3ad399a81efff3f42 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 23:47:54 +0200
-Subject: [PATCH 23/24] [aml] pvr can reopen too fast, slow us down a little
+Subject: [PATCH 21/22] [aml] pvr can reopen too fast, slow us down a little
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 4 ++++
@@ -1368,10 +1288,10 @@ index 617d2ec..ae14ceb 100644
 2.7.4
 
 
-From 46b93aa5a331baae84635310bfa80acd8924421e Mon Sep 17 00:00:00 2001
+From 6a6f75e405281b1e48074497a787e37750123f12 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
-Subject: [PATCH 24/24] [aml] TEMP: use software decoding for sd
+Subject: [PATCH 22/22] [aml] TEMP: use software decoding for sd
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--

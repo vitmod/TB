@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="kodi"
-PKG_VERSION="5b9b4b5"
+PKG_VERSION="b1e6f63"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/xbmc/xbmc.git"
