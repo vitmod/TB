@@ -26,8 +26,7 @@ PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nudpxy is a UDP-to-HTTP multicast traffic relay daemon"
-
-PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
+PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 makeinstall_target() {
   : # nop

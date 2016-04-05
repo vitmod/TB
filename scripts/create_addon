@@ -39,8 +39,8 @@ pack_addon() {
   cp $PKG_DIR/changelog.txt $ADDON_BUILD/$PKG_ADDON_ID 2>/dev/null || :
 
   PROVIDER_NAME="$DISTRONAME"
-  if [ -n "$PKG_MAINTAINER" ] ; then
-    PROVIDER_NAME="$PKG_MAINTAINER"
+  if [ -n "$PKG_ADDON_MAINTAINER" ] ; then
+    PROVIDER_NAME="$PKG_ADDON_MAINTAINER"
   fi
   ADDON_NAME="$PKG_NAME"
   if [ -n "$PKG_ADDON_NAME" ] ; then

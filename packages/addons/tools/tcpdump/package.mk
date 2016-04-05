@@ -25,8 +25,7 @@ PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nThis program allows you to dump the traffic on a network. tcpdump is able to examine IPv4, ICMPv4, IPv6, ICMPv6, UDP, TCP, SNMP, AFS BGP, RIP, PIM, DVMRP, IGMP, SMB, OSPF, NFS and many other packet types."
-
-PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
+PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_TARGET="--with-pcap=linux --with-crypto=no --disable-ipv6"
 

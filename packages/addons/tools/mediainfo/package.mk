@@ -27,8 +27,7 @@ PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nMediaInfo is a convenient unified display of the most relevant technical and tag data for video and audio files"
-
-PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
+PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_SCRIPT="Project/GNU/CLI/configure"
 

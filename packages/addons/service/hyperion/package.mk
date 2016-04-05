@@ -27,8 +27,7 @@ PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="Hyperion daemon"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nHyperion is an opensource 'AmbiLight' implementation"
-
-PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
+PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 configure_target() {
   echo "" > ../cmake/FindGitVersion.cmake

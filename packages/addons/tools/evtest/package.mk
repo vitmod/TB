@@ -26,10 +26,9 @@ PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nevtest is a simple tool for input event debugging."
+PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_AUTORECONF="yes"
-
-PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 makeinstall_target() {
   : # nop

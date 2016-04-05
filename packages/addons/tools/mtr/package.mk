@@ -26,8 +26,7 @@ PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nmtr combines the functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool"
-
-PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
+PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_TARGET="--disable-gtktest \
                            --without-gtk"
