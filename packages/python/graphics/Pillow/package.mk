@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="Pillow"
-PKG_VERSION="3.1.0"
+PKG_VERSION="3.2.0"
 PKG_LICENSE="BSD"
 PKG_SITE="https://pypi.python.org/pypi/Pillow"
 PKG_URL="https://pypi.python.org/packages/source/P/Pillow/$PKG_NAME-$PKG_VERSION.tar.gz"
