@@ -29,7 +29,7 @@ pack_addon() {
 
   if [ ! -f $ADDON_BUILD/$PKG_ADDON_ID/addon.xml ]; then
     cp config/addon/${PKG_ADDON_TYPE}.xml $ADDON_BUILD/$PKG_ADDON_ID/addon.xml
-    ADDONVER=$ADDON_VERSION.$PKG_REV
+    ADDONVER=$ADDON_VERSION.$PKG_ADDON_REV
   else
     ADDONVER=$(xmlstarlet sel -t -v "/addon/@version" $ADDON_BUILD/$PKG_ADDON_ID/addon.xml)
   fi
@@ -48,7 +48,7 @@ pack_addon() {
   fi
   sed -e "s|@PKG_ADDON_ID@|$PKG_ADDON_ID|g" \
       -e "s|@ADDON_NAME@|$ADDON_NAME|g" \
-      -e "s|@ADDON_VERSION@|$ADDON_VERSION.$PKG_REV|g" \
+      -e "s|@ADDON_VERSION@|$ADDON_VERSION.$PKG_ADDON_REV|g" \
       -e "s|@PKG_SHORTDESC@|$PKG_SHORTDESC|g" \
       -e "s|@OS_VERSION@|$OS_VERSION|g" \
       -e "s|@PKG_ADDON_DESC@|$PKG_ADDON_DESC|g" \

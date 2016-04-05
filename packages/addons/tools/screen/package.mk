@@ -15,7 +15,6 @@
 
 PKG_NAME="screen"
 PKG_VERSION="4.2.1"
-PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/screen/"
 PKG_URL="http://ftp.gnu.org/gnu/screen/screen-${PKG_VERSION}.tar.gz"
@@ -24,6 +23,7 @@ PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
+PKG_ADDON_REV="2"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nscreen is a terminal multiplexor that runs several separate "screens" on a single physical character-based terminal. Each virtual terminal emulates a DEC VT100 plus several ANSI X3.64 and ISO 2022 functions. Screen sessions can be detached and resumed later on a different terminal."
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"

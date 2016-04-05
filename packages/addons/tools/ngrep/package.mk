@@ -15,7 +15,6 @@
 
 PKG_NAME="ngrep"
 PKG_VERSION="1.45"
-PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://ngrep.sourceforge.net/"
 PKG_URL="http://prdownloads.sourceforge.net/ngrep/ngrep-${PKG_VERSION}.tar.bz2"
@@ -24,6 +23,7 @@ PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
+PKG_ADDON_REV="2"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nngrep strives to provide most of GNU grep's common features, applying them to the network layer."
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"

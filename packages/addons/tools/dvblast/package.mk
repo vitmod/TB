@@ -15,7 +15,6 @@
 
 PKG_NAME="dvblast"
 PKG_VERSION="3.0"
-PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.videolan.org"
 PKG_URL="http://downloads.videolan.org/pub/videolan/dvblast/${PKG_VERSION}/dvblast-${PKG_VERSION}.tar.bz2"
@@ -24,6 +23,7 @@ PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
+PKG_ADDON_REV="2"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nDVBlast is a simple and powerful MPEG-2/TS demux and streaming application"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"

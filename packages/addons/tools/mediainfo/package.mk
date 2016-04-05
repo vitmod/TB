@@ -15,7 +15,6 @@
 
 PKG_NAME="mediainfo"
 PKG_VERSION="0.7.84"
-PKG_REV="4"
 PKG_LICENSE="GPL"
 PKG_SITE="http://mediaarea.net/en/MediaInfo/Download/Source"
 PKG_URL="http://mediaarea.net/download/source/mediainfo/$PKG_VERSION/mediainfo_$PKG_VERSION.tar.bz2"
@@ -25,6 +24,7 @@ PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
+PKG_ADDON_REV="4"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nMediaInfo is a convenient unified display of the most relevant technical and tag data for video and audio files"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"

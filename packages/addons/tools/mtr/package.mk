@@ -15,7 +15,6 @@
 
 PKG_NAME="mtr"
 PKG_VERSION="0.86"
-PKG_REV="0"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.bitwizard.nl/mtr/"
 PKG_URL="ftp://ftp.bitwizard.nl/mtr/$PKG_NAME-$PKG_VERSION.tar.gz"
@@ -24,6 +23,7 @@ PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
+PKG_ADDON_REV="0"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nmtr combines the functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"

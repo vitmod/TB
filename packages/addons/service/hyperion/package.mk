@@ -15,7 +15,6 @@
 
 PKG_NAME="hyperion"
 PKG_VERSION="f64b6eb"
-PKG_REV="3"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/tvdzwan/hyperion"
 PKG_FETCH="git+https://github.com/tvdzwan/hyperion.git"
@@ -24,6 +23,7 @@ PKG_SECTION="service"
 PKG_SHORTDESC="hyperion: an ambilight controller"
 
 PKG_IS_ADDON="yes"
+PKG_ADDON_REV="3"
 PKG_ADDON_NAME="Hyperion daemon"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nHyperion is an opensource 'AmbiLight' implementation"
