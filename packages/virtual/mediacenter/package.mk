@@ -21,7 +21,6 @@ PKG_VERSION=""
 PKG_SITE="http://www.openelec.tv"
 PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain kodi"
-PKG_SECTION="virtual"
 PKG_SHORTDESC="Mediacenter: Metapackage"
 
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET Pillow"

@@ -190,8 +190,8 @@ if [ ! -f $STAMP ]; then
     $SCRIPTS/autoreconf $PACKAGE_NAME
   fi
 
-  # virtual packages dont must be build, they only contains dependencies, so dont go further here
-  if [ ! "$PKG_SECTION" = "virtual" ]; then
+  is_virtual=$(echo $PKG_DIR | awk -F "/" '{print $(NF-1)}')
+  if [ ! "$is_virtual" = "virtual" ]; then
     mkdir -p $PKG_BUILD
     cd $PKG_BUILD
 
@@ -350,7 +350,7 @@ if [ ! -f $STAMP ]; then
     fi
 
     cd $ROOT
-  fi  # ! "$PKG_SECTION" = "virtual"
+  fi  # ! "$is_virtual" = "virtual"
 
   for i in `find $SYSROOT_PREFIX/usr/lib/ -name "*.la" 2>/dev/null`; do \
     sed -i "s:\(['= ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" $i; \
