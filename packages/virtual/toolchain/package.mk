@@ -18,7 +18,6 @@
 
 PKG_NAME="toolchain"
 PKG_VERSION=""
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.openelec.tv"
 PKG_URL=""
 PKG_DEPENDS_TARGET="make:host ccache:host pkg-config:host autotools:host gcc:host cmake:host"

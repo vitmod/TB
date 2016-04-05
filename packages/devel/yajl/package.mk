@@ -18,7 +18,6 @@
 
 PKG_NAME="yajl"
 PKG_VERSION="2.1.0"
-PKG_LICENSE="ISC"
 PKG_SITE="http://lloyd.github.com/yajl/"
 PKG_URL="https://github.com/lloyd/yajl/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"

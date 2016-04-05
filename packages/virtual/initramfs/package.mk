@@ -18,7 +18,6 @@
 
 PKG_NAME="initramfs"
 PKG_VERSION=""
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.openelec.tv"
 PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain glibc:init busybox:init plymouth-lite:init util-linux:init e2fsprogs:init dosfstools:init bkeymaps:init"

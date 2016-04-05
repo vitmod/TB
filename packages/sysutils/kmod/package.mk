@@ -18,7 +18,6 @@
 
 PKG_NAME="kmod"
 PKG_VERSION="22"
-PKG_LICENSE="GPL"
 PKG_SITE="http://git.profusion.mobi/cgit.cgi/kmod.git/"
 PKG_URL="http://ftp.kernel.org/pub/linux/utils/kernel/kmod/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"

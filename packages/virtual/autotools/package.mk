@@ -18,7 +18,6 @@
 
 PKG_NAME="autotools"
 PKG_VERSION=""
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.openelec.tv"
 PKG_URL=""
 PKG_DEPENDS_HOST="autoconf:host automake:host libtool:host intltool:host autoconf-archive:host"

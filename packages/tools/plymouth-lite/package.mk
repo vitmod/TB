@@ -18,7 +18,6 @@
 
 PKG_NAME="plymouth-lite"
 PKG_VERSION="0.6.0"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.meego.com"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_INIT="toolchain gcc:init libpng"

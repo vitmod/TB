@@ -18,7 +18,6 @@
 
 PKG_NAME="fribidi"
 PKG_VERSION="0.19.7"
-PKG_LICENSE="LGPL"
 PKG_SITE="http://fribidi.org/"
 PKG_URL="http://fribidi.org/download/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain"

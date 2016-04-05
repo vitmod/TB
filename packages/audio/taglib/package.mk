@@ -18,7 +18,6 @@
 
 PKG_NAME="taglib"
 PKG_VERSION="1.11beta"
-PKG_LICENSE="LGPL"
 PKG_SITE="http://taglib.github.com/"
 PKG_URL="http://taglib.github.io/releases/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain zlib"

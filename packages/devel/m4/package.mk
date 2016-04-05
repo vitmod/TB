@@ -18,7 +18,6 @@
 
 PKG_NAME="m4"
 PKG_VERSION="1.4.17"
-PKG_LICENSE="GPL"
 PKG_SITE="ftp://ftp.gnu.org/pub/gnu/m4/"
 PKG_URL="http://ftp.gnu.org/gnu/m4/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_HOST=""

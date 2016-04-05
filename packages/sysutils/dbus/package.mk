@@ -18,7 +18,6 @@
 
 PKG_NAME="dbus"
 PKG_VERSION="1.10.8"
-PKG_LICENSE="GPL"
 PKG_SITE="http://dbus.freedesktop.org"
 PKG_URL="http://dbus.freedesktop.org/releases/$PKG_NAME/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain expat systemd"

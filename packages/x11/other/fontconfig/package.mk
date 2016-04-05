@@ -18,7 +18,6 @@
 
 PKG_NAME="fontconfig"
 PKG_VERSION="2.11.1"
-PKG_LICENSE="OSS"
 PKG_SITE="http://www.fontconfig.org"
 PKG_URL="http://www.freedesktop.org/software/fontconfig/release/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain freetype zlib expat"

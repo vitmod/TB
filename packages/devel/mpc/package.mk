@@ -18,7 +18,6 @@
 
 PKG_NAME="mpc"
 PKG_VERSION="1.0.3"
-PKG_LICENSE="LGPL"
 PKG_SITE="http://www.multiprecision.org"
 PKG_URL="http://ftp.gnu.org/gnu/mpc/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_HOST="gmp:host mpfr:host"

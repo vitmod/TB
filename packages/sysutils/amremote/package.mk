@@ -18,7 +18,6 @@
 
 PKG_NAME="amremote"
 PKG_VERSION="ecdf401"
-PKG_LICENSE="other"
 PKG_SITE="http://www.amlogic.com"
 PKG_FETCH="git+https://github.com/codesnake/amremote.git"
 PKG_DEPENDS_TARGET="toolchain"

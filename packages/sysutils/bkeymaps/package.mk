@@ -18,7 +18,6 @@
 
 PKG_NAME="bkeymaps"
 PKG_VERSION="1.13"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.alpinelinux.org"
 PKG_URL="http://dev.alpinelinux.org/archive/bkeymaps/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_INIT="toolchain"

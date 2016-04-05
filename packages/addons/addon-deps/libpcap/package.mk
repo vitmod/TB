@@ -15,7 +15,6 @@
 
 PKG_NAME="libpcap"
 PKG_VERSION="1.7.4"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.tcpdump.org/"
 PKG_URL="http://www.tcpdump.org/release/libpcap-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"

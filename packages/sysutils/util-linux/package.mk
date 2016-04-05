@@ -18,7 +18,6 @@
 
 PKG_NAME="util-linux"
 PKG_VERSION="2.27.1"
-PKG_LICENSE="GPL"
 PKG_URL="http://www.kernel.org/pub/linux/utils/util-linux/v2.27/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_INIT="toolchain"

@@ -15,7 +15,6 @@
 
 PKG_NAME="libdvbcsa"
 PKG_VERSION="1.1.0"
-PKG_LICENSE="LGPL"
 PKG_SITE="http://www.videolan.org/developers/libdvbcsa.html"
 PKG_URL="http://download.videolan.org/pub/videolan/libdvbcsa/${PKG_VERSION}/libdvbcsa-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"

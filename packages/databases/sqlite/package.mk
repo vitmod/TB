@@ -18,7 +18,6 @@
 
 PKG_NAME="sqlite"
 PKG_VERSION="autoconf-3120000"
-PKG_LICENSE="PublicDomain"
 PKG_SITE="https://www.sqlite.org/"
 PKG_URL="https://www.sqlite.org/2016/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"

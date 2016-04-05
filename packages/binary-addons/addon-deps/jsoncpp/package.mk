@@ -18,7 +18,6 @@
 
 PKG_NAME="jsoncpp"
 PKG_VERSION="1.6.5"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_URL="https://github.com/open-source-parsers/jsoncpp/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"

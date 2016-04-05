@@ -18,7 +18,6 @@
 
 PKG_NAME="binutils"
 PKG_VERSION="2.25.1"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/binutils/binutils.html"
 PKG_URL="http://ftp.gnu.org/gnu/binutils/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_HOST="linux:host"

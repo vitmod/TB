@@ -18,7 +18,6 @@
 
 PKG_NAME="timezone-data"
 PKG_VERSION="2014i"
-PKG_LICENSE="Public Domain"
 PKG_SITE="ftp://elsie.nci.nih.gov/pub/"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"

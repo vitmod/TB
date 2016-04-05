@@ -15,7 +15,6 @@
 
 PKG_NAME="pvr.demo"
 PKG_VERSION="4bae821"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/kodi-pvr/pvr.demo.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform tinyxml"

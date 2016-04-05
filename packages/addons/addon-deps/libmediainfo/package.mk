@@ -15,7 +15,6 @@
 
 PKG_NAME="libmediainfo"
 PKG_VERSION="0.7.84"
-PKG_LICENSE="GPL"
 PKG_SITE="http://mediaarea.net/en/MediaInfo/Download/Source"
 PKG_URL="http://mediaarea.net/download/source/libmediainfo/$PKG_VERSION/libmediainfo_$PKG_VERSION.tar.bz2"
 PKG_SOURCE_DIR="MediaInfoLib"

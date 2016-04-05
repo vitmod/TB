@@ -18,7 +18,6 @@
 
 PKG_NAME="busybox"
 PKG_VERSION="1.24.2"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.busybox.net"
 PKG_URL="http://busybox.net/downloads/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_HOST=""

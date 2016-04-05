@@ -15,7 +15,6 @@
 
 PKG_NAME="tb.settings"
 PKG_VERSION="991aa62"
-PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/stefansaraev/tb.settings"
 PKG_FETCH="git+https://github.com/stefansaraev/tb.settings.git"
 PKG_DEPENDS_TARGET="toolchain"

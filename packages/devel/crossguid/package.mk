@@ -15,7 +15,6 @@
 
 PKG_NAME="crossguid"
 PKG_VERSION="8f399e8"
-PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/graeme-hill/crossguid"
 PKG_FETCH="git+https://github.com/graeme-hill/crossguid.git"
 PKG_DEPENDS_TARGET="toolchain util-linux"

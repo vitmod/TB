@@ -18,7 +18,6 @@
 
 PKG_NAME="ncurses"
 PKG_VERSION="6.0"
-PKG_LICENSE="MIT"
 PKG_SITE="http://www.gnu.org/software/ncurses/"
 PKG_URL="http://ftp.gnu.org/pub/gnu/ncurses/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain zlib"

@@ -15,7 +15,6 @@
 
 PKG_NAME="htop"
 PKG_VERSION="1.0.3"
-PKG_LICENSE="GPL"
 PKG_SITE="http://htop.sourceforge.net/"
 PKG_URL="http://hisham.hm/htop/releases/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ncurses"

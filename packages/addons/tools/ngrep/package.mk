@@ -15,7 +15,6 @@
 
 PKG_NAME="ngrep"
 PKG_VERSION="1.45"
-PKG_LICENSE="GPL"
 PKG_SITE="http://ngrep.sourceforge.net/"
 PKG_URL="http://prdownloads.sourceforge.net/ngrep/ngrep-${PKG_VERSION}.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain libpcap"

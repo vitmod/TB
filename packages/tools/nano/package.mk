@@ -18,7 +18,6 @@
 
 PKG_NAME="nano"
 PKG_VERSION="2.5.3"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.nano-editor.org/"
 PKG_URL="http://ftp.gnu.org/gnu/nano/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ncurses"

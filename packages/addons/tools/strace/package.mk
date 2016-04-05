@@ -15,7 +15,6 @@
 
 PKG_NAME="strace"
 PKG_VERSION="4.10"
-PKG_LICENSE="BSD"
 PKG_SITE="http://sourceforge.net/projects/strace/"
 PKG_URL="$SOURCEFORGE_SRC/strace/strace/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"

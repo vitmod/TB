@@ -15,7 +15,6 @@
 
 PKG_NAME="qt"
 PKG_VERSION="4.8.7"
-PKG_LICENSE="OSS"
 PKG_SITE="http://qt-project.org"
 PKG_URL="http://download.qt-project.org/official_releases/qt/4.8/${PKG_VERSION}/qt-everywhere-opensource-src-${PKG_VERSION}.tar.gz"
 PKG_SOURCE_DIR="qt-everywhere-opensource-src-${PKG_VERSION}"

@@ -18,7 +18,6 @@
 
 PKG_NAME="libxml2"
 PKG_VERSION="2.9.3"
-PKG_LICENSE="MIT"
 PKG_SITE="http://xmlsoft.org"
 PKG_URL="ftp://xmlsoft.org/libxml2/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain zlib"

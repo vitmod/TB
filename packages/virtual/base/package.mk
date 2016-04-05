@@ -15,7 +15,6 @@
 
 PKG_NAME="base"
 PKG_VERSION=""
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.openelec.tv"
 PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain"

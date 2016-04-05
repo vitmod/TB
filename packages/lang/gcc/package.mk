@@ -18,7 +18,6 @@
 
 PKG_NAME="gcc"
 PKG_VERSION="5.3.0"
-PKG_LICENSE="GPL"
 PKG_SITE="http://gcc.gnu.org/"
 PKG_URL="http://ftp.gnu.org/gnu/gcc/$PKG_NAME-$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_BOOTSTRAP="autoconf:host binutils:host gmp:host mpfr:host mpc:host"

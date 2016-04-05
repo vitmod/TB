@@ -18,7 +18,6 @@
 
 PKG_NAME="autoconf"
 PKG_VERSION="2.69"
-PKG_LICENSE="GPL"
 PKG_SITE="http://sources.redhat.com/autoconf/"
 PKG_URL="http://ftp.gnu.org/gnu/autoconf/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST="m4:host gettext:host"

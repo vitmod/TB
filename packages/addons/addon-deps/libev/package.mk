@@ -15,7 +15,6 @@
 
 PKG_NAME="libev"
 PKG_VERSION="4.22"
-PKG_LICENSE="meh"
 PKG_SITE="http://software.schmorp.de/pkg/libev.html"
 PKG_URL="http://dist.schmorp.de/libev/libev-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"

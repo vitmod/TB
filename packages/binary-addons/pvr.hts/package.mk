@@ -15,7 +15,6 @@
 
 PKG_NAME="pvr.hts"
 PKG_VERSION="f03e251"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/kodi-pvr/pvr.hts.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform"

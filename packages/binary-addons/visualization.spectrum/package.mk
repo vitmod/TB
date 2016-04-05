@@ -15,7 +15,6 @@
 
 PKG_NAME="visualization.spectrum"
 PKG_VERSION="9dbe53a"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/notspiff/visualization.spectrum.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform"

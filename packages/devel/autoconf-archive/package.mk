@@ -18,7 +18,6 @@
 
 PKG_NAME="autoconf-archive"
 PKG_VERSION="2015.09.25"
-PKG_LICENSE="GPL"
 PKG_SITE="http://ftp.gnu.org/gnu/autoconf-archive"
 PKG_URL="http://ftp.gnu.org/gnu/autoconf-archive/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST=""

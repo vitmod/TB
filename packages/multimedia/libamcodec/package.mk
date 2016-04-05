@@ -18,7 +18,6 @@
 
 PKG_NAME="libamcodec"
 PKG_VERSION="5e23a81"
-PKG_LICENSE="other"
 PKG_SITE="http://openlinux.amlogic.com"
 PKG_FETCH="git+https://github.com/codesnake/libamcodec.git"
 PKG_DEPENDS_TARGET="toolchain"

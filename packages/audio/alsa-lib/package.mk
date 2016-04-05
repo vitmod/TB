@@ -18,7 +18,6 @@
 
 PKG_NAME="alsa-lib"
 PKG_VERSION="1.1.1"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.alsa-project.org/"
 PKG_URL="ftp://ftp.alsa-project.org/pub/lib/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain"

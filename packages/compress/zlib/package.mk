@@ -18,7 +18,6 @@
 
 PKG_NAME="zlib"
 PKG_VERSION="1.2.8"
-PKG_LICENSE="OSS"
 PKG_SITE="http://www.zlib.net"
 PKG_URL="http://zlib.net/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"

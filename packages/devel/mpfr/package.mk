@@ -18,7 +18,6 @@
 
 PKG_NAME="mpfr"
 PKG_VERSION="3.1.3"
-PKG_LICENSE="LGPL"
 PKG_SITE="http://www.mpfr.org/"
 PKG_URL="http://ftp.gnu.org/gnu/mpfr/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST="gmp:host"

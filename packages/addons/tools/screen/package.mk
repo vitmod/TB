@@ -15,7 +15,6 @@
 
 PKG_NAME="screen"
 PKG_VERSION="4.2.1"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/screen/"
 PKG_URL="http://ftp.gnu.org/gnu/screen/screen-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ncurses"

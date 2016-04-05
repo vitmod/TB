@@ -18,7 +18,6 @@
 
 PKG_NAME="pkg-config"
 PKG_VERSION="0.29"
-PKG_LICENSE="GPL"
 PKG_SITE="http://www.freedesktop.org/software/pkgconfig/"
 PKG_URL="http://pkgconfig.freedesktop.org/releases/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_HOST="gettext:host"

@@ -15,7 +15,6 @@
 
 PKG_NAME="file"
 PKG_VERSION="5.19"
-PKG_LICENSE="BSD"
 PKG_SITE="http://www.darwinsys.com/file/"
 PKG_URL="ftp://ftp.astron.com/pub/file/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_HOST=""

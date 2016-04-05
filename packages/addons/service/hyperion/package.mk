@@ -15,7 +15,6 @@
 
 PKG_NAME="hyperion"
 PKG_VERSION="f64b6eb"
-PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/tvdzwan/hyperion"
 PKG_FETCH="git+https://github.com/tvdzwan/hyperion.git"
 PKG_DEPENDS_TARGET="toolchain Python libusb qt"
