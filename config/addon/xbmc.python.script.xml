@@ -14,7 +14,7 @@
 @PKG_ADDON_DESC@
     </description>
     <disclaimer>
-@PKG_DISCLAIMER@
+@PKG_ADDON_DISCLAIMER@
     </disclaimer>
     <platform>all</platform>
   </extension>

@@ -338,6 +338,7 @@ PKG_ADDON_TYPE=""
 PKG_ADDON_DESC=""
 PKG_ADDON_SECTION=""
 PKG_ADDON_MAINTAINER=""
+PKG_ADDON_DISCLAIMER=""
 
 if [ -n "$1" ]; then
   _PKG_ROOT_NAME=$(echo $1 | cut -d: -f1)
