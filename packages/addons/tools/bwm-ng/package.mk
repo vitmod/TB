@@ -22,10 +22,10 @@ PKG_URL="http://www.gropp.org/bwm-ng/bwm-ng-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ncurses"
 PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
-PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nBandwidth Monitor NG is a small and simple console-based live network and disk io bandwidth monitor for Linux, BSD, Solaris, Mac OS X and others."
 
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
+PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nBandwidth Monitor NG is a small and simple console-based live network and disk io bandwidth monitor for Linux, BSD, Solaris, Mac OS X and others."
 
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 

@@ -22,10 +22,10 @@ PKG_URL="http://downloads.videolan.org/pub/videolan/dvblast/${PKG_VERSION}/dvbla
 PKG_DEPENDS_TARGET="toolchain bitstream libev"
 PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
-PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nDVBlast is a simple and powerful MPEG-2/TS demux and streaming application"
 
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
+PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nDVBlast is a simple and powerful MPEG-2/TS demux and streaming application"
 
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 

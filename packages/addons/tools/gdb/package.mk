@@ -22,10 +22,10 @@ PKG_URL="http://ftp.gnu.org/gnu/gdb/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain zlib ncurses"
 PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
-PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nThe purpose of a debugger such as GDB is to allow you to see what is going on ``inside'' another program while it executes--or what another program was doing @ the moment it crashed."
 
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
+PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nThe purpose of a debugger such as GDB is to allow you to see what is going on ``inside'' another program while it executes--or what another program was doing @ the moment it crashed."
 
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 

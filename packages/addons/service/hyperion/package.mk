@@ -22,11 +22,11 @@ PKG_FETCH="git+https://github.com/tvdzwan/hyperion.git"
 PKG_DEPENDS_TARGET="toolchain Python libusb qt"
 PKG_SECTION="service"
 PKG_SHORTDESC="hyperion: an ambilight controller"
-PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nHyperion is an opensource 'AmbiLight' implementation"
 
 PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="Hyperion daemon"
 PKG_ADDON_TYPE="xbmc.service"
+PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nHyperion is an opensource 'AmbiLight' implementation"
 
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 

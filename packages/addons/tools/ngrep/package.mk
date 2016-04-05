@@ -22,10 +22,10 @@ PKG_URL="http://prdownloads.sourceforge.net/ngrep/ngrep-${PKG_VERSION}.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain libpcap"
 PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
-PKG_LONGDESC="$PKG_NAME-$PKG_VERSION\nngrep strives to provide most of GNU grep's common features, applying them to the network layer."
 
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.python.script"
+PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nngrep strives to provide most of GNU grep's common features, applying them to the network layer."
 
 PKG_MAINTAINER="Stefan Saraev (seo @ freenode)"
 

@@ -51,7 +51,7 @@ pack_addon() {
       -e "s|@ADDON_VERSION@|$ADDON_VERSION.$PKG_REV|g" \
       -e "s|@PKG_SHORTDESC@|$PKG_SHORTDESC|g" \
       -e "s|@OS_VERSION@|$OS_VERSION|g" \
-      -e "s|@PKG_LONGDESC@|$PKG_LONGDESC|g" \
+      -e "s|@PKG_ADDON_DESC@|$PKG_ADDON_DESC|g" \
       -e "s|@PKG_DISCLAIMER@|$PKG_DISCLAIMER|g" \
       -e "s|@PROVIDER_NAME@|$PROVIDER_NAME|g" \
       -i $ADDON_BUILD/$PKG_ADDON_ID/addon.xml

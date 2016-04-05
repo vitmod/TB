@@ -11,7 +11,7 @@
   <extension point="xbmc.addon.metadata">
     <summary>@PKG_SHORTDESC@</summary>
     <description>
-@PKG_LONGDESC@
+@PKG_ADDON_DESC@
     </description>
     <disclaimer>
 @PKG_DISCLAIMER@
