@@ -25,10 +25,7 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-if [ ! -f $PKG_DIR/package.mk ]; then
-  printf "${boldred}$1: no package.mk file found${endcolor}\n"
-  exit 1
-fi
+check_package $1
 
 $SCRIPTS/get $1
 

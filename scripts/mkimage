@@ -1,21 +1,18 @@
 #!/bin/bash
 
 ################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-#
-#  OpenELEC is free software: you can redistribute it and/or modify
+#  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  OpenELEC is distributed in the hope that it will be useful,
+#  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 ################################################################################
@@ -23,106 +20,81 @@
 # script to work must be passed via env ... in scripts/image
 ################################################################################
 
+# functions
+mount_loop() {
+  mount "$LOOP" "$OE_TMP"
+}
+
+umount_loop() {
+  sync
+  umount "$OE_TMP" &>/dev/null || :
+  umount "$LOOP" &>/dev/null || :
+  losetup -d "$LOOP" &>/dev/null || :
+}
+
+cleanup() {
+  echo "image: cleanup..."
+  umount_loop
+  [ -f "$OE_TMP/ldlinux.sys" ] && chattr -i "$OE_TMP/ldlinux.sys" || :
+  rm -rf "$OE_TMP"
+}
+
 # set variables
 OE_TMP=$(mktemp -d)
 LOOP=$(losetup -f)
 
-SYSTEM_SIZE=256
-STORAGE_SIZE=32 # STORAGE_SIZE must be >= 32 !
+PART1_SIZE=256
+PART2_SIZE=32 # PART2_SIZE must be >= 32 !
 
-DISK_SIZE=$(( $SYSTEM_SIZE + $STORAGE_SIZE + 4 ))
-DISK="$TARGET_IMG/$IMAGE_NAME.img"
+IMAGE_SIZE=$(( $PART1_SIZE + $PART2_SIZE + 4 ))
+IMAGE="$TARGET_IMG/$IMAGE_NAME.img"
 
-# functions
-cleanup() {
-  echo "image: cleanup..."
-  umount "$OE_TMP" &>/dev/null || :
-  losetup -d "$LOOP"
-  [ -f "$OE_TMP/ldlinux.sys" ] && chattr -i "$OE_TMP/ldlinux.sys" || :
-  rm -rf "$OE_TMP"
-  exit
-}
-
+umount_loop
 trap cleanup SIGINT
 
 # generate volume id for fat partition
-UUID_1=$(date '+%d%m')
-UUID_2=$(date '+%M%S')
-FAT_VOL_ID="${UUID_1}${UUID_2}"
-UUID_SYSTEM="${UUID_1}-${UUID_2}"
+UUID1=$(date '+%d%m')
+UUID2=$(date '+%M%S')
+PART1_VOLID="${UUID1}${UUID2}"
+PART1_UUID="${UUID1}-${UUID2}"
 
-# ensure loopX not in use
-umount "$OE_TMP" &>/dev/null || :
-umount "$LOOP" &>/dev/null >/dev/null || :
-losetup -d "$LOOP" &>/dev/null >/dev/null || :
-
-echo "image: creating image: $DISK..."
-dd if=/dev/zero of="$DISK" bs=1M count="$DISK_SIZE"
+echo "image: creating image: $IMAGE..."
+dd if=/dev/zero of="$IMAGE" bs=1M count="$IMAGE_SIZE" &>/dev/null
 sync
 
-echo "image: creating partition table on $DISK..."
-losetup "$LOOP" "$DISK"
+echo "image: creating partitions..."
+PART1_END=$(( $PART1_SIZE * 1024 * 1024 / 512 + 2048 ))
+PART2_START=$(( $PART1_END + 2048 ))
+PART2_END=$(( $PART2_START + (( $PART2_SIZE * 1024 * 1024 / 512 )) ))
+losetup "$LOOP" "$IMAGE"
 parted -s "$LOOP" mklabel msdos
-sync
-
-echo "image: creating part1 on $DISK..."
-SYSTEM_PART_END=$(( $SYSTEM_SIZE * 1024 * 1024 / 512 + 2048 ))
-parted -s "$LOOP" -a min unit s mkpart primary fat32 2048 $SYSTEM_PART_END
+parted -s "$LOOP" -a min unit s mkpart primary fat32 2048 $PART1_END
 parted -s "$LOOP" set 1 boot on
+parted -s "$LOOP" -a min unit s mkpart primary ext4 $PART2_START $PART2_END
+umount_loop
 
-# create part2
-echo "image: creating part2 on $DISK..."
-STORAGE_PART_START=$(( $SYSTEM_PART_END + 2048 ))
-STORAGE_PART_END=$(( $STORAGE_PART_START + (( $STORAGE_SIZE * 1024 * 1024 / 512 )) ))
-parted -s "$LOOP" -a min unit s mkpart primary ext4 $STORAGE_PART_START $STORAGE_PART_END
-sync
-
-losetup -d "$LOOP"
-sync
-echo "image: creating filesystem on part1..."
-OFFSET=$(( 2048 * 512 ))
-SIZELIMIT=$(( $SYSTEM_SIZE * 1024 * 1024 ))
-losetup -o $OFFSET --sizelimit $SIZELIMIT "$LOOP" "$DISK"
-mkfs.vfat -i "$FAT_VOL_ID" "$LOOP"
-sync
-
-echo "image: mounting part1 on $OE_TMP..."
-mount "$LOOP" "$OE_TMP"
-
-echo "image: copying files to part1..."
+echo "image: copying files..."
+losetup -o $(( 2048 * 512 )) --sizelimit $(( $PART1_SIZE * 1024 * 1024 )) "$LOOP" "$IMAGE"
+mkfs.vfat -i "$PART1_VOLID" "$LOOP" &>/dev/null
+mount_loop
 cp $TARGET_IMG/$IMAGE_NAME.kernel "$OE_TMP/$KERNEL_NAME"
 cp $TARGET_IMG/$IMAGE_NAME.system "$OE_TMP/root.sqfs"
+umount_loop
 
-echo "image: unmounting part1..."
-sync
-umount "$LOOP"
-
-losetup -d "$LOOP"
-sync
-echo "image: creating filesystem on part2..."
-OFFSET=$(( $STORAGE_PART_START * 512 ))
-SIZELIMIT=$(( $STORAGE_SIZE * 1024 * 1024 ))
-losetup -o $OFFSET --sizelimit $SIZELIMIT "$LOOP" "$DISK"
-mke2fs -q -t ext4 -m 0 "$LOOP"
-tune2fs -U $UUID_STORAGE "$LOOP"
-e2fsck -n "$LOOP"
-sync
-
-echo "image: mounting part2 on $OE_TMP..."
-mount "$LOOP" "$OE_TMP"
-
+echo "image: adding resize mark on part2..."
+losetup -o $(( $PART2_START * 512 )) --sizelimit $(( $PART2_SIZE * 1024 * 1024 )) "$LOOP" "$IMAGE"
+mke2fs -q -t ext4 -m 0 -U $UUID_STORAGE "$LOOP" &>/dev/null
+e2fsck -n "$LOOP" &>/dev/null
+mount_loop
 touch "$OE_TMP/.please_resize_me"
-sync
-
-echo "image: unmounting part2..."
-umount "$LOOP"
-sync
+umount_loop
 
 echo "image: compressing..."
-gzip $DISK
+gzip $IMAGE
 
 if [ -n "$SUDO_USER" ] ; then
-  chown $SUDO_USER: $DISK.gz
+  chown $SUDO_USER: $IMAGE.gz
 fi
 
+sync
 cleanup

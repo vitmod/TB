@@ -26,6 +26,8 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+check_package $1
+
 if [ -z "$INSTALL" ] ; then
   echo "error: '\$INSTALL' not set! this script is not intended to be run manually"
   exit 1

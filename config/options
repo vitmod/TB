@@ -200,6 +200,18 @@ debug_strip() {
   fi
 }
 
+check_package() {
+  if [ -z "$PKG_DIR" ] ; then
+    printf "${boldred}$1: package not found${endcolor}\n"
+    exit 1
+  fi
+
+  if [ ! -f "$PKG_DIR/package.mk" ]; then
+    printf "${boldred}$1: no package.mk file found${endcolor}\n"
+    exit 1
+  fi
+}
+
 ################################################################################
 export LC_ALL=C
 
