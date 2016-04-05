@@ -21,7 +21,6 @@ PKG_URL="http://download.qt-project.org/official_releases/qt/4.8/${PKG_VERSION}/
 PKG_SOURCE_DIR="qt-everywhere-opensource-src-${PKG_VERSION}"
 PKG_DEPENDS_TARGET="toolchain Python zlib:host zlib"
 PKG_SHORTDESC="Qt GUI toolkit"
-PKG_LONGDESC="Qt GUI toolkit"
 
 QMAKE_CONF_DIR="mkspecs/qws/linux-openelec-g++"
 QMAKE_CONF="${QMAKE_CONF_DIR}/qmake.conf"
