@@ -9,6 +9,6 @@
     <curllowspeedtime>5</curllowspeedtime>
   </network>
   <epg>
-    <lingertime>360</lingertime>
+    <lingertime>120</lingertime>
   </epg>
 </advancedsettings>
