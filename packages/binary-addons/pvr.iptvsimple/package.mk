@@ -18,7 +18,6 @@ PKG_VERSION="f27ae14"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/kodi-pvr/pvr.iptvsimple.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform zlib"
-PKG_SECTION=""
 PKG_SHORTDESC=""
 
 PKG_IS_ADDON="yes"

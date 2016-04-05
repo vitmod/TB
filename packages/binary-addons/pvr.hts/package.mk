@@ -18,7 +18,6 @@ PKG_VERSION="f03e251"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/kodi-pvr/pvr.hts.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform"
-PKG_SECTION=""
 PKG_SHORTDESC=""
 
 PKG_IS_ADDON="yes"

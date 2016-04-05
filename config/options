@@ -337,6 +337,7 @@ PKG_IS_ADDON="no"
 PKG_ADDON_REV="0"
 PKG_ADDON_TYPE=""
 PKG_ADDON_DESC=""
+PKG_ADDON_SECTION=""
 PKG_ADDON_MAINTAINER=""
 
 if [ -n "$1" ]; then
@@ -346,12 +347,6 @@ fi
 
 if [ -e $PKG_DIR/package.mk ]; then
   . $PKG_DIR/package.mk
-fi
-
-if [ "$PKG_IS_ADDON" = "yes" ] ; then
-  if [ -z "$PKG_ADDON_ID" ] ; then
-    [ -z $PKG_SECTION ] && PKG_ADDON_ID="$PKG_NAME" || PKG_ADDON_ID="`echo $PKG_SECTION | sed 's,/,.,g'`.$PKG_NAME"
-  fi
 fi
 
 PKG_BUILD="$ROOT/$BUILD/${PKG_NAME}-${PKG_VERSION}"

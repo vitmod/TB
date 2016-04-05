@@ -73,6 +73,11 @@ pack_addon() {
 }
 
 if [ "$PKG_IS_ADDON" = "yes" ] ; then
+  PKG_ADDON_ID="$PKG_NAME"
+  if [ -n "$PKG_ADDON_SECTION" ] ; then
+    PKG_ADDON_ID="`echo $PKG_ADDON_SECTION | sed 's,/,.,g'`.$PKG_NAME"
+  fi
+
   rm -rf $ADDON_BUILD
 
   if [ "$(type -t addon)" = "function" ]; then

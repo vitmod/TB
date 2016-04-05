@@ -18,7 +18,6 @@ PKG_VERSION="d30a2d8"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/kodi-pvr/pvr.stalker.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform jsoncpp tinyxml"
-PKG_SECTION=""
 PKG_SHORTDESC=""
 
 PKG_IS_ADDON="yes"

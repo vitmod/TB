@@ -18,13 +18,13 @@ PKG_VERSION="1.0.3"
 PKG_SITE="http://htop.sourceforge.net/"
 PKG_URL="http://hisham.hm/htop/releases/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ncurses"
-PKG_SECTION="tools"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
 PKG_ADDON_REV="2"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nHtop is an ncurses based interactive process viewer for Linux."
+PKG_ADDON_SECTION="tools"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
