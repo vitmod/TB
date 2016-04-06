@@ -1,73 +1,8 @@
-From beca4770b1155a69617f044160ad3b79525f74ff Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sat, 18 Apr 2015 15:03:31 +0300
-Subject: [PATCH 01/22] [tb] disable online check
-
----
- xbmc/GUIInfoManager.cpp              | 1 -
- xbmc/utils/SystemInfo.cpp            | 5 +----
- xbmc/windows/GUIWindowSystemInfo.cpp | 1 -
- 3 files changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/xbmc/GUIInfoManager.cpp b/xbmc/GUIInfoManager.cpp
-index 1a3e648..7c1b7c0 100644
---- a/xbmc/GUIInfoManager.cpp
-+++ b/xbmc/GUIInfoManager.cpp
-@@ -1159,7 +1159,6 @@ const infomap system_labels[] =  {{ "hasnetwork",       SYSTEM_ETHERNET_LINK_ACT
-                                   { "currentcontrol",   SYSTEM_CURRENT_CONTROL },
-                                   { "currentcontrolid", SYSTEM_CURRENT_CONTROL_ID },
-                                   { "dvdlabel",         SYSTEM_DVD_LABEL },
--                                  { "internetstate",    SYSTEM_INTERNET_STATE },
-                                   { "osversioninfo",    SYSTEM_OS_VERSION_INFO },
-                                   { "kernelversion",    SYSTEM_OS_VERSION_INFO }, // old, not correct name
-                                   { "uptime",           SYSTEM_UPTIME },
-diff --git a/xbmc/utils/SystemInfo.cpp b/xbmc/utils/SystemInfo.cpp
-index 03b9f65..1705242 100644
---- a/xbmc/utils/SystemInfo.cpp
-+++ b/xbmc/utils/SystemInfo.cpp
-@@ -248,7 +248,6 @@ bool CSysInfoJob::DoWork()
- {
-   m_info.systemUptime      = GetSystemUpTime(false);
-   m_info.systemTotalUptime = GetSystemUpTime(true);
--  m_info.internetState     = GetInternetState();
-   m_info.videoEncoder      = GetVideoEncoder();
-   m_info.cpuFrequency      = GetCPUFreqInfo();
-   m_info.osVersionInfo     = CSysInfo::GetOsPrettyNameWithVersion() + " (kernel: " + CSysInfo::GetKernelName() + " " + CSysInfo::GetKernelVersionFull() + ")";
-@@ -1024,9 +1023,7 @@ int CSysInfo::GetXbmcBitness(void)
- 
- bool CSysInfo::HasInternet()
- {
--  if (m_info.internetState != CSysData::UNKNOWN)
--    return m_info.internetState == CSysData::CONNECTED;
--  return (m_info.internetState = CSysInfoJob::GetInternetState()) == CSysData::CONNECTED;
-+  return m_info.internetState == CSysData::UNKNOWN;
- }
- 
- std::string CSysInfo::GetHddSpaceInfo(int drive, bool shortText)
-diff --git a/xbmc/windows/GUIWindowSystemInfo.cpp b/xbmc/windows/GUIWindowSystemInfo.cpp
-index 4184db0..0cd539e 100644
---- a/xbmc/windows/GUIWindowSystemInfo.cpp
-+++ b/xbmc/windows/GUIWindowSystemInfo.cpp
-@@ -125,7 +125,6 @@ void CGUIWindowSystemInfo::FrameMove()
-     SetControlLabel(i++, "%s: %s", 13160, NETWORK_GATEWAY_ADDRESS);
-     SetControlLabel(i++, "%s: %s", 13161, NETWORK_DNS1_ADDRESS);
-     SetControlLabel(i++, "%s: %s", 20307, NETWORK_DNS2_ADDRESS);
--    SetControlLabel(i++, "%s %s", 13295, SYSTEM_INTERNET_STATE);
-   }
- 
-   else if (m_section == CONTROL_BT_VIDEO)
--- 
-2.7.4
-
-
-From 602a3a38f03633587d5c6111686d69bd6813c5e9 Mon Sep 17 00:00:00 2001
+From ccedd7feb0e61a26b486cf3daa67db4fa257fe5f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 02/22] [tb] make binary addons executable
+Subject: [PATCH 01/14] [tb] make binary addons executable
 
-add executable mode to all files in addon's bin folder
-
-credits to vpeter4 for the patch
 ---
  xbmc/addons/Addon.cpp | 26 ++++++++++++++++++++++++++
  1 file changed, 26 insertions(+)
@@ -120,10 +55,10 @@ index 889935c..deb21b2 100644
 2.7.4
 
 
-From ff069a68300b34b1fcb9ded541c123e8ad432b93 Mon Sep 17 00:00:00 2001
+From 4e259e029afd2e6f50e0c9e9f446517f5392b6a8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 03/22] [tb] disable minimize
+Subject: [PATCH 02/14] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
@@ -145,14 +80,11 @@ index 7c0c9d5..62f6483 100644
 2.7.4
 
 
-From cded6da92ec128c7d1accf042f72a0309fead168 Mon Sep 17 00:00:00 2001
+From 73bea3a897fa6bcc9d00ec2180bf789d7c8ad9c7 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 04/22] [tb] setup timezone
+Subject: [PATCH 03/14] [tb] setup timezone
 
-on TZ country setting change, store the value in format
-TIMEZONE=Xx/Yyy to /storage/.cache/timezone to be used with
-tz-data.service
 ---
  xbmc/linux/LinuxTimezone.cpp | 12 ++++++++++++
  1 file changed, 12 insertions(+)
@@ -191,10 +123,10 @@ index ea44d40..b780e62 100644
 2.7.4
 
 
-From c175f0735c8cd28e84ae4f6a7173c5b9a86196b2 Mon Sep 17 00:00:00 2001
+From c4faab457c11834c91594cd558daeb34ec9faba3 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 05/22] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 04/14] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -286,22 +218,12 @@ index bc5338c..1079952 100644
 2.7.4
 
 
-From 47727423eb095913669c20658425fbcb27e5984a Mon Sep 17 00:00:00 2001
+From 468c2ae35a9b2a68d6d42d0b2eb346e1d3e3fd92 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 06/22] [tb] handle SIGTERM
+Subject: [PATCH 05/14] [tb] handle SIGTERM
 
-0. CApplication::Stop cant be trusted. (deadlocks crashes and boo)
-
-so, when shutdown/reboot is requested:
-
-1. save an exit code (for CEC...)
-2. call CPowerManager::{Reboot,PowerDown}
-3. ... then systemd sends TERM and waits xx seconds before sending KILL
-4. CApplication::Stop has xx seconds to save guisettings.xml and boo
-5. CEC thread has xx seconds to switch off after it received OnQuit
-6. addons / pvrmanager / cec / everything else.. are free to deadlock / crash now, we dont care
-7. KILL
+... CApplication::Stop cant be trusted
 ---
  xbmc/Application.cpp         | 17 ++++++++++++-----
  xbmc/Application.h           |  1 +
@@ -445,79 +367,10 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 22eb788fb352b26592a66a654391da1bbbb60ba1 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sun, 26 Apr 2015 15:13:15 +0300
-Subject: [PATCH 07/22] [tb] udevprovider: filter out OE specific mounts
-
----
- xbmc/storage/linux/UDevProvider.cpp | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/xbmc/storage/linux/UDevProvider.cpp b/xbmc/storage/linux/UDevProvider.cpp
-index 6fda5a5..525e6b7 100644
---- a/xbmc/storage/linux/UDevProvider.cpp
-+++ b/xbmc/storage/linux/UDevProvider.cpp
-@@ -152,6 +152,20 @@ void CUDevProvider::GetDisks(VECSOURCES& disks, bool removable)
-       continue;
-     }
- 
-+    // OE: filter out openelec specific mounts
-+    if (strstr(mountpoint, "/flash"))
-+    {
-+      udev_device_unref(device);
-+      continue;
-+    }
-+
-+    if (strstr(mountpoint, "/storage"))
-+    {
-+      udev_device_unref(device);
-+      continue;
-+    }
-+    // OE
-+
-     // look for devices on the usb bus, or mounted on */media/ (sdcards), or optical devices
-     const char *bus = udev_device_get_property_value(device, "ID_BUS");
-     const char *optical = udev_device_get_property_value(device, "ID_CDROM"); // matches also DVD, Blu-ray
--- 
-2.7.4
-
-
-From d6ae4adc91f2d151c4a2cc37ac3b2b72379be03f Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sun, 13 Dec 2015 12:25:29 +0200
-Subject: [PATCH 08/22] [tb] our ffmpeg is doing well
-
----
- xbmc/Application.cpp | 7 -------
- 1 file changed, 7 deletions(-)
-
-diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index e551f7c..b061b2c 100644
---- a/xbmc/Application.cpp
-+++ b/xbmc/Application.cpp
-@@ -530,13 +530,6 @@ bool CApplication::Create()
- #else  // !USE_STATIC_FFMPEG
-   CLog::Log(LOGNOTICE, "FFmpeg version: %s", FFMPEG_VERSION);
- #endif // !USE_STATIC_FFMPEG
--  if (!strstr(FFMPEG_VERSION, FFMPEG_VER_SHA))
--  {
--    if (strstr(FFMPEG_VERSION, "kodi"))
--      CLog::Log(LOGNOTICE, "WARNING: unknown ffmpeg-kodi version detected");
--    else
--      CLog::Log(LOGNOTICE, "WARNING: unsupported ffmpeg version detected");
--  }
- #endif
-   
-   std::string cpuModel(g_cpuInfo.getCPUModel());
--- 
-2.7.4
-
-
-From 30fbaaad4fe46f8b539fe50b8dc42da18ac83c8a Mon Sep 17 00:00:00 2001
+From 8412dfbbca049a1f5a3716165b4078129ece889a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Tue, 15 Mar 2016 21:29:43 +0200
-Subject: [PATCH 09/22] [tb] add advancedsetting to configure number of volume
+Subject: [PATCH 06/14] [tb] add advancedsetting to configure number of volume
  control steps
 
 ---
@@ -528,10 +381,10 @@ Subject: [PATCH 09/22] [tb] add advancedsetting to configure number of volume
  4 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index b061b2c..aef11cb 100644
+index e551f7c..6459f52 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2373,7 +2373,7 @@ bool CApplication::OnAction(const CAction &action)
+@@ -2380,7 +2380,7 @@ bool CApplication::OnAction(const CAction &action)
  #if defined(TARGET_ANDROID)
        float step = (VOLUME_MAXIMUM - VOLUME_MINIMUM) / CXBMCApp::GetMaxSystemVolume();
  #else
@@ -588,136 +441,20 @@ index ae05f9b..6db5f12 100644
 2.7.4
 
 
-From 11ec34eb829d7acc4dc4fbd98060986b898e9122 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Tue, 25 Aug 2015 10:55:11 +0300
-Subject: [PATCH 10/22] [tb] meh addon sonames
-
----
- project/cmake/scripts/common/addon-helpers.cmake | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/project/cmake/scripts/common/addon-helpers.cmake b/project/cmake/scripts/common/addon-helpers.cmake
-index 9541df4..9e2e398 100644
---- a/project/cmake/scripts/common/addon-helpers.cmake
-+++ b/project/cmake/scripts/common/addon-helpers.cmake
-@@ -54,6 +54,9 @@ macro (build_addon target prefix libs)
-     SET(LIBRARY_FILENAME $<TARGET_FILE_NAME:${target}>)
-   endif()
- 
-+  # meh
-+  set(LIBRARY_FILENAME $<TARGET_LINKER_FILE_NAME:${target}>)
-+
-   # if there's an addon.xml.in we need to generate the addon.xml
-   IF(EXISTS ${PROJECT_SOURCE_DIR}/${target}/addon.xml.in)
-     SET(PLATFORM ${CORE_SYSTEM_NAME})
--- 
-2.7.4
-
-
-From 11337c6a7fad2f568909ae48356cfe926b5a9e83 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sun, 27 Dec 2015 14:47:11 +0200
-Subject: [PATCH 11/22] [tb] meh past epg data
-
----
- xbmc/pvr/windows/GUIWindowPVRGuide.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
-index c0f2530..1ecb46f 100644
---- a/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
-+++ b/xbmc/pvr/windows/GUIWindowPVRGuide.cpp
-@@ -563,7 +563,7 @@ void CGUIWindowPVRGuide::GetViewTimelineItems(CFileItemList &items)
-     endDate = startDate;
- 
-   // limit start to linger time
--  CDateTime maxPastDate = currentDate - CDateTimeSpan(0, 0, g_advancedSettings.m_iEpgLingerTime, 0);
-+  CDateTime maxPastDate = currentDate - CDateTimeSpan(0, 0, 60, 0);
-   if (startDate < maxPastDate)
-     startDate = maxPastDate;
- 
--- 
-2.7.4
-
-
-From 8e29239c37f17508b1afeb8187357ac09ee204e8 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Wed, 24 Feb 2016 18:27:13 +0200
-Subject: [PATCH 12/22] [tb] bye libdvd
-
----
- Makefile.in | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/Makefile.in b/Makefile.in
-index 972e052..8420a4c 100644
---- a/Makefile.in
-+++ b/Makefile.in
-@@ -11,7 +11,6 @@ EC_DIRS= \
- 
- DVDPCODECS_DIRS= \
- 	lib \
--	lib/libdvd
- 
- VideoPlayer_ARCHIVES=xbmc/cores/VideoPlayer/VideoPlayer.a \
-                    xbmc/cores/VideoPlayer/DVDCodecs/DVDCodecs.a \
-@@ -341,7 +340,6 @@ libaddon: exports
- 	$(MAKE) -C lib/addons/library.xbmc.pvr
- 	$(MAKE) -C lib/addons/library.kodi.inputstream
- dvdpcodecs: dllloader
--	$(MAKE) -C lib/libdvd
- 
- dvdpextcodecs:
- 
--- 
-2.7.4
-
-
-From c6640ea78c89e0e507cb2978c7ec43d7b55e90e2 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 13/22] [tb] TEMP: fix crash while importing channels
-
----
- xbmc/pvr/channels/PVRChannel.cpp | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/xbmc/pvr/channels/PVRChannel.cpp b/xbmc/pvr/channels/PVRChannel.cpp
-index b084263..6e26067 100644
---- a/xbmc/pvr/channels/PVRChannel.cpp
-+++ b/xbmc/pvr/channels/PVRChannel.cpp
-@@ -220,10 +220,7 @@ bool CPVRChannel::Persist()
- 
-   if (CPVRDatabase *database = GetPVRDatabase())
-   {
--    bool bReturn = database->Persist(*this) && database->CommitInsertQueries();
--    CSingleLock lock(m_critSection);
--    m_bChanged = !bReturn;
--    return bReturn;
-+    // meh
-   }
- 
-   return false;
--- 
-2.7.4
-
-
-From e0d164fcccb54983233edb2e83a5d3d3a9388709 Mon Sep 17 00:00:00 2001
+From 21c97f9dcee4f8116381d97d538f6926c610db32 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 14/22] [addondb] all user pre-installed addons should be
- enabled
+Subject: [PATCH 07/14] [tb] all user pre-installed addons should be enabled
 
 ---
  xbmc/addons/AddonDatabase.cpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/xbmc/addons/AddonDatabase.cpp b/xbmc/addons/AddonDatabase.cpp
-index d5eac2b..95eb9cb 100644
+index 7c062f0..2a26509 100644
 --- a/xbmc/addons/AddonDatabase.cpp
 +++ b/xbmc/addons/AddonDatabase.cpp
-@@ -236,7 +236,7 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids, const std::
+@@ -241,7 +241,7 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids, const std::
      BeginTransaction();
      for (const auto& id : added)
        m_pDS->exec(PrepareSQL("INSERT INTO installed(addonID, enabled, installDate) "
@@ -730,47 +467,10 @@ index d5eac2b..95eb9cb 100644
 2.7.4
 
 
-From 1cd2890959916fe7327aaf94e926ff5ac17426cc Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Mon, 28 Mar 2016 22:52:32 +0300
-Subject: [PATCH 15/22] [addondb] disable installed pvr/audiodecoder addons on
- first run
-
----
- xbmc/addons/AddonDatabase.cpp | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/xbmc/addons/AddonDatabase.cpp b/xbmc/addons/AddonDatabase.cpp
-index 95eb9cb..81ad43e 100644
---- a/xbmc/addons/AddonDatabase.cpp
-+++ b/xbmc/addons/AddonDatabase.cpp
-@@ -235,8 +235,17 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids, const std::
-     std::string now = CDateTime::GetCurrentDateTime().GetAsDBDateTime();
-     BeginTransaction();
-     for (const auto& id : added)
-+    {
-+      int enable = 1;
-+      // HACK: pvrmanager doing stupid things. disable pvr client addons
-+      if (!CAddonMgr::GetInstance().IsSystemAddon(id.c_str()) && StringUtils::StartsWith(id.c_str(), "pvr."))
-+        enable = 0;
-+      // HACK: audiodecoder addons should be disabled per default
-+      if (!CAddonMgr::GetInstance().IsSystemAddon(id.c_str()) && StringUtils::StartsWith(id.c_str(), "audiodecoder."))
-+        enable = 0;
-       m_pDS->exec(PrepareSQL("INSERT INTO installed(addonID, enabled, installDate) "
--          "VALUES('%s', 1, '%s')", id.c_str(), now.c_str()));
-+          "VALUES('%s', %d, '%s')", id.c_str(), enable, now.c_str()));
-+    }
- 
-     for (const auto& id : removed)
-       m_pDS->exec(PrepareSQL("DELETE FROM installed WHERE addonID='%s'", id.c_str()));
--- 
-2.7.4
-
-
-From 678d1cafc3176a430452d202ea4b2827d7953212 Mon Sep 17 00:00:00 2001
+From 8ddb49688673500a57e577b49ffb05e48829e2e6 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 16/22] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 08/14] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -797,10 +497,10 @@ index ff26118..9de73fa 100644
 2.7.4
 
 
-From 0bd625ab1cc3d13cb5afc736a4f618514cdd27d3 Mon Sep 17 00:00:00 2001
+From 4b6c91a0833077c6a53a171efaeabb5e60caa943 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
-Subject: [PATCH 17/22] [aml] Ugly workaround to show DTS/AC3 caps
+Subject: [PATCH 09/14] [aml] Ugly workaround to show DTS/AC3 caps
 
 ... but don't run into multi channel issues as we can only open 2 pcm channels
 ---
@@ -828,10 +528,10 @@ index 95db8cf..c842dd2 100644
 2.7.4
 
 
-From 5a380058df08c4dd7048b9fa5f474aa91be68ed7 Mon Sep 17 00:00:00 2001
+From 61f05d377b3715aecb6a14d2588f2a0d650d5a4d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
-Subject: [PATCH 18/22] [aml] fix compiler badness when compiling with amcodec
+Subject: [PATCH 10/14] [aml] fix compiler badness when compiling with amcodec
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in | 2 --
@@ -854,10 +554,10 @@ index a1a3447..1bf5a89 100644
 2.7.4
 
 
-From c582c14db6c61de71f2f4581afe45c6d91561a9d Mon Sep 17 00:00:00 2001
+From 25349d3daba52ea477b50d48605dc69f35504137 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
-Subject: [PATCH 19/22] [aml] prefer libamcodec.so
+Subject: [PATCH 11/14] [aml] prefer libamcodec.so
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 6 +++---
@@ -891,12 +591,11 @@ index 0a97893..1fface4 100644
 2.7.4
 
 
-From f4ecf167b1bd5eedca74b381c67d7fa3f0a07791 Mon Sep 17 00:00:00 2001
+From 5fd96096737d5c94a9e32568e17aec7fa46f6d63 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 22:43:07 +0200
-Subject: [PATCH 20/22] [aml] re-add IVPClockCallback
+Subject: [PATCH 12/14] [aml] re-add IVPClockCallback
 
-nobody cared. is amcodec dead?
 ---
  .../VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp      |  4 +-
  xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h |  3 +-
@@ -1260,10 +959,10 @@ index 34a4c7d..f61efd7 100644
 2.7.4
 
 
-From 167243620471b309c6aa05c3ad399a81efff3f42 Mon Sep 17 00:00:00 2001
+From 7ff0ea8ed05c5abcf453c02398ccf19d90122fc9 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 23:47:54 +0200
-Subject: [PATCH 21/22] [aml] pvr can reopen too fast, slow us down a little
+Subject: [PATCH 13/14] [aml] pvr can reopen too fast, slow us down a little
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 4 ++++
@@ -1288,10 +987,10 @@ index 617d2ec..ae14ceb 100644
 2.7.4
 
 
-From 6a6f75e405281b1e48074497a787e37750123f12 Mon Sep 17 00:00:00 2001
+From b97aed5bea00646bc38f8349c980b9a3d32bbf42 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
-Subject: [PATCH 22/22] [aml] TEMP: use software decoding for sd
+Subject: [PATCH 14/14] [aml] TEMP: use software decoding for sd
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
