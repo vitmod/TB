@@ -29,7 +29,3 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-shared \
                            --disable-debug-log \
                            --disable-udev \
                            --disable-examples-build"
-
-pre_configure_target () {
-  export MAKEFLAGS=-j1
-}
