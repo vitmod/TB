@@ -69,7 +69,7 @@ make_target() {
 
   ( cd $ROOT
     rm -rf $ROOT/$BUILD/initramfs
-    $SCRIPTS/install initramfs
+    scripts/install initramfs
   )
 
   if [ -n "$KERNEL_EXTRA_TARGET" ]; then
