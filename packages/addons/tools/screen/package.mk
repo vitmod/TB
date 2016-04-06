@@ -43,5 +43,5 @@ makeinstall_target() {
 
 addon() {
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/bin
-  cp -P $PKG_BUILD/screen $ADDON_BUILD/$PKG_ADDON_ID/bin/screen
+  cp $PKG_BUILD/screen $ADDON_BUILD/$PKG_ADDON_ID/bin/screen
 }
