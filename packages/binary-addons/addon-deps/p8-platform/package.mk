@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="p8-platform"
-PKG_VERSION="38343e0"
+PKG_VERSION="041a8c6"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/Pulse-Eight/platform.git"
 PKG_DEPENDS_TARGET="toolchain"
