@@ -77,7 +77,7 @@ echo "image: copying files..."
 losetup -o $(( 2048 * 512 )) --sizelimit $(( $PART1_SIZE * 1024 * 1024 )) "$LOOP" "$IMAGE"
 mkfs.vfat -i "$PART1_VOLID" "$LOOP" &>/dev/null
 mount_loop
-cp $TARGET_IMG/$IMAGE_NAME.kernel "$OE_TMP/$KERNEL_NAME"
+cp $TARGET_IMG/$IMAGE_NAME.kernel "$OE_TMP/kernel.img"
 cp $TARGET_IMG/$IMAGE_NAME.system "$OE_TMP/root.sqfs"
 umount_loop
 

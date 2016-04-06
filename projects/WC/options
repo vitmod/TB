@@ -34,6 +34,3 @@
 
   # additional packages to install. space separated list
     ADDITIONAL_PACKAGES="amremote"
-
-  # kernel image name
-    KERNEL_NAME="kernel.img"
