@@ -1,3 +1,23 @@
+################################################################################
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+set -e
+
+################################################################################
+# functions
+################################################################################
 setup_toolchain() {
   if [ "$1" = target ]; then
     export DESTIMAGE="target"
@@ -47,12 +67,10 @@ setup_toolchain() {
   fi
 }
 
-# get kernel module dir
 get_module_dir() {
   basename $(ls -d $(get_build_dir linux)/.install_pkg/lib/modules/*)
 }
 
-# get package's build dir
 get_build_dir() {
   if [ ! -z $1 ] ; then
     local _PKG_DIR=$(find $ROOT/packages -name $1 | head -n1 2>/dev/null)
@@ -132,8 +150,8 @@ do_autoreconf() {
   fi
 }
 
-# Usage: enable_service <unit> [target]
 enable_service () {
+  # Usage: enable_service <unit> [target]
   local unit="$1"
   local unit_dir="/usr/lib/systemd/system"
   local target="$2"
@@ -193,7 +211,6 @@ show_config() {
   echo -e "$msg"
 }
 
-# strip
 debug_strip() {
   if [ ! "$DEBUG" = yes ]; then
     $STRIP `find $* -type f -executable 2>/dev/null` 2>/dev/null || :
@@ -213,11 +230,14 @@ check_package() {
 }
 
 ################################################################################
+# buildsystem basics
+################################################################################
 export LC_ALL=C
-
 ROOT=`pwd`
 DISTRO_DIR="$ROOT/distributions"
 PROJECT_DIR="$ROOT/projects"
+CCACHE_CACHE_SIZE="2G"
+SSL_CERTIFICATES="/etc/ssl"
 
 if [ -z "$DISTRO" ]; then
   for distro in $DISTRO_DIR/*; do
@@ -242,31 +262,19 @@ else
   TARGET_ARCH="$ARCH"
 fi
 
-LINUX_DEPENDS="$PROJECT_DIR/$PROJECT/linux/linux.$TARGET_ARCH.conf $ROOT/packages/linux/package.mk"
+# colors
+boldred="\e[1;31m"
+boldgreen="\e[1;32m"
+boldyellow="\e[1;33m"
+boldmagenta="\e[1;35m"
+boldcyan="\e[1;36m"
+boldwhite="\e[1;37m"
+endcolor="\e[0m"
 
 ################################################################################
-# include versioning
+# config
+################################################################################
 . config/version
-
-# Need to point to your actual cc
-# If you have ccache installed, take care that LOCAL_CC don't point to it
-LOCAL_CC=`which gcc`
-if [ -z "$LOCAL_CC" ] ; then
-  echo "***** Please install gcc *****"
-  exit 127
-fi
-
-# Need to point to your actual g++
-# If you have ccache installed, take care that LOCAL_CXX don't point to it
-LOCAL_CXX=`which g++`
-
-# Concurrency make level (-j option)
-if test -z "${CONCURRENCY_MAKE_LEVEL}"; then
-  CONCURRENCY_MAKE_LEVEL=`cat /proc/cpuinfo | grep -c '^processor[[:cntrl:]]*:'`
-fi
-
-# cache size for ccache
-CCACHE_CACHE_SIZE="2G"
 
 # read options
 if [ -f "$DISTRO_DIR/$DISTRO/options" ]; then
@@ -283,15 +291,13 @@ if [ -f "$HOME/.openelec/$PROJECT/options" ]; then
 fi
 
 ################################################################################
-set -e
+# more buildsystem stuff
+################################################################################
 
-# setup initial directorys (relative to root)
-CONFIG=config
-SCRIPTS=scripts
-SOURCES=sources
-BUILD_BASE=build
-TARGET=target
-ADDONS=addons
+# Need to point to your actual cc/g++
+# If you have ccache installed, take care that LOCAL_CC / LOCAL_CXX don't point to it
+LOCAL_CC=`which gcc`
+LOCAL_CXX=`which g++`
 
 # include ARCH specific options
 if [ -f config/arch.$TARGET_ARCH ]; then
@@ -301,62 +307,35 @@ fi
 HOST_NAME=`$LOCAL_CC -dumpmachine`
 TARGET_NAME=$TARGET_GCC_ARCH-openelec-linux-gnu${TARGET_ABI}
 
-BUILD=$BUILD_BASE.$DISTRONAME-$PROJECT-$OPENELEC_VERSION
+BUILD=build.$DISTRONAME-$PROJECT-$OPENELEC_VERSION
 
-TARGET_IMG=$ROOT/$TARGET
-ADDON_BUILD="$BUILD/$ADDONS/$1"
+TARGET_IMG=$ROOT/target
+ADDON_BUILD="$BUILD/addons/$1"
 STAMPS=$BUILD/.stamps
 STAMPS_INSTALL=$BUILD/image/.stamps
 TOOLCHAIN=$BUILD/toolchain
 SYSROOT_PREFIX=$ROOT/$TOOLCHAIN/$TARGET_NAME/sysroot
 TARGET_PREFIX=$ROOT/$TOOLCHAIN/bin/$TARGET_NAME-
 
+MAKE="$ROOT/$TOOLCHAIN/bin/make"
+MAKEINSTALL="$ROOT/$TOOLCHAIN/bin/make -j1 DESTDIR=$SYSROOT_PREFIX install"
+
 FAKEROOT_SCRIPT=$ROOT/.fakeroot.$PROJECT.$TARGET_ARCH
+
+export CCACHE_DIR=$ROOT/$BUILD/.ccache-openelec
+export MAKEFLAGS=-j$(cat /proc/cpuinfo | grep -c '^processor[[:cntrl:]]*:')
+export PKG_CONFIG=$ROOT/$TOOLCHAIN/bin/pkg-config
 
 if [ -z "$INSTALL" ]; then
   INSTALL=$BUILD/image/system
 fi
 
-MAKE="$ROOT/$TOOLCHAIN/bin/make"
-MAKEINSTALL="$ROOT/$TOOLCHAIN/bin/make -j1 DESTDIR=$SYSROOT_PREFIX install"
-SED="sed -i"
+LINUX_DEPENDS="$PROJECT_DIR/$PROJECT/linux/linux.$TARGET_ARCH.conf $ROOT/packages/linux/package.mk"
 
-# set package metadata
-PKG_NAME="$1"
-PKG_VERSION="none"
-PKG_URL=""
-PKG_FETCH=""
-PKG_DEPENDS_TARGET=""
-PKG_DEPENDS_HOST=""
-PKG_DEPENDS_INIT=""
-PKG_DEPENDS_BOOTSTRAP=""
-PKG_SHORTDESC="$1 (autogenerated)"
-
-PKG_IS_ADDON="no"
-PKG_ADDON_REV="0"
-PKG_ADDON_TYPE=""
-PKG_ADDON_DESC=""
-PKG_ADDON_SECTION=""
-PKG_ADDON_MAINTAINER=""
-PKG_ADDON_DISCLAIMER=""
-
-if [ -n "$1" ]; then
-  _PKG_ROOT_NAME=$(echo $1 | cut -d: -f1)
-  PKG_DIR=$(find $ROOT/packages -name $_PKG_ROOT_NAME | head -n1 2>/dev/null)
-fi
-
-if [ -e $PKG_DIR/package.mk ]; then
-  . $PKG_DIR/package.mk
-fi
-
-PKG_BUILD="$ROOT/$BUILD/${PKG_NAME}-${PKG_VERSION}"
-
-SSL_CERTIFICATES="/etc/ssl"
-
-TOOLCHAIN_LANGUAGES=c,c++
-
+################################################################################
+# target environment
+################################################################################
 unset TARGET_CPP
-
 TARGET_CC=${TARGET_PREFIX}gcc
 TARGET_CXX=${TARGET_PREFIX}g++
 TARGET_LD=${TARGET_PREFIX}ld
@@ -368,7 +347,10 @@ TARGET_OBJCOPY=${TARGET_PREFIX}objcopy
 TARGET_OBJDUMP=${TARGET_PREFIX}objdump
 TARGET_STRIP=${TARGET_PREFIX}strip
 
-################################################################################
+TARGET_PKG_CONFIG_PATH=""
+TARGET_PKG_CONFIG_LIBDIR="$SYSROOT_PREFIX/usr/lib/pkgconfig:$SYSROOT_PREFIX/usr/share/pkgconfig"
+TARGET_PKG_CONFIG_SYSROOT_DIR="$SYSROOT_PREFIX"
+
 TARGET_CPPFLAGS=
 TARGET_CFLAGS="$TARGET_CFLAGS -w -pipe -Os $PROJECT_CFLAGS"
 TARGET_CXXFLAGS="$TARGET_CFLAGS"
@@ -376,21 +358,37 @@ TARGET_LDFLAGS="$TARGET_LDFLAGS -Wl,--as-needed"
 TARGET_LIBDIR="$SYSROOT_PREFIX/lib $SYSROOT_PREFIX/usr/lib"
 TARGET_INCDIR="$SYSROOT_PREFIX/include $SYSROOT_PREFIX/usr/include"
 
-HOST_CPPFLAGS=""
-HOST_CFLAGS="-O2 -w -pipe -I$ROOT/$TOOLCHAIN/include"
-HOST_CXXFLAGS="$HOST_CFLAGS"
-HOST_LDFLAGS="-Wl,-rpath,$ROOT/$TOOLCHAIN/lib -L$ROOT/$TOOLCHAIN/lib"
-HOST_LIBDIR="$ROOT/$TOOLCHAIN/lib"
-
 if [ "$DEBUG" = yes ]; then
   TARGET_CFLAGS="$TARGET_CFLAGS -ggdb"
   TARGET_CXXFLAGS="$TARGET_CXXFLAGS -ggdb"
   TARGET_LDFLAGS="$TARGET_LDFLAGS -ggdb"
 fi
 
-# work around Ubuntu default C*FLAGS 
-HOST_CFLAGS="$HOST_CFLAGS -Wno-format-security"
-HOST_CXXFLAGS="$HOST_CXXFLAGS -Wno-format-security" 
+################################################################################
+# hosst environment
+################################################################################
+unset HOST_CPP
+HOST_CC=$ROOT/$TOOLCHAIN/bin/host-gcc
+HOST_CXX=$ROOT/$TOOLCHAIN/bin/host-g++
+HOST_LD=ld
+HOST_AS=as
+HOST_AR=ar
+HOST_NM=nm
+HOST_RANLIB=ranlib
+HOST_OBJCOPY=objcopy
+HOST_STRIP=strip
+HOST_AWK=gawk
+
+HOST_PKG_CONFIG_PATH=""
+HOST_PKG_CONFIG_LIBDIR="$ROOT/$TOOLCHAIN/lib/pkgconfig:$ROOT/$TOOLCHAIN/share/pkgconfig"
+HOST_PKG_CONFIG_SYSROOT_DIR=""
+
+HOST_CPPFLAGS=""
+HOST_CFLAGS="-O2 -w -pipe -I$ROOT/$TOOLCHAIN/include -Wno-format-security"
+HOST_CXXFLAGS="$HOST_CFLAGS"
+HOST_LDFLAGS="-Wl,-rpath,$ROOT/$TOOLCHAIN/lib -L$ROOT/$TOOLCHAIN/lib"
+HOST_LIBDIR="$ROOT/$TOOLCHAIN/lib /lib /usr/lib"
+HOST_INCDIR="$ROOT/$TOOLCHAIN/include /usr/include"
 
 # ubuntu/debian specific "multiarch support"
 FAMILY_TRIPLET=$(echo $HOST_NAME | sed -e "s,$(uname -m),$(uname -i),")
@@ -421,38 +419,9 @@ case "`uname -m`" in
   ;;
 esac
 
-# default dirs
-HOST_LIBDIR="$HOST_LIBDIR /lib /usr/lib"
-HOST_INCDIR="$ROOT/$TOOLCHAIN/include /usr/include"
 ################################################################################
-
-TARGET_PKG_CONFIG_PATH=""
-TARGET_PKG_CONFIG_LIBDIR="$SYSROOT_PREFIX/usr/lib/pkgconfig:$SYSROOT_PREFIX/usr/share/pkgconfig"
-TARGET_PKG_CONFIG_SYSROOT_DIR="$SYSROOT_PREFIX"
-
-unset HOST_CPP
-
-HOST_AWK=gawk
-HOST_CC=$ROOT/$TOOLCHAIN/bin/host-gcc
-HOST_CXX=$ROOT/$TOOLCHAIN/bin/host-g++
-HOST_LD=ld
-HOST_AS=as
-HOST_AR=ar
-HOST_NM=nm
-HOST_RANLIB=ranlib
-HOST_OBJCOPY=objcopy
-HOST_STRIP=strip
-
-HOST_PKG_CONFIG_PATH=""
-HOST_PKG_CONFIG_LIBDIR="$ROOT/$TOOLCHAIN/lib/pkgconfig:$ROOT/$TOOLCHAIN/share/pkgconfig"
-HOST_PKG_CONFIG_SYSROOT_DIR=""
-
-if [ -z "$CCACHE_DIR" ]; then
-  export CCACHE_DIR=$ROOT/$BUILD/.ccache-openelec
-fi
-export MAKEFLAGS=-j$CONCURRENCY_MAKE_LEVEL
-export PKG_CONFIG=$ROOT/$TOOLCHAIN/bin/pkg-config
-
+# export path / ld lib path & clean distro specific env
+################################################################################
 if [ -z "$PATH" -o "$PATH" = "${PATH#$ROOT/$TOOLCHAIN/bin:}" ]; then
   export PATH="$ROOT/$TOOLCHAIN/bin:$ROOT/$TOOLCHAIN/sbin:$PATH"
 fi
@@ -461,22 +430,44 @@ if [ -z "$LD_LIBRARY_PATH" -o "$LD_LIBRARY_PATH" = "${LD_LIBRARY_PATH#$ROOT/$TOO
   export LD_LIBRARY_PATH="$ROOT/$TOOLCHAIN/lib:$LD_LIBRARY_PATH"
 fi
 
-BUILD_INDENT_SIZE=4
-
-# define colors
-boldred="\e[1;31m"
-boldgreen="\e[1;32m"
-boldyellow="\e[1;33m"
-boldmagenta="\e[1;35m"
-boldcyan="\e[1;36m"
-boldwhite="\e[1;37m"
-endcolor="\e[0m"
-
-# meh
 unset CONFIG_SITE
 unset PYTHONSTARTUP
 unset PYTHONPATH
 
+################################################################################
+# set package metadata
+################################################################################
+PKG_NAME="$1"
+PKG_VERSION="none"
+PKG_URL=""
+PKG_FETCH=""
+PKG_DEPENDS_TARGET=""
+PKG_DEPENDS_HOST=""
+PKG_DEPENDS_INIT=""
+PKG_DEPENDS_BOOTSTRAP=""
+PKG_SHORTDESC="$1 (autogenerated)"
+
+PKG_IS_ADDON="no"
+PKG_ADDON_REV="0"
+PKG_ADDON_TYPE=""
+PKG_ADDON_DESC=""
+PKG_ADDON_SECTION=""
+PKG_ADDON_MAINTAINER=""
+PKG_ADDON_DISCLAIMER=""
+
+if [ -n "$1" ]; then
+  _PKG_ROOT_NAME=$(echo $1 | cut -d: -f1)
+  PKG_DIR=$(find $ROOT/packages -name $_PKG_ROOT_NAME | head -n1 2>/dev/null)
+fi
+
+if [ -e $PKG_DIR/package.mk ]; then
+  . $PKG_DIR/package.mk
+fi
+
+PKG_BUILD="$ROOT/$BUILD/${PKG_NAME}-${PKG_VERSION}"
+
+################################################################################
 # setup
+################################################################################
 check_config
 setup_toolchain target

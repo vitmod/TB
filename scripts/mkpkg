@@ -100,9 +100,9 @@ if [ -n "$REPO" ] ; then
     fi
   cd ..
 
-  TAR="$ROOT/$SOURCES/$PKG_NAME/$PKG_NAME-$REV.tar.gz"
+  TAR="$ROOT/sources/$PKG_NAME/$PKG_NAME-$REV.tar.gz"
   if [ ! -e $TAR ] ; then
-    mkdir -p $ROOT/$SOURCES/$PKG_NAME
+    mkdir -p $ROOT/sources/$PKG_NAME
     echo "[mkpkg] Copying sources: $PKG_NAME-$REV ..."
     rm -rf $PKG_NAME-$REV
     cp -R $PKG_NAME.$METHOD $PKG_NAME-$REV

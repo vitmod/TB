@@ -28,7 +28,7 @@ STAMP=$PKG_BUILD/.openelec-unpack
 
 if [ -f $STAMP ] ; then
   printf "%${BUILD_INDENT}c ${boldcyan}SKIP_UNPACK${endcolor}   $1\n" ' '
-  export BUILD_INDENT=$((${BUILD_INDENT:-1}+$BUILD_INDENT_SIZE))
+  export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
 
   rm -f $STAMP
   STAMP_DEPENDS="$PKG_DIR $PKG_NEED_UNPACK $PROJECT_DIR/$PROJECT/patches/$PKG_NAME"

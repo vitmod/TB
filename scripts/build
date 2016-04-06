@@ -38,7 +38,7 @@ unset INSTALL
 mkdir -p $STAMPS/$PACKAGE_NAME
 STAMP=$STAMPS/$PACKAGE_NAME/build_$TARGET
 
-$SCRIPTS/unpack $PACKAGE_NAME
+scripts/unpack $PACKAGE_NAME
 
 STAMP_DEPENDS="$PKG_DIR $PKG_NEED_UNPACK $PROJECT_DIR/$PROJECT/patches/$PKG_NAME"
 
@@ -167,27 +167,27 @@ if [ ! -f $STAMP ]; then
 
   if [ "$TARGET" = "target" ]; then
     for p in $PKG_DEPENDS_TARGET; do
-      $SCRIPTS/build $p
+      scripts/build $p
     done
   elif [ "$TARGET" = "host" ]; then
     for p in $PKG_DEPENDS_HOST; do
-      $SCRIPTS/build $p
+      scripts/build $p
     done
   elif [ "$TARGET" = "init" ]; then
     for p in $PKG_DEPENDS_INIT; do
-      $SCRIPTS/build $p
+      scripts/build $p
     done
   elif [ "$TARGET" = "bootstrap" ]; then
     for p in $PKG_DEPENDS_BOOTSTRAP; do
-      $SCRIPTS/build $p
+      scripts/build $p
     done
   fi
 
   printf "%${BUILD_INDENT}c ${boldyellow}BUILD${endcolor}    $PACKAGE_NAME ${boldwhite}($TARGET)${endcolor}\n" ' '
-  export BUILD_INDENT=$((${BUILD_INDENT:-1}+$BUILD_INDENT_SIZE))
+  export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
 
   if [ "$PKG_AUTORECONF" = yes ]; then
-    $SCRIPTS/autoreconf $PACKAGE_NAME
+    scripts/autoreconf $PACKAGE_NAME
   fi
 
   is_virtual=$(echo $PKG_DIR | awk -F "/" '{print $(NF-1)}')

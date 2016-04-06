@@ -19,11 +19,11 @@
 
 show_config
 
-$SCRIPTS/checkdeps
-$SCRIPTS/build toolchain
-$SCRIPTS/build squashfs:host
-$SCRIPTS/build dosfstools:host
-$SCRIPTS/build kmod:host
+scripts/checkdeps
+scripts/build toolchain
+scripts/build squashfs:host
+scripts/build dosfstools:host
+scripts/build kmod:host
 
 BUILD_DATE=`date +%Y%m%d%H%M%S`
 GIT_ABBREV=$(git log -1 --pretty=format:%h)
@@ -67,11 +67,11 @@ echo "$DISTRONAME - $DISTRO_VERSION" >> $INSTALL/etc/issue
 ln -sf /etc/issue $INSTALL/etc/motd
 
 # Basissystem...
-$SCRIPTS/install glibc
-$SCRIPTS/install gcc
-$SCRIPTS/install linux
-$SCRIPTS/install base
-$SCRIPTS/install mediacenter
+scripts/install glibc
+scripts/install gcc
+scripts/install linux
+scripts/install base
+scripts/install mediacenter
 
 # copy project related files to filesystem
 if [ -d "$PROJECT_DIR/$PROJECT/filesystem" ]; then
@@ -126,7 +126,7 @@ if [ "$1" = "mkimage" ]; then
     RELEASE_DIR="$RELEASE_DIR" \
     UUID_SYSTEM="$(uuidgen)" \
     UUID_STORAGE="$(uuidgen)" \
-    $SCRIPTS/mkimage
+    scripts/mkimage
 fi
 
 # clean up

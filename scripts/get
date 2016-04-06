@@ -26,7 +26,7 @@ if [ "$1" == "-a" ]; then
   for i in `find packages/ -type f -name package.mk`; do
     PKG_NAME=""
     . $i
-    $SCRIPTS/get $PKG_NAME
+    scripts/get $PKG_NAME
   done
   exit 0
 fi
@@ -41,27 +41,27 @@ if [ -z "$SOURCE_NAME" ] ; then
   exit 0
 fi
 
-STAMP="$SOURCES/$1/$SOURCE_NAME.url"
+STAMP="sources/$1/$SOURCE_NAME.url"
 if [ -f "$STAMP" ]; then
   exit
 fi
 
 printf "%${BUILD_INDENT}c ${boldcyan}GET${endcolor}      $1\n" ' '
-export BUILD_INDENT=$((${BUILD_INDENT:-1}+$BUILD_INDENT_SIZE))
+export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
 
-mkdir -p $SOURCES/$1
+mkdir -p sources/$1
 
 if [ -n "$PKG_FETCH" ] ; then
   VCS=$(echo $PKG_FETCH | grep "+" | awk -F '+' '{print $1}')
   if [ -n "$VCS" ] ; then
     GET_REPO=$(echo $PKG_FETCH | awk -F '+' '{print $2}')
     if [ -n $GET_REPO ] ; then
-      $SCRIPTS/mkpkg $PKG_NAME $PKG_VERSION
+      scripts/mkpkg $PKG_NAME $PKG_VERSION
     fi
   fi
 elif [ -n "$PKG_URL" ] ; then
   PACKAGE_MIRROR="$DISTRO_MIRROR/$PKG_NAME/$SOURCE_NAME"
-  WGET_CMD="wget --timeout=30 --tries=2 --no-check-certificate -c -nv --show-progress -P $SOURCES/$1"
+  WGET_CMD="wget --timeout=30 --tries=2 --no-check-certificate -c -nv --show-progress -P sources/$1"
   NBWGET="1"
   until [ -f "$STAMP" ] || $WGET_CMD $PKG_URL || $WGET_CMD $PACKAGE_MIRROR ; do
     NBWGET=$(($NBWGET+1))

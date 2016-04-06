@@ -1,21 +1,18 @@
 #!/bin/bash
 
 ################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-#
-#  OpenELEC is free software: you can redistribute it and/or modify
+#  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  OpenELEC is distributed in the hope that it will be useful,
+#  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 . config/options $1
@@ -27,13 +24,13 @@ fi
 
 check_package $1
 
-$SCRIPTS/get $1
+scripts/get $1
 
 STAMP=$PKG_BUILD/.openelec-unpack
 
 mkdir -p $BUILD
 
-[ ! -d "$SOURCES/$1" -a ! -d "$PKG_DIR/sources" ] && exit 0
+[ ! -d "sources/$1" ] && exit 0
 
 STAMP_DEPENDS="$PKG_DIR $PKG_NEED_UNPACK $PROJECT_DIR/$PROJECT/patches/$PKG_NAME"
 
@@ -43,7 +40,7 @@ for i in $BUILD/$1-*; do
     if [ "$STAMP_PKG_NAME" = "$1" ]; then
       PKG_DEEPMD5=$(find $STAMP_DEPENDS -exec md5sum {} \; 2>/dev/null | sort | md5sum | cut -d" " -f1)
       if [ ! "$PKG_DEEPMD5" = "$STAMP_PKG_DEEPMD5" ] ; then
-        $SCRIPTS/clean $1
+        scripts/clean $1
       fi
     fi
   fi
@@ -52,7 +49,7 @@ done
 [ -f "$STAMP" ] && exit 0
 
 printf "%${BUILD_INDENT}c ${boldcyan}UNPACK${endcolor}   $1\n" ' '
-export BUILD_INDENT=$((${BUILD_INDENT:-1}+$BUILD_INDENT_SIZE))
+export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
 
 # unset functions
 unset -f unpack
@@ -73,7 +70,7 @@ else
     exit 0
   fi
 
-  PACKAGE="$SOURCES/$1/$SOURCE_NAME"
+  PACKAGE="sources/$1/$SOURCE_NAME"
   case $PACKAGE in
     *.tar|*.tar.bz2|*.tbz|*.tar.gz|*.tgz|*.tar.xz|*.txz)
       tar xf $PACKAGE -C $BUILD
@@ -113,10 +110,10 @@ fi
 for config in `find $BUILD/$1* -name config.guess | sed 's/config.guess//'`; do
   printf "%${BUILD_INDENT}c ${boldyellow}FIXCONFIG${endcolor}   $config\n" ' '
 
-  [ -f "$config/config.guess" ] && cp -f $SCRIPTS/configtools/config.guess $config
-  [ -f "$config/config.sub" ] && cp -f $SCRIPTS/configtools/config.sub $config
-  [ -f "$config/configure.guess" ] && cp -f $SCRIPTS/configtools/config.guess $config/configure.guess
-  [ -f "$config/configure.sub" ] && cp -f $SCRIPTS/configtools/config.sub $config/configure.sub
+  [ -f "$config/config.guess" ] && cp -f scripts/configtools/config.guess $config
+  [ -f "$config/config.sub" ] && cp -f scripts/configtools/config.sub $config
+  [ -f "$config/configure.guess" ] && cp -f scripts/configtools/config.guess $config/configure.guess
+  [ -f "$config/configure.sub" ] && cp -f scripts/configtools/config.sub $config/configure.sub
 done
 
 rm -f $STAMPS/$1/build_*
