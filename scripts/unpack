@@ -115,10 +115,6 @@ for config in `find $BUILD/$1* -name config.guess | sed 's/config.guess//'`; do
       cp -f $ROOT/$TOOLCHAIN/configtools/config.guess $config
     [ -f "$config/config.sub" -a -f $ROOT/$TOOLCHAIN/configtools/config.sub ] && \
       cp -f $ROOT/$TOOLCHAIN/configtools/config.sub $config
-    [ -f "$config/configure.guess" ] && \
-      cp -f $ROOT/$TOOLCHAIN/configtools/config.guess $config/configure.guess
-    [ -f "$config/configure.sub" -a -f $ROOT/$TOOLCHAIN/configtools/config.sub ] && \
-      cp -f $ROOT/$TOOLCHAIN/configtools/config.sub $config/configure.sub
   fi
 done
 
