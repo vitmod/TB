@@ -1,21 +1,18 @@
 #!/bin/bash
 
 ################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-#
-#  OpenELEC is free software: you can redistribute it and/or modify
+#  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  OpenELEC is distributed in the hope that it will be useful,
+#  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 . config/options $1
@@ -29,21 +26,12 @@ $SCRIPTS/build dosfstools:host
 $SCRIPTS/build kmod:host
 
 BUILD_DATE=`date +%Y%m%d%H%M%S`
-
 GIT_ABBREV=$(git log -1 --pretty=format:%h)
 DISTRO_VERSION=$OS_VERSION-$BUILD_DATE-g$GIT_ABBREV
-
 IMAGE_NAME="$DISTRONAME-$PROJECT-$DISTRO_VERSION"
 
-# setup fakeroot
-rm -rf $FAKEROOT_SCRIPT   # remove $FAKEROOT_SCRIPT if it exist
-touch $FAKEROOT_SCRIPT    # create an empty $FAKEROOT_SCRIPT
-chmod +x $FAKEROOT_SCRIPT # make $FAKEROOT_SCRIPT executable
-echo "chown -R 0:0 $INSTALL" >> $FAKEROOT_SCRIPT
-
 # clean old install dirs
-rm -rf $INSTALL
-rm -rf $STAMPS_INSTALL
+rm -rf $INSTALL $STAMPS_INSTALL
 mkdir -p $INSTALL
 
 # create baselayout
@@ -76,7 +64,6 @@ echo -e "PRETTY_NAME=\"$DISTRONAME - $DISTRO_VERSION\"" >> $INSTALL/etc/os-relea
 
 # create /etc/issue
 echo "$DISTRONAME - $DISTRO_VERSION" >> $INSTALL/etc/issue
-
 ln -sf /etc/issue $INSTALL/etc/motd
 
 # Basissystem...
@@ -109,47 +96,44 @@ mkdir -p $TARGET_IMG
 cp -PR $BUILD/linux-*/arch/$TARGET_KERNEL_ARCH/boot/$KERNEL_TARGET $TARGET_IMG/$IMAGE_NAME.kernel
 chmod 0644 $TARGET_IMG/$IMAGE_NAME.kernel
 
+# run fakeroot
+echo "chown -R 0:0 $INSTALL" > $FAKEROOT_SCRIPT
 echo "rm -rf $TARGET_IMG/$IMAGE_NAME.system" >> $FAKEROOT_SCRIPT
 echo "$ROOT/$TOOLCHAIN/bin/mksquashfs $BUILD/image/system $TARGET_IMG/$IMAGE_NAME.system -noappend -comp gzip" >> $FAKEROOT_SCRIPT
-
-# run fakeroot
+chmod +x $FAKEROOT_SCRIPT
 fakeroot -- $FAKEROOT_SCRIPT
 rm -rf $FAKEROOT_SCRIPT
 
-if [ "$1" = "release" -o "$1" = "mkimage" ]; then
-  RELEASE_DIR="target/$IMAGE_NAME"
+# release
+RELEASE_DIR="target/$IMAGE_NAME"
+rm -rf $RELEASE_DIR
+mkdir -p $RELEASE_DIR
 
-  rm -rf $RELEASE_DIR
-  mkdir -p $RELEASE_DIR
+cp $TARGET_IMG/$IMAGE_NAME.system $RELEASE_DIR/root.sqfs
+cp $TARGET_IMG/$IMAGE_NAME.kernel $RELEASE_DIR/kernel.img
+tar cf $TARGET_IMG/$IMAGE_NAME.tar -C $RELEASE_DIR .
 
-  rm -rf $TARGET_IMG/$IMAGE_NAME.img.gz
-
-  cp $TARGET_IMG/$IMAGE_NAME.system $RELEASE_DIR/root.sqfs
-  cp $TARGET_IMG/$IMAGE_NAME.kernel $RELEASE_DIR/kernel.img
-  tar cf $TARGET_IMG/$IMAGE_NAME.tar -C $RELEASE_DIR .
-
-  if [ "$1" = "mkimage" ]; then
-    if [ -z "$KERNEL_NAME" ] ; then
-      KERNEL_NAME="kernel.img"
-    fi
-    echo "mkimage: boo. now root access (sudo) is required..."
-    echo "mkimage: see scripts/image and scripts/mkimage if you dont trust us :)"
-    # variables used in image script must be passed
-    sudo env \
-      PATH="$PATH:/sbin" \
-      ROOT="$ROOT" \
-      TOOLCHAIN="$TOOLCHAIN" \
-      TARGET_IMG="$TARGET_IMG" \
-      IMAGE_NAME="$IMAGE_NAME" \
-      KERNEL_NAME="$KERNEL_NAME" \
-      RELEASE_DIR="$RELEASE_DIR" \
-      UUID_SYSTEM="$(uuidgen)" \
-      UUID_STORAGE="$(uuidgen)" \
-      $SCRIPTS/mkimage
+if [ "$1" = "mkimage" ]; then
+  if [ -z "$KERNEL_NAME" ] ; then
+    KERNEL_NAME="kernel.img"
   fi
-
-  # clean up
-  rm -rf $RELEASE_DIR
-  rm -f $TARGET_IMG/$IMAGE_NAME.system
-  rm -f $TARGET_IMG/$IMAGE_NAME.kernel
+  echo "mkimage: boo. now root access (sudo) is required..."
+  echo "mkimage: see scripts/image and scripts/mkimage if you dont trust us :)"
+  # variables used in image script must be passed
+  sudo env \
+    PATH="$PATH:/sbin" \
+    ROOT="$ROOT" \
+    TOOLCHAIN="$TOOLCHAIN" \
+    TARGET_IMG="$TARGET_IMG" \
+    IMAGE_NAME="$IMAGE_NAME" \
+    KERNEL_NAME="$KERNEL_NAME" \
+    RELEASE_DIR="$RELEASE_DIR" \
+    UUID_SYSTEM="$(uuidgen)" \
+    UUID_STORAGE="$(uuidgen)" \
+    $SCRIPTS/mkimage
 fi
+
+# clean up
+rm -rf $RELEASE_DIR
+rm -f $TARGET_IMG/$IMAGE_NAME.system
+rm -f $TARGET_IMG/$IMAGE_NAME.kernel

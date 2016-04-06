@@ -1,12 +1,7 @@
 BUILD_DIRS=build.*
 
-all: release
-
-system:
+all:
 	./scripts/image
-
-release:
-	./scripts/image release
 
 image:
 	./scripts/image mkimage
