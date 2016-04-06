@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.stalker"
-PKG_VERSION="d30a2d8"
+PKG_VERSION="14a7c70"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/kodi-pvr/pvr.stalker.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform jsoncpp tinyxml"
