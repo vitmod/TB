@@ -15,7 +15,7 @@
 
 PKG_NAME="udpxy"
 PKG_VERSION="1.0.23-0"
-PKG_SITE="http://www.openelec.tv"
+PKG_SITE="https://sourceforge.net/projects/udpxy"
 PKG_URL="$SOURCEFORGE_SRC/project/udpxy/udpxy/Chipmunk-1.0/${PKG_NAME}.${PKG_VERSION}-prod.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
