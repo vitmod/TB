@@ -22,9 +22,3 @@ PKG_SITE="http://www.libressl.org/"
 PKG_URL="http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="libressl: a FREE version of the SSL/TLS protocol forked from OpenSSL"
-
-post_makeinstall_target() {
-  # create new cert: ./mkcerts.sh
-  mkdir -p $INSTALL/etc/ssl
-  cp $PKG_DIR/cert/ca-bundle.crt $INSTALL/etc/ssl/cacert.pem
-}
