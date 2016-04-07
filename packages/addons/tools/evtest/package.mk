@@ -14,14 +14,14 @@
 ################################################################################
 
 PKG_NAME="evtest"
-PKG_VERSION="1.31"
+PKG_VERSION="1.33"
 PKG_SITE="http://cgit.freedesktop.org/evtest/"
 PKG_URL="http://cgit.freedesktop.org/evtest/snapshot/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
-PKG_ADDON_REV="2"
+PKG_ADDON_REV="3"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nevtest is a simple tool for input event debugging."
 PKG_ADDON_SECTION="tools"
