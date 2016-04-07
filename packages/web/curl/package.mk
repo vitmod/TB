@@ -70,7 +70,7 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-debug \
                            --with-ssl \
                            --without-polarssl \
                            --without-nss \
-                           --with-ca-bundle=/etc/ssl/cacert.pem \
+                           --with-ca-bundle=/etc/ssl/cert.pem \
                            --without-ca-path \
                            --without-libpsl \
                            --without-libmetalink \
