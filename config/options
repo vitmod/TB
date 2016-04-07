@@ -237,7 +237,6 @@ ROOT=`pwd`
 DISTRO_DIR="$ROOT/distributions"
 PROJECT_DIR="$ROOT/projects"
 CCACHE_CACHE_SIZE="2G"
-SSL_CERTIFICATES="/etc/ssl"
 
 if [ -z "$DISTRO" ]; then
   for distro in $DISTRO_DIR/*; do

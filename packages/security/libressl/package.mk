@@ -25,6 +25,6 @@ PKG_SHORTDESC="libressl: a FREE version of the SSL/TLS protocol forked from Open
 
 post_makeinstall_target() {
   # create new cert: ./mkcerts.sh
-  mkdir -p $INSTALL/$SSL_CERTIFICATES
-  cp $PKG_DIR/cert/ca-bundle.crt $INSTALL/$SSL_CERTIFICATES/cacert.pem
+  mkdir -p $INSTALL/etc/ssl
+  cp $PKG_DIR/cert/ca-bundle.crt $INSTALL/etc/ssl/cacert.pem
 }
