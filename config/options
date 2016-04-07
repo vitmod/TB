@@ -464,6 +464,7 @@ if [ -e $PKG_DIR/package.mk ]; then
 fi
 
 PKG_BUILD="$ROOT/$BUILD/${PKG_NAME}-${PKG_VERSION}"
+STAMP_DEPENDS="$PKG_DIR $PKG_NEED_UNPACK $PROJECT_DIR/$PROJECT/patches/$PKG_NAME"
 
 ################################################################################
 # setup

@@ -40,8 +40,6 @@ STAMP=$STAMPS/$PACKAGE_NAME/build_$TARGET
 
 scripts/unpack $PACKAGE_NAME
 
-STAMP_DEPENDS="$PKG_DIR $PKG_NEED_UNPACK $PROJECT_DIR/$PROJECT/patches/$PKG_NAME"
-
 if [ -f $STAMP ] ; then
   . $STAMP
   PKG_DEEPMD5=$(find $STAMP_DEPENDS -exec md5sum {} \; 2>/dev/null | sort | md5sum | cut -d" " -f1)
