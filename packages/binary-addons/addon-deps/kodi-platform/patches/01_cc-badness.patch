@@ -1,28 +1,31 @@
-From a3bad92a6f7f2f0601a46d578e3a28bc38ae5ac9 Mon Sep 17 00:00:00 2001
+From b58bcbda9bf49d30359075ecadbc07cd9e783f02 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
-Date: Tue, 19 Jan 2016 22:23:38 +0200
-Subject: [PATCH] revert cc badness
+Date: Fri, 8 Apr 2016 22:52:03 +0300
+Subject: [PATCH] cc badness
 
 ---
- CMakeLists.txt               | 2 +-
+ CMakeLists.txt               | 4 ++--
  kodiplatform-config.cmake.in | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bf6b659..9abe773 100644
+index 466de6a..f61d87c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -22,7 +22,7 @@ if(NOT WIN32)
+@@ -22,9 +22,9 @@ if(NOT WIN32)
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
  endif()
  
 -set(kodiplatform_INCLUDE_DIRS ${TINYXML_INCLUDE_DIR} "${CMAKE_INSTALL_PREFIX}/include/kodi")
-+set(kodiplatform_INCLUDE_DIRS ${TINYXML_INCLUDE_DIR} "${CMAKE_INSTALL_PREFIX_TOOLCHAIN}/include/kodi")
++set(kodiplatform_INCLUDE_DIRS ${TINYXML_INCLUDE_DIR} "$<INSTALL_INTERFACE:include/kodi>")
  IF(WIN32)
-   LIST(APPEND kodiplatform_INCLUDE_DIRS "${CMAKE_INSTALL_PREFIX}/include/kodi/windows")
+-  LIST(APPEND kodiplatform_INCLUDE_DIRS "${CMAKE_INSTALL_PREFIX}/include/kodi/windows")
++  LIST(APPEND kodiplatform_INCLUDE_DIRS "$<INSTALL_INTERFACE:include/kodi/windows>")
  ENDIF(WIN32)
+ set(kodiplatform_LIBRARIES ${CMAKE_THREAD_LIBS_INIT} ${TINYXML_LIBRARIES})
+ 
 diff --git a/kodiplatform-config.cmake.in b/kodiplatform-config.cmake.in
-index 3fc5273..60bdf1b 100644
+index 3fc5273..13d5c7d 100644
 --- a/kodiplatform-config.cmake.in
 +++ b/kodiplatform-config.cmake.in
 @@ -10,7 +10,7 @@
@@ -30,7 +33,7 @@ index 3fc5273..60bdf1b 100644
  # propagate these properties from one build system to the other
  set (kodiplatform_VERSION "@kodiplatform_VERSION_MAJOR@.@kodiplatform_VERSION_MINOR@")
 -set (kodiplatform_INCLUDE_DIRS @kodiplatform_INCLUDE_DIRS@ @CMAKE_INSTALL_PREFIX@/include)
-+set (kodiplatform_INCLUDE_DIRS @kodiplatform_INCLUDE_DIRS@ @CMAKE_INSTALL_PREFIX_TOOLCHAIN@/include)
++set (kodiplatform_INCLUDE_DIRS @kodiplatform_INCLUDE_DIRS@)
  set (kodiplatform_LIBRARY_DIRS "@CMAKE_LIBRARY_OUTPUT_DIRECTORY@")
  set (kodiplatform_LINKER_FLAGS "@kodiplatform_LINKER_FLAGS@")
  set (kodiplatform_CONFIG_VARS "@kodiplatform_CONFIG_VARS@")
