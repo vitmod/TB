@@ -32,7 +32,6 @@ configure_target() {
   echo "" > ../cmake/FindGitVersion.cmake
   cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
         -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_PREFIX_PATH=$SYSROOT_PREFIX/usr \
         -DHYPERION_VERSION_ID="$PKG_VERSION" \
         -DENABLE_AMLOGIC=1 \
         -DENABLE_DISPMANX=0 \
