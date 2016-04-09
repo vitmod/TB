@@ -13,4 +13,4 @@
   SOURCEFORGE_SRC="http://prdownloads.sourceforge.net"
 
 # addons
-  ADDON_URL="http://addons.saraev.ca/$ADDON_VERSION/$PROJECT/$TARGET_ARCH"
+  ADDON_URL="http://addons.saraev.ca/$OS_VERSION/$PROJECT/$TARGET_ARCH"

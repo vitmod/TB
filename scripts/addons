@@ -20,7 +20,7 @@
 update_addons_xml() {
   echo "[*] cleanup addons ..."
   olddir=""
-  find target/addons/$ADDON_VERSION -iname 'changelog*.txt' | sort -rV | while read line ; do
+  find target/addons/$OS_VERSION -iname 'changelog*.txt' | sort -rV | while read line ; do
     dir=$(dirname $line)
     if [ "$olddir" = "$dir" ] ; then
       rm -f $line
@@ -29,7 +29,7 @@ update_addons_xml() {
   done
 
   olddir=""
-  find target/addons/$ADDON_VERSION -iname '*.zip' | sort -rV | while read line ; do
+  find target/addons/$OS_VERSION -iname '*.zip' | sort -rV | while read line ; do
     dir=$(dirname $line)
     if [ "$olddir" = "$dir" ] ; then
       rm -f $line
@@ -40,7 +40,7 @@ update_addons_xml() {
   echo "[*] updating addons.xml* ..."
   rm -rf .addons
   pwd=`pwd`
-  find target/addons/$ADDON_VERSION -iname addons.xml | while read line ; do
+  find target/addons/$OS_VERSION -iname addons.xml | while read line ; do
     localdir=`echo $line | sed s/addons.xml//g`
     echo " [*] updating $line..."
     echo '<?xml version="1.0" encoding="UTF-8"?>
@@ -80,7 +80,7 @@ upload() {
     exit 0
   fi
   update_addons_xml
-  rsync -av --progress target/addons/$ADDON_VERSION $RSYNC_REPO
+  rsync -av --progress target/addons/$OS_VERSION $RSYNC_REPO
 }
 
 build() {
