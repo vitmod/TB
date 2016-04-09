@@ -25,7 +25,6 @@ configure_target() {
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_PREFIX_TOOLCHAIN=$SYSROOT_PREFIX/usr \
         -DCMAKE_MODULE_PATH=$SYSROOT_PREFIX/usr/lib/kodi \
-        -DCMAKE_PREFIX_PATH=$SYSROOT_PREFIX/usr \
         -DBUILD_SHARED_LIBS=0 \
         ..
 }

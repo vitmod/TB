@@ -23,7 +23,6 @@ PKG_SHORTDESC=""
 configure_target() {
   cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
         -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_PREFIX_PATH=$SYSROOT_PREFIX/usr \
         -DBUILD_SHARED_LIBS=0 \
         ..
 }
