@@ -27,12 +27,13 @@ pre_configure_target() {
   export CXXFLAGS="$CXXFLAGS -fPIC"
 }
 
-pre_build_target() {
-  cp $PKG_DIR/config/CMakeLists.txt $PKG_BUILD
-}
-
 configure_target() {
   cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
         -DCMAKE_INSTALL_PREFIX=/usr \
+        -DJSONCPP_WITH_TESTS=0 \
+        -DJSONCPP_WITH_POST_BUILD_UNITTEST=0 \
+        -DJSONCPP_WITH_PKGCONFIG_SUPPORT=0 \
+        -DBUILD_SHARED_LIBS=0 \
+        -DBUILD_STATIC_LIBS=1 \
         ..
 }
