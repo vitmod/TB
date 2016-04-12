@@ -127,7 +127,6 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/tmpfiles.d/systemd-nspawn.conf
   rm -rf $INSTALL/usr/lib/tmpfiles.d/x11.conf
   rm -rf $INSTALL/usr/share/factory
-  rm -rf $INSTALL/usr/share/zsh
 
   # clean up hwdb
   rm -f $INSTALL/usr/lib/udev/hwdb.d/20-OUI.hwdb
