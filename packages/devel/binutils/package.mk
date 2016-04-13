@@ -43,12 +43,6 @@ pre_configure_host() {
   unset LDFLAGS
 }
 
-make_host() {
+pre_make_host() {
   make configure-host
-  make
-}
-
-makeinstall_host() {
-  cp -v ../include/libiberty.h $SYSROOT_PREFIX/usr/include
-  make install
 }
