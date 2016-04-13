@@ -25,6 +25,8 @@ PKG_DEPENDS_INIT="glibc"
 PKG_SHORTDESC="glibc: The GNU C library"
 
 PKG_CONFIGURE_OPTS_TARGET="BASH_SHELL=/bin/sh \
+                           ac_cv_path_PERL= \
+                           ac_cv_prog_MAKEINFO= \
                            --libexecdir=/usr/lib/glibc \
                            --cache-file=config.cache \
                            --disable-profile \
@@ -67,9 +69,7 @@ pre_configure_target() {
   unset LD_LIBRARY_PATH
 
   # set some CFLAGS we need
-  export CFLAGS="$CFLAGS -g -fno-stack-protector -fgnu89-inline"
-
-  export MAKEFLAGS=-j1
+  export CFLAGS="$CFLAGS -g -fno-stack-protector -fgnu89-inline -pipe"
 
   export BUILD_CC=$HOST_CC
   export OBJDUMP_FOR_HOST=objdump
