@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="autoconf-archive"
-PKG_VERSION="2015.09.25"
+PKG_VERSION="2016.03.20"
 PKG_SITE="http://ftp.gnu.org/gnu/autoconf-archive"
 PKG_URL="http://ftp.gnu.org/gnu/autoconf-archive/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST=""
@@ -27,7 +27,4 @@ PKG_CONFIGURE_OPTS_HOST="--target=$TARGET_NAME --prefix=$ROOT/$TOOLCHAIN"
 
 makeinstall_host() {
   make prefix=$SYSROOT_PREFIX/usr install
-
-  # remove problematic m4 file
-  rm -rf $SYSROOT_PREFIX/usr/share/aclocal/ax_prog_cc_for_build.m4
 }
