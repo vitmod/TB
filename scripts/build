@@ -299,49 +299,53 @@ if [ ! -f $STAMP ]; then
         $MAKEINSTALL $PKG_MAKEINSTALL_OPTS_BOOTSTRAP
       fi
     fi
-    if [ "$(type -t post_makeinstall_$TARGET)" = "function" ]; then
-      post_makeinstall_$TARGET
-    fi
+  fi  # ! "$is_virtual" = "virtual"
 
-    if [ "$TARGET" = "target" -o "$TARGET" = "init" ]; then
-      if [ -d $INSTALL ] ; then
-        rm -rf $INSTALL/usr/include
-        rm -rf $INSTALL/usr/lib/cmake
-        rm -rf $INSTALL/usr/lib/pkgconfig
-        rm -rf $INSTALL/usr/man
-        rm -rf $INSTALL/usr/share/aclocal
-        rm -rf $INSTALL/usr/share/bash-completion
-        rm -rf $INSTALL/usr/share/doc
-        rm -rf $INSTALL/usr/share/gtk-doc
-        rm -rf $INSTALL/usr/share/info
-        rm -rf $INSTALL/usr/share/locale
-        rm -rf $INSTALL/usr/share/man
-        rm -rf $INSTALL/usr/share/pkgconfig
-        rm -rf $INSTALL/usr/share/zsh
-        find $INSTALL -name "*.orig" -exec rm -f {} \; 2>/dev/null || :
-        find $INSTALL -name "*.la" -o -name "*.a" -o -name "*.so*T" -exec rm -f {} \; 2>/dev/null || :
-        find $INSTALL -name "addon.xml.in" -o -name "Makefile.in" -exec rm -f {} \; 2>/dev/null || :
-        find $INSTALL -type d -exec rmdir -p {} \; 2>/dev/null || :
+  if [ "$(type -t post_makeinstall_$TARGET)" = "function" ]; then
+    post_makeinstall_$TARGET
+  fi
 
-        if [ ! "$DEBUG" = yes ]; then
-          $STRIP `find $INSTALL \
-            -type f -name "*.so*" \
-            ! -name "ld-*.so" \
-            ! -name "libc-*.so" \
-            ! -name "libpthread-*.so" \
-            ! -name "libthread_db-*so" \
-            2>/dev/null` 2>/dev/null || :
-          if [ "$TARGET" = "init" ]; then
-            $STRIP `find $INSTALL -type f -name "*.so*" 2>/dev/null` 2>/dev/null || :
-          fi
-          $STRIP `find $INSTALL/bin $INSTALL/usr/bin $INSTALL/sbin $INSTALL/usr/sbin \
-            -type f -executable 2>/dev/null` 2>/dev/null || :
+  # cleanup
+  if [ "$TARGET" = "target" -o "$TARGET" = "init" ]; then
+    if [ -n "$INSTALL" -a -d "$INSTALL" ] ; then
+      rm -rf $INSTALL/usr/include
+      rm -rf $INSTALL/usr/lib/cmake
+      rm -rf $INSTALL/usr/lib/pkgconfig
+      rm -rf $INSTALL/usr/man
+      rm -rf $INSTALL/usr/share/aclocal
+      rm -rf $INSTALL/usr/share/bash-completion
+      rm -rf $INSTALL/usr/share/doc
+      rm -rf $INSTALL/usr/share/gtk-doc
+      rm -rf $INSTALL/usr/share/info
+      rm -rf $INSTALL/usr/share/locale
+      rm -rf $INSTALL/usr/share/man
+      rm -rf $INSTALL/usr/share/pkgconfig
+      rm -rf $INSTALL/usr/share/zsh
+      find $INSTALL -name "*.orig" -exec rm -f {} \; 2>/dev/null || :
+      find $INSTALL -name "*.la" -exec rm -f {} \; 2>/dev/null || :
+      find $INSTALL -name "*.a" -exec rm -f {} \; 2>/dev/null || :
+      find $INSTALL -name "*.so*T" -exec rm -f {} \; 2>/dev/null || :
+      find $INSTALL -name "addon.xml.in" -exec rm -f {} \; 2>/dev/null || :
+      find $INSTALL -name "Makefile.in" -exec rm -f {} \; 2>/dev/null || :
+      find $INSTALL -type d -exec rmdir -p {} \; 2>/dev/null || :
+
+      if [ ! "$DEBUG" = yes ]; then
+        $STRIP `find $INSTALL \
+          -type f -name "*.so*" \
+          ! -name "ld-*.so" \
+          ! -name "libc-*.so" \
+          ! -name "libpthread-*.so" \
+          ! -name "libthread_db-*so" \
+          2>/dev/null` 2>/dev/null || :
+        if [ "$TARGET" = "init" ]; then
+          $STRIP `find $INSTALL -type f -name "*.so*" 2>/dev/null` 2>/dev/null || :
         fi
+        $STRIP `find $INSTALL/bin $INSTALL/usr/bin $INSTALL/sbin $INSTALL/usr/sbin \
+          -type f -executable 2>/dev/null` 2>/dev/null || :
       fi
     fi
-
-    cd $ROOT
-  fi  # ! "$is_virtual" = "virtual"
+  fi
+  cd $ROOT
 
   for i in `find $SYSROOT_PREFIX/usr/lib/ -name "*.la" 2>/dev/null`; do \
     sed -i "s:\(['= ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" $i; \
