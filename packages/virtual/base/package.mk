@@ -15,10 +15,10 @@
 
 PKG_NAME="base"
 PKG_VERSION=""
-PKG_SITE="http://www.openelec.tv"
+PKG_SITE=""
 PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="base: Metapackage"
+PKG_SHORTDESC="base: metapackage"
 
 # system
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET busybox"

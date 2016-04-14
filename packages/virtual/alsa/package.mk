@@ -15,7 +15,7 @@
 
 PKG_NAME="alsa"
 PKG_VERSION=""
-PKG_SITE="http://www.alsa-project.org/"
+PKG_SITE=""
 PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain alsa-lib alsa-utils"
-PKG_SHORTDESC="alsa: Matapackage to install all alsa components"
+PKG_SHORTDESC="alsa: matapackage"
