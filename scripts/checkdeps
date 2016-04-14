@@ -27,8 +27,8 @@ deps_pkg="bash bc bison bzip2 cmake diffutils fakeroot gperf uboot-tools"
 deps="    $deps     flex gawk gcc g++ gzip java"
 deps_pkg="$deps_pkg flex gawk gcc g++ gzip default-jre"
 
-deps="    $deps     patch perl sed tar unzip xmlstarlet xsltproc wget zip"
-deps_pkg="$deps_pkg patch perl sed tar unzip xmlstarlet xsltproc wget zip"
+deps="    $deps     patch perl sed swig tar unzip xmlstarlet xsltproc wget zip"
+deps_pkg="$deps_pkg patch perl sed swig tar unzip xmlstarlet xsltproc wget zip"
 
 files="    /usr/include/stdio.h /usr/include/ncurses.h"
 files_pkg="libc6-dev            libncurses5-dev"

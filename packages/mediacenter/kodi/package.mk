@@ -20,7 +20,7 @@ PKG_NAME="kodi"
 PKG_VERSION="9368c25"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/xbmc/xbmc.git"
-PKG_DEPENDS_TARGET="toolchain kodi:host swig:host"
+PKG_DEPENDS_TARGET="toolchain kodi:host"
 PKG_DEPENDS_HOST="lzo:host libpng:host libjpeg-turbo:host giflib:host"
 PKG_SHORTDESC="kodi: Kodi Mediacenter"
 
