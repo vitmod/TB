@@ -20,7 +20,7 @@ PKG_NAME="ccache"
 PKG_VERSION="3.2.3"
 PKG_SITE="http://ccache.samba.org/"
 PKG_URL="http://samba.org/ftp/ccache/$PKG_NAME-$PKG_VERSION.tar.bz2"
-PKG_DEPENDS_HOST="make:host"
+PKG_DEPENDS_HOST=""
 PKG_SHORTDESC="ccache: A fast compiler cache"
 
 export CC=$LOCAL_CC
