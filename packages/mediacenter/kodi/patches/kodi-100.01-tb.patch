@@ -1,4 +1,4 @@
-From ccedd7feb0e61a26b486cf3daa67db4fa257fe5f Mon Sep 17 00:00:00 2001
+From 5c36293e6db1b33c3cbe2d82c2664d522b35ae23 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
 Subject: [PATCH 01/14] [tb] make binary addons executable
@@ -8,7 +8,7 @@ Subject: [PATCH 01/14] [tb] make binary addons executable
  1 file changed, 26 insertions(+)
 
 diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
-index 889935c..deb21b2 100644
+index 5005f8d..acfb24a 100644
 --- a/xbmc/addons/Addon.cpp
 +++ b/xbmc/addons/Addon.cpp
 @@ -50,6 +50,10 @@
@@ -55,7 +55,7 @@ index 889935c..deb21b2 100644
 2.7.4
 
 
-From 4e259e029afd2e6f50e0c9e9f446517f5392b6a8 Mon Sep 17 00:00:00 2001
+From ffabd336f1c70c5037df11a58fd7d62a01b60d7e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
 Subject: [PATCH 02/14] [tb] disable minimize
@@ -65,10 +65,10 @@ Subject: [PATCH 02/14] [tb] disable minimize
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 7c0c9d5..62f6483 100644
+index bc67d7c..463921f 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4954,7 +4954,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4872,7 +4872,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -80,7 +80,7 @@ index 7c0c9d5..62f6483 100644
 2.7.4
 
 
-From 73bea3a897fa6bcc9d00ec2180bf789d7c8ad9c7 Mon Sep 17 00:00:00 2001
+From 391b2391097345233818b9eb73dab04370c5b7b4 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
 Subject: [PATCH 03/14] [tb] setup timezone
@@ -123,7 +123,7 @@ index ea44d40..b780e62 100644
 2.7.4
 
 
-From c4faab457c11834c91594cd558daeb34ec9faba3 Mon Sep 17 00:00:00 2001
+From 7c44073606f5f8cfff41ed4e6bf5b679fbad1faf Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
 Subject: [PATCH 04/14] [tb] use a wrapper to setup systemd services
@@ -134,7 +134,7 @@ Subject: [PATCH 04/14] [tb] use a wrapper to setup systemd services
  2 files changed, 31 insertions(+)
 
 diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
-index deb21b2..82c33d0 100644
+index acfb24a..0470bd1 100644
 --- a/xbmc/addons/Addon.cpp
 +++ b/xbmc/addons/Addon.cpp
 @@ -343,6 +343,13 @@ AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
@@ -203,13 +203,13 @@ index deb21b2..82c33d0 100644
      std::static_pointer_cast<CService>(localAddon)->Stop();
  
 diff --git a/xbmc/addons/Addon.h b/xbmc/addons/Addon.h
-index bc5338c..1079952 100644
+index d43b309..2c51fb3 100644
 --- a/xbmc/addons/Addon.h
 +++ b/xbmc/addons/Addon.h
-@@ -150,6 +150,7 @@ public:
-   const InfoMap &ExtraInfo() const { return m_props.extrainfo; }
-   const ADDONDEPS &GetDeps() const { return m_props.dependencies; }
+@@ -148,6 +148,7 @@ public:
+   std::string GetSetting(const std::string& key) override;
  
+   TiXmlElement* GetSettingsXML() override;
 +  void CallOEWrapper(const std::string& ID, bool disable);
  
    /*! \brief get the required version of a dependency.
@@ -218,7 +218,7 @@ index bc5338c..1079952 100644
 2.7.4
 
 
-From 468c2ae35a9b2a68d6d42d0b2eb346e1d3e3fd92 Mon Sep 17 00:00:00 2001
+From e99964ba3129cad6015aa99928e64b3bc7392b0a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
 Subject: [PATCH 05/14] [tb] handle SIGTERM
@@ -233,10 +233,10 @@ Subject: [PATCH 05/14] [tb] handle SIGTERM
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 62f6483..e551f7c 100644
+index 463921f..eab83f5 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2426,12 +2426,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2344,12 +2344,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
    switch (pMsg->dwMessage)
    {
    case TMSG_POWERDOWN:
@@ -251,7 +251,7 @@ index 62f6483..e551f7c 100644
      break;
    
    case TMSG_SHUTDOWN:
-@@ -2452,12 +2452,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2370,12 +2370,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
  
    case TMSG_RESTART:
    case TMSG_RESET:
@@ -266,7 +266,7 @@ index 62f6483..e551f7c 100644
      Stop(EXITCODE_RESTARTAPP);
  #endif
      break;
-@@ -2851,12 +2852,19 @@ bool CApplication::Cleanup()
+@@ -2769,12 +2770,19 @@ bool CApplication::Cleanup()
    }
  }
  
@@ -287,7 +287,7 @@ index 62f6483..e551f7c 100644
      CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2883,7 +2891,6 @@ void CApplication::Stop(int exitCode)
+@@ -2801,7 +2809,6 @@ void CApplication::Stop(int exitCode)
  
      m_bStop = true;
      m_AppFocused = false;
@@ -296,10 +296,10 @@ index 62f6483..e551f7c 100644
  
      // cancel any jobs from the jobmanager
 diff --git a/xbmc/Application.h b/xbmc/Application.h
-index 59cfd99..db6f622 100644
+index 5fed501..0647d66 100644
 --- a/xbmc/Application.h
 +++ b/xbmc/Application.h
-@@ -153,6 +153,7 @@ public:
+@@ -152,6 +152,7 @@ public:
  
    void StopPVRManager();
    bool IsCurrentThread() const;
@@ -367,84 +367,10 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 8412dfbbca049a1f5a3716165b4078129ece889a Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Tue, 15 Mar 2016 21:29:43 +0200
-Subject: [PATCH 06/14] [tb] add advancedsetting to configure number of volume
- control steps
-
----
- xbmc/Application.cpp               | 2 +-
- xbmc/Application.h                 | 1 -
- xbmc/settings/AdvancedSettings.cpp | 2 ++
- xbmc/settings/AdvancedSettings.h   | 1 +
- 4 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index e551f7c..6459f52 100644
---- a/xbmc/Application.cpp
-+++ b/xbmc/Application.cpp
-@@ -2380,7 +2380,7 @@ bool CApplication::OnAction(const CAction &action)
- #if defined(TARGET_ANDROID)
-       float step = (VOLUME_MAXIMUM - VOLUME_MINIMUM) / CXBMCApp::GetMaxSystemVolume();
- #else
--      float step   = (VOLUME_MAXIMUM - VOLUME_MINIMUM) / VOLUME_CONTROL_STEPS;
-+      float step   = (VOLUME_MAXIMUM - VOLUME_MINIMUM) / g_advancedSettings.m_volumeSteps;
- 
-       if (action.GetRepeat())
-         step *= action.GetRepeat() * 50; // 50 fps
-diff --git a/xbmc/Application.h b/xbmc/Application.h
-index db6f622..2af1755 100644
---- a/xbmc/Application.h
-+++ b/xbmc/Application.h
-@@ -93,7 +93,6 @@ namespace MUSIC_INFO
- #define VOLUME_MINIMUM 0.0f        // -60dB
- #define VOLUME_MAXIMUM 1.0f        // 0dB
- #define VOLUME_DYNAMIC_RANGE 90.0f // 60dB
--#define VOLUME_CONTROL_STEPS 90    // 90 steps
- 
- // replay gain settings struct for quick access by the player multiple
- // times per second (saves doing settings lookup)
-diff --git a/xbmc/settings/AdvancedSettings.cpp b/xbmc/settings/AdvancedSettings.cpp
-index 2adc1f5..574cfb1 100644
---- a/xbmc/settings/AdvancedSettings.cpp
-+++ b/xbmc/settings/AdvancedSettings.cpp
-@@ -117,6 +117,7 @@ void CAdvancedSettings::Initialize()
-   //default hold time of 25 ms, this allows a 20 hertz sine to pass undistorted
-   m_limiterHold = 0.025f;
-   m_limiterRelease = 0.1f;
-+  m_volumeSteps = 90;
- 
-   m_seekSteps = { 10, 30, 60, 180, 300, 600, 1800 };
- 
-@@ -489,6 +490,7 @@ void CAdvancedSettings::ParseSettingsFile(const std::string &file)
- 
-     XMLUtils::GetFloat(pElement, "limiterhold", m_limiterHold, 0.0f, 100.0f);
-     XMLUtils::GetFloat(pElement, "limiterrelease", m_limiterRelease, 0.001f, 100.0f);
-+    XMLUtils::GetInt(pElement, "volumesteps", m_volumeSteps, 10, 90);
-   }
- 
-   pElement = pRootElement->FirstChildElement("omx");
-diff --git a/xbmc/settings/AdvancedSettings.h b/xbmc/settings/AdvancedSettings.h
-index ae05f9b..6db5f12 100644
---- a/xbmc/settings/AdvancedSettings.h
-+++ b/xbmc/settings/AdvancedSettings.h
-@@ -136,6 +136,7 @@ class CAdvancedSettings : public ISettingCallback, public ISettingsHandler
-     bool m_VideoPlayerIgnoreDTSinWAV;
-     float m_limiterHold;
-     float m_limiterRelease;
-+    int m_volumeSteps;
- 
-     bool  m_omxDecodeStartWithValidFrame;
- 
--- 
-2.7.4
-
-
-From 21c97f9dcee4f8116381d97d538f6926c610db32 Mon Sep 17 00:00:00 2001
+From 4c73d39f5413d83c989330b13a190e0c6daa15b6 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 07/14] [tb] all user pre-installed addons should be enabled
+Subject: [PATCH 06/14] [tb] all user pre-installed addons should be enabled
 
 ---
  xbmc/addons/AddonDatabase.cpp | 2 +-
@@ -467,7 +393,36 @@ index 7c062f0..2a26509 100644
 2.7.4
 
 
-From 8ddb49688673500a57e577b49ffb05e48829e2e6 Mon Sep 17 00:00:00 2001
+From ad9c6c168df54652525cb117118459b6bdbc99e9 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Sat, 26 Sep 2015 00:32:42 +0300
+Subject: [PATCH 07/14] [tb] pvr: nobody cared
+
+---
+ xbmc/pvr/channels/PVRChannel.cpp | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/xbmc/pvr/channels/PVRChannel.cpp b/xbmc/pvr/channels/PVRChannel.cpp
+index b084263..6e26067 100644
+--- a/xbmc/pvr/channels/PVRChannel.cpp
++++ b/xbmc/pvr/channels/PVRChannel.cpp
+@@ -220,10 +220,7 @@ bool CPVRChannel::Persist()
+ 
+   if (CPVRDatabase *database = GetPVRDatabase())
+   {
+-    bool bReturn = database->Persist(*this) && database->CommitInsertQueries();
+-    CSingleLock lock(m_critSection);
+-    m_bChanged = !bReturn;
+-    return bReturn;
++    // meh
+   }
+ 
+   return false;
+-- 
+2.7.4
+
+
+From 5395cf7e4104e5a6e0e0ab9cd159b39dd187e421 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
 Subject: [PATCH 08/14] [aml] Fill audio packets completely when resampling to
@@ -497,7 +452,7 @@ index ff26118..9de73fa 100644
 2.7.4
 
 
-From 4b6c91a0833077c6a53a171efaeabb5e60caa943 Mon Sep 17 00:00:00 2001
+From 6b3dcf245bfff6d074c38e5793181a6a4f7ad661 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
 Subject: [PATCH 09/14] [aml] Ugly workaround to show DTS/AC3 caps
@@ -528,7 +483,7 @@ index 95db8cf..c842dd2 100644
 2.7.4
 
 
-From 61f05d377b3715aecb6a14d2588f2a0d650d5a4d Mon Sep 17 00:00:00 2001
+From c8608d0aae11e72bd6c807c634fc47a6bb7459c8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
 Subject: [PATCH 10/14] [aml] fix compiler badness when compiling with amcodec
@@ -554,7 +509,7 @@ index a1a3447..1bf5a89 100644
 2.7.4
 
 
-From 25349d3daba52ea477b50d48605dc69f35504137 Mon Sep 17 00:00:00 2001
+From 5f55ca3576be773c8aa0337a6a3ecaf1bb657f80 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
 Subject: [PATCH 11/14] [aml] prefer libamcodec.so
@@ -591,7 +546,7 @@ index 0a97893..1fface4 100644
 2.7.4
 
 
-From 5fd96096737d5c94a9e32568e17aec7fa46f6d63 Mon Sep 17 00:00:00 2001
+From b4ce44ac734bc2b0845461b618edf12a03861243 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 22:43:07 +0200
 Subject: [PATCH 12/14] [aml] re-add IVPClockCallback
@@ -599,14 +554,14 @@ Subject: [PATCH 12/14] [aml] re-add IVPClockCallback
 ---
  .../VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp      |  4 +-
  xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h |  3 +-
- .../cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 61 +++++++++++++++++++---
+ .../cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 58 +++++++++++++++++++---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h  |  7 ++-
  .../DVDCodecs/Video/DVDVideoCodecAmlogic.cpp       |  5 +-
  .../DVDCodecs/Video/DVDVideoCodecAmlogic.h         |  5 +-
  .../VideoPlayer/Interfaces/IVPClockCallback.h      | 27 ++++++++++
  xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp        | 10 +++-
  xbmc/cores/VideoPlayer/VideoPlayerVideo.h          |  6 ++-
- 9 files changed, 112 insertions(+), 16 deletions(-)
+ 9 files changed, 109 insertions(+), 16 deletions(-)
  create mode 100644 xbmc/cores/VideoPlayer/Interfaces/IVPClockCallback.h
 
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp
@@ -652,7 +607,7 @@ index 45e794b..06a5c0b 100644
    static CDVDOverlayCodec* CreateOverlayCodec(CDVDStreamInfo &hint );
  
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index 1fface4..617d2ec 100644
+index 1fface4..cb8087e 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 @@ -26,6 +26,7 @@
@@ -756,7 +711,7 @@ index 1fface4..617d2ec 100644
        }
      }
      else
-@@ -1968,6 +2003,20 @@ void CAMLCodec::Process()
+@@ -1968,6 +2003,17 @@ void CAMLCodec::Process()
    CLog::Log(LOGDEBUG, "CAMLCodec::Process Stopped");
  }
  
@@ -766,10 +721,7 @@ index 1fface4..617d2ec 100644
 +  if (m_clock)
 +    clock_pts = m_clock->GetInterpolatedClock() / DVD_TIME_BASE;
 +  else
-+  {
 +    CLog::Log(LOGWARNING, "CAMLCodec::GetPlayerPtsSeconds: cannot get player clock");
-+    clock_pts = CDVDClock::GetAbsoluteClock() / DVD_TIME_BASE;
-+  }
 +
 +  return clock_pts;
 +}
@@ -897,10 +849,10 @@ index 0000000..1a5b11e
 +  virtual double GetInterpolatedClock() = 0;
 +};
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-index 6d04b3a..331d0be 100644
+index 01e5d8c..c8907a5 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-@@ -132,7 +132,7 @@ bool CVideoPlayerVideo::OpenStream( CDVDStreamInfo &hint )
+@@ -127,7 +127,7 @@ bool CVideoPlayerVideo::OpenStream( CDVDStreamInfo &hint )
      return false;
  
    CLog::Log(LOGNOTICE, "Creating video codec with codec id: %i", hint.codec);
@@ -909,7 +861,7 @@ index 6d04b3a..331d0be 100644
    if(!codec)
    {
      CLog::Log(LOGERROR, "Unsupported video codec");
-@@ -1175,6 +1175,14 @@ int CVideoPlayerVideo::CalcDropRequirement(double pts)
+@@ -1121,6 +1121,14 @@ int CVideoPlayerVideo::CalcDropRequirement(double pts)
    return result;
  }
  
@@ -925,7 +877,7 @@ index 6d04b3a..331d0be 100644
  {
    m_gain.clear();
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
-index 34a4c7d..f61efd7 100644
+index 36e8e76..1f67754 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
 @@ -22,6 +22,7 @@
@@ -945,7 +897,7 @@ index 34a4c7d..f61efd7 100644
  {
  public:
    CVideoPlayerVideo(CDVDClock* pClock
-@@ -97,6 +98,9 @@ public:
+@@ -93,6 +94,9 @@ public:
    std::string GetStereoMode();
    void SetSpeed(int iSpeed);
  
@@ -959,7 +911,7 @@ index 34a4c7d..f61efd7 100644
 2.7.4
 
 
-From 7ff0ea8ed05c5abcf453c02398ccf19d90122fc9 Mon Sep 17 00:00:00 2001
+From f4c9175e11111319865ad3f0288a6bcab2d34bdc Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 23:47:54 +0200
 Subject: [PATCH 13/14] [aml] pvr can reopen too fast, slow us down a little
@@ -969,7 +921,7 @@ Subject: [PATCH 13/14] [aml] pvr can reopen too fast, slow us down a little
  1 file changed, 4 insertions(+)
 
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index 617d2ec..ae14ceb 100644
+index cb8087e..f842130 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 @@ -1680,6 +1680,10 @@ void CAMLCodec::CloseDecoder()
@@ -987,7 +939,7 @@ index 617d2ec..ae14ceb 100644
 2.7.4
 
 
-From b97aed5bea00646bc38f8349c980b9a3d32bbf42 Mon Sep 17 00:00:00 2001
+From 95c26283d9b6a0b64eb32ab4b6c9db1cb371bec3 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
 Subject: [PATCH 14/14] [aml] TEMP: use software decoding for sd

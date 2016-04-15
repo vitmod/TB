@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <advancedsettings>
   <showexitbutton>false</showexitbutton>
-  <audio>
-    <volumesteps>20</volumesteps>
-  </audio>
   <network>
     <curlclienttimeout>2</curlclienttimeout>
     <curllowspeedtime>5</curllowspeedtime>
