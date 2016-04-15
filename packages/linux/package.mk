@@ -21,7 +21,7 @@ PKG_VERSION="$KERNEL_VERSION"
 PKG_SITE="http://www.kernel.org"
 PKG_URL="$KERNEL_URL"
 PKG_DEPENDS_HOST=""
-PKG_DEPENDS_TARGET="toolchain cpio:host kmod:host"
+PKG_DEPENDS_TARGET="toolchain kmod:host"
 PKG_NEED_UNPACK="$LINUX_DEPENDS"
 PKG_SHORTDESC="linux26: The Linux kernel 2.6 precompiled kernel binary image and modules"
 
