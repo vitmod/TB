@@ -17,7 +17,7 @@ PKG_NAME="mtr"
 PKG_VERSION="0.86"
 PKG_SITE="http://www.bitwizard.nl/mtr/"
 PKG_URL="ftp://ftp.bitwizard.nl/mtr/$PKG_NAME-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain ncurses"
+PKG_DEPENDS_TARGET="toolchain netbsd-curses"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"

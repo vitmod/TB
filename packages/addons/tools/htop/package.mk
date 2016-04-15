@@ -17,7 +17,7 @@ PKG_NAME="htop"
 PKG_VERSION="1.0.3"
 PKG_SITE="http://htop.sourceforge.net/"
 PKG_URL="http://hisham.hm/htop/releases/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain ncurses"
+PKG_DEPENDS_TARGET="toolchain netbsd-curses"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
@@ -38,7 +38,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
 
 pre_configure_target() {
   rm -rf $PKG_BUILD/.$TARGET_NAME
-  export CFLAGS="$CFLAGS -I$SYSROOT_PREFIX/usr/include/ncurses"
+  export LIBS="-lcurses -lterminfo"
 }
 
 makeinstall_target() {

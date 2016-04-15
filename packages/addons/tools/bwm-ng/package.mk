@@ -17,7 +17,7 @@ PKG_NAME="bwm-ng"
 PKG_VERSION="0.6.1"
 PKG_SITE="http://www.gropp.org/?id=projects&sub=bwm-ng"
 PKG_URL="http://www.gropp.org/bwm-ng/bwm-ng-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain ncurses"
+PKG_DEPENDS_TARGET="toolchain netbsd-curses"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
@@ -35,7 +35,7 @@ PKG_CONFIGURE_OPTS_TARGET="--with-time \
                            --with-partitions"
 
 pre_configure_target() {
-  export CFLAGS="$CFLAGS -I$SYSROOT_PREFIX/usr/include/ncurses"
+  export LIBS="-lcurses -lterminfo"
 }
 
 makeinstall_target() {

@@ -13,17 +13,17 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="nano"
-PKG_VERSION="2.5.3"
-PKG_SITE="http://www.nano-editor.org/"
-PKG_URL="http://ftp.gnu.org/gnu/nano/$PKG_NAME-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain netbsd-curses"
-PKG_SHORTDESC="nano: Pico editor clone with enhancements"
+PKG_NAME="netbsd-curses"
+PKG_VERSION="47b256a"
+PKG_SITE="https://github.com/sabotage-linux/netbsd-curses"
+PKG_FETCH="git+https://github.com/sabotage-linux/netbsd-curses.git"
+PKG_DEPENDS_TARGET="toolchain"
+PKG_SHORTDESC="netbsd-libcurses portable edition"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-utf8 \
-                           --disable-nls \
-                           --disable-libmagic"
+make_target() {
+  make HOSTCC="$HOST_CC" PREFIX=/usr all-static
+}
 
-post_makeinstall_target() {
-  rm -rf $INSTALL/usr/share/nano
+makeinstall_target() {
+  make HOSTCC="$HOST_CC" PREFIX=$SYSROOT_PREFIX/usr install-static
 }
