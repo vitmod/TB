@@ -64,6 +64,7 @@ PKG_CONFIGURE_OPTS_TARGET="$UTILLINUX_CONFIG_DEFAULT \
                            --disable-libfdisk \
                            --disable-fsck \
                            --disable-swapon \
+                           --disable-uuidgen \
                            --enable-blkid"
 
 PKG_CONFIGURE_OPTS_HOST="--enable-static \
