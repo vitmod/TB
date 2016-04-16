@@ -23,20 +23,9 @@ PKG_URL="http://download.savannah.gnu.org/releases/freetype/$PKG_NAME-$PKG_VERSI
 PKG_DEPENDS_TARGET="toolchain zlib libpng"
 PKG_SHORTDESC="freetype: TrueType font rendering library"
 
-PKG_CONFIGURE_OPTS_TARGET="LIBPNG_CFLAGS=-I$SYSROOT_PREFIX/usr/include \
-                           LIBPNG_LDFLAGS=-L$SYSROOT_PREFIX/usr/lib \
-                           --with-zlib"
-
-pre_configure_target() {
-  # unset LIBTOOL because freetype uses its own
-  ( cd $PKG_BUILD
-    unset LIBTOOL
-    sh autogen.sh
-  )
-}
+PKG_CONFIGURE_OPTS_TARGET="--with-sysroot=$SYSROOT_PREFIX --with-zlib"
 
 post_makeinstall_target() {
-  sed -i "s:\(['=\" ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" $SYSROOT_PREFIX/usr/bin/freetype-config
-  ln -v -sf $SYSROOT_PREFIX/usr/include/freetype2 $SYSROOT_PREFIX/usr/include/freetype
+  rm -f $SYSROOT_PREFIX/usr/bin/freetype-config
   rm -rf $INSTALL/usr/bin
 }
