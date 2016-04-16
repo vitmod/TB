@@ -29,9 +29,6 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET timezone-data"
 # network
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET iana-etc ethtool openssh"
 
-# fonts
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET liberation-fonts-ttf"
-
 # misc
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET dosfstools e2fsprogs"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET usbutils"
