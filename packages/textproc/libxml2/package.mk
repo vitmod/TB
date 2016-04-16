@@ -39,6 +39,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_ansidecl_h=no \
              --without-lzma"
 
 post_makeinstall_target() {
+  # those who rely on *-config should be shot (libxslt!)
   sed -i "s:\(['= ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" $SYSROOT_PREFIX/usr/bin/xml2-config
 
   rm -rf $INSTALL/usr/bin

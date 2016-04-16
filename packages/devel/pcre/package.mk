@@ -30,6 +30,6 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-shared \
                            --with-gnu-ld"
 
 post_makeinstall_target() {
-  sed -e "s:\(['= ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" -i $SYSROOT_PREFIX/usr/bin/pcre-config
+  rm -rf $SYSROOT_PREFIX/usr/bin/pcre-config
   rm -rf $INSTALL/usr/bin
 }

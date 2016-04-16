@@ -79,5 +79,6 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-debug \
                            --without-libidn"
 
 post_makeinstall_target() {
+  rm -rf $SYSROOT_PREFIX/usr/bin/curl-config
   rm -rf $INSTALL/usr/bin/curl-config
 }
