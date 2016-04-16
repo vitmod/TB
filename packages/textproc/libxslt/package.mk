@@ -23,8 +23,6 @@ PKG_URL="ftp://xmlsoft.org/libxml2/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libxml2"
 PKG_SHORTDESC="libxslt"
 
-PKG_AUTORECONF="yes"
-
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_ansidecl_h=no \
                            --enable-static \
                            --disable-shared \
