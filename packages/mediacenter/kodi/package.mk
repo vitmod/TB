@@ -24,7 +24,7 @@ PKG_DEPENDS_TARGET="toolchain kodi:host"
 PKG_DEPENDS_HOST="lzo:host libpng:host libjpeg-turbo:host giflib:host"
 PKG_SHORTDESC="kodi: Kodi Mediacenter"
 
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa bzip2 crossguid curl dbus ffmpeg"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa bzip2 crossguid curl dbus expat ffmpeg"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET freetype fribidi libass"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libmicrohttpd libogg libpng libvorbis"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxml2 libxslt lzo pcre Python sqlite"
