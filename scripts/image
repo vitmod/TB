@@ -17,6 +17,7 @@
 
 . config/options $1
 
+check_root
 show_config
 
 scripts/checkdeps
