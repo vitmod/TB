@@ -26,6 +26,7 @@ PKG_SHORTDESC="fontconfig: A library for font customization and configuration"
 PKG_CONFIGURE_OPTS_TARGET="--with-arch=$TARGET_ARCH \
                            --with-cache-dir=/storage/.cache/fontconfig \
                            --with-default-fonts=/usr/share/fonts/liberation \
+                           --disable-shared --enable-static \
                            --without-add-fonts \
                            --disable-dependency-tracking \
                            --disable-docs"
