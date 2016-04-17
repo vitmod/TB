@@ -344,6 +344,7 @@ if [ ! -f $STAMP ]; then
         fi
         $STRIP `find $INSTALL/bin $INSTALL/usr/bin $INSTALL/sbin $INSTALL/usr/sbin \
           -type f -executable 2>/dev/null` 2>/dev/null || :
+        cleanup_rpath $INSTALL
       fi
     fi
   fi

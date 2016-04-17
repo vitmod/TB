@@ -217,6 +217,15 @@ debug_strip() {
   fi
 }
 
+cleanup_rpath() {
+  # remove rpath. TODO: fix libtool?
+  for bin in `find $1 -type f -executable` ; do
+    if [ $(chrpath -l $bin | grep -c $(echo "PATH=$SYSROOT_PREFIX")) -gt 0 ] ; then
+      chrpath -d $bin
+    fi
+  done
+}
+
 check_package() {
   if [ -z "$PKG_DIR" ] ; then
     printf "${boldred}$1: package not found${endcolor}\n"

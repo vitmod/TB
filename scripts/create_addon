@@ -62,6 +62,8 @@ pack_addon() {
     return 0
   fi
   cd $ADDON_BUILD
+  cleanup_rpath $PKG_ADDON_ID
+
   echo "*** compressing Addon $PKG_ADDON_ID ... ***"
   zip -rq $PKG_ADDON_ID-$ADDONVER.zip $PKG_ADDON_ID;
   cd - &>/dev/null
