@@ -23,10 +23,6 @@ PKG_URL="http://anduin.linuxfromscratch.org/sources/LFS/lfs-packages/conglomerat
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="iana-etc: The Iana-Etc package provides data for network services and protocols."
 
-post_make_target() {
-  sed -e 's,^sunrpc,rpcbind,' -i services
-}
-
 makeinstall_target() {
   mkdir -p $INSTALL/etc
   cp protocols $INSTALL/etc
