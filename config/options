@@ -40,6 +40,18 @@ setup_toolchain() {
     export PKG_CONFIG_LIBDIR="$TARGET_PKG_CONFIG_LIBDIR"
     export PKG_CONFIG_SYSROOT_DIR="$TARGET_PKG_CONFIG_SYSROOT_DIR"
     export CMAKE_CONF=$ROOT/$TOOLCHAIN/etc/cmake-$TARGET_NAME.conf
+    if [ ! -f $CMAKE_CONF ] ; then
+      mkdir -p $ROOT/$TOOLCHAIN/etc
+      echo "SET(CMAKE_SYSTEM_NAME Linux)" >> $CMAKE_CONF
+      echo "SET(CMAKE_SYSTEM_VERSION 1)"  >> $CMAKE_CONF
+      echo "SET(CMAKE_SYSTEM_PROCESSOR  $TARGET_ARCH)" >> $CMAKE_CONF
+      echo "SET(CMAKE_C_COMPILER   $TARGET_CC)"  >> $CMAKE_CONF
+      echo "SET(CMAKE_CXX_COMPILER $TARGET_CXX)" >> $CMAKE_CONF
+      echo "SET(CMAKE_FIND_ROOT_PATH  $SYSROOT_PREFIX)"   >> $CMAKE_CONF
+      echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)" >> $CMAKE_CONF
+      echo "SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)"  >> $CMAKE_CONF
+      echo "SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)"  >> $CMAKE_CONF
+    fi
     export _python_sysroot="$SYSROOT_PREFIX"
     export _python_prefix=/usr
     export _python_exec_prefix=/usr
@@ -64,6 +76,16 @@ setup_toolchain() {
     export PKG_CONFIG_LIBDIR="$HOST_PKG_CONFIG_LIBDIR"
     export PKG_CONFIG_SYSROOT_DIR="$HOST_PKG_CONFIG_SYSROOT_DIR"
     export CMAKE_CONF=$ROOT/$TOOLCHAIN/etc/cmake-$HOST_NAME.conf
+    if [ ! -f $CMAKE_CONF ] ; then
+      echo "SET(CMAKE_SYSTEM_NAME Linux)" >> $CMAKE_CONF
+      echo "SET(CMAKE_SYSTEM_VERSION 1)"  >> $CMAKE_CONF
+      echo "SET(CMAKE_C_COMPILER   $HOST_CC)"  >> $CMAKE_CONF
+      echo "SET(CMAKE_CXX_COMPILER $HOST_CXX)" >> $CMAKE_CONF
+      echo "SET(CMAKE_FIND_ROOT_PATH  $ROOT/$TOOLCHAIN)" >> $CMAKE_CONF
+      echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)" >> $CMAKE_CONF
+      echo "SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)" >> $CMAKE_CONF
+      echo "SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)" >> $CMAKE_CONF
+    fi
   fi
 }
 
