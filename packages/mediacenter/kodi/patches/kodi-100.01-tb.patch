@@ -1,4 +1,4 @@
-From 5c36293e6db1b33c3cbe2d82c2664d522b35ae23 Mon Sep 17 00:00:00 2001
+From ba0901d3a9371d4db6111fa8e26e586e3a139f59 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
 Subject: [PATCH 01/14] [tb] make binary addons executable
@@ -55,7 +55,7 @@ index 5005f8d..acfb24a 100644
 2.7.4
 
 
-From ffabd336f1c70c5037df11a58fd7d62a01b60d7e Mon Sep 17 00:00:00 2001
+From 97a931f05200fe3997ef432c3f67228fe28ed3a6 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
 Subject: [PATCH 02/14] [tb] disable minimize
@@ -65,10 +65,10 @@ Subject: [PATCH 02/14] [tb] disable minimize
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index bc67d7c..463921f 100644
+index 2ce90c4..44e62a1 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4872,7 +4872,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4870,7 +4870,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -80,7 +80,7 @@ index bc67d7c..463921f 100644
 2.7.4
 
 
-From 391b2391097345233818b9eb73dab04370c5b7b4 Mon Sep 17 00:00:00 2001
+From 4cec085e5e719515b5bb4b11a05bdeae953eef4b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
 Subject: [PATCH 03/14] [tb] setup timezone
@@ -123,7 +123,7 @@ index ea44d40..b780e62 100644
 2.7.4
 
 
-From 7c44073606f5f8cfff41ed4e6bf5b679fbad1faf Mon Sep 17 00:00:00 2001
+From 1c6c94ea4335762fd41c5f4b8f45eeec2b3a18d8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
 Subject: [PATCH 04/14] [tb] use a wrapper to setup systemd services
@@ -218,7 +218,7 @@ index d43b309..2c51fb3 100644
 2.7.4
 
 
-From e99964ba3129cad6015aa99928e64b3bc7392b0a Mon Sep 17 00:00:00 2001
+From 171f1961e2d6dbe97e63e9ca92ec118ffc5310fb Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
 Subject: [PATCH 05/14] [tb] handle SIGTERM
@@ -233,10 +233,10 @@ Subject: [PATCH 05/14] [tb] handle SIGTERM
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 463921f..eab83f5 100644
+index 44e62a1..f9dde4a 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2344,12 +2344,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2342,12 +2342,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
    switch (pMsg->dwMessage)
    {
    case TMSG_POWERDOWN:
@@ -251,7 +251,7 @@ index 463921f..eab83f5 100644
      break;
    
    case TMSG_SHUTDOWN:
-@@ -2370,12 +2370,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2368,12 +2368,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
  
    case TMSG_RESTART:
    case TMSG_RESET:
@@ -266,7 +266,7 @@ index 463921f..eab83f5 100644
      Stop(EXITCODE_RESTARTAPP);
  #endif
      break;
-@@ -2769,12 +2770,19 @@ bool CApplication::Cleanup()
+@@ -2767,12 +2768,19 @@ bool CApplication::Cleanup()
    }
  }
  
@@ -287,7 +287,7 @@ index 463921f..eab83f5 100644
      CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2801,7 +2809,6 @@ void CApplication::Stop(int exitCode)
+@@ -2799,7 +2807,6 @@ void CApplication::Stop(int exitCode)
  
      m_bStop = true;
      m_AppFocused = false;
@@ -367,7 +367,7 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 4c73d39f5413d83c989330b13a190e0c6daa15b6 Mon Sep 17 00:00:00 2001
+From 7c41abd293d27ab8f59c6a4044d48c66ddbac4e4 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
 Subject: [PATCH 06/14] [tb] all user pre-installed addons should be enabled
@@ -393,7 +393,7 @@ index 7c062f0..2a26509 100644
 2.7.4
 
 
-From ad9c6c168df54652525cb117118459b6bdbc99e9 Mon Sep 17 00:00:00 2001
+From c460971d18d01753ee8cfe0e50573a4ca75b8220 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
 Subject: [PATCH 07/14] [tb] pvr: nobody cared
@@ -422,7 +422,7 @@ index b084263..6e26067 100644
 2.7.4
 
 
-From 5395cf7e4104e5a6e0e0ab9cd159b39dd187e421 Mon Sep 17 00:00:00 2001
+From 92ff584ef356f57c28e72d2a35bf0f64b8a6892c Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
 Subject: [PATCH 08/14] [aml] Fill audio packets completely when resampling to
@@ -452,7 +452,7 @@ index ff26118..9de73fa 100644
 2.7.4
 
 
-From 6b3dcf245bfff6d074c38e5793181a6a4f7ad661 Mon Sep 17 00:00:00 2001
+From 3237f0de460f94da8c30b59955252fd59df2691c Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Tue, 30 Jun 2015 11:19:57 +0200
 Subject: [PATCH 09/14] [aml] Ugly workaround to show DTS/AC3 caps
@@ -483,7 +483,7 @@ index 95db8cf..c842dd2 100644
 2.7.4
 
 
-From c8608d0aae11e72bd6c807c634fc47a6bb7459c8 Mon Sep 17 00:00:00 2001
+From 06c63621c4a8f4befb5dded356c45ad5e64a1f6b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 7 Nov 2015 16:24:58 +0200
 Subject: [PATCH 10/14] [aml] fix compiler badness when compiling with amcodec
@@ -509,7 +509,7 @@ index a1a3447..1bf5a89 100644
 2.7.4
 
 
-From 5f55ca3576be773c8aa0337a6a3ecaf1bb657f80 Mon Sep 17 00:00:00 2001
+From cf0dbaa61b3e848d796fdb4f87a7804641b38126 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 1 Feb 2016 21:19:58 +0200
 Subject: [PATCH 11/14] [aml] prefer libamcodec.so
@@ -546,7 +546,7 @@ index 0a97893..1fface4 100644
 2.7.4
 
 
-From b4ce44ac734bc2b0845461b618edf12a03861243 Mon Sep 17 00:00:00 2001
+From 74a43052d10b94cc975e97f5b9aad1199b3f1d9b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 22:43:07 +0200
 Subject: [PATCH 12/14] [aml] re-add IVPClockCallback
@@ -849,7 +849,7 @@ index 0000000..1a5b11e
 +  virtual double GetInterpolatedClock() = 0;
 +};
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-index 01e5d8c..c8907a5 100644
+index 7b1f9f4..b781fd8 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
 @@ -127,7 +127,7 @@ bool CVideoPlayerVideo::OpenStream( CDVDStreamInfo &hint )
@@ -861,7 +861,7 @@ index 01e5d8c..c8907a5 100644
    if(!codec)
    {
      CLog::Log(LOGERROR, "Unsupported video codec");
-@@ -1121,6 +1121,14 @@ int CVideoPlayerVideo::CalcDropRequirement(double pts)
+@@ -1103,6 +1103,14 @@ int CVideoPlayerVideo::CalcDropRequirement(double pts)
    return result;
  }
  
@@ -877,7 +877,7 @@ index 01e5d8c..c8907a5 100644
  {
    m_gain.clear();
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
-index 36e8e76..1f67754 100644
+index 4dff792..c4b0fc6 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
 @@ -22,6 +22,7 @@
@@ -888,8 +888,8 @@ index 36e8e76..1f67754 100644
  #include "DVDMessageQueue.h"
  #include "DVDStreamInfo.h"
  #include "DVDCodecs/Video/DVDVideoCodec.h"
-@@ -58,7 +59,7 @@ public:
-   unsigned int m_dropRequests;
+@@ -56,7 +57,7 @@ public:
+   double m_lastPts;
  };
  
 -class CVideoPlayerVideo : public CThread, public IDVDStreamPlayerVideo
@@ -897,7 +897,7 @@ index 36e8e76..1f67754 100644
  {
  public:
    CVideoPlayerVideo(CDVDClock* pClock
-@@ -93,6 +94,9 @@ public:
+@@ -91,6 +92,9 @@ public:
    std::string GetStereoMode();
    void SetSpeed(int iSpeed);
  
@@ -911,7 +911,7 @@ index 36e8e76..1f67754 100644
 2.7.4
 
 
-From f4c9175e11111319865ad3f0288a6bcab2d34bdc Mon Sep 17 00:00:00 2001
+From 64e9d20658d36dee8ea19c3fbc6c202d2469ea39 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 23:47:54 +0200
 Subject: [PATCH 13/14] [aml] pvr can reopen too fast, slow us down a little
@@ -939,7 +939,7 @@ index cb8087e..f842130 100644
 2.7.4
 
 
-From 95c26283d9b6a0b64eb32ab4b6c9db1cb371bec3 Mon Sep 17 00:00:00 2001
+From 31e8cb76ab58a8ffef5ec4bba7a1128e4a40e5a7 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
 Subject: [PATCH 14/14] [aml] TEMP: use software decoding for sd
