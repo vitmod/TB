@@ -17,8 +17,8 @@
 ################################################################################
 
 PKG_NAME="util-linux"
-PKG_VERSION="2.27.1"
-PKG_URL="http://www.kernel.org/pub/linux/utils/util-linux/v2.27/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_VERSION="2.28"
+PKG_URL="http://www.kernel.org/pub/linux/utils/util-linux/v2.28/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_INIT="toolchain"
 PKG_SHORTDESC="util-linux: Miscellaneous system utilities for Linux"
