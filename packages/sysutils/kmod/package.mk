@@ -48,7 +48,4 @@ post_makeinstall_target() {
 
   mkdir -p $INSTALL/etc
   ln -sf /storage/.config/modprobe.d $INSTALL/etc/modprobe.d
-
-  mkdir -p $INSTALL/usr/config
-  cp -PR $PKG_DIR/config/* $INSTALL/usr/config
 }
