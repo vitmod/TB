@@ -187,10 +187,6 @@ post_makeinstall_target() {
   # strip
   debug_strip $INSTALL/usr
 
-  # defaults
-  mkdir -p $INSTALL/usr/config
-  cp -PR $PKG_DIR/config/* $INSTALL/usr/config
-
   ln -sf /run/systemd/resolve/resolv.conf $INSTALL/etc/resolv.conf
 
   rm -rf $INSTALL/etc/udev/hwdb.d
