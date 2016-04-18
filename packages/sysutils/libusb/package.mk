@@ -23,6 +23,8 @@ PKG_URL="$SOURCEFORGE_SRC/libusb/files/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain systemd"
 PKG_SHORTDESC="libusb: OS independent USB device access"
 
+MAKEFLAGS=-j1
+
 PKG_CONFIGURE_OPTS_TARGET="--disable-shared \
                            --enable-static \
                            --disable-log \
