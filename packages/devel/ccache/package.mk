@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="ccache"
-PKG_VERSION="3.2.3"
+PKG_VERSION="3.2.5"
 PKG_SITE="http://ccache.samba.org/"
 PKG_URL="http://samba.org/ftp/ccache/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_HOST=""
