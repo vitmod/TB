@@ -1,19 +1,16 @@
 ################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-#
-#  OpenELEC is free software: you can redistribute it and/or modify
+#  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  OpenELEC is distributed in the hope that it will be useful,
+#  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 PKG_NAME="glibc"
@@ -29,63 +26,49 @@ PKG_CONFIGURE_OPTS_TARGET="BASH_SHELL=/bin/sh \
                            ac_cv_prog_MAKEINFO= \
                            --libexecdir=/usr/lib/glibc \
                            --cache-file=config.cache \
-                           --disable-profile \
                            --disable-sanity-checks \
                            --enable-add-ons \
                            --enable-bind-now \
-                           --with-elf \
-                           --with-tls \
-                           --with-__thread \
                            --with-binutils=$BUILD/toolchain/bin \
                            --with-headers=$SYSROOT_PREFIX/usr/include \
                            --enable-kernel=3.0.0 \
-                           --without-cvs \
                            --without-gd \
-                           --enable-obsolete-rpc \
                            --disable-build-nscd \
                            --disable-nscd \
                            --enable-lock-elision \
                            --disable-timezone-tools"
 
 GLIBC_EXCLUDE_BIN="catchsegv gencat getconf iconv iconvconfig ldconfig"
-GLIBC_EXCLUDE_BIN="$GLIBC_EXCLUDE_BIN localedef makedb mtrace pcprofiledump"
+GLIBC_EXCLUDE_BIN="$GLIBC_EXCLUDE_BIN localedef makedb pcprofiledump"
 GLIBC_EXCLUDE_BIN="$GLIBC_EXCLUDE_BIN pldd rpcgen sln sotruss sprof xtrace"
 
 pre_build_target() {
   cd $PKG_BUILD
-    aclocal --force --verbose
-    autoconf --force --verbose
+  aclocal --force --verbose
+  autoconf --force --verbose
   cd -
 }
 
 pre_configure_target() {
   # Filter out some problematic *FLAGS
-  export CFLAGS=`echo $CFLAGS | sed -e "s|-O.|-O2|g"`
   if [ -n "$PROJECT_CFLAGS" ]; then
-    export CFLAGS=`echo $CFLAGS | sed -e "s|$PROJECT_CFLAGS||g"`
+    CFLAGS=`echo $CFLAGS | sed -e "s|$PROJECT_CFLAGS||g"`
   fi
-  export LDFLAGS=`echo $LDFLAGS | sed -e "s|-Wl,--as-needed||"`
+  CFLAGS=`echo $CFLAGS | sed -e "s|-O.|-O2|g"`
+
+  CFLAGS="$CFLAGS -g -fno-stack-protector -fgnu89-inline -pipe"
+  LDFLAGS=`echo $LDFLAGS | sed -e "s|-Wl,--as-needed||"`
 
   unset LD_LIBRARY_PATH
-
-  # set some CFLAGS we need
-  export CFLAGS="$CFLAGS -g -fno-stack-protector -fgnu89-inline -pipe"
-
+  export CFLAGS LDFLAGS
   export BUILD_CC=$HOST_CC
   export OBJDUMP_FOR_HOST=objdump
 
-cat >config.cache <<EOF
-ac_cv_header_cpuid_h=yes
-libc_cv_forced_unwind=yes
-libc_cv_c_cleanup=yes
-libc_cv_gnu89_inline=yes
-libc_cv_ssp=no
-libc_cv_ssp_strong=no
-libc_cv_ctors_header=yes
-libc_cv_slibdir=/lib
-EOF
+  echo "libc_cv_ssp=no" >> config.cache
+  echo "libc_cv_ssp_strong=no" >> config.cache
+  echo "libc_cv_ctors_header=yes" >> config.cache
+  echo "libc_cv_slibdir=/lib" >> config.cache
 
-  echo "libdir=/usr/lib" >> configparms
   echo "slibdir=/lib" >> configparms
   echo "sbindir=/usr/bin" >> configparms
   echo "rootsbindir=/usr/bin" >> configparms
@@ -101,9 +84,7 @@ post_makeinstall_target() {
   done
   rm -rf $INSTALL/usr/lib/audit
   rm -rf $INSTALL/usr/lib/glibc
-  rm -rf $INSTALL/usr/lib/libc_pic
   rm -rf $INSTALL/usr/lib/*.o
-  rm -rf $INSTALL/usr/lib/*.map
   rm -rf $INSTALL/var
 
   rm -rf $INSTALL/usr/lib/libnss_compat*so*
