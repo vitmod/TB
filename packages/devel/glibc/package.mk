@@ -42,6 +42,8 @@ GLIBC_EXCLUDE_BIN="catchsegv gencat getconf iconv iconvconfig ldconfig"
 GLIBC_EXCLUDE_BIN="$GLIBC_EXCLUDE_BIN localedef makedb pcprofiledump"
 GLIBC_EXCLUDE_BIN="$GLIBC_EXCLUDE_BIN pldd rpcgen sln sotruss sprof xtrace"
 
+GLIBC_GCONV_MODULES="CP1251 UNICODE UTF-7 UTF-16 UTF-32"
+
 pre_build_target() {
   cd $PKG_BUILD
   aclocal --force --verbose
@@ -99,6 +101,16 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/share/i18n/locales
   mkdir -p $INSTALL/usr/share/i18n/locales
   cp -PR $PKG_BUILD/localedata/locales/POSIX $INSTALL/usr/share/i18n/locales
+
+  # gconv modules
+  rm -rf $INSTALL/usr/lib/gconv
+  mkdir -p $INSTALL/usr/lib/gconv
+  for i in $GLIBC_GCONV_MODULES ; do
+    cp $PKG_BUILD/.$TARGET_NAME/iconvdata/$i.so $INSTALL/usr/lib/gconv
+    sh $PKG_DIR/scripts/expunge-gconv-modules $i \
+      < $PKG_BUILD//iconvdata/gconv-modules \
+      >> $INSTALL/usr/lib/gconv/gconv-modules
+  done
 
   # create default configs
   mkdir -p $INSTALL/etc
