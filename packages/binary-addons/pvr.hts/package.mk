@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.hts"
-PKG_VERSION="0f88a35"
+PKG_VERSION="c58a2fd"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/kodi-pvr/pvr.hts.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform"
