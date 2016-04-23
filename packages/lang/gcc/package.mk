@@ -131,16 +131,3 @@ makeinstall_target() {
   cp -P $PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libgcc/libgcc_s.so* $INSTALL/usr/lib
   cp -P $PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libstdc++-v3/src/.libs/libstdc++.so* $INSTALL/usr/lib
 }
-
-configure_init() {
- : # reuse configure_host()
-}
-
-make_init() {
- : # reuse make_host()
-}
-
-makeinstall_init() {
-  mkdir -p $INSTALL/lib
-  cp -P $PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libgcc/libgcc_s.so* $INSTALL/lib
-}
