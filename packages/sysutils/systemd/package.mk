@@ -91,6 +91,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --disable-ldconfig \
                            --enable-split-usr \
                            --disable-tests \
+                           --without-python \
                            --with-debug-tty=/dev/tty3 \
                            --with-sysvinit-path= \
                            --with-sysvrcnd-path= \
@@ -115,6 +116,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/etc/xdg
   rm -rf $INSTALL/etc/X11
   rm  -f $INSTALL/usr/bin/kernel-install
+  rm  -f $INSTALL/usr/bin/systemd-analyze
   rm -rf $INSTALL/usr/lib/kernel
   rm -rf $INSTALL/usr/lib/rpm
   rm -rf $INSTALL/usr/lib/systemd/catalog
@@ -135,6 +137,8 @@ post_makeinstall_target() {
   rm -f $INSTALL/usr/lib/udev/hwdb.d/20-net-ifname.hwdb
   rm -f $INSTALL/usr/lib/udev/hwdb.d/20-sdio-classes.hwdb
   rm -f $INSTALL/usr/lib/udev/hwdb.d/20-sdio-vendor-model.hwdb
+  rm -f $INSTALL/usr/lib/udev/hwdb.d/20-pci-classes.hwdb
+  rm -f $INSTALL/usr/lib/udev/hwdb.d/20-pci-vendor-model.hwdb
 
   # remove Network adaper renaming rule, this is confusing
   rm -rf $INSTALL/usr/lib/udev/rules.d/80-net-setup-link.rules
