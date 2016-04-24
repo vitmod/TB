@@ -112,6 +112,7 @@ makeinstall_host() {
 pre_configure_target() {
   rm -rf $PKG_BUILD/.$TARGET_NAME
   sed "/lib\/libdvd/d" -i Makefile.in
+  echo $PKG_VERSION > $PKG_BUILD/VERSION
   BOOTSTRAP_STANDALONE=1 make -f bootstrap.mk
 }
 
