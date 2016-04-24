@@ -117,7 +117,8 @@ post_makeinstall_target() {
   done
   rm -f $INSTALL/usr/bin/python*-config
 
-  python -Wi -t -B ../Lib/compileall.py $INSTALL/usr/lib/python*/ -f
+  cd $INSTALL/usr/lib/python2.7
+  python -Wi -t -B $PKG_BUILD/Lib/compileall.py -d /usr/lib/python2.7 -f .
   find $INSTALL/usr/lib/python2.7 -name "*.py" -exec rm -f {} \; &>/dev/null
 
   # strip
