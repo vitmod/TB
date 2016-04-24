@@ -332,20 +332,9 @@ if [ ! -f $STAMP ]; then
       done
 
       if [ ! "$DEBUG" = yes ]; then
-        $STRIP `find $INSTALL \
-          -type f -name "*.so*" \
-          ! -name "ld-*.so" \
-          ! -name "libc-*.so" \
-          ! -name "libpthread-*.so" \
-          ! -name "libthread_db-*so" \
-          2>/dev/null` 2>/dev/null || :
-        if [ "$TARGET" = "init" ]; then
-          $STRIP `find $INSTALL -type f -name "*.so*" 2>/dev/null` 2>/dev/null || :
-        fi
-        $STRIP `find $INSTALL/bin $INSTALL/usr/bin $INSTALL/sbin $INSTALL/usr/sbin \
-          -type f -executable 2>/dev/null` 2>/dev/null || :
-        cleanup_rpath $INSTALL
+        debug_strip $INSTALL
       fi
+      cleanup_rpath $INSTALL
     fi
   fi
   cd $ROOT

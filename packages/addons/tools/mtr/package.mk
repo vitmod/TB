@@ -37,5 +37,4 @@ makeinstall_target() {
 addon() {
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/bin
   cp $PKG_BUILD/.$TARGET_NAME/mtr $ADDON_BUILD/$PKG_ADDON_ID/bin
-  debug_strip $ADDON_BUILD/$PKG_ADDON_ID/bin
 }

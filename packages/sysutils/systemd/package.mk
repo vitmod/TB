@@ -188,9 +188,6 @@ post_makeinstall_target() {
     ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/$i
   done
 
-  # strip
-  debug_strip $INSTALL/usr
-
   ln -sf /run/systemd/resolve/resolv.conf $INSTALL/etc/resolv.conf
 
   rm -rf $INSTALL/etc/udev/hwdb.d

@@ -67,6 +67,4 @@ addon() {
 
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/effects
   cp -R $PKG_BUILD/effects/* $ADDON_BUILD/$PKG_ADDON_ID/effects
-
-  debug_strip $ADDON_BUILD/$PKG_ADDON_ID/bin
 }

@@ -121,7 +121,6 @@ post_makeinstall_target() {
   python -Wi -t -B $PKG_BUILD/Lib/compileall.py -d /usr/lib/python2.7 -f .
   find $INSTALL/usr/lib/python2.7 -name "*.py" -exec rm -f {} \; &>/dev/null
 
-  # strip
+  # wtf
   chmod u+w $INSTALL/usr/lib/libpython*.so.*
-  debug_strip $INSTALL/usr
 }

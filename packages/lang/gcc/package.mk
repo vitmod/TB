@@ -88,11 +88,6 @@ post_make_host() {
   # fix wrong link
   rm -rf $TARGET_NAME/libgcc/libgcc_s.so
   ln -sf libgcc_s.so.1 $TARGET_NAME/libgcc/libgcc_s.so
-
-  if [ ! "$DEBUG" = yes ]; then
-    $TARGET_STRIP $TARGET_NAME/libgcc/libgcc_s.so*
-    $TARGET_STRIP $TARGET_NAME/libstdc++-v3/src/.libs/libstdc++.so*
-  fi
 }
 
 post_makeinstall_host() {

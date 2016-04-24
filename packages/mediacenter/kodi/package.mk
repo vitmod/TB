@@ -173,8 +173,6 @@ post_makeinstall_target() {
   # more binaddons cross compile badness meh
   sed -i -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR $SYSROOT_PREFIX/usr/include/kodi:g" \
     $SYSROOT_PREFIX/usr/lib/kodi/kodi-config.cmake
-
-  debug_strip $INSTALL/usr/lib/kodi/kodi.bin
 }
 
 post_install() {

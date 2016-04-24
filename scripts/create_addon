@@ -63,6 +63,9 @@ pack_addon() {
   fi
   cd $ADDON_BUILD
   cleanup_rpath $PKG_ADDON_ID
+  if [ ! "$DEBUG" = yes ]; then
+    debug_strip $PKG_ADDON_ID
+  fi
 
   echo "*** compressing Addon $PKG_ADDON_ID ... ***"
   zip -rq $PKG_ADDON_ID-$ADDONVER.zip $PKG_ADDON_ID;
