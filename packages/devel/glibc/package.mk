@@ -108,7 +108,7 @@ post_makeinstall_target() {
   for i in $GLIBC_GCONV_MODULES ; do
     cp $PKG_BUILD/.$TARGET_NAME/iconvdata/$i.so $INSTALL/usr/lib/gconv
     sh $PKG_DIR/scripts/expunge-gconv-modules $i \
-      < $PKG_BUILD//iconvdata/gconv-modules \
+      < $PKG_BUILD/iconvdata/gconv-modules \
       >> $INSTALL/usr/lib/gconv/gconv-modules
   done
 
