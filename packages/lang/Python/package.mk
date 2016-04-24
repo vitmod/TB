@@ -1,19 +1,16 @@
 ################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-#
-#  OpenELEC is free software: you can redistribute it and/or modify
+#  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  OpenELEC is distributed in the hope that it will be useful,
+#  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 PKG_NAME="Python"
@@ -25,7 +22,7 @@ PKG_DEPENDS_TARGET="toolchain sqlite expat zlib bzip2 libressl Python:host"
 PKG_SHORTDESC="python: The Python programming language"
 PKG_AUTORECONF="yes"
 
-PY_DISABLED_MODULES="readline _curses _curses_panel _tkinter nis gdbm bsddb ossaudiodev"
+PY_DISABLED_MODULES="readline _curses _curses_panel _tkinter nis gdbm bsddb ossaudiodev linuxaudiodev"
 
 PKG_CONFIGURE_OPTS_HOST="--cache-file=config.cache \
                          --without-cxx-main \
@@ -109,20 +106,19 @@ makeinstall_target() {
 }
 
 post_makeinstall_target() {
-  EXCLUDE_DIRS="bsddb curses idlelib lib-tk lib2to3 msilib pydoc_data test unittest distutils ensurepip"
+  EXCLUDE_DIRS="bsddb curses idlelib lib-tk lib2to3 msilib pydoc_data test unittest distutils ensurepip config"
   for dir in $EXCLUDE_DIRS; do
-    rm -rf $INSTALL/usr/lib/python*/$dir
+    rm -rf $INSTALL/usr/lib/python2.7/$dir
   done
 
-  python -Wi -t -B ../Lib/compileall.py $INSTALL/usr/lib/python*/ -f
-  rm -rf `find $INSTALL/usr/lib/python*/ -name "*.py"`
+  EXCLUDE_BIN="2to3 idle pydoc smtpd.py"
+  for file in $EXCLUDE_BIN; do
+    rm -f $INSTALL/usr/bin/$file
+  done
+  rm -f $INSTALL/usr/bin/python*-config
 
-  rm -rf $INSTALL/usr/lib/python*/config
-  rm -rf $INSTALL/usr/bin/2to3
-  rm -rf $INSTALL/usr/bin/idle
-  rm -rf $INSTALL/usr/bin/pydoc
-  rm -rf $INSTALL/usr/bin/smtpd.py
-  rm -rf $INSTALL/usr/bin/python*-config
+  python -Wi -t -B ../Lib/compileall.py $INSTALL/usr/lib/python*/ -f
+  find $INSTALL/usr/lib/python2.7 -name "*.py" -exec rm -f {} \; &>/dev/null
 
   # strip
   chmod u+w $INSTALL/usr/lib/libpython*.so.*
