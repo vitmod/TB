@@ -20,7 +20,7 @@ PKG_NAME="ffmpeg"
 PKG_VERSION="3.0.1"
 PKG_SITE="https://ffmpeg.org"
 PKG_URL="http://ffmpeg.org/releases/${PKG_NAME}-${PKG_VERSION}.tar.bz2"
-PKG_DEPENDS_TARGET="toolchain zlib bzip2 libvorbis"
+PKG_DEPENDS_TARGET="toolchain zlib bzip2"
 PKG_SHORTDESC="FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video."
 
 case "$TARGET_FPU" in
@@ -93,7 +93,7 @@ configure_target() {
               --disable-devices \
               --enable-bzlib \
               --disable-gnutls \
-              --enable-libvorbis \
+              --disable-libvorbis \
               --disable-openssl \
               --enable-zlib \
               --disable-symver \
