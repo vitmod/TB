@@ -1,22 +1,18 @@
 #!/bin/bash
 
 ################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-#      Copyright (C) 2010-2011 Roman Weber (roman@openelec.tv)
-#
-#  OpenELEC is free software: you can redistribute it and/or modify
+#  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  OpenELEC is distributed in the hope that it will be useful,
+#  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 . config/options $1
@@ -26,18 +22,22 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-check_package $1
-
 if [ -z "$INSTALL" ] ; then
   echo "error: '\$INSTALL' not set! this script is not intended to be run manually"
   exit 1
 fi
 
-# set defaults
+check_package $1
+
 PACKAGE_NAME=$(echo $1 | awk -F : '{print $1}')
 TARGET=$(echo $1 | awk -F : '{print $2}')
 if [ -z "$TARGET" ]; then
   TARGET="target"
+fi
+UPTARGET=$(echo $TARGET | tr a-z A-Z)
+
+if [ "$TARGET" = bootstrap -o "$TARGET" = host ] ; then
+  exit 0
 fi
 
 STAMP=$STAMPS_INSTALL/$PACKAGE_NAME/install_$TARGET
@@ -45,27 +45,19 @@ mkdir -p $STAMPS_INSTALL/$PACKAGE_NAME
 
 [ -f $STAMP ] && exit 0
 
-if [ ! -f $PKG_DIR/package.mk ]; then
-  printf "${boldred}${PACKAGE_NAME}: no package.mk file found${endcolor}\n"
-  exit 1
-fi
-
 scripts/build $@
 
 printf "%${BUILD_INDENT}c ${boldgreen}INSTALL${endcolor}    $PACKAGE_NAME ${boldwhite}($TARGET)${endcolor}\n" ' '
 export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
 
-if [ "$TARGET" = target ] ; then
-  for p in $PKG_DEPENDS_TARGET; do
-    scripts/install $p
-  done
-elif [ "$TARGET" = init ] ; then
-  for p in $PKG_DEPENDS_INIT; do
-    scripts/install $p
-  done
+# install depends
+for p in `eval echo "\\$PKG_DEPENDS_$UPTARGET"`; do
+  scripts/install $p
+done
+
+if [ "$TARGET" = init ] ; then
   INSTALL=$BUILD/initramfs
 fi
-
 mkdir -p $INSTALL
 
 if [ "$TARGET" = target ] ; then
@@ -117,25 +109,23 @@ unset -f post_install
 # include buildfile
 . $PKG_DIR/package.mk
 
-# install
-if [ "$TARGET" = target ] ; then
-  if [ "$(type -t pre_install)" = "function" ]; then
-    pre_install
-  fi
-fi
-
-if [ "$TARGET" = "target" -a -d $PKG_BUILD/.install_pkg ]; then
-  mkdir -p $INSTALL
-  cp -PR $PKG_BUILD/.install_pkg/* $INSTALL
-elif [ "$TARGET" = "init" -a -d $PKG_BUILD/.install_init ]; then
-  mkdir -p $INSTALL
-  cp -PR $PKG_BUILD/.install_init/* $INSTALL
-fi
-
-if [ "$TARGET" = target ] ; then
-  if [ "$(type -t post_install)" = "function" ]; then
-    post_install
-  fi
-fi
+case "$TARGET" in
+  target)
+    if [ "$(type -t pre_install)" = "function" ]; then
+      pre_install
+    fi
+    if [ -d $PKG_BUILD/.install_pkg ] ; then
+      cp -PR $PKG_BUILD/.install_pkg/* $INSTALL
+    fi
+    if [ "$(type -t post_install)" = "function" ]; then
+      post_install
+    fi
+    ;;
+  init)
+    if [ -d $PKG_BUILD/.install_init ] ; then
+      cp -PR $PKG_BUILD/.install_init/* $INSTALL
+    fi
+    ;;
+esac
 
 touch $STAMP
