@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="file"
-PKG_VERSION="5.19"
+PKG_VERSION="5.26"
 PKG_SITE="http://www.darwinsys.com/file/"
 PKG_URL="ftp://ftp.astron.com/pub/file/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_HOST=""
@@ -22,7 +22,7 @@ PKG_DEPENDS_TARGET="toolchain zlib file:host"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
-PKG_ADDON_REV="2"
+PKG_ADDON_REV="3"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nThe file(1) utility is used to determine the types of various files."
 PKG_ADDON_SECTION="tools"
