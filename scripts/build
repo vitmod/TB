@@ -40,10 +40,7 @@ scripts/unpack $PACKAGE_NAME
 
 if [ -f $STAMP ] ; then
   . $STAMP
-  PKG_DEEPMD5=$(find $STAMP_DEPENDS -exec md5sum {} \; 2>/dev/null | sort | md5sum | cut -d" " -f1)
-  if [ ! "$PKG_DEEPMD5" = "$STAMP_PKG_DEEPMD5" ] ; then
-    rm -f $STAMP
-  fi
+  check_deepmd5 || rm -f $STAMP
 fi
 
 if [ -f $STAMP ] ; then
@@ -286,8 +283,4 @@ for i in `find $SYSROOT_PREFIX/usr/lib/ -name "*.la" 2>/dev/null`; do \
   sed -i "s:\(['= ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" $i; \
 done
 
-PKG_DEEPMD5=$(find $STAMP_DEPENDS -exec md5sum {} \; 2>/dev/null | sort | md5sum | cut -d" " -f1)
-for i in PKG_NAME PKG_DEEPMD5; do
-  eval val=\$$i
-  echo "STAMP_$i=\"$val\"" >> $STAMP
-done
+save_stamp
