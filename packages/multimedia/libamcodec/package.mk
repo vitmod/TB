@@ -38,4 +38,7 @@ makeinstall_target() {
 
   make -C amadec PREFIX="$INSTALL/usr" install
   make -C amcodec HEADERS_DIR="$INSTALL/usr/include/amcodec" PREFIX="$INSTALL/usr" install
+
+  # wtf
+  chmod u+w $INSTALL/usr/lib/libamadec.so
 }
