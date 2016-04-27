@@ -295,7 +295,7 @@ debug_strip() {
   if [ ! "$DEBUG" = yes ]; then
     if [ "$TARGET" = "target" ]; then
       # never strip glibc and kernel modules
-      $STRIP `find $* -type f -executable \
+      $STRIP `find $* -type f \
                    ! -name "*.ko" \
                    ! -name "ld-*.so" \
                    ! -name "libc-*.so" \
@@ -303,7 +303,7 @@ debug_strip() {
                    ! -name "libthread_db-*so" \
                    2>/dev/null` 2>/dev/null || :
     else
-      $STRIP `find $* -type f -executable 2>/dev/null` 2>/dev/null || :
+      $STRIP `find $* -type f 2>/dev/null` 2>/dev/null || :
     fi
   fi
 }
