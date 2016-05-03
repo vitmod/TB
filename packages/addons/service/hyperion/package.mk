@@ -15,8 +15,8 @@
 
 PKG_NAME="hyperion"
 PKG_VERSION="f64b6eb"
-PKG_SITE="https://github.com/tvdzwan/hyperion"
-PKG_FETCH="git+https://github.com/tvdzwan/hyperion.git"
+PKG_SITE="https://github.com/hyperion-project/hyperion"
+PKG_FETCH="git+https://github.com/hyperion-project/hyperion.git"
 PKG_DEPENDS_TARGET="toolchain Python libusb qt"
 PKG_SHORTDESC="hyperion: an ambilight controller"
 
