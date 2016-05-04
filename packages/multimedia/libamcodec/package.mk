@@ -42,6 +42,9 @@ makeinstall_target() {
   make -C amadec PREFIX="$INSTALL/usr" install
   make -C amcodec HEADERS_DIR="$INSTALL/usr/include/amcodec" PREFIX="$INSTALL/usr" install
 
+  # kodi prefers libamlplayer
+  ln -sf libamcodec.so $INSTALL/usr/lib/libamplayer.so
+
   # wtf
   chmod u+w $INSTALL/usr/lib/libamadec.so
 }
