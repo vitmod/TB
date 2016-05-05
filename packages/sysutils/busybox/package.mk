@@ -20,12 +20,9 @@ PKG_NAME="busybox"
 PKG_VERSION="1.24.2"
 PKG_SITE="http://www.busybox.net"
 PKG_URL="http://busybox.net/downloads/$PKG_NAME-$PKG_VERSION.tar.bz2"
-PKG_DEPENDS_HOST=""
-PKG_DEPENDS_TARGET="toolchain busybox:host"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_INIT="toolchain"
 PKG_SHORTDESC="BusyBox: The Swiss Army Knife of Embedded Linux"
-
-PKG_MAKE_OPTS_HOST="ARCH=$TARGET_ARCH CROSS_COMPILE= KBUILD_VERBOSE=0 install"
 
 PKG_MAKE_OPTS_TARGET="ARCH=$TARGET_ARCH \
                       HOSTCC=$HOST_CC \
@@ -38,14 +35,6 @@ PKG_MAKE_OPTS_INIT="ARCH=$TARGET_ARCH \
                     CROSS_COMPILE=$TARGET_PREFIX \
                     KBUILD_VERBOSE=0 \
                     install"
-
-configure_host() {
-  mkdir -p $PKG_BUILD/.$HOST_NAME
-  cd $PKG_BUILD/.$HOST_NAME
-  cp $PKG_DIR/config/busybox-host.conf .config
-  sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$PKG_BUILD/.install_host\"|" .config
-  make O=`pwd` -C ../ oldconfig
-}
 
 configure_init() {
   mkdir -p $PKG_BUILD/.$TARGET_NAME-init
@@ -63,11 +52,6 @@ configure_target() {
   sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
   LDFLAGS="$LDFLAGS -fwhole-program"
   make O=`pwd` -C ../ oldconfig
-}
-
-makeinstall_host() {
-  mkdir -p $ROOT/$TOOLCHAIN/bin
-  cp -R $PKG_BUILD/.install_host/bin/* $ROOT/$TOOLCHAIN/bin
 }
 
 makeinstall_init() {
