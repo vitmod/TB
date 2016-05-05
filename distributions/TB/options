@@ -1,9 +1,6 @@
 # Name of the Distro to build (full name, without special characters)
   DISTRONAME="TB"
 
-# Root password to integrate in the target system
-  ROOT_PASSWORD="tashakbate"
-
 # additional packages to install. space separated list
   ADDITIONAL_PACKAGES=""
 

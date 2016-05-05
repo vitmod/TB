@@ -116,6 +116,9 @@ add_user() {
   if [ "$PASSWORD" = "x" ]; then
     PASSWORD="*"
   fi
+  if [ "$PASSWORD" = "empty" ]; then
+    PASSWORD=""
+  fi
   if [ -z "`grep "$1:" ${INSTALL}/etc/shadow`" ]; then
     echo "$1:$PASSWORD:::::::" >> ${INSTALL}/etc/shadow
   fi
