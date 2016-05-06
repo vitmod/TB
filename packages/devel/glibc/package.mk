@@ -69,17 +69,14 @@ pre_configure_target() {
   echo "libc_cv_ssp=no" >> config.cache
   echo "libc_cv_ssp_strong=no" >> config.cache
   echo "libc_cv_ctors_header=yes" >> config.cache
-  echo "libc_cv_slibdir=/lib" >> config.cache
+  echo "libc_cv_slibdir=/usr/lib" >> config.cache
 
-  echo "slibdir=/lib" >> configparms
+  echo "slibdir=/usr/lib" >> configparms
   echo "sbindir=/usr/bin" >> configparms
   echo "rootsbindir=/usr/bin" >> configparms
 }
 
 post_makeinstall_target() {
-  # we are linking against ld.so, so symlink
-  ln -sf $(basename $INSTALL/lib/ld-*.so) $INSTALL/lib/ld.so
-
   # cleanup
   for i in $GLIBC_EXCLUDE_BIN; do
     rm -rf $INSTALL/usr/bin/$i
@@ -90,11 +87,8 @@ post_makeinstall_target() {
   rm -rf $INSTALL/var
 
   rm -rf $INSTALL/usr/lib/libnss_compat*so*
-  rm -rf $INSTALL/lib/libnss_compat*so*
   rm -rf $INSTALL/usr/lib/libnss_hesiod*so*
-  rm -rf $INSTALL/lib/libnss_hesiod*so*
   rm -rf $INSTALL/usr/lib/libnss_nis*so*
-  rm -rf $INSTALL/lib/libnss_nis*so*
 
   # remove locales and charmaps
   rm -rf $INSTALL/usr/share/i18n/charmaps
@@ -117,10 +111,6 @@ post_makeinstall_target() {
   cp $PKG_BUILD/nss/nsswitch.conf $INSTALL/etc
   cp $PKG_BUILD/posix/gai.conf $INSTALL/etc
   echo "multi on" > $INSTALL/etc/host.conf
-
-  if [ "$TARGET_ARCH" = "arm" -a "$TARGET_FLOAT" = "hard" ]; then
-    ln -sf ld.so $INSTALL/lib/ld-linux.so.3
-  fi
 }
 
 configure_init() {
@@ -134,11 +124,8 @@ make_init() {
 makeinstall_init() {
   mkdir -p $INSTALL/lib
   cp -PR $PKG_BUILD/.$TARGET_NAME/elf/ld*.so* $INSTALL/lib
-  cp $PKG_BUILD/.$TARGET_NAME/libc.so.6 $INSTALL/lib
-  cp $PKG_BUILD/.$TARGET_NAME/nptl/libpthread.so.0 $INSTALL/lib
-  cp -PR $PKG_BUILD/.$TARGET_NAME/rt/librt.so* $INSTALL/lib
-
-  if [ "$TARGET_ARCH" = "arm" -a "$TARGET_FLOAT" = "hard" ]; then
-    ln -sf ld.so $INSTALL/lib/ld-linux.so.3
-  fi
+  mkdir -p $INSTALL/usr/lib
+  cp $PKG_BUILD/.$TARGET_NAME/libc.so.6 $INSTALL/usr/lib
+  cp $PKG_BUILD/.$TARGET_NAME/nptl/libpthread.so.0 $INSTALL/usr/lib
+  cp -PR $PKG_BUILD/.$TARGET_NAME/rt/librt.so* $INSTALL/usr/lib
 }
