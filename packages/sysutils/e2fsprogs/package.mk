@@ -23,8 +23,6 @@ PKG_SHORTDESC="e2fsprogs: Utilities for use with the ext2 filesystem"
 
 PKG_CONFIGURE_OPTS_TARGET="BUILD_CC=$HOST_CC \
                            --prefix=/usr \
-                           --bindir=/bin \
-                           --sbindir=/sbin \
                            --enable-verbose-makecmds \
                            --enable-symlink-install \
                            --enable-symlink-build \
@@ -52,16 +50,10 @@ PKG_CONFIGURE_OPTS_TARGET="BUILD_CC=$HOST_CC \
 PKG_CONFIGURE_OPTS_INIT="$PKG_CONFIGURE_OPTS_TARGET"
 
 post_makeinstall_target() {
-  rm -rf $INSTALL/sbin/badblocks
-  rm -rf $INSTALL/sbin/blkid
-  rm -rf $INSTALL/sbin/dumpe2fs
-  rm -rf $INSTALL/sbin/e2freefrag
-  rm -rf $INSTALL/sbin/e2undo
-  rm -rf $INSTALL/sbin/e4defrag
-  rm -rf $INSTALL/sbin/filefrag
-  rm -rf $INSTALL/sbin/fsck
-  rm -rf $INSTALL/sbin/logsave
-  rm -rf $INSTALL/sbin/mklost+found
+  REMOVE_BIN="badblocks blkid dumpe2fs e2freefrag e2undo e4defrag filefrag fsck logsave mklost+foun"
+  for i in $REMOVE_BIN ; do
+    rm -rf $INSTALL/usr/sbin/$i
+  done
 }
 
 makeinstall_init() {
