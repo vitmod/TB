@@ -93,12 +93,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --with-sysvinit-path= \
                            --with-sysvrcnd-path= \
                            --with-tty-gid=5 \
-                           --with-dbuspolicydir=/etc/dbus-1/system.d \
-                           --with-dbussessionservicedir=/usr/share/dbus-1/services \
-                           --with-dbussystemservicedir=/usr/share/dbus-1/system-services \
-                           --with-dbusinterfacedir=/usr/share/dbus-1/interfaces \
-                           --with-rootprefix=/usr \
-                           --with-rootlibdir=/lib"
+                           --with-rootprefix=/usr"
 
 pre_build_target() {
   # broken autoreconf
