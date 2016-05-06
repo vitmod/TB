@@ -1,19 +1,16 @@
 ################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-#
-#  OpenELEC is free software: you can redistribute it and/or modify
+#  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  OpenELEC is distributed in the hope that it will be useful,
+#  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 PKG_NAME="busybox"
@@ -37,20 +34,16 @@ PKG_MAKE_OPTS_INIT="ARCH=$TARGET_ARCH \
                     install"
 
 configure_init() {
-  mkdir -p $PKG_BUILD/.$TARGET_NAME-init
-  cd $PKG_BUILD/.$TARGET_NAME-init
+  mkdir -p $PKG_BUILD/.$TARGET_NAME-init && cd $_
   cp $PKG_DIR/config/busybox-init.conf .config
   sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
-  LDFLAGS="$LDFLAGS -fwhole-program"
   make O=`pwd` -C ../ oldconfig
 }
 
 configure_target() {
-  mkdir -p $PKG_BUILD/.$TARGET_NAME
-  cd $PKG_BUILD/.$TARGET_NAME
+  mkdir -p $PKG_BUILD/.$TARGET_NAME && cd $_
   cp $PKG_DIR/config/busybox-target.conf .config
   sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
-  LDFLAGS="$LDFLAGS -fwhole-program"
   make O=`pwd` -C ../ oldconfig
 }
 
@@ -66,13 +59,13 @@ makeinstall_init() {
   touch $INSTALL/etc/fstab
   ln -sf /proc/self/mounts $INSTALL/etc/mtab
 
+  cp $PKG_DIR/scripts/init $INSTALL
+  chmod 755 $INSTALL/init
+
   if [ -f $PROJECT_DIR/$PROJECT/initramfs/platform_init ]; then
     cp $PROJECT_DIR/$PROJECT/initramfs/platform_init $INSTALL
     chmod 755 $INSTALL/platform_init
   fi
-
-  cp $PKG_DIR/scripts/init $INSTALL
-  chmod 755 $INSTALL/init
 }
 
 makeinstall_target() {
