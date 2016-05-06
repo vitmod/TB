@@ -1,51 +1,24 @@
-From 020e80ebf42c4bc53763440ac0a42ddf66c68043 Mon Sep 17 00:00:00 2001
+From a5eb26fd9cdf9bf8b7aa8468aad27235ccb43b6f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 01/13] [tb] make binary addons executable
+Subject: [PATCH 01/11] [tb] make binary addons executable
 
 ---
- xbmc/addons/Addon.cpp | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ xbmc/addons/Addon.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
-index 5005f8d..acfb24a 100644
+index 5005f8d..792df18 100644
 --- a/xbmc/addons/Addon.cpp
 +++ b/xbmc/addons/Addon.cpp
-@@ -50,6 +50,10 @@
- #include "freebsd/FreeBSDGNUReplacements.h"
- #endif
- 
-+#include <iostream>
-+#include <dirent.h>
-+#include <sys/stat.h>
-+
- using XFILE::CDirectory;
- using XFILE::CFile;
- 
-@@ -399,6 +403,28 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
+@@ -399,6 +399,12 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
    if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_REPOSITORY))
      CRepositoryUpdater::GetInstance().ScheduleUpdate(); //notify updater there is a new addon or version
  
-+  // OE: make binary addons executable, creddits to vpeter4
-+  std::string addonDirPath;
-+  std::string chmodFilePath;
-+  DIR *addonsDir;
-+  struct dirent *fileDirent;
-+  struct stat fileStat;
-+  int statRet;
-+
-+  addonDirPath = "/storage/.kodi/addons/" + addon->ID() + "/bin/";
-+  if ((addonsDir = opendir(addonDirPath.c_str())) != NULL)
-+  {
-+    while ((fileDirent = readdir(addonsDir)) != NULL)
-+    {
-+      chmodFilePath = addonDirPath + fileDirent->d_name;
-+      statRet = stat(chmodFilePath.c_str(), &fileStat);
-+      if (statRet == 0 && (fileStat.st_mode & S_IFMT) != S_IFDIR)
-+        chmod(chmodFilePath.c_str(), fileStat.st_mode | S_IXUSR | S_IXGRP | S_IXOTH);
-+    }
-+    closedir(addonsDir);
-+  }
++  // OE: make binary addons executable
++  std::string cmd = StringUtils::Format("chmod a+x /storage/.kodi/addons/%s/bin/* 2>/dev/null",
++    addon->ID().c_str()); /* */
++  system(cmd.c_str());
 +  // OE
 +
    addon->OnPostInstall(update, modal);
@@ -55,10 +28,10 @@ index 5005f8d..acfb24a 100644
 2.7.4
 
 
-From 0c904f29d247a2a723898fde59f6d0026d0c9ba1 Mon Sep 17 00:00:00 2001
+From b7c6e2941655df58d78358c01af4d8c8e579b26f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 02/13] [tb] disable minimize
+Subject: [PATCH 02/11] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
@@ -80,41 +53,28 @@ index f4c530d..f58de0c 100644
 2.7.4
 
 
-From 445e977610ef9e8372b6716c08fef021cec7e7fd Mon Sep 17 00:00:00 2001
+From c883be3d9a0bdd553c4ed71ea0f7c503ddb5274c Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 03/13] [tb] setup timezone
+Subject: [PATCH 03/11] [tb] setup timezone
 
 ---
- xbmc/linux/LinuxTimezone.cpp | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ xbmc/linux/LinuxTimezone.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/xbmc/linux/LinuxTimezone.cpp b/xbmc/linux/LinuxTimezone.cpp
-index ea44d40..b780e62 100644
+index ea44d40..744780e 100644
 --- a/xbmc/linux/LinuxTimezone.cpp
 +++ b/xbmc/linux/LinuxTimezone.cpp
-@@ -42,6 +42,8 @@
- 
- #include <algorithm>
- 
-+#include <fstream>
-+
- CLinuxTimezone::CLinuxTimezone() : m_IsDST(0)
- {
-    char* line = NULL;
-@@ -159,6 +161,16 @@ void CLinuxTimezone::OnSettingChanged(const CSetting *setting)
+@@ -159,6 +159,12 @@ void CLinuxTimezone::OnSettingChanged(const CSetting *setting)
    const std::string &settingId = setting->GetId();
    if (settingId == CSettings::SETTING_LOCALE_TIMEZONE)
    {
-+    std::ofstream out("/storage/.cache/timezone");
-+    if (out)
-+    {
-+      const std::string tz = std::string("TIMEZONE=") + ((CSettingString*)setting)->GetValue().c_str();
-+      out << tz << std::endl;
-+      out.flush();
-+      out.close();
-+      system("systemctl restart tz-data.service");
-+    }
++    // OE: setup timezone
++    std::string cmd = StringUtils::Format("ln -sf /usr/share/zoneinfo/%s /storage/.cache/localtime",
++      ((CSettingString*)setting)->GetValue().c_str());
++    system(cmd.c_str());
++    // OE
 +
      SetTimezone(((CSettingString*)setting)->GetValue());
  
@@ -123,10 +83,10 @@ index ea44d40..b780e62 100644
 2.7.4
 
 
-From 131509fec9914f4adbfa6007eeb4a59535ca1aad Mon Sep 17 00:00:00 2001
+From c8853569fcb2bf768b36966ae21c28938ae97b29 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 04/13] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 04/11] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -134,24 +94,24 @@ Subject: [PATCH 04/13] [tb] use a wrapper to setup systemd services
  2 files changed, 31 insertions(+)
 
 diff --git a/xbmc/addons/Addon.cpp b/xbmc/addons/Addon.cpp
-index acfb24a..0470bd1 100644
+index 792df18..f5bd02a 100644
 --- a/xbmc/addons/Addon.cpp
 +++ b/xbmc/addons/Addon.cpp
-@@ -343,6 +343,13 @@ AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
+@@ -339,6 +339,13 @@ AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
    return AddonVersion("0.0.0");
  }
  
 +void CallOEWrapper(const std::string& ID, bool disable)
 +{
-+  char cmd[255];
-+  snprintf(cmd, sizeof(cmd), "/usr/lib/openelec/systemd-addon-wrapper %s %d %d", ID.c_str(), disable);
-+  system(cmd);
++  std::string cmd = StringUtils::Format("/usr/lib/openelec/systemd-addon-wrapper %s %d",
++    ID.c_str(), disable);
++  system(cmd.c_str());
 +}
 +
  void OnEnabled(const std::string& id)
  {
    // If the addon is a special, call enabled handler
-@@ -351,6 +358,11 @@ void OnEnabled(const std::string& id)
+@@ -347,6 +354,11 @@ void OnEnabled(const std::string& id)
        CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_ADSPDLL))
      return addon->OnEnabled();
  
@@ -163,7 +123,7 @@ index acfb24a..0470bd1 100644
    if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE))
      std::static_pointer_cast<CService>(addon)->Start();
  
-@@ -371,6 +383,11 @@ void OnDisabled(const std::string& id)
+@@ -367,6 +379,11 @@ void OnDisabled(const std::string& id)
    if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_SERVICE, false))
      std::static_pointer_cast<CService>(addon)->Stop();
  
@@ -175,7 +135,7 @@ index acfb24a..0470bd1 100644
    if (CAddonMgr::GetInstance().GetAddon(id, addon, ADDON_CONTEXT_ITEM, false))
      CContextMenuManager::GetInstance().Unregister(std::static_pointer_cast<CContextMenuAddon>(addon));
  }
-@@ -394,6 +411,14 @@ void OnPreInstall(const AddonPtr& addon)
+@@ -390,6 +407,14 @@ void OnPreInstall(const AddonPtr& addon)
  void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
  {
    AddonPtr localAddon;
@@ -190,7 +150,7 @@ index acfb24a..0470bd1 100644
    if (CAddonMgr::GetInstance().GetAddon(addon->ID(), localAddon, ADDON_SERVICE))
      std::static_pointer_cast<CService>(localAddon)->Start();
  
-@@ -431,6 +456,11 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
+@@ -411,6 +436,11 @@ void OnPostInstall(const AddonPtr& addon, bool update, bool modal)
  void OnPreUnInstall(const AddonPtr& addon)
  {
    AddonPtr localAddon;
@@ -218,10 +178,10 @@ index d43b309..2c51fb3 100644
 2.7.4
 
 
-From ae98d0e608071a83bcb53486c7d9f3eabc96bf77 Mon Sep 17 00:00:00 2001
+From 973ed0e0adbda459fc529b3b3fea5c4fa7273e7d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 05/13] [tb] handle SIGTERM
+Subject: [PATCH 05/11] [tb] handle SIGTERM
 
 ... CApplication::Stop cant be trusted
 ---
@@ -367,10 +327,10 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 4570e8c5c1f8a14e1a60de2a8806eef538261d07 Mon Sep 17 00:00:00 2001
+From 289dd5678deede18a7ca7727a76bd2584b01d6a3 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 06/13] [tb] pvr: nobody cared
+Subject: [PATCH 06/11] [tb] pvr: nobody cared
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -396,10 +356,10 @@ index ea1eef4..4ffdac6 100644
 2.7.4
 
 
-From a03ecccf1e22b781f8d6c775dc1a052982bc2fca Mon Sep 17 00:00:00 2001
+From 72f61ecb281051289866ef0141820775faca3f86 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 07/13] [tb] all user pre-installed addons should be enabled
+Subject: [PATCH 07/11] [tb] all user pre-installed addons should be enabled
 
 ---
  xbmc/addons/AddonDatabase.cpp | 2 +-
@@ -422,10 +382,10 @@ index d23be26..bb76bf9 100644
 2.7.4
 
 
-From efd0648642ed825134613ed9142392f354fcba11 Mon Sep 17 00:00:00 2001
+From 6ff0e30a51bc5afed0ca70e8b2c45e5fb9008b31 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 08/13] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 08/11] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -452,73 +412,10 @@ index ff26118..9de73fa 100644
 2.7.4
 
 
-From f24456c9482a973c93cc46a612c53e547e39e498 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sat, 7 Nov 2015 16:24:58 +0200
-Subject: [PATCH 09/13] [aml] fix compiler badness when compiling with amcodec
-
----
- xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in b/xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in
-index a1a3447..1bf5a89 100644
---- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in
-+++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/Makefile.in
-@@ -24,8 +24,6 @@ endif
- ifeq (@USE_LIBAMCODEC@,1)
- SRCS += AMLCodec.cpp
- SRCS += DVDVideoCodecAmlogic.cpp
--INCLUDES += -I$(prefix)/include/amcodec
--INCLUDES += -I$(prefix)/include/amplayer
- endif
- 
- ifeq (@USE_ANDROID@,1)
--- 
-2.7.4
-
-
-From 006ce8f6c700e3bc71960625ee20974d9b9efb42 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Mon, 1 Feb 2016 21:19:58 +0200
-Subject: [PATCH 10/13] [aml] prefer libamcodec.so
-
----
- xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index 0a97893..1fface4 100644
---- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-+++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-@@ -101,7 +101,7 @@ public:
- class DllLibAmCodec : public DllDynamic, DllLibamCodecInterface
- {
-   // libamcodec is static linked into libamplayer.so or libamcodec.so
--  DECLARE_DLL_WRAPPER(DllLibAmCodec, "libamplayer.so")
-+  DECLARE_DLL_WRAPPER(DllLibAmCodec, "libamcodec.so")
- 
-   DEFINE_METHOD1(int, codec_init,               (codec_para_t *p1))
-   DEFINE_METHOD1(int, codec_close,              (codec_para_t *p1))
-@@ -1389,8 +1389,8 @@ CAMLCodec::CAMLCodec()
-   m_dll = new DllLibAmCodec;
-   if(!m_dll->Load())
-   {
--    CLog::Log(LOGWARNING, "CAMLCodec::CAMLCodec libamplayer.so not found, trying libamcodec.so instead");
--    m_dll->SetFile("libamcodec.so");
-+    CLog::Log(LOGWARNING, "CAMLCodec::CAMLCodec libamcodec.so not found, trying libamplayer.so instead");
-+    m_dll->SetFile("libamplayer.so");
-     m_dll->Load();
-   }
-   am_private->m_dll = m_dll;
--- 
-2.7.4
-
-
-From 87f04bc381ecfc13deab5c5c58f728788cca7ed8 Mon Sep 17 00:00:00 2001
+From b8af6dddcff10c5038ba261eca31038b1ea33605 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 22:43:07 +0200
-Subject: [PATCH 11/13] [aml] re-add IVPClockCallback
+Subject: [PATCH 09/11] [aml] re-add IVPClockCallback
 
 ---
  .../VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp      |  4 +-
@@ -576,7 +473,7 @@ index 45e794b..06a5c0b 100644
    static CDVDOverlayCodec* CreateOverlayCodec(CDVDStreamInfo &hint );
  
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index 1fface4..cb8087e 100644
+index 0a97893..edfe320 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 @@ -26,6 +26,7 @@
@@ -880,17 +777,17 @@ index 4dff792..c4b0fc6 100644
 2.7.4
 
 
-From 393c7bb93c80ad4fd11c004db2c90a414d810bad Mon Sep 17 00:00:00 2001
+From d9e232d4eee3846cf71e3f2493d949892ae342e3 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 16 Mar 2016 23:47:54 +0200
-Subject: [PATCH 12/13] [aml] pvr can reopen too fast, slow us down a little
+Subject: [PATCH 10/11] [aml] pvr can reopen too fast, slow us down a little
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 4 ++++
  1 file changed, 4 insertions(+)
 
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index cb8087e..f842130 100644
+index edfe320..41640af 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 @@ -1680,6 +1680,10 @@ void CAMLCodec::CloseDecoder()
@@ -908,10 +805,10 @@ index cb8087e..f842130 100644
 2.7.4
 
 
-From b73117fe3d9eca28aaddc498f0d2ed53d7b9e4c7 Mon Sep 17 00:00:00 2001
+From de231ee19c3f424b52b75e5a286f8be1f4b18b49 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 17 Jan 2016 15:15:47 +0200
-Subject: [PATCH 13/13] [aml] TEMP: use software decoding for sd
+Subject: [PATCH 11/11] [aml] TEMP: use software decoding for sd
 
 ---
  xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
