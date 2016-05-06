@@ -40,9 +40,5 @@ post_makeinstall_target() {
   rm -rf $INSTALL/etc
 
   mkdir -p $INSTALL/etc
-  ln -sf /var/run/localtime $INSTALL/etc/localtime
-}
-
-post_install() {
-  enable_service tz-data.service
+  ln -sf /storage/.cache/localtime $INSTALL/etc/localtime
 }
