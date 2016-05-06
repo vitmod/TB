@@ -55,6 +55,7 @@ UTILLINUX_CONFIG_DEFAULT="--disable-gtk-doc \
                           --without-systemdsystemunitdir"
 
 PKG_CONFIGURE_OPTS_TARGET="$UTILLINUX_CONFIG_DEFAULT \
+                           --libdir=/usr/lib \
                            --enable-libuuid \
                            --enable-libblkid \
                            --enable-libmount \
