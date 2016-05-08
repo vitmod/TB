@@ -22,6 +22,10 @@ PKG_SHORTDESC="expat: XML parser library"
 
 PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static"
 
+pre_configure_target() {
+  export CFLAGS="$CFLAGS -fPIC"
+}
+
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin
 }
