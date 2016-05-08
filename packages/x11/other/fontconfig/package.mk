@@ -28,6 +28,10 @@ PKG_CONFIGURE_OPTS_TARGET="--with-arch=$TARGET_ARCH \
                            --disable-dependency-tracking \
                            --disable-docs"
 
+pre_configure_target() {
+  export CFLAGS="$CFLAGS -fPIC"
+}
+
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin
 }
