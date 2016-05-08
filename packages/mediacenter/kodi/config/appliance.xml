@@ -8,6 +8,11 @@
           <default>2</default> <!-- ADJUST_REFRESHRATE_ON_STARTSTOP -->
         </setting>
       </group>
+      <group id="4">
+        <setting id="videoplayer.useamcodecmpeg2">
+          <default>false</default>
+        </setting>
+      </group>
     </category>
   </section>
 

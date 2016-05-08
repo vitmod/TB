@@ -1,7 +1,7 @@
-From a5eb26fd9cdf9bf8b7aa8468aad27235ccb43b6f Mon Sep 17 00:00:00 2001
+From 773fbd1c0456f23c88e9fcd6a2d60eec1c046f27 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 01/11] [tb] make binary addons executable
+Subject: [PATCH 01/10] [tb] make binary addons executable
 
 ---
  xbmc/addons/Addon.cpp | 6 ++++++
@@ -28,20 +28,20 @@ index 5005f8d..792df18 100644
 2.7.4
 
 
-From b7c6e2941655df58d78358c01af4d8c8e579b26f Mon Sep 17 00:00:00 2001
+From f64dce050e4891d54ee8160f71291ce18a7ca5b8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 02/11] [tb] disable minimize
+Subject: [PATCH 02/10] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index f4c530d..f58de0c 100644
+index 1d28fea..e1a6933 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4877,7 +4877,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4917,7 +4917,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -53,10 +53,10 @@ index f4c530d..f58de0c 100644
 2.7.4
 
 
-From c883be3d9a0bdd553c4ed71ea0f7c503ddb5274c Mon Sep 17 00:00:00 2001
+From 0e7793ec7e0b8fc5d1543d90c4cd4f8365a45985 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 03/11] [tb] setup timezone
+Subject: [PATCH 03/10] [tb] setup timezone
 
 ---
  xbmc/linux/LinuxTimezone.cpp | 6 ++++++
@@ -83,10 +83,10 @@ index ea44d40..744780e 100644
 2.7.4
 
 
-From c8853569fcb2bf768b36966ae21c28938ae97b29 Mon Sep 17 00:00:00 2001
+From e94f4e029c6cca92947a021828101e441fb1fd76 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 04/11] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 04/10] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -178,10 +178,10 @@ index d43b309..2c51fb3 100644
 2.7.4
 
 
-From 973ed0e0adbda459fc529b3b3fea5c4fa7273e7d Mon Sep 17 00:00:00 2001
+From e388679aa37e4c4be8d48d6b3acafb07305d51d7 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 05/11] [tb] handle SIGTERM
+Subject: [PATCH 05/10] [tb] handle SIGTERM
 
 ... CApplication::Stop cant be trusted
 ---
@@ -193,10 +193,10 @@ Subject: [PATCH 05/11] [tb] handle SIGTERM
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index f58de0c..cb07e0b 100644
+index e1a6933..4077011 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2342,12 +2342,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2346,12 +2346,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
    switch (pMsg->dwMessage)
    {
    case TMSG_POWERDOWN:
@@ -211,7 +211,7 @@ index f58de0c..cb07e0b 100644
      break;
    
    case TMSG_SHUTDOWN:
-@@ -2368,12 +2368,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2372,12 +2372,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
  
    case TMSG_RESTART:
    case TMSG_RESET:
@@ -226,7 +226,7 @@ index f58de0c..cb07e0b 100644
      Stop(EXITCODE_RESTARTAPP);
  #endif
      break;
-@@ -2767,12 +2768,19 @@ bool CApplication::Cleanup()
+@@ -2801,6 +2802,13 @@ bool CApplication::Cleanup()
    }
  }
  
@@ -240,14 +240,16 @@ index f58de0c..cb07e0b 100644
  void CApplication::Stop(int exitCode)
  {
    try
-   {
+@@ -2808,7 +2816,7 @@ void CApplication::Stop(int exitCode)
+     m_frameMoveGuard.unlock();
+ 
      CVariant vExitCode(CVariant::VariantTypeObject);
 -    vExitCode["exitcode"] = exitCode;
 +    vExitCode["exitcode"] = m_ExitCode;
      CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2806,7 +2814,6 @@ void CApplication::Stop(int exitCode)
+@@ -2842,7 +2850,6 @@ void CApplication::Stop(int exitCode)
  
      m_bStop = true;
      m_AppFocused = false;
@@ -256,10 +258,10 @@ index f58de0c..cb07e0b 100644
  
      // cancel any jobs from the jobmanager
 diff --git a/xbmc/Application.h b/xbmc/Application.h
-index 5fed501..0647d66 100644
+index fc4f69c..e106799 100644
 --- a/xbmc/Application.h
 +++ b/xbmc/Application.h
-@@ -152,6 +152,7 @@ public:
+@@ -153,6 +153,7 @@ public:
  
    void StopPVRManager();
    bool IsCurrentThread() const;
@@ -327,10 +329,10 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 289dd5678deede18a7ca7727a76bd2584b01d6a3 Mon Sep 17 00:00:00 2001
+From dd2ccffbe1cb75eb5c633d9587c3586f223c4ffd Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 06/11] [tb] pvr: nobody cared
+Subject: [PATCH 06/10] [tb] pvr: nobody cared
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -356,10 +358,10 @@ index ea1eef4..4ffdac6 100644
 2.7.4
 
 
-From 72f61ecb281051289866ef0141820775faca3f86 Mon Sep 17 00:00:00 2001
+From 49b8f9275f35acd129b0993dc419036044a2eae2 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 07/11] [tb] all user pre-installed addons should be enabled
+Subject: [PATCH 07/10] [tb] all user pre-installed addons should be enabled
 
 ---
  xbmc/addons/AddonDatabase.cpp | 2 +-
@@ -382,10 +384,10 @@ index d23be26..bb76bf9 100644
 2.7.4
 
 
-From 6ff0e30a51bc5afed0ca70e8b2c45e5fb9008b31 Mon Sep 17 00:00:00 2001
+From f317942f8a1b3de38d9b3ebe85d1699c005a3f29 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 08/11] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 08/10] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -412,430 +414,498 @@ index ff26118..9de73fa 100644
 2.7.4
 
 
-From b8af6dddcff10c5038ba261eca31038b1ea33605 Mon Sep 17 00:00:00 2001
+From b4f899717fb84bd24f16e97f9730c23547a93cc0 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
-Date: Wed, 16 Mar 2016 22:43:07 +0200
-Subject: [PATCH 09/11] [aml] re-add IVPClockCallback
+Date: Sun, 8 May 2016 11:45:30 +0300
+Subject: [PATCH 09/10] [aml] add gui setting to enable/disable mpeg2 hw
+ decoding
 
 ---
- .../VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp      |  4 +-
- xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h |  3 +-
- .../cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 58 +++++++++++++++++++---
- xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h  |  7 ++-
- .../DVDCodecs/Video/DVDVideoCodecAmlogic.cpp       |  5 +-
- .../DVDCodecs/Video/DVDVideoCodecAmlogic.h         |  5 +-
- .../VideoPlayer/Interfaces/IVPClockCallback.h      | 27 ++++++++++
- xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp        | 10 +++-
- xbmc/cores/VideoPlayer/VideoPlayerVideo.h          |  6 ++-
- 9 files changed, 109 insertions(+), 16 deletions(-)
- create mode 100644 xbmc/cores/VideoPlayer/Interfaces/IVPClockCallback.h
+ addons/resource.language.en_gb/resources/strings.po        | 13 ++++++++++++-
+ system/settings/settings.xml                               | 14 ++++++++++++++
+ .../VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp   |  5 +++++
+ xbmc/settings/Settings.cpp                                 |  2 ++
+ xbmc/settings/Settings.h                                   |  1 +
+ 5 files changed, 34 insertions(+), 1 deletion(-)
 
-diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp
-index 5206cfa..3b1ef10 100644
---- a/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp
-+++ b/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.cpp
-@@ -122,7 +122,7 @@ CDVDOverlayCodec* CDVDFactoryCodec::OpenCodec(CDVDOverlayCodec* pCodec, CDVDStre
- }
+diff --git a/addons/resource.language.en_gb/resources/strings.po b/addons/resource.language.en_gb/resources/strings.po
+index cc4305a..0855966 100644
+--- a/addons/resource.language.en_gb/resources/strings.po
++++ b/addons/resource.language.en_gb/resources/strings.po
+@@ -6736,7 +6736,18 @@ msgctxt "#13452"
+ msgid "Enable this option to use hardware acceleration for VC-1 based codecs. If disabled the CPU will be used instead. Especially VC-1 interlaced fails hard on Intel hardware."
+ msgstr ""
  
- 
--CDVDVideoCodec* CDVDFactoryCodec::CreateVideoCodec(CDVDStreamInfo &hint, CProcessInfo &processInfo, const CRenderInfo &info)
-+CDVDVideoCodec* CDVDFactoryCodec::CreateVideoCodec(CDVDStreamInfo &hint, CProcessInfo &processInfo, const CRenderInfo &info, IVPClockCallback* clock)
- {
-   CDVDVideoCodec* pCodec = nullptr;
-   CDVDCodecOptions options;
-@@ -139,7 +139,7 @@ CDVDVideoCodec* CDVDFactoryCodec::CreateVideoCodec(CDVDStreamInfo &hint, CProces
- #if defined(HAS_LIBAMCODEC)
-     // Amlogic can be present on multiple platforms (Linux, Android)
-     // try this first. if it does not open, we still try other hw decoders
--    pCodec = OpenCodec(new CDVDVideoCodecAmlogic(processInfo), hint, options);
-+    pCodec = OpenCodec(new CDVDVideoCodecAmlogic(processInfo, clock), hint, options);
-     if (pCodec)
-       return pCodec;
- #endif
-diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h b/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h
-index 45e794b..06a5c0b 100644
---- a/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h
-+++ b/xbmc/cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h
-@@ -34,13 +34,14 @@ class CDVDStreamInfo;
- class CDVDCodecOption;
- class CDVDCodecOptions;
- 
-+class IVPClockCallback;
- 
- class CDVDFactoryCodec
- {
- public:
-   static CDVDVideoCodec* CreateVideoCodec(CDVDStreamInfo &hint,
-                                           CProcessInfo &processInfo,
--                                          const CRenderInfo &info = CRenderInfo());
-+                                          const CRenderInfo &info = CRenderInfo(), IVPClockCallback* clock = NULL);
-   static CDVDAudioCodec* CreateAudioCodec(CDVDStreamInfo &hint, bool allowpassthrough = true, bool allowdtshddecode = true);
-   static CDVDOverlayCodec* CreateOverlayCodec(CDVDStreamInfo &hint );
- 
-diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index 0a97893..edfe320 100644
---- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-+++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-@@ -26,6 +26,7 @@
- #include "cores/VideoPlayer/DVDClock.h"
- #include "cores/VideoPlayer/VideoRenderers/RenderFlags.h"
- #include "cores/VideoPlayer/VideoRenderers/RenderManager.h"
-+#include "cores/VideoPlayer/Interfaces/IVPClockCallback.h"
- #include "guilib/GraphicContext.h"
- #include "settings/DisplaySettings.h"
- #include "settings/MediaSettings.h"
-@@ -1380,8 +1381,9 @@ int set_header_info(am_private_t *para)
- }
- 
- /*************************************************************************/
--CAMLCodec::CAMLCodec()
-+CAMLCodec::CAMLCodec(IVPClockCallback* clock)
-   : CThread("CAMLCodec")
-+  , m_clock(clock)
- {
-   m_opened = false;
-   am_private = new am_private_t;
-@@ -1418,7 +1420,6 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
-   m_speed = DVD_PLAYSPEED_NORMAL;
-   m_1st_pts = 0;
-   m_cur_pts = 0;
--  m_player_pts = 0;
-   m_cur_pictcnt = 0;
-   m_old_pictcnt = 0;
-   m_dst_rect.SetRect(0, 0, 0, 0);
-@@ -1728,7 +1729,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
- 
-   if (pData)
-   {
--    m_player_pts = pts;
-     am_private->am_pkt.data = pData;
-     am_private->am_pkt.data_size = iSize;
- 
-@@ -1817,12 +1817,10 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
-   // we must return VC_BUFFER or VC_PICTURE,
-   // default to VC_BUFFER.
-   int rtn = VC_BUFFER;
--  m_player_pts = DVD_NOPTS_VALUE;
-   if (m_old_pictcnt != m_cur_pictcnt)
-   {
-     m_old_pictcnt++;
-     rtn = VC_PICTURE;
--    m_player_pts = pts;
-     // we got a new pict, try and keep hw buffered demux above 2 seconds.
-     // this, combined with the above 1 second check, keeps hw buffered demux between 1 and 2 seconds.
-     // we also check to make sure we keep from filling hw buffer.
-@@ -1848,7 +1846,12 @@ bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
- 
-   pDvdVideoPicture->dts = DVD_NOPTS_VALUE;
-   if (m_speed == DVD_PLAYSPEED_NORMAL)
--    pDvdVideoPicture->pts = m_player_pts;
-+  {
-+    pDvdVideoPicture->pts = GetPlayerPtsSeconds() * (double)DVD_TIME_BASE;
-+    // video pts cannot be late or VideoPlayer goes nuts,
-+    // so run it one frame ahead
-+    pDvdVideoPicture->pts += 1 * pDvdVideoPicture->iDuration;
-+  }
-   else
-   {
-     if (m_cur_pts == 0)
-@@ -1957,6 +1960,38 @@ void CAMLCodec::Process()
-         m_cur_pts = pts_video;
-         m_cur_pictcnt++;
-         m_ready_event.Set();
-+        // correct video pts by starting pts.
-+        if (m_start_pts != 0)
-+          pts_video += m_start_pts;
-+        else if (m_start_dts != 0)
-+          pts_video += m_start_dts;
+-#empty strings from id 13453 to 13456
++#: system/settings/settings.xml
++msgctxt "#13453"
++msgid "Use MPEG-2 amcodec"
++msgstr ""
 +
-+        double app_pts = GetPlayerPtsSeconds();
-+        // add in audio delay/display latency contribution
-+        // FIXME: Replace Video latency?
-+        double offset  = 0 - CMediaSettings::GetInstance().GetCurrentVideoSettings().m_AudioDelay;
-+        // correct video pts by user set delay and rendering delay
-+        app_pts += offset;
++#. Description of setting with label #13453 "Use MPEG-2 amcodec"
++#: system/settings/settings.xml
++msgctxt "#13454"
++msgid "Enable this option to use hardware acceleration for MPEG-(1 / 2) codecs. If disabled the CPU will be used instead."
++msgstr ""
 +
-+        //CLog::Log(LOGDEBUG, "CAMLCodec::Process: app_pts(%f), pts_video/PTS_FREQ(%f)",
-+        //  app_pts, (double)pts_video/PTS_FREQ);
-+
-+        double error = app_pts - (double)pts_video/PTS_FREQ;
-+        double abs_error = fabs(error);
-+        if (abs_error > 0)
-+        {
-+          //CLog::Log(LOGDEBUG, "CAMLCodec::Process pts diff = %f", error);
-+          if (abs_error > 0.300)
-+          {
-+            // big error so try to reset pts_pcrscr
-+            SetVideoPtsSeconds(app_pts);
-+          }
-+          else
-+          {
-+            // small error so try to avoid a frame jump
-+            SetVideoPtsSeconds((double)pts_video/PTS_FREQ + error/4);
-+          }
-+        }
-       }
-     }
-     else
-@@ -1968,6 +2003,17 @@ void CAMLCodec::Process()
-   CLog::Log(LOGDEBUG, "CAMLCodec::Process Stopped");
- }
++#empty strings from id 13455 to 13456
  
-+double CAMLCodec::GetPlayerPtsSeconds()
-+{
-+  double clock_pts = 0.0;
-+  if (m_clock)
-+    clock_pts = m_clock->GetInterpolatedClock() / DVD_TIME_BASE;
-+  else
-+    CLog::Log(LOGWARNING, "CAMLCodec::GetPlayerPtsSeconds: cannot get player clock");
-+
-+  return clock_pts;
-+}
-+
- void CAMLCodec::SetVideoPtsSeconds(const double pts)
- {
-   //CLog::Log(LOGDEBUG, "CAMLCodec::SetVideoPtsSeconds: pts(%f)", pts);
-diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h
-index 5b9ee4f..7ae18e7 100644
---- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h
-+++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h
-@@ -30,10 +30,12 @@ typedef struct am_private_t am_private_t;
- 
- class DllLibAmCodec;
- 
-+class IVPClockCallback;
-+
- class CAMLCodec : public CThread
- {
- public:
--  CAMLCodec();
-+  CAMLCodec(IVPClockCallback* clock);
-   virtual ~CAMLCodec();
- 
-   bool          OpenDecoder(CDVDStreamInfo &hints);
-@@ -52,6 +54,7 @@ protected:
-   virtual void  Process();
- 
- private:
-+  double        GetPlayerPtsSeconds();
-   void          SetVideoPtsSeconds(double pts);
-   void          ShowMainVideo(const bool show);
-   void          SetVideoZoom(const float zoom);
-@@ -86,5 +89,5 @@ private:
-   int              m_contrast;
-   int              m_brightness;
- 
--  double m_player_pts;
-+  IVPClockCallback* m_clock;
- };
+ #. Option for video related setting #13454: sw filter
+ #: system/settings/settings.xml
+diff --git a/system/settings/settings.xml b/system/settings/settings.xml
+index e301292..ee96128 100644
+--- a/system/settings/settings.xml
++++ b/system/settings/settings.xml
+@@ -119,6 +119,20 @@
+           </updates>
+           <control type="toggle" />
+         </setting>
++        <setting id="videoplayer.useamcodecmpeg2" type="boolean" label="13453" help="13454">
++          <requirement>HAVE_AMCODEC</requirement>
++          <level>2</level>
++          <default>true</default>
++          <updates>
++            <update type="change" />
++          </updates>
++          <dependencies>
++            <dependency type="enable">
++              <condition setting="videoplayer.useamcodec" operator="is">true</condition> <!-- USE AMCODEC -->
++            </dependency>
++          </dependencies>
++          <control type="toggle" />
++        </setting>
+         <setting id="videoplayer.usemediacodecsurface" type="boolean" label="13440" help="36544">
+           <requirement>HAS_MEDIACODEC</requirement>
+           <level>2</level>
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-index 543951b..702dd3c 100644
+index 543951b..ef9f618 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-@@ -39,7 +39,8 @@ typedef struct frame_queue {
-   struct frame_queue *nextframe;
- } frame_queue;
- 
--CDVDVideoCodecAmlogic::CDVDVideoCodecAmlogic(CProcessInfo &processInfo) : CDVDVideoCodec(processInfo),
-+CDVDVideoCodecAmlogic::CDVDVideoCodecAmlogic(CProcessInfo &processInfo, IVPClockCallback* clock) : CDVDVideoCodec(processInfo),
-+  m_clock(clock),
-   m_Codec(NULL),
-   m_pFormatName("amcodec"),
-   m_last_pts(0.0),
-@@ -180,7 +181,7 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
-   }
- 
-   m_aspect_ratio = m_hints.aspect;
--  m_Codec = new CAMLCodec();
-+  m_Codec = new CAMLCodec(m_clock);
-   if (!m_Codec)
-   {
-     CLog::Log(LOGERROR, "%s: Failed to create Amlogic Codec", __MODULE_NAME__);
-diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h
-index b352641..155ff98 100644
---- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h
-+++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h
-@@ -33,6 +33,8 @@ class CBitstreamConverter;
- 
- class CDVDVideoCodecAmlogic;
- 
-+class IVPClockCallback;
-+
- class CDVDAmlogicInfo
- {
- public:
-@@ -58,7 +60,7 @@ class CDVDVideoCodecAmlogic : public CDVDVideoCodec
-   friend class CDVDAmlogicInfo;
- 
- public:
--  CDVDVideoCodecAmlogic(CProcessInfo &processInfo);
-+  CDVDVideoCodecAmlogic(CProcessInfo &processInfo, IVPClockCallback* clock);
-   virtual ~CDVDVideoCodecAmlogic();
- 
-   // Required overrides
-@@ -80,6 +82,7 @@ protected:
-   void            FrameRateTracking(uint8_t *pData, int iSize, double dts, double pts);
-   void            RemoveInfo(CDVDAmlogicInfo* info);
- 
-+  IVPClockCallback* m_clock;
-   CAMLCodec      *m_Codec;
-   std::set<CDVDAmlogicInfo*> m_inflight;
-   const char     *m_pFormatName;
-diff --git a/xbmc/cores/VideoPlayer/Interfaces/IVPClockCallback.h b/xbmc/cores/VideoPlayer/Interfaces/IVPClockCallback.h
-new file mode 100644
-index 0000000..1a5b11e
---- /dev/null
-+++ b/xbmc/cores/VideoPlayer/Interfaces/IVPClockCallback.h
-@@ -0,0 +1,27 @@
-+#pragma once
-+
-+/*
-+ *      Copyright (C) 2015 Team Kodi
-+ *      http://xbmc.org
-+ *
-+ *  This Program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2, or (at your option)
-+ *  any later version.
-+ *
-+ *  This Program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with XBMC; see the file COPYING.  If not, see
-+ *  <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+class IVPClockCallback
-+{
-+public:
-+  virtual double GetInterpolatedClock() = 0;
-+};
-diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-index d8374a7..9a25214 100644
---- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-+++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-@@ -127,7 +127,7 @@ bool CVideoPlayerVideo::OpenStream( CDVDStreamInfo &hint )
-     return false;
- 
-   CLog::Log(LOGNOTICE, "Creating video codec with codec id: %i", hint.codec);
--  CDVDVideoCodec* codec = CDVDFactoryCodec::CreateVideoCodec(hint, m_processInfo, info);
-+  CDVDVideoCodec* codec = CDVDFactoryCodec::CreateVideoCodec(hint, m_processInfo, info, this);
-   if(!codec)
-   {
-     CLog::Log(LOGERROR, "Unsupported video codec");
-@@ -1103,6 +1103,14 @@ int CVideoPlayerVideo::CalcDropRequirement(double pts)
-   return result;
- }
- 
-+double CVideoPlayerVideo::GetInterpolatedClock()
-+{
-+  if(m_pClock)
-+    return m_pClock->GetClock(true);
-+  else
-+    return 0.0;
-+}
-+
- void CDroppingStats::Reset()
- {
-   m_gain.clear();
-diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
-index 4dff792..c4b0fc6 100644
---- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
-+++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
-@@ -22,6 +22,7 @@
- 
- #include "threads/Thread.h"
- #include "IVideoPlayer.h"
-+#include "Interfaces/IVPClockCallback.h"
- #include "DVDMessageQueue.h"
- #include "DVDStreamInfo.h"
- #include "DVDCodecs/Video/DVDVideoCodec.h"
-@@ -56,7 +57,7 @@ public:
-   double m_lastPts;
- };
- 
--class CVideoPlayerVideo : public CThread, public IDVDStreamPlayerVideo
-+class CVideoPlayerVideo : public CThread, public IDVDStreamPlayerVideo, public IVPClockCallback
- {
- public:
-   CVideoPlayerVideo(CDVDClock* pClock
-@@ -91,6 +92,9 @@ public:
-   std::string GetStereoMode();
-   void SetSpeed(int iSpeed);
- 
-+  // IVPClockCallback interface
-+  virtual double GetInterpolatedClock();
-+
-   // classes
-   CDVDOverlayContainer* m_pOverlayContainer;
-   CDVDClock* m_pClock;
+@@ -84,6 +84,11 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
+     case AV_CODEC_ID_MPEG1VIDEO:
+     case AV_CODEC_ID_MPEG2VIDEO:
+     case AV_CODEC_ID_MPEG2VIDEO_XVMC:
++      if (!CSettings::GetInstance().GetBool(CSettings::SETTING_VIDEOPLAYER_USEAMCODEC_MPEG2))
++      {
++        if (hints.width <= 800)
++          return false;
++      }
+       m_mpeg2_sequence_pts = 0;
+       m_mpeg2_sequence = new mpeg2_sequence;
+       m_mpeg2_sequence->width  = m_hints.width;
+diff --git a/xbmc/settings/Settings.cpp b/xbmc/settings/Settings.cpp
+index 782c92b..67bcd7a 100644
+--- a/xbmc/settings/Settings.cpp
++++ b/xbmc/settings/Settings.cpp
+@@ -159,6 +159,7 @@ const std::string CSettings::SETTING_VIDEOPLAYER_QUITSTEREOMODEONSTOP = "videopl
+ const std::string CSettings::SETTING_VIDEOPLAYER_RENDERMETHOD = "videoplayer.rendermethod";
+ const std::string CSettings::SETTING_VIDEOPLAYER_HQSCALERS = "videoplayer.hqscalers";
+ const std::string CSettings::SETTING_VIDEOPLAYER_USEAMCODEC = "videoplayer.useamcodec";
++const std::string CSettings::SETTING_VIDEOPLAYER_USEAMCODEC_MPEG2 = "videoplayer.useamcodecmpeg2";
+ const std::string CSettings::SETTING_VIDEOPLAYER_USEMEDIACODEC = "videoplayer.usemediacodec";
+ const std::string CSettings::SETTING_VIDEOPLAYER_USEMEDIACODECSURFACE = "videoplayer.usemediacodecsurface";
+ const std::string CSettings::SETTING_VIDEOPLAYER_USEVDPAU = "videoplayer.usevdpau";
+@@ -1077,6 +1078,7 @@ void CSettings::InitializeISettingCallbacks()
+   settingSet.insert(CSettings::SETTING_VIDEOSCREEN_GUICALIBRATION);
+   settingSet.insert(CSettings::SETTING_VIDEOSCREEN_TESTPATTERN);
+   settingSet.insert(CSettings::SETTING_VIDEOPLAYER_USEAMCODEC);
++  settingSet.insert(CSettings::SETTING_VIDEOPLAYER_USEAMCODEC_MPEG2);
+   settingSet.insert(CSettings::SETTING_VIDEOPLAYER_USEMEDIACODEC);
+   settingSet.insert(CSettings::SETTING_VIDEOPLAYER_USEMEDIACODECSURFACE);
+   settingSet.insert(CSettings::SETTING_AUDIOOUTPUT_VOLUMESTEPS);
+diff --git a/xbmc/settings/Settings.h b/xbmc/settings/Settings.h
+index ce94cf9..a32698b 100644
+--- a/xbmc/settings/Settings.h
++++ b/xbmc/settings/Settings.h
+@@ -116,6 +116,7 @@ public:
+   static const std::string SETTING_VIDEOPLAYER_RENDERMETHOD;
+   static const std::string SETTING_VIDEOPLAYER_HQSCALERS;
+   static const std::string SETTING_VIDEOPLAYER_USEAMCODEC;
++  static const std::string SETTING_VIDEOPLAYER_USEAMCODEC_MPEG2;
+   static const std::string SETTING_VIDEOPLAYER_USEMEDIACODEC;
+   static const std::string SETTING_VIDEOPLAYER_USEMEDIACODECSURFACE;
+   static const std::string SETTING_VIDEOPLAYER_USEVDPAU;
 -- 
 2.7.4
 
 
-From d9e232d4eee3846cf71e3f2493d949892ae342e3 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Wed, 16 Mar 2016 23:47:54 +0200
-Subject: [PATCH 10/11] [aml] pvr can reopen too fast, slow us down a little
+From 560f38d52ec978e1c00318b0964e856a5416dfd1 Mon Sep 17 00:00:00 2001
+From: Alex Deryskyba <alex@codesnake.com>
+Date: Sat, 23 Apr 2016 16:16:45 +0200
+Subject: [PATCH 10/10] [aml] Use amlvideo driver for audio/video sync
 
 ---
- xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 125 +++++++++++++++++----
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h  |  10 +-
+ .../DVDCodecs/Video/DVDVideoCodecAmlogic.cpp       |   7 +-
+ .../DVDCodecs/Video/DVDVideoCodecAmlogic.h         |   4 +-
+ .../VideoRenderers/HwDecRender/RendererAML.cpp     |   5 +
+ .../VideoRenderers/HwDecRender/RendererAML.h       |   2 +
+ 6 files changed, 129 insertions(+), 24 deletions(-)
 
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index edfe320..41640af 100644
+index 0a97893..71c7a0f 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-@@ -1680,6 +1680,10 @@ void CAMLCodec::CloseDecoder()
+@@ -54,12 +54,49 @@ extern "C" {
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <sys/ioctl.h>
++#include <linux/videodev2.h>
+ 
+ // amcodec include
+ extern "C" {
+ #include <amcodec/codec.h>
+ }  // extern "C"
+ 
++class PosixFile
++{
++public:
++  PosixFile() :
++    m_fd(-1)
++  {
++  }
++
++  PosixFile(int fd) :
++    m_fd(fd)
++  {
++  }
++
++  ~PosixFile()
++  {
++    if (m_fd >= 0)
++     close(m_fd);
++  }
++
++  bool Open(const std::string &pathName, int flags)
++  {
++    m_fd = open(pathName.c_str(), flags);
++    return m_fd >= 0;
++  }
++
++  int GetDescriptor() const { return m_fd; }
++
++  int IOControl(unsigned long request, void *param)
++  {
++    return ioctl(m_fd, request, param);
++  }
++
++private:
++  int m_fd;
++};
++
+ typedef struct {
+   bool          noblock;
+   int           video_pid;
+@@ -1430,6 +1467,12 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
+   m_start_pts = 0;
+   m_hints = hints;
+ 
++  if (!OpenAmlVideo(hints))
++  {
++    CLog::Log(LOGERROR, "CAMLCodec::OpenDecoder - cannot open amlvideo device");
++    return false;
++  }
++
+   ShowMainVideo(false);
+ 
+   am_packet_init(&am_private->am_pkt);
+@@ -1629,8 +1672,6 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
+   am_private->am_pkt.codec = &am_private->vcodec;
+   pre_header_feeding(am_private, &am_private->am_pkt);
+ 
+-  Create();
+-
+   m_display_rect = CRect(0, 0, CDisplaySettings::GetInstance().GetCurrentResolutionInfo().iWidth, CDisplaySettings::GetInstance().GetCurrentResolutionInfo().iHeight);
+ 
+   std::string strScaler;
+@@ -1657,6 +1698,26 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
+   return true;
+ }
+ 
++bool CAMLCodec::OpenAmlVideo(const CDVDStreamInfo &hints)
++{
++  PosixFilePtr amlVideoFile = std::make_shared<PosixFile>();
++  if (!amlVideoFile->Open("/dev/video10", O_RDWR | O_NONBLOCK))
++  {
++    CLog::Log(LOGERROR, "CAMLCodec::OpenAmlVideo - cannot open V4L amlvideo device /dev/video10: %s", strerror(errno));
++    return false;
++  }
++
++  m_amlVideoFile = amlVideoFile;
++
++  SysfsUtils::SetString("/sys/class/vfm/map", "rm default");
++  SysfsUtils::SetString("/sys/class/vfm/map", "add default decoder ppmgr deinterlace amlvideo amvideo");
++
++  SysfsUtils::SetInt("/sys/class/video/freerun_mode", 1);
++  SysfsUtils::SetInt("/sys/module/amlvideodri/parameters/freerun_mode", 1);
++
++  return true;
++}
++
+ void CAMLCodec::CloseDecoder()
+ {
+   CLog::Log(LOGDEBUG, "CAMLCodec::CloseDecoder");
+@@ -1679,6 +1740,13 @@ void CAMLCodec::CloseDecoder()
    SysfsUtils::SetInt("/sys/class/tsync/enable", 1);
  
    ShowMainVideo(false);
 +
-+  // add a little delay after closing in case
-+  // we are reopened too fast.
-+  usleep(500 * 1000);
++  CloseAmlVideo();
++}
++
++void CAMLCodec::CloseAmlVideo()
++{
++  m_amlVideoFile.reset();
  }
  
  void CAMLCodec::Reset()
--- 
-2.7.4
-
-
-From de231ee19c3f424b52b75e5a286f8be1f4b18b49 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sun, 17 Jan 2016 15:15:47 +0200
-Subject: [PATCH 11/11] [aml] TEMP: use software decoding for sd
-
----
- xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
+@@ -1749,7 +1817,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+     if (am_private->am_pkt.avpts != (int64_t)AV_NOPTS_VALUE)
+       am_private->am_pkt.avpts -= m_start_pts;
+ 
+-
+     // handle dts, including 31bit wrap, aml can only handle 31
+     // bit dts as it uses an int in kernel.
+     if (dts == DVD_NOPTS_VALUE)
+@@ -1810,25 +1877,26 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+   if (GetTimeSize() < target_timesize && m_speed == DVD_PLAYSPEED_NORMAL)
+     return VC_BUFFER;
+ 
+-  // wait until we get a new frame or 25ms,
+-  if (m_old_pictcnt == m_cur_pictcnt)
+-    m_ready_event.WaitMSec(25);
+-
+   // we must return VC_BUFFER or VC_PICTURE,
+   // default to VC_BUFFER.
+   int rtn = VC_BUFFER;
+-  m_player_pts = DVD_NOPTS_VALUE;
+-  if (m_old_pictcnt != m_cur_pictcnt)
++
++  switch(DequeueBuffer())
+   {
+-    m_old_pictcnt++;
+-    rtn = VC_PICTURE;
+-    m_player_pts = pts;
+-    // we got a new pict, try and keep hw buffered demux above 2 seconds.
+-    // this, combined with the above 1 second check, keeps hw buffered demux between 1 and 2 seconds.
+-    // we also check to make sure we keep from filling hw buffer.
+-    if (GetTimeSize() < 2.0 && GetDataSize() < m_vbufsize/3)
+-      rtn |= VC_BUFFER;
++    case 0:
++      rtn = VC_PICTURE;
++      break;
++    case -EAGAIN:
++      return VC_BUFFER;
++    default:
++      return VC_ERROR;
+   }
++
++  m_player_pts = DVD_NOPTS_VALUE;
++  m_player_pts = pts;
++  if (GetTimeSize() < 2.0 && GetDataSize() < m_vbufsize/3)
++    rtn |= VC_BUFFER;
++
+ /*
+   CLog::Log(LOGDEBUG, "CAMLCodec::Decode: "
+     "rtn(%d), m_cur_pictcnt(%lld), m_cur_pts(%f), lastpts(%f), GetTimeSize(%f), GetDataSize(%d)",
+@@ -1837,6 +1905,24 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+   return rtn;
+ }
+ 
++int CAMLCodec::DequeueBuffer()
++{
++  v4l2_buffer vbuf = { 0 };
++  vbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++  //vbuf.memory = V4L2_MEMORY_DMABUF;
++
++  if (m_amlVideoFile->IOControl(VIDIOC_DQBUF, &vbuf) < 0)
++  {
++    if (errno != EAGAIN)
++      CLog::Log(LOGERROR, "CAMLCodec::DequeueBuffer - VIDIOC_DQBUF failed: %s", strerror(errno));
++    return -errno;
++  }
++
++  m_cur_pts = vbuf.timestamp.tv_usec;
++  
++  return 0;
++}
++
+ bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
+ {
+   if (!m_opened)
+@@ -1848,7 +1934,7 @@ bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
+ 
+   pDvdVideoPicture->dts = DVD_NOPTS_VALUE;
+   if (m_speed == DVD_PLAYSPEED_NORMAL)
+-    pDvdVideoPicture->pts = m_player_pts;
++    pDvdVideoPicture->pts = (double)m_cur_pts / PTS_FREQ * DVD_TIME_BASE;
+   else
+   {
+     if (m_cur_pts == 0)
+@@ -1857,6 +1943,8 @@ bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
+       pDvdVideoPicture->pts = (double)m_cur_pts / PTS_FREQ * DVD_TIME_BASE;
+   }
+ 
++  //SetOmxPts();
++
+   return true;
+ }
+ 
+@@ -1956,7 +2044,6 @@ void CAMLCodec::Process()
+         // other threads look at these, do them first
+         m_cur_pts = pts_video;
+         m_cur_pictcnt++;
+-        m_ready_event.Set();
+       }
+     }
+     else
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h
+index 5b9ee4f..1805e23 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h
+@@ -30,6 +30,9 @@ typedef struct am_private_t am_private_t;
+ 
+ class DllLibAmCodec;
+ 
++class PosixFile;
++typedef std::shared_ptr<PosixFile> PosixFilePtr;
++
+ class CAMLCodec : public CThread
+ {
+ public:
+@@ -47,6 +50,7 @@ public:
+   int           GetDataSize();
+   double        GetTimeSize();
+   void          SetVideoRect(const CRect &SrcRect, const CRect &DestRect);
++  int64_t       GetCurPts() const { return m_cur_pts; }
+ 
+ protected:
+   virtual void  Process();
+@@ -60,6 +64,9 @@ private:
+   void          SetVideoSaturation(const int saturation);
+   void          SetVideo3dMode(const int mode3d);
+   std::string   GetStereoMode();
++  bool          OpenAmlVideo(const CDVDStreamInfo &hints);
++  void          CloseAmlVideo();
++  int           DequeueBuffer();
+ 
+   DllLibAmCodec   *m_dll;
+   bool             m_opened;
+@@ -74,7 +81,6 @@ private:
+   volatile int64_t m_vbufsize;
+   int64_t          m_start_dts;
+   int64_t          m_start_pts;
+-  CEvent           m_ready_event;
+ 
+   CRect            m_dst_rect;
+   CRect            m_display_rect;
+@@ -87,4 +93,6 @@ private:
+   int              m_brightness;
+ 
+   double m_player_pts;
++
++  PosixFilePtr m_amlVideoFile;
+ };
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-index 702dd3c..1d66b85 100644
+index ef9f618..5fe90f1 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-@@ -82,8 +82,6 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
-     case AV_CODEC_ID_MJPEG:
-       m_pFormatName = "am-mjpeg";
-       break;
--    case AV_CODEC_ID_MPEG1VIDEO:
--    case AV_CODEC_ID_MPEG2VIDEO:
-     case AV_CODEC_ID_MPEG2VIDEO_XVMC:
-       m_mpeg2_sequence_pts = 0;
-       m_mpeg2_sequence = new mpeg2_sequence;
-@@ -123,6 +121,8 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
-     case AV_CODEC_ID_MPEG4:
-     case AV_CODEC_ID_MSMPEG4V2:
-     case AV_CODEC_ID_MSMPEG4V3:
-+    case AV_CODEC_ID_MPEG1VIDEO:
-+    case AV_CODEC_ID_MPEG2VIDEO:
-       if (hints.width <= 800)
-         return false;
-       m_pFormatName = "am-mpeg4";
+@@ -266,7 +266,7 @@ int CDVDVideoCodecAmlogic::Decode(uint8_t *pData, int iSize, double dts, double
+     if (m_bitparser)
+       m_bitparser->FindIdrSlice(pData, iSize);
+ 
+-    FrameRateTracking( pData, iSize, dts, pts);
++    //FrameRateTracking( pData, iSize, dts, pts);
+   }
+ 
+   if (!m_opened)
+@@ -297,7 +297,7 @@ bool CDVDVideoCodecAmlogic::GetPicture(DVDVideoPicture* pDvdVideoPicture)
+     m_Codec->GetPicture(&m_videobuffer);
+   *pDvdVideoPicture = m_videobuffer;
+ 
+-  CDVDAmlogicInfo* info = new CDVDAmlogicInfo(this, m_Codec);
++  CDVDAmlogicInfo* info = new CDVDAmlogicInfo(this, m_Codec, (int)m_Codec->GetCurPts());
+ 
+   {
+     CSingleLock lock(m_secure);
+@@ -578,10 +578,11 @@ void CDVDVideoCodecAmlogic::RemoveInfo(CDVDAmlogicInfo *info)
+   m_inflight.erase(m_inflight.find(info));
+ }
+ 
+-CDVDAmlogicInfo::CDVDAmlogicInfo(CDVDVideoCodecAmlogic *codec, CAMLCodec *amlcodec)
++CDVDAmlogicInfo::CDVDAmlogicInfo(CDVDVideoCodecAmlogic *codec, CAMLCodec *amlcodec, int omxPts)
+   : m_refs(0)
+   , m_codec(codec)
+   , m_amlCodec(amlcodec)
++  , m_omxPts(omxPts)
+ {
+ }
+ 
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h
+index b352641..f4a22cf 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h
+@@ -36,13 +36,14 @@ class CDVDVideoCodecAmlogic;
+ class CDVDAmlogicInfo
+ {
+ public:
+-  CDVDAmlogicInfo(CDVDVideoCodecAmlogic *codec, CAMLCodec *amlcodec);
++  CDVDAmlogicInfo(CDVDVideoCodecAmlogic *codec, CAMLCodec *amlcodec, int omxPts);
+ 
+   // reference counting
+   CDVDAmlogicInfo* Retain();
+   long             Release();
+ 
+   CAMLCodec *getAmlCodec() const;
++  int GetOmxPts() const { return m_omxPts; }
+   void invalidate();
+ 
+ protected:
+@@ -51,6 +52,7 @@ protected:
+ 
+   CDVDVideoCodecAmlogic* m_codec;
+   CAMLCodec* m_amlCodec;
++  int m_omxPts;
+ };
+ 
+ class CDVDVideoCodecAmlogic : public CDVDVideoCodec
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.cpp
+index f6b7bb1..cfce327 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.cpp
+@@ -27,6 +27,7 @@
+ #include "cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h"
+ #include "utils/log.h"
+ #include "utils/GLUtils.h"
++#include "utils/SysfsUtils.h"
+ #include "settings/MediaSettings.h"
+ #include "windowing/WindowingFactory.h"
+ #include "cores/VideoPlayer/VideoRenderers/RenderCapture.h"
+@@ -137,6 +138,10 @@ bool CRendererAML::RenderUpdateVideoHook(bool clear, DWORD flags, DWORD alpha)
+     CAMLCodec *amlcodec = amli->getAmlCodec();
+     if (amlcodec)
+       amlcodec->SetVideoRect(m_sourceRect, m_destRect);
++
++    SysfsUtils::SetInt("/sys/module/amvideo/parameters/omx_pts", amli->GetOmxPts());
++
++    usleep(500);
+   }
+ 
+   return true;
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.h b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.h
+index deea29b..20e2586 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.h
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.h
+@@ -55,6 +55,8 @@ protected:
+   virtual bool RenderHook(int index);  
+   virtual int  GetImageHook(YV12Image *image, int source = AUTOSOURCE, bool readonly = false);
+   virtual bool RenderUpdateVideoHook(bool clear, DWORD flags = 0, DWORD alpha = 255);
++
++  int m_fbHandle;
+ };
+ 
+ #endif
 -- 
 2.7.4
 
