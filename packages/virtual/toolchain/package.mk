@@ -19,3 +19,5 @@ PKG_SITE=""
 PKG_URL=""
 PKG_DEPENDS_TARGET="configtools:host ccache:host pkg-config:host autotools:host gcc:host"
 PKG_SHORTDESC="toolchain: metapackage"
+
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET squashfs:host dosfstools:host kmod:host"

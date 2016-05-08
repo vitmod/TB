@@ -22,9 +22,6 @@ show_config
 
 scripts/checkdeps
 scripts/build toolchain
-scripts/build squashfs:host
-scripts/build dosfstools:host
-scripts/build kmod:host
 
 BUILD_DATE=`date +%Y%m%d%H%M%S`
 GIT_ABBREV=$(git log -1 --pretty=format:%h)
@@ -51,10 +48,9 @@ mkdir -p $INSTALL/flash
 mkdir -p $INSTALL/storage
 ln -sf /var/media $INSTALL/media
 
-if [ "$TARGET_ARCH" = "x86_64" ]; then
-  ln -s /lib $INSTALL/lib64
-  ln -s lib $INSTALL/usr/lib64
-fi
+# Basissystem...
+scripts/install base
+scripts/install mediacenter
 
 # create /etc/os-release
 echo -e "NAME=\"$DISTRONAME\"" > $INSTALL/etc/os-release
@@ -66,13 +62,6 @@ echo -e "PRETTY_NAME=\"$DISTRONAME - $DISTRO_VERSION\"" >> $INSTALL/etc/os-relea
 # create /etc/issue
 echo "$DISTRONAME - $DISTRO_VERSION" >> $INSTALL/etc/issue
 ln -sf /etc/issue $INSTALL/etc/motd
-
-# Basissystem...
-scripts/install glibc
-scripts/install gcc
-scripts/install linux
-scripts/install base
-scripts/install mediacenter
 
 # copy project related files to filesystem
 if [ -d "$PROJECT_DIR/$PROJECT/filesystem" ]; then

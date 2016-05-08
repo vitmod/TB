@@ -491,35 +491,6 @@ HOST_LDFLAGS="-Wl,-rpath,$ROOT/$TOOLCHAIN/lib -L$ROOT/$TOOLCHAIN/lib"
 HOST_LIBDIR="$ROOT/$TOOLCHAIN/lib /lib /usr/lib"
 HOST_INCDIR="$ROOT/$TOOLCHAIN/include /usr/include"
 
-# ubuntu/debian specific "multiarch support"
-FAMILY_TRIPLET=$(echo $HOST_NAME | sed -e "s,$(uname -m),$(uname -i),")
-if [ -d /lib/$FAMILY_TRIPLET ]; then
-  HOST_LIBDIR="$HOST_LIBDIR /lib/$FAMILY_TRIPLET"
-fi
-if [ -d /usr/lib/$FAMILY_TRIPLET ]; then
-  HOST_LIBDIR="$HOST_LIBDIR /usr/lib/$FAMILY_TRIPLET"
-fi
-
-# default multiarch support
-case "`uname -m`" in
-  i*86)
-    if [ -d /lib32 ]; then
-      HOST_LIBDIR="$HOST_LIBDIR /lib32"
-    fi
-    if [ -d /usr/lib32 ]; then
-      HOST_LIBDIR="$HOST_LIBDIR /usr/lib32"
-    fi
-  ;;
-  x86_64)
-    if [ -d /lib64 ]; then
-      HOST_LIBDIR="$HOST_LIBDIR /lib64"
-    fi
-    if [ -d /usr/lib64 ]; then
-      HOST_LIBDIR="$HOST_LIBDIR /usr/lib64"
-    fi
-  ;;
-esac
-
 ################################################################################
 # export path / ld lib path & clean distro specific env
 ################################################################################
