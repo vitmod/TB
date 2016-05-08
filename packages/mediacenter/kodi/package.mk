@@ -152,8 +152,10 @@ post_makeinstall_target() {
 
   mkdir -p $INSTALL/usr/share/kodi/addons
   cp -R $PKG_DIR/config/repository.saraev.ca $INSTALL/usr/share/kodi/addons
-  sed "s|@OS_VERSION@|$OS_VERSION|g" -i $INSTALL/usr/share/kodi/addons/repository.saraev.ca/addon.xml
-  sed "s|@ADDON_URL@|$ADDON_URL|g" -i $INSTALL/usr/share/kodi/addons/repository.saraev.ca/addon.xml
+  sed -e "s|@DISTRONAME@|$DISTRONAME|g" \
+      -e "s|@OS_VERSION@|$OS_VERSION|g" \
+      -e "s|@ADDON_URL@|$ADDON_URL|g" \
+      -i $INSTALL/usr/share/kodi/addons/repository.saraev.ca/addon.xml
 
   # update addon manifest
   ADDON_MANIFEST=$INSTALL/usr/share/kodi/system/addon-manifest.xml

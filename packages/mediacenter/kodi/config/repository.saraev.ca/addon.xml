@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="repository.saraev.ca"
-		name="[COLOR FF757677]Tashak[/COLOR][COLOR FF8ABEE2]BATE[/COLOR] Add-on Repository"
+		name="@DISTRONAME@ Add-on Repository"
 		version="@OS_VERSION@"
-		provider-name="TB">
+		provider-name="@DISTRONAME@">
 	<requires>
 		<import addon="xbmc.addon" version="12.0.0"/>
 	</requires>
 	<extension point="xbmc.addon.repository"
-		name="TashakBATE Add-on Repository">
+		name="@DISTRONAME@ Add-on Repository">
 		<info>@ADDON_URL@/addons.xml</info>
 		<checksum>@ADDON_URL@/addons.xml.md5</checksum>
 		<datadir zip="true">@ADDON_URL@</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-		<summary>Install Add-ons for TB</summary>
-		<description>Download and install Add-ons, Plugins and Programs</description>
+		<summary>@DISTRONAME@ Add-ons</summary>
+		<description>Download and install add-ons from @DISTRONAME@ add-on repository</description>
 		<platform>all</platform>
 	</extension>
 </addon>
