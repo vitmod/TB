@@ -21,6 +21,9 @@ PKG_DEPENDS_HOST="toolchain util-linux:host"
 PKG_DEPENDS_TARGET="toolchain util-linux parted:host"
 PKG_SHORTDESC="parted: GNU partition editor"
 
+# mess on aarch64
+PKG_AUTORECONF="yes"
+
 PKG_CONFIGURE_OPTS_TARGET="--disable-device-mapper \
                            --disable-selinux \
                            --disable-dynamic-loading \
