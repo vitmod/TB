@@ -1,7 +1,7 @@
 From f809dbaf61e19d780c9421bd74f7b04aa29b4d8f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Thu, 19 Dec 2013 11:21:13 +0200
-Subject: [PATCH 1/8] move /etc/systemd/system to /storage/.config/system.d
+Subject: [PATCH 1/5] move /etc/systemd/system to /storage/.config/system.d
 
 ---
  Makefile.am | 4 ++--
@@ -36,7 +36,7 @@ index 3b7cc1e..b92465b 100644
 From 8223882f5d0770e8b6c22e4518de9faff54c8e85 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 7 Aug 2015 13:25:23 +0300
-Subject: [PATCH 2/8] move hwdb.bin to /run
+Subject: [PATCH 2/5] move hwdb.bin to /run
 
 ---
  src/hwdb/hwdb.c                  | 2 +-
@@ -87,124 +87,10 @@ index 948ad0f..a14cb98 100644
 2.1.4
 
 
-From eea079e6531dadfd68159a6a541b8d8cf566e60b Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Tue, 28 Oct 2014 22:32:18 +0200
-Subject: [PATCH 3/8] stop execute_preset doing stupid things
-
----
- src/shared/install.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/src/shared/install.c b/src/shared/install.c
-index ef8f485..8470097 100644
---- a/src/shared/install.c
-+++ b/src/shared/install.c
-@@ -2171,6 +2171,10 @@ static int execute_preset(
-                 UnitFileChange **changes,
-                 unsigned *n_changes) {
- 
-+        // meh systemctl preset-all.
-+        // I DONT WANT shitload of symlink populated here
-+        return 0;
-+
-         int r;
- 
-         assert(plus);
--- 
-2.1.4
-
-
-From 462dab375ab4c92ad4f238e77a36f63502a694e8 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Wed, 18 Feb 2015 18:23:47 +0200
-Subject: [PATCH 4/8] remove nonexistant dependency
-
----
- units/graphical.target | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/units/graphical.target b/units/graphical.target
-index 87be97e..b01b46d 100644
---- a/units/graphical.target
-+++ b/units/graphical.target
-@@ -9,7 +9,6 @@
- Description=Graphical Interface
- Documentation=man:systemd.special(7)
- Requires=multi-user.target
--Wants=display-manager.service
- Conflicts=rescue.service rescue.target
- After=multi-user.target rescue.service rescue.target display-manager.service
- AllowIsolate=yes
--- 
-2.1.4
-
-
-From 46811aa542701ea6c0a26ca26292b486a1ec2e98 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Thu, 8 Oct 2015 11:59:39 +0300
-Subject: [PATCH 5/8] systemctl: disable dangerous options
-
----
- src/systemctl/systemctl.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
-
-diff --git a/src/systemctl/systemctl.c b/src/systemctl/systemctl.c
-index 908ccab..5550aa4 100644
---- a/src/systemctl/systemctl.c
-+++ b/src/systemctl/systemctl.c
-@@ -6163,6 +6163,11 @@ end:
-         return r;
- }
- 
-+static int nope(sd_bus *bus, char **args) {
-+        printf("nope. don't do that\n");
-+        return 0;
-+}
-+
- static void systemctl_help(void) {
- 
-         pager_open_if_enabled();
-@@ -7365,21 +7370,21 @@ static int systemctl_main(int argc, char *argv[]) {
-                 { "enable",                2,        VERB_ANY, 0,             enable_unit       },
-                 { "disable",               2,        VERB_ANY, 0,             enable_unit       },
-                 { "is-enabled",            2,        VERB_ANY, 0,             unit_is_enabled   },
--                { "reenable",              2,        VERB_ANY, 0,             enable_unit       },
--                { "preset",                2,        VERB_ANY, 0,             enable_unit       },
--                { "preset-all",            VERB_ANY, 1,        0,             preset_all        },
--                { "mask",                  2,        VERB_ANY, 0,             enable_unit       },
--                { "unmask",                2,        VERB_ANY, 0,             enable_unit       },
--                { "link",                  2,        VERB_ANY, 0,             enable_unit       },
-+                { "reenable",              2,        VERB_ANY, 0,             nope              },
-+                { "preset",                2,        VERB_ANY, 0,             nope              },
-+                { "preset-all",            VERB_ANY, 1,        0,             nope              },
-+                { "mask",                  2,        VERB_ANY, 0,             nope              },
-+                { "unmask",                2,        VERB_ANY, 0,             nope              },
-+                { "link",                  2,        VERB_ANY, 0,             nope              },
-                 { "switch-root",           2,        VERB_ANY, VERB_NOCHROOT, switch_root       },
-                 { "list-dependencies",     VERB_ANY, 2,        VERB_NOCHROOT, list_dependencies },
--                { "set-default",           2,        2,        0,             set_default       },
-+                { "set-default",           2,        2,        0,             nope              },
-                 { "get-default",           VERB_ANY, 1,        0,             get_default,      },
-                 { "set-property",          3,        VERB_ANY, VERB_NOCHROOT, set_property      },
-                 { "is-system-running",     VERB_ANY, 1,        0,             is_system_running },
--                { "add-wants",             3,        VERB_ANY, 0,             add_dependency    },
--                { "add-requires",          3,        VERB_ANY, 0,             add_dependency    },
--                { "edit",                  2,        VERB_ANY, VERB_NOCHROOT, edit              },
-+                { "add-wants",             3,        VERB_ANY, 0,             nope              },
-+                { "add-requires",          3,        VERB_ANY, 0,             nope              },
-+                { "edit",                  2,        VERB_ANY, VERB_NOCHROOT, nope              },
-                 {}
-         };
- 
--- 
-2.1.4
-
-
-From 8b71e34c3159e39e2e4de37c3c1fe44e00852d96 Mon Sep 17 00:00:00 2001
+From f03cb82529543e0738116d53a8eb7b0e284a4147 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 8 Nov 2015 11:54:39 +0200
-Subject: [PATCH 6/8] always run machine-id-commit
+Subject: [PATCH 3/5] always run machine-id-commit
 
 ---
  units/systemd-machine-id-commit.service.in | 2 --
@@ -227,10 +113,10 @@ index 1f3f5da..90b346c 100644
 2.1.4
 
 
-From 893304381e048ce6f1355e3e09b4b50a9a0f9e1a Mon Sep 17 00:00:00 2001
+From 880d553c622b84ad7ed00e536ed23619ced796ca Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 29 Nov 2015 11:41:32 +0200
-Subject: [PATCH 7/8] always run systemd-hwdb-update. run before udev
+Subject: [PATCH 4/5] always run systemd-hwdb-update. run before udev
 
 ---
  units/systemd-hwdb-update.service.in | 6 +-----
@@ -257,10 +143,10 @@ index 7135cff..ae9e5fa 100644
 2.1.4
 
 
-From 494bc4aafcbe1fe06206614bbce5da053689f740 Mon Sep 17 00:00:00 2001
+From 404320a7c3278b9db83906c57142110544ad6414 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 18 Nov 2015 20:15:43 +0200
-Subject: [PATCH 8/8] meh btrfs
+Subject: [PATCH 5/5] meh btrfs
 
 ---
  src/basic/btrfs-util.c | 3 ---
