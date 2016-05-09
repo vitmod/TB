@@ -59,12 +59,6 @@ PKG_CONFIGURE_OPTS_TARGET="$UTILLINUX_CONFIG_DEFAULT \
                            --enable-libmount \
                            --disable-libfdisk"
 
-PKG_CONFIGURE_OPTS_HOST="--enable-static \
-                         --disable-shared \
-                         $UTILLINUX_CONFIG_DEFAULT \
-                         --enable-uuidgen \
-                         --enable-libuuid"
-
 PKG_CONFIGURE_OPTS_INIT="--prefix=/ \
                          --bindir=/bin \
                          --sbindir=/sbin \
