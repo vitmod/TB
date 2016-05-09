@@ -24,7 +24,7 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-static \
                            --disable-shared \
                            --disable-readline \
                            --enable-threadsafe \
-                           --enable-dynamic-extensions \
+                           --disable-dynamic-extensions \
                            --with-gnu-ld"
 
 pre_configure_target() {
