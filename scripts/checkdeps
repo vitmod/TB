@@ -30,6 +30,12 @@ deps_pkg="$deps_pkg flex gawk gcc g++ gzip default-jre"
 deps="    $deps     patch perl sed swig tar unzip xmlstarlet wget zip"
 deps_pkg="$deps_pkg patch perl sed swig tar unzip xmlstarlet wget zip"
 
+deps="    $deps     autopoint autoreconf automake libtoolize libtool     intltoolize"
+deps_pkg="$deps_pkg autopoint autoconf   automake libtool    libtool-bin intltool"
+
+deps="    $deps     pkg-config m4 gettextize"
+deps_pkg="$deps_pkg pkg-config m4 gettext"
+
 files="    /usr/include/stdio.h /usr/include/ncurses.h"
 files_pkg="libc6-dev            libncurses5-dev"
 

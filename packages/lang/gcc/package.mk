@@ -17,9 +17,9 @@ PKG_NAME="gcc"
 PKG_VERSION="6.1.0"
 PKG_SITE="http://gcc.gnu.org/"
 PKG_URL="http://ftp.gnu.org/gnu/gcc/$PKG_NAME-$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.bz2"
-PKG_DEPENDS_BOOTSTRAP="autoconf:host binutils:host gmp:host mpfr:host mpc:host"
+PKG_DEPENDS_BOOTSTRAP="binutils:host gmp:host mpfr:host mpc:host"
 PKG_DEPENDS_TARGET="gcc:host"
-PKG_DEPENDS_HOST="autoconf:host binutils:host gmp:host mpfr:host mpc:host glibc"
+PKG_DEPENDS_HOST="binutils:host gmp:host mpfr:host mpc:host glibc"
 PKG_SHORTDESC="gcc: The GNU Compiler Collection Version 4 (aka GNU C Compiler)"
 
 GCC_COMMON_CONFIGURE_OPTS="--without-ppl \

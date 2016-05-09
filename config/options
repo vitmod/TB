@@ -136,43 +136,9 @@ add_group() {
 do_autoreconf() {
   export ACLOCAL_DIR=$SYSROOT_PREFIX/usr/share/aclocal
 
-  if [ -e "$ROOT/$TOOLCHAIN/bin/autoconf" ]; then
-    export AUTOCONF=$ROOT/$TOOLCHAIN/bin/autoconf
-  fi
-
-  if [ -e "$ROOT/$TOOLCHAIN/bin/automake" ]; then
-    export AUTOMAKE=$ROOT/$TOOLCHAIN/bin/automake
-  fi
-
-  if [ -e "$ROOT/$TOOLCHAIN/bin/autopoint" ]; then
-    export AUTOPOINT=$ROOT/$TOOLCHAIN/bin/autopoint
-  fi
-
-  if [ -e "$ROOT/$TOOLCHAIN/bin/libtoolize" ]; then
-    export LIBTOOLIZE=$ROOT/$TOOLCHAIN/bin/libtoolize
-  fi
-
-  if [ -e "$ROOT/$TOOLCHAIN/bin/intltoolize" ]; then
-    export INTLTOOLIZE=$ROOT/$TOOLCHAIN/bin/intltoolize
-  fi
-
-  if [ -e "$ROOT/$TOOLCHAIN/bin/aclocal" ]; then
-    export ACLOCAL="$ROOT/$TOOLCHAIN/bin/aclocal -I $ACLOCAL_DIR"
-  fi
-
-  if [ -e "$ROOT/$TOOLCHAIN/bin/autoheader" ]; then
-    export AUTOHEADER=$ROOT/$TOOLCHAIN/bin/autoheader
-  fi
-
-  if [ -e "$ROOT/$TOOLCHAIN/bin/libtool" ]; then
-    export LIBTOOL=$ROOT/$TOOLCHAIN/bin/libtool
-  fi
-
-  if [ -e "$ROOT/$TOOLCHAIN/bin/autoreconf" -a -e "$INTLTOOLIZE" ]; then
-    mkdir -p $ACLOCAL_DIR
-    export AUTORECONF="$ROOT/$TOOLCHAIN/bin/autoreconf --verbose --force --install -I $ACLOCAL_DIR"
-    $AUTORECONF $@
-  fi
+  mkdir -p $ACLOCAL_DIR
+  export AUTORECONF="autoreconf --verbose --force --install -I $ACLOCAL_DIR"
+  $AUTORECONF $@
 }
 
 enable_service () {
@@ -425,7 +391,6 @@ FAKEROOT_SCRIPT=$ROOT/.fakeroot.$PROJECT.$TARGET_ARCH
 
 export CCACHE_DIR=$ROOT/$BUILD/.ccache-openelec
 export MAKEFLAGS=-j$(cat /proc/cpuinfo | grep -c '^processor[[:cntrl:]]*:')
-export PKG_CONFIG=$ROOT/$TOOLCHAIN/bin/pkg-config
 
 if [ -z "$INSTALL" ]; then
   INSTALL=$BUILD/image/system

@@ -17,7 +17,7 @@ PKG_NAME="glibc"
 PKG_VERSION="2.23"
 PKG_SITE="http://www.gnu.org/software/libc/"
 PKG_URL="http://ftp.gnu.org/pub/gnu/glibc/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_TARGET="autotools:host linux:host gcc:bootstrap"
+PKG_DEPENDS_TARGET="linux:host gcc:bootstrap"
 PKG_DEPENDS_INIT="glibc"
 PKG_SHORTDESC="glibc: The GNU C library"
 
