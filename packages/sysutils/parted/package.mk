@@ -17,8 +17,7 @@ PKG_NAME="parted"
 PKG_VERSION="3.2"
 PKG_SITE="http://www.gnu.org/software/parted/"
 PKG_URL="http://ftp.gnu.org/gnu/parted/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_HOST="toolchain util-linux:host"
-PKG_DEPENDS_TARGET="toolchain util-linux parted:host"
+PKG_DEPENDS_TARGET="toolchain util-linux"
 PKG_SHORTDESC="parted: GNU partition editor"
 
 # mess on aarch64
@@ -33,5 +32,3 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-device-mapper \
                            --without-readline \
                            --disable-rpath \
                            --with-gnu-ld"
-
-PKG_CONFIGURE_OPTS_HOST="$PKG_CONFIGURE_OPTS_TARGET"
