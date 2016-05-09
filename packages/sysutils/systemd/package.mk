@@ -122,6 +122,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/share/factory
 
   # distro preset policy
+  rm -f $INSTALL/usr/lib/systemd/system-preset/*
   echo "disable *" > $INSTALL/usr/lib/systemd/system-preset/99-default.preset
 
   # clean up hwdb
