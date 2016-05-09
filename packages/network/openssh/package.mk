@@ -51,9 +51,9 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin/ssh-agent
   rm -rf $INSTALL/usr/bin/ssh-keyscan
 
-  sed -i $INSTALL/etc/ssh/sshd_config -e "s|^#PermitRootLogin.*|PermitRootLogin yes|g"
-  sed -i $INSTALL/etc/ssh/sshd_config -e "s|^#PermitEmptyPasswords.*|PermitEmptyPasswords yes|g"
-  echo "PubkeyAcceptedKeyTypes +ssh-dss" >> $INSTALL/etc/ssh/sshd_config
+  sed -i $INSTALL/etc/ssh/sshd_config \
+      -e "s|^#PermitRootLogin.*|PermitRootLogin yes|g" \
+      -e "s|^#PermitEmptyPasswords.*|PermitEmptyPasswords yes|g"
 }
 
 post_install() {
