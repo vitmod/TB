@@ -460,7 +460,7 @@ HOST_INCDIR="$ROOT/$TOOLCHAIN/include /usr/include"
 # export path / ld lib path & clean distro specific env
 ################################################################################
 if [ -z "$PATH" -o "$PATH" = "${PATH#$ROOT/$TOOLCHAIN/bin:}" ]; then
-  export PATH="$ROOT/$TOOLCHAIN/bin:$ROOT/$TOOLCHAIN/sbin:$PATH"
+  export PATH="$ROOT/$TOOLCHAIN/bin:$ROOT/$TOOLCHAIN/sbin:/usr/sbin:/sbin:$PATH"
 fi
 
 if [ -z "$LD_LIBRARY_PATH" -o "$LD_LIBRARY_PATH" = "${LD_LIBRARY_PATH#$ROOT/$TOOLCHAIN/lib:}" ]; then
