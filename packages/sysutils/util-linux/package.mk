@@ -36,14 +36,12 @@ UTILLINUX_CONFIG_DEFAULT="--disable-gtk-doc \
                           --disable-use-tty-group \
                           --disable-makeinstall-chown \
                           --disable-makeinstall-setuid \
-                          --with-gnu-ld \
                           --without-selinux \
                           --without-audit \
                           --without-udev \
                           --without-ncurses \
                           --without-readline \
                           --without-slang \
-                          --without-termcap \
                           --without-tinfo \
                           --without-utempter \
                           --without-util \
@@ -59,11 +57,7 @@ PKG_CONFIGURE_OPTS_TARGET="$UTILLINUX_CONFIG_DEFAULT \
                            --enable-libuuid \
                            --enable-libblkid \
                            --enable-libmount \
-                           --disable-libfdisk \
-                           --disable-fsck \
-                           --disable-swapon \
-                           --disable-uuidgen \
-                           --enable-blkid"
+                           --disable-libfdisk"
 
 PKG_CONFIGURE_OPTS_HOST="--enable-static \
                          --disable-shared \
