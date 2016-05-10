@@ -66,11 +66,6 @@ pre_configure_target() {
   export BUILD_CC=$HOST_CC
   export OBJDUMP_FOR_HOST=objdump
 
-  echo "libc_cv_ssp=no" >> config.cache
-  echo "libc_cv_ssp_strong=no" >> config.cache
-  echo "libc_cv_ctors_header=yes" >> config.cache
-  echo "libc_cv_slibdir=/usr/lib" >> config.cache
-
   echo "slibdir=/usr/lib" >> configparms
   echo "sbindir=/usr/bin" >> configparms
   echo "rootsbindir=/usr/bin" >> configparms
