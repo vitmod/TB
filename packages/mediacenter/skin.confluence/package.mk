@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="skin.confluence"
-PKG_VERSION="f113aa3"
+PKG_VERSION="2c84eb6"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/xbmc/skin.confluence.git"
 PKG_DEPENDS_TARGET="toolchain kodi:host"
