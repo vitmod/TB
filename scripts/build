@@ -262,9 +262,11 @@ if [ "$TARGET" = "target" -o "$TARGET" = "init" ]; then
       rm -rf $i/share/man
       rm -rf $i/share/pkgconfig
       rm -rf $i/share/zsh
+      rm -rf $i/var
       find $INSTALL -name "*.orig" -exec rm -f {} \; 2>/dev/null || :
       find $INSTALL -name "*.la" -exec rm -f {} \; 2>/dev/null || :
       find $INSTALL -name "*.a" -exec rm -f {} \; 2>/dev/null || :
+      find $INSTALL -name "*.o" -exec rm -f {} \; 2>/dev/null || :
       find $INSTALL -name "*.so*T" -exec rm -f {} \; 2>/dev/null || :
       find $INSTALL -name "addon.xml.in" -exec rm -f {} \; 2>/dev/null || :
       find $INSTALL -name "Makefile.in" -exec rm -f {} \; 2>/dev/null || :

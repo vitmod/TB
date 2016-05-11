@@ -78,8 +78,6 @@ post_makeinstall_target() {
   done
   rm -rf $INSTALL/usr/lib/audit
   rm -rf $INSTALL/usr/lib/glibc
-  rm -rf $INSTALL/usr/lib/*.o
-  rm -rf $INSTALL/var
 
   rm -rf $INSTALL/usr/lib/libnss_compat*so*
   rm -rf $INSTALL/usr/lib/libnss_hesiod*so*
