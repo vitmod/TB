@@ -14,15 +14,16 @@
 ################################################################################
 
 PKG_NAME="dosfstools"
-PKG_VERSION="3.0.28"
+PKG_VERSION="4.0"
 PKG_SITE="https://github.com/dosfstools/dosfstools"
 PKG_URL="https://github.com/dosfstools/dosfstools/releases/download/v$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_INIT="toolchain dosfstools"
 PKG_SHORTDESC="dosfstools: utilities for making and checking MS-DOS FAT filesystems."
 
-PKG_MAKE_OPTS_TARGET="PREFIX=/usr"
-PKG_MAKEINSTALL_OPTS_TARGET="PREFIX=/usr"
+configure_init() {
+  : # reuse configure_target()
+}
 
 make_init() {
   : # reuse make_target()
@@ -30,7 +31,5 @@ make_init() {
 
 makeinstall_init() {
   mkdir -p $INSTALL/sbin
-  cp fsck.fat $INSTALL/sbin
-  ln -sf fsck.fat $INSTALL/sbin/fsck.msdos
-  ln -sf fsck.fat $INSTALL/sbin/fsck.vfat
+  cp $PKG_BUILD/.$TARGET_NAME/src/fsck.fat $INSTALL/sbin
 }
