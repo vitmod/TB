@@ -59,8 +59,4 @@ post_makeinstall_target() {
 makeinstall_init() {
   mkdir -p $INSTALL/sbin
   cp e2fsck/e2fsck $INSTALL/sbin
-  ln -sf e2fsck $INSTALL/sbin/fsck.ext2
-  ln -sf e2fsck $INSTALL/sbin/fsck.ext3
-  ln -sf e2fsck $INSTALL/sbin/fsck.ext4
-  ln -sf e2fsck $INSTALL/sbin/fsck.ext4dev
 }
