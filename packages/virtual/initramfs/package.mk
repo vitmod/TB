@@ -17,7 +17,7 @@ PKG_NAME="initramfs"
 PKG_VERSION=""
 PKG_SITE=""
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain glibc:init busybox:init plymouth-lite:init util-linux:init e2fsprogs:init bkeymaps:init"
+PKG_DEPENDS_TARGET="toolchain glibc:init busybox:init plymouth-lite:init e2fsprogs:init bkeymaps:init"
 PKG_SHORTDESC="initramfs: metapackage"
 
 post_install() {

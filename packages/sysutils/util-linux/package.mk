@@ -17,56 +17,41 @@ PKG_NAME="util-linux"
 PKG_VERSION="2.28"
 PKG_URL="http://www.kernel.org/pub/linux/utils/util-linux/v2.28/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_DEPENDS_INIT="toolchain"
 PKG_SHORTDESC="util-linux: Miscellaneous system utilities for Linux"
 
 PKG_AUTORECONF="yes"
 
-UTILLINUX_CONFIG_DEFAULT="--disable-gtk-doc \
-                          --disable-nls \
-                          --disable-rpath \
-                          --enable-tls \
-                          --disable-all-programs \
-                          --enable-chsh-only-listed \
-                          --enable-libmount-force-mountinfo \
-                          --disable-bash-completion \
-                          --disable-colors-default \
-                          --disable-pylibmount \
-                          --disable-pg-bell \
-                          --disable-use-tty-group \
-                          --disable-makeinstall-chown \
-                          --disable-makeinstall-setuid \
-                          --without-selinux \
-                          --without-audit \
-                          --without-udev \
-                          --without-ncurses \
-                          --without-readline \
-                          --without-slang \
-                          --without-tinfo \
-                          --without-utempter \
-                          --without-util \
-                          --without-libz \
-                          --without-user \
-                          --without-systemd \
-                          --without-smack \
-                          --without-python \
-                          --without-systemdsystemunitdir"
-
-PKG_CONFIGURE_OPTS_TARGET="$UTILLINUX_CONFIG_DEFAULT \
-                           --libdir=/usr/lib \
+PKG_CONFIGURE_OPTS_TARGET="--libdir=/usr/lib \
+                           --disable-gtk-doc \
+                           --disable-nls \
+                           --disable-rpath \
+                           --enable-tls \
+                           --disable-all-programs \
+                           --enable-chsh-only-listed \
+                           --enable-libmount-force-mountinfo \
+                           --disable-bash-completion \
+                           --disable-colors-default \
+                           --disable-pylibmount \
+                           --disable-pg-bell \
+                           --disable-use-tty-group \
+                           --disable-makeinstall-chown \
+                           --disable-makeinstall-setuid \
+                           --without-selinux \
+                           --without-audit \
+                           --without-udev \
+                           --without-ncurses \
+                           --without-readline \
+                           --without-slang \
+                           --without-tinfo \
+                           --without-utempter \
+                           --without-util \
+                           --without-libz \
+                           --without-user \
+                           --without-systemd \
+                           --without-smack \
+                           --without-python \
+                           --without-systemdsystemunitdir \
                            --enable-libuuid \
                            --enable-libblkid \
                            --enable-libmount \
                            --disable-libfdisk"
-
-PKG_CONFIGURE_OPTS_INIT="--prefix=/ \
-                         --bindir=/bin \
-                         --sbindir=/sbin \
-                         --sysconfdir=/etc \
-                         --libexecdir=/lib \
-                         --localstatedir=/var \
-                         $UTILLINUX_CONFIG_DEFAULT \
-                         --enable-static --disable-shared \
-                         --enable-libblkid \
-                         --enable-libmount \
-                         --enable-fsck"
