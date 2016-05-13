@@ -36,7 +36,6 @@ UPDATE_DIR=/storage/.update
 IMAGE_KERNEL="kernel.img"
 
 BOOT_STEP="start"
-RUN_FSCK_DISKS=""
 
 # hide kernel log messages on console
 echo '1 4 1 7' > /proc/sys/kernel/printk
@@ -63,11 +62,9 @@ for arg in $(cat /proc/cmdline); do
       ;;
     boot=*)
       boot="${arg#*=}"
-      RUN_FSCK_DISKS="$RUN_FSCK_DISKS $boot"
       ;;
     disk=*)
       disk="${arg#*=}"
-      RUN_FSCK_DISKS="$RUN_FSCK_DISKS $disk"
       ;;
   esac
 done
@@ -151,7 +148,7 @@ force_fsck() {
   if [ "$?" -ne "0" -o "$?" -gt "128" ] ; then
     echo "repairing filesystem.."
     echo ""
-    /sbin/fsck -T -M -y $RUN_FSCK_DISKS
+    /sbin/fsck -T -M -y $disk
     FSCK_RET="$?"
     if [ "$(( $FSCK_RET & 8 ))" = 8 ] ; then
       echo "Forced fsck failed. Your system is broken beyond repair"
@@ -170,8 +167,8 @@ force_fsck() {
 }
 
 check_disks() {
-  if [ -n "$RUN_FSCK_DISKS" ]; then
-    /sbin/fsck -T -M -p -a $RUN_FSCK_DISKS > /dev/null 2>&1
+  if [ -n "$disk" ]; then
+    /sbin/fsck -T -M -p -a $disk > /dev/null 2>&1
     FSCK_RET="$?"
     # FSCK_RET is the bit-wise OR of the exit codes for each filesystem that is checked.
     if [ "$(( $FSCK_RET & 4 ))" = 4 ] ; then
