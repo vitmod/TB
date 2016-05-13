@@ -17,7 +17,5 @@ PKG_NAME="toolchain"
 PKG_VERSION=""
 PKG_SITE=""
 PKG_URL=""
-PKG_DEPENDS_TARGET="configtools:host ccache:host gcc:host"
+PKG_DEPENDS_TARGET="configtools:host ccache:host gcc:host kmod:host"
 PKG_SHORTDESC="toolchain: metapackage"
-
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET dosfstools:host kmod:host"

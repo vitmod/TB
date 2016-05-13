@@ -33,8 +33,8 @@ deps_pkg="$deps_pkg patch perl sed swig tar unzip xmlstarlet wget zip"
 deps="    $deps     autopoint autoreconf automake libtoolize libtool     intltoolize"
 deps_pkg="$deps_pkg autopoint autoconf   automake libtool    libtool-bin intltool"
 
-deps="    $deps     pkg-config m4 gettextize parted mksquashfs"
-deps_pkg="$deps_pkg pkg-config m4 gettext    parted squashfs-tools"
+deps="    $deps     pkg-config m4 gettextize parted mksquashfs     mkfs.vfat"
+deps_pkg="$deps_pkg pkg-config m4 gettext    parted squashfs-tools dosfstools"
 
 files="    /usr/include/stdio.h /usr/include/ncurses.h"
 files_pkg="libc6-dev            libncurses5-dev"
