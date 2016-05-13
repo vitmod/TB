@@ -167,15 +167,13 @@ force_fsck() {
 }
 
 check_disks() {
-  if [ -n "$disk" ]; then
-    /sbin/fsck -T -M -p -a $disk > /dev/null 2>&1
-    FSCK_RET="$?"
-    # FSCK_RET is the bit-wise OR of the exit codes for each filesystem that is checked.
-    if [ "$(( $FSCK_RET & 4 ))" = 4 ] ; then
-      force_fsck
-    elif [ "$(( $FSCK_RET & 2 ))" = 2 ] ; then
-      do_reboot
-    fi
+  /sbin/fsck -T -M -p -a $disk > /dev/null 2>&1
+  FSCK_RET="$?"
+  # FSCK_RET is the bit-wise OR of the exit codes for each filesystem that is checked.
+  if [ "$(( $FSCK_RET & 4 ))" = 4 ] ; then
+    force_fsck
+  elif [ "$(( $FSCK_RET & 2 ))" = 2 ] ; then
+    do_reboot
   fi
 }
 
@@ -184,11 +182,7 @@ mount_flash() {
 }
 
 mount_storage() {
-  if [ -n "$disk" ]; then
-    mount_part "$disk" "/storage" "rw,noatime"
-  else
-    mount -t tmpfs none /storage
-  fi
+  mount_part "$disk" "/storage" "rw,noatime"
 }
 
 check_update() {
