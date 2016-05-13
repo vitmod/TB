@@ -120,5 +120,4 @@ makeinstall_init() {
   mkdir -p $INSTALL/usr/lib
   cp $PKG_BUILD/.$TARGET_NAME/libc.so.6 $INSTALL/usr/lib
   cp $PKG_BUILD/.$TARGET_NAME/nptl/libpthread.so.0 $INSTALL/usr/lib
-  cp -PR $PKG_BUILD/.$TARGET_NAME/rt/librt.so* $INSTALL/usr/lib
 }
