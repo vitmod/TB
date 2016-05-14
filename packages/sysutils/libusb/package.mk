@@ -22,8 +22,7 @@ PKG_SHORTDESC="libusb: OS independent USB device access"
 
 MAKEFLAGS=-j1
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-shared \
-                           --enable-static \
+PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
                            --disable-log \
                            --disable-debug-log \
                            --disable-udev \

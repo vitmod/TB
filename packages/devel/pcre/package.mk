@@ -20,8 +20,7 @@ PKG_URL="http://ftp.csx.cam.ac.uk/pub/software/programming/pcre/$PKG_NAME-$PKG_V
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="pcre: Perl Compatible Regulat Expressions"
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-shared \
-                           --enable-static \
+PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
                            --enable-utf8 \
                            --enable-unicode-properties \
                            --with-gnu-ld"

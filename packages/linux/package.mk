@@ -89,6 +89,6 @@ post_makeinstall_target() {
 }
 
 post_install() {
-  mkdir -p $INSTALL/lib/firmware/
+  mkdir -p $INSTALL/lib/firmware
   ln -sf /storage/.config/firmware/ $INSTALL/lib/firmware/updates
 }

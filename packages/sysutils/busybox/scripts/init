@@ -15,7 +15,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-. /usr/share/tb/functions
+. /functions
 
 # create directories
 /bin/busybox mkdir -p /dev
@@ -148,7 +148,7 @@ force_fsck() {
   if [ "$?" -ne "0" -o "$?" -gt "128" ] ; then
     echo "repairing filesystem.."
     echo ""
-    /sbin/e2fsck -y $disk
+    e2fsck -y $disk
     FSCK_RET="$?"
     if [ "$(( $FSCK_RET & 8 ))" = 8 ] ; then
       echo "Forced fsck failed. Your system is broken beyond repair"
@@ -167,7 +167,7 @@ force_fsck() {
 }
 
 check_disks() {
-  /sbin/e2fsck -p $disk > /dev/null 2>&1
+  e2fsck -p $disk > /dev/null 2>&1
   FSCK_RET="$?"
   # FSCK_RET is the bit-wise OR of the exit codes for each filesystem that is checked.
   if [ "$(( $FSCK_RET & 4 ))" = 4 ] ; then

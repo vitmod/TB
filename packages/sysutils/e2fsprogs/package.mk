@@ -18,7 +18,7 @@ PKG_VERSION="1.42.13"
 PKG_SITE="http://e2fsprogs.sourceforge.net/"
 PKG_URL="$SOURCEFORGE_SRC/$PKG_NAME/$PKG_NAME/1.42/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_DEPENDS_INIT="toolchain"
+PKG_DEPENDS_INIT="toolchain e2fsprogs"
 PKG_SHORTDESC="e2fsprogs: Utilities for use with the ext2 filesystem"
 
 PKG_CONFIGURE_OPTS_TARGET="BUILD_CC=$HOST_CC \
@@ -47,8 +47,6 @@ PKG_CONFIGURE_OPTS_TARGET="BUILD_CC=$HOST_CC \
                            --disable-rpath \
                            --with-gnu-ld"
 
-PKG_CONFIGURE_OPTS_INIT="$PKG_CONFIGURE_OPTS_TARGET"
-
 post_makeinstall_target() {
   REMOVE_BIN="badblocks blkid dumpe2fs e2freefrag e2undo e4defrag filefrag fsck logsave mklost+foun"
   for i in $REMOVE_BIN ; do
@@ -56,7 +54,15 @@ post_makeinstall_target() {
   done
 }
 
+configure_init() {
+  : # use target
+}
+
+make_init() {
+  : # use target
+}
+
 makeinstall_init() {
-  mkdir -p $INSTALL/sbin
-  cp e2fsck/e2fsck $INSTALL/sbin
+  mkdir -p $INSTALL/bin
+  cp $PKG_BUILD/.$TARGET_NAME/e2fsck/e2fsck $INSTALL/bin
 }

@@ -21,19 +21,18 @@ PKG_DEPENDS_TARGET="toolchain zlib"
 PKG_SHORTDESC="libxml: XML parser library for Gnome"
 
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_ansidecl_h=no \
-             --enable-static \
-             --disable-shared \
-             --with-sysroot=$SYSROOT_PREFIX \
-             --without-debug \
-             --with-minimum \
-             --with-html \
-             --with-output \
-             --with-push \
-             --with-sax1 \
-             --with-tree \
-             --with-xpath \
-             --without-zlib \
-             --without-lzma"
+                           --enable-static --disable-shared \
+                           --with-sysroot=$SYSROOT_PREFIX \
+                           --without-debug \
+                           --with-minimum \
+                           --with-html \
+                           --with-output \
+                           --with-push \
+                           --with-sax1 \
+                           --with-tree \
+                           --with-xpath \
+                           --without-zlib \
+                           --without-lzma"
 
 post_makeinstall_target() {
   # those who rely on *-config should be shot (libxslt!)

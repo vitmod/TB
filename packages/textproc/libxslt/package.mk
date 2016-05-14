@@ -21,8 +21,7 @@ PKG_DEPENDS_TARGET="toolchain libxml2"
 PKG_SHORTDESC="libxslt"
 
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_ansidecl_h=no \
-                           --enable-static \
-                           --disable-shared \
+                           --enable-static --disable-shared \
                            --without-python \
                            --with-libxml-prefix=$SYSROOT_PREFIX/usr \
                            --without-crypto"

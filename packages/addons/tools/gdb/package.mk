@@ -28,8 +28,7 @@ PKG_ADDON_SECTION="tools"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_TARGET="bash_cv_have_mbstate_t=set \
-                           --disable-shared \
-                           --enable-static \
+                           --enable-static --disable-shared \
                            --with-auto-load-safe-path=/ \
                            --datarootdir=/storage/.kodi/addons/tools.gdb/data \
                            --disable-nls \
@@ -56,8 +55,8 @@ makeinstall_target() {
 
 addon() {
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/bin
-  cp $PKG_BUILD/.$TARGET_NAME/gdb/gdb $ADDON_BUILD/$PKG_ADDON_ID/bin/
+  cp $PKG_BUILD/.$TARGET_NAME/gdb/gdb $ADDON_BUILD/$PKG_ADDON_ID/bin
 
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/data/gdb
-  cp -R $PKG_BUILD/.$TARGET_NAME/gdb/data-directory/syscalls $ADDON_BUILD/$PKG_ADDON_ID/data/gdb/
+  cp -R $PKG_BUILD/.$TARGET_NAME/gdb/data-directory/syscalls $ADDON_BUILD/$PKG_ADDON_ID/data/gdb
 }

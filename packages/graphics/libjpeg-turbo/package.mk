@@ -20,8 +20,7 @@ PKG_URL="$SOURCEFORGE_SRC/libjpeg-turbo/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="libjpeg-turbo: a high-speed version of libjpeg"
 
-PKG_CONFIGURE_OPTS_HOST="--enable-static \
-                         --disable-shared \
+PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared \
                          --with-jpeg8 \
                          --without-simd"
 

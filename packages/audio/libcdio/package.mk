@@ -20,10 +20,9 @@ PKG_URL="https://ftp.gnu.org/gnu/libcdio/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="libcdio: A CD-ROM reading and control library"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-cxx \
+PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
+                           --enable-cxx \
                            --disable-cpp-progs \
-                           --disable-shared \
-                           --enable-static \
                            --enable-joliet \
                            --disable-rpath \
                            --enable-rock \

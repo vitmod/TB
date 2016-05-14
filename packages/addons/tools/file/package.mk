@@ -28,8 +28,8 @@ PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nThe file(1) utility is used to determine
 PKG_ADDON_SECTION="tools"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
-PKG_CONFIGURE_OPTS_HOST="--enable-fsect-man5 --enable-static --disable-shared"
-PKG_CONFIGURE_OPTS_TARGET="--enable-fsect-man5 --enable-static --disable-shared"
+PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared --enable-fsect-man5"
+PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared --enable-fsect-man5"
 
 makeinstall_target() {
   : # meh

@@ -35,7 +35,7 @@ configure_target() {
               --sysroot=$SYSROOT_PREFIX \
               --sysinclude="$SYSROOT_PREFIX/usr/include" \
               --target-os="linux" \
-              --pkg-config="$ROOT/$TOOLCHAIN/bin/pkg-config" \
+              --pkg-config="/usr/bin/pkg-config" \
               --extra-cflags="$CFLAGS" \
               --build-suffix="" \
               --enable-pic \

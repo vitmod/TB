@@ -52,13 +52,11 @@ makeinstall_init() {
   ln -sf busybox $INSTALL/bin/sh
   chmod 4755 $INSTALL/bin/busybox
 
-  mkdir -p $INSTALL/usr/share/tb
-  cp $PKG_DIR/config/functions $INSTALL/usr/share/tb
-
   mkdir -p $INSTALL/etc
   touch $INSTALL/etc/fstab
   ln -sf /proc/self/mounts $INSTALL/etc/mtab
 
+  cp $PKG_DIR/config/functions $INSTALL
   cp $PKG_DIR/scripts/init $INSTALL
   chmod 755 $INSTALL/init
 

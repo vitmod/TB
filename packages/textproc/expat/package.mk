@@ -20,7 +20,7 @@ PKG_URL="$SOURCEFORGE_SRC/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="expat: XML parser library"
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static"
+PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared"
 
 pre_configure_target() {
   export CFLAGS="$CFLAGS -fPIC"

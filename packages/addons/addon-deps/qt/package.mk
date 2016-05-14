@@ -91,7 +91,6 @@ configure_target() {
 
   CC="" CXX="" LD="" RANLIB="" AR="" AS="" CPPFLAGS="" CFLAGS="" LDFLAGS="" CXXFLAGS="" \
     PKG_CONFIG_SYSROOT_DIR="$SYSROOT_PREFIX" \
-    PKG_CONFIG="$ROOT/$TOOLCHAIN/bin/pkg-config" \
     PKG_CONFIG_PATH="$SYSROOT_PREFIX/usr/lib/pkgconfig" \
     ./configure $PKG_CONFIGURE_OPTS_TARGET
 }

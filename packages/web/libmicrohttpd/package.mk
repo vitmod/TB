@@ -20,7 +20,7 @@ PKG_URL="https://ftp.gnu.org/gnu/libmicrohttpd/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="libmicrohttpd: a small webserver C library"
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static \
+PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
                            --disable-doc \
                            --disable-examples \
                            --disable-curl \
