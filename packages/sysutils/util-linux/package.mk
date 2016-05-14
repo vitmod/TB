@@ -19,8 +19,6 @@ PKG_URL="http://www.kernel.org/pub/linux/utils/util-linux/v2.28/$PKG_NAME-$PKG_V
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="util-linux: Miscellaneous system utilities for Linux"
 
-PKG_AUTORECONF="yes"
-
 PKG_CONFIGURE_OPTS_TARGET="--libdir=/usr/lib \
                            --disable-gtk-doc \
                            --disable-nls \
