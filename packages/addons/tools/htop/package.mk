@@ -21,7 +21,7 @@ PKG_DEPENDS_TARGET="toolchain netbsd-curses"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
-PKG_ADDON_REV="2"
+PKG_ADDON_REV="3"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nHtop is an ncurses based interactive process viewer for Linux."
 PKG_ADDON_SECTION="tools"
