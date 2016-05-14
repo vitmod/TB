@@ -21,7 +21,7 @@ PKG_DEPENDS_TARGET="toolchain netbsd-curses"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_IS_ADDON="yes"
-PKG_ADDON_REV="0"
+PKG_ADDON_REV="1"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nmtr combines the functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool"
 PKG_ADDON_SECTION="tools"
