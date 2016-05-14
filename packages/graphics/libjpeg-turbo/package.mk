@@ -17,19 +17,8 @@ PKG_NAME="libjpeg-turbo"
 PKG_VERSION="1.4.2"
 PKG_SITE="http://libjpeg-turbo.virtualgl.org/"
 PKG_URL="$SOURCEFORGE_SRC/libjpeg-turbo/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="libjpeg-turbo: a high-speed version of libjpeg"
 
 PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared \
                          --with-jpeg8 \
                          --without-simd"
-
-PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared --with-jpeg8"
-
-pre_configure_target() {
-  export CPPFLAGS="$CPPFLAGS -fPIC"
-}
-
-post_makeinstall_target() {
-  rm -rf $INSTALL/usr/bin
-}
