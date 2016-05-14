@@ -26,12 +26,8 @@ case "$TARGET_FPU" in
   ;;
 esac
 
-pre_configure_target() {
-  rm -rf $PKG_BUILD/.$TARGET_NAME
-}
-
 configure_target() {
-  ./configure --prefix=/usr \
+  ../configure --prefix=/usr \
               --arch=$TARGET_ARCH \
               --cpu=$TARGET_CPU \
               --cross-prefix=$TARGET_PREFIX \
