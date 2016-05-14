@@ -89,7 +89,7 @@ chmod 0644 $TARGET_IMG/$IMAGE_NAME.kernel
 # run fakeroot
 echo "chown -R 0:0 $INSTALL" > $FAKEROOT_SCRIPT
 echo "rm -rf $TARGET_IMG/$IMAGE_NAME.system" >> $FAKEROOT_SCRIPT
-echo "mksquashfs $BUILD/image/system $TARGET_IMG/$IMAGE_NAME.system -noappend -comp gzip" >> $FAKEROOT_SCRIPT
+echo "mksquashfs $BUILD/image/system $TARGET_IMG/$IMAGE_NAME.system -no-xattrs -noappend -comp gzip" >> $FAKEROOT_SCRIPT
 chmod +x $FAKEROOT_SCRIPT
 fakeroot -- $FAKEROOT_SCRIPT
 rm -rf $FAKEROOT_SCRIPT
