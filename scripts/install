@@ -56,7 +56,7 @@ for p in `eval echo "\\$PKG_DEPENDS_$UPTARGET"`; do
 done
 
 if [ "$TARGET" = init ] ; then
-  INSTALL=$BUILD/initramfs
+  INSTALL=$BUILD/image/initramfs
 fi
 mkdir -p $INSTALL
 

@@ -61,7 +61,7 @@ make_target() {
     modules_install
 
   ( cd $ROOT
-    rm -rf $ROOT/$BUILD/initramfs
+    rm -rf $ROOT/$BUILD/image/initramfs
     scripts/install initramfs
   )
 
