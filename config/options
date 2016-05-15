@@ -134,11 +134,22 @@ add_group() {
 }
 
 do_autoreconf() {
-  export ACLOCAL_DIR=$SYSROOT_PREFIX/usr/share/aclocal
+  if [ -f "$PKG_BUILD/configure.in" -o -f "$PKG_BUILD/configure.ac" ] ; then
+    if [ ! -f $PKG_BUILD/.autoreconf-done ] ; then
+      touch $PKG_BUILD/NEWS $PKG_BUILD/AUTHORS $PKG_BUILD/ChangeLog
+      mkdir -p $PKG_BUILD/m4
 
-  mkdir -p $ACLOCAL_DIR
-  export AUTORECONF="autoreconf --verbose --force --install -I $ACLOCAL_DIR"
-  $AUTORECONF $@
+      printf "%${BUILD_INDENT}c ${boldmagenta}AUTORECONF${endcolor}   $PKG_NAME\n" ' '
+      export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
+
+      export ACLOCAL_DIR=$SYSROOT_PREFIX/usr/share/aclocal
+
+      mkdir -p $ACLOCAL_DIR
+      export AUTORECONF="autoreconf --verbose --force --install -I $ACLOCAL_DIR"
+      $AUTORECONF $PKG_BUILD
+      touch $PKG_BUILD/.autoreconf-done
+    fi
+  fi
 }
 
 enable_service () {
