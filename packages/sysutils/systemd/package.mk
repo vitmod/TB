@@ -20,8 +20,6 @@ PKG_URL="https://github.com/systemd/systemd/archive/v$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libcap kmod util-linux"
 PKG_SHORTDESC="systemd: a system and session manager"
 
-PKG_AUTORECONF="yes"
-
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            ac_cv_have_decl_IFLA_BOND_AD_INFO=no \
                            ac_cv_have_decl_IFLA_BRPORT_UNICAST_FLOOD=no \
@@ -96,9 +94,8 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --with-rootprefix=/usr"
 
 pre_build_target() {
-  # broken autoreconf
   ( cd $PKG_BUILD
-    intltoolize --force
+    ./autogen.sh
   )
 }
 
