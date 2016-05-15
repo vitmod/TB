@@ -42,6 +42,8 @@ pre_build_target() {
          -e "s|^CROSS_COMPILE[[:space:]]*?=.*$|CROSS_COMPILE = $TARGET_PREFIX|" \
          $PKG_BUILD/Makefile
 
+  sed -i -e "s|/lib/firmware/updates|/storage/.config/firmware|" $PKG_BUILD/drivers/base/firmware_class.c
+
   make -C $PKG_BUILD oldconfig
 }
 
@@ -86,9 +88,4 @@ makeinstall_target() {
 post_makeinstall_target() {
   rm -f $INSTALL/lib/modules/*/build
   rm -f $INSTALL/lib/modules/*/source
-}
-
-post_install() {
-  mkdir -p $INSTALL/lib/firmware
-  ln -sf /storage/.config/firmware/ $INSTALL/lib/firmware/updates
 }
