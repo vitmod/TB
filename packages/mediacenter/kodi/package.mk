@@ -49,10 +49,8 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-gl \
                            --disable-vdpau \
                            --disable-vaapi \
-                           --disable-vtbdecoder \
                            --disable-tegra \
                            --disable-profiling \
-                           --disable-joystick \
                            --disable-libcec \
                            --enable-udev \
                            --disable-libusb \
@@ -65,7 +63,6 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-nfs \
                            --disable-libbluetooth \
                            --disable-libcap \
-                           --enable-dvdcss \
                            --disable-mid \
                            --disable-avahi \
                            --disable-upnp \
