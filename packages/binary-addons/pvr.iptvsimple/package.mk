@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="pvr.iptvsimple"
-PKG_VERSION="373b525"
+PKG_VERSION="8fa3ad2"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/kodi-pvr/pvr.iptvsimple.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform zlib"
