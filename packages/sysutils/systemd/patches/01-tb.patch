@@ -143,29 +143,30 @@ index 7135cff..ae9e5fa 100644
 2.1.4
 
 
-From 404320a7c3278b9db83906c57142110544ad6414 Mon Sep 17 00:00:00 2001
+From ab870c0bc7ad901751f5095d67aca46c2c3e8768 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
-Date: Wed, 18 Nov 2015 20:15:43 +0200
-Subject: [PATCH 5/5] meh btrfs
+Date: Sun, 15 May 2016 18:46:22 +0300
+Subject: [PATCH 5/5] missing.h: add BTRFS_IOC_QUOTA_RESCAN_WAIT
 
 ---
- src/basic/btrfs-util.c | 3 ---
- 1 file changed, 3 deletions(-)
+ src/basic/missing.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/src/basic/btrfs-util.c b/src/basic/btrfs-util.c
-index 359d85f..44a3723 100644
---- a/src/basic/btrfs-util.c
-+++ b/src/basic/btrfs-util.c
-@@ -1119,9 +1119,6 @@ int btrfs_quota_scan_start(int fd) {
- int btrfs_quota_scan_wait(int fd) {
-         assert(fd >= 0);
+diff --git a/src/basic/missing.h b/src/basic/missing.h
+index 36b0604..ee275ac 100644
+--- a/src/basic/missing.h
++++ b/src/basic/missing.h
+@@ -466,6 +466,10 @@ struct btrfs_ioctl_quota_ctl_args {
+                                struct btrfs_ioctl_qgroup_limit_args)
+ #endif
  
--        if (ioctl(fd, BTRFS_IOC_QUOTA_RESCAN_WAIT) < 0)
--                return -errno;
--
-         return 0;
- }
- 
++#ifndef BTRFS_IOC_QUOTA_RESCAN_WAIT
++#define BTRFS_IOC_QUOTA_RESCAN_WAIT _IO(BTRFS_IOCTL_MAGIC, 46)
++#endif
++
+ #ifndef BTRFS_FIRST_FREE_OBJECTID
+ #define BTRFS_FIRST_FREE_OBJECTID 256
+ #endif
 -- 
 2.1.4
 
