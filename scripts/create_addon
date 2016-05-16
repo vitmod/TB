@@ -39,7 +39,7 @@ pack_addon() {
   cp $PKG_DIR/changelog.txt $ADDON_BUILD/$PKG_ADDON_ID 2>/dev/null || :
 
   if [ ! -f $ADDON_BUILD/$PKG_ADDON_ID/default.py ]; then
-    cp config/addon/${PKG_ADDON_TYPE}/default.py $ADDON_BUILD/$PKG_ADDON_ID/default.py
+    cp config/addon/${PKG_ADDON_TYPE}/default.py $ADDON_BUILD/$PKG_ADDON_ID/default.py 2>/dev/null || :
   fi
 
   PROVIDER_NAME="$DISTRONAME"
