@@ -104,12 +104,27 @@ post_makeinstall_target() {
   rm -rf $INSTALL/etc/systemd/system
   rm -rf $INSTALL/etc/xdg
   rm -rf $INSTALL/etc/X11
-  rm  -f $INSTALL/usr/bin/kernel-install
-  rm  -f $INSTALL/usr/bin/systemd-analyze
+  rm -rf $INSTALL/usr/bin/kernel-install
+  rm -rf $INSTALL/usr/bin/systemd-analyze
+  rm -rf $INSTALL/usr/bin/systemd-cat
+  rm -rf $INSTALL/usr/bin/systemd-cgls
+  rm -rf $INSTALL/usr/bin/systemd-cgtop
+  rm -rf $INSTALL/usr/bin/systemd-delta
+  rm -rf $INSTALL/usr/bin/systemd-detect-virt
+  rm -rf $INSTALL/usr/bin/systemd-escape
+  rm -rf $INSTALL/usr/bin/systemd-notify
+  rm -rf $INSTALL/usr/bin/systemd-nspawn
+  rm -rf $INSTALL/usr/bin/systemd-path
+  rm -rf $INSTALL/usr/bin/systemd-resolve
+  rm -rf $INSTALL/usr/bin/systemd-stdio-bridge
   rm -rf $INSTALL/usr/lib/kernel
+  rm -rf $INSTALL/usr/lib/libnss_resolve*
   rm -rf $INSTALL/usr/lib/rpm
   rm -rf $INSTALL/usr/lib/systemd/catalog
   rm -rf $INSTALL/usr/lib/systemd/system-generators
+  rm -rf $INSTALL/usr/lib/systemd/systemd-bus-proxyd
+  rm -rf $INSTALL/usr/lib/systemd/systemd-socket-proxyd
+  rm -rf $INSTALL/usr/lib/systemd/systemd-update-done
   rm -rf $INSTALL/usr/lib/systemd/user
   rm -rf $INSTALL/usr/lib/systemd/user-generators
   rm -rf $INSTALL/usr/lib/tmpfiles.d/etc.conf
@@ -117,10 +132,6 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/tmpfiles.d/systemd-nspawn.conf
   rm -rf $INSTALL/usr/lib/tmpfiles.d/x11.conf
   rm -rf $INSTALL/usr/share/factory
-
-  # distro preset policy
-  rm -f $INSTALL/usr/lib/systemd/system-preset/*
-  echo "disable *" > $INSTALL/usr/lib/systemd/system-preset/99-default.preset
 
   # clean up hwdb
   rm -f $INSTALL/usr/lib/udev/hwdb.d/20-OUI.hwdb
@@ -135,7 +146,7 @@ post_makeinstall_target() {
   # remove Network adaper renaming rule, this is confusing
   rm -rf $INSTALL/usr/lib/udev/rules.d/80-net-setup-link.rules
 
-  # remove getty units, we dont want a console
+  # remove services
   rm -rf $INSTALL/usr/lib/systemd/system/autovt@.service
   rm -rf $INSTALL/usr/lib/systemd/system/console-getty.service
   rm -rf $INSTALL/usr/lib/systemd/system/console-shell.service
@@ -144,18 +155,24 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/systemd/system/getty@.service
   rm -rf $INSTALL/usr/lib/systemd/system/serial-getty@.service
   rm -rf $INSTALL/usr/lib/systemd/system/*.target.wants/getty.target
-
-  # remove other notused or nonsense stuff (our /etc is ro)
-  rm -rf $INSTALL/usr/lib/systemd/systemd-update-done
+  rm -rf $INSTALL/usr/lib/systemd/system/systemd-bus-proxyd.service
+  rm -rf $INSTALL/usr/lib/systemd/system/*.target.wants/systemd-bus-proxyd.service
+  rm -rf $INSTALL/usr/lib/systemd/system/systemd-nspawn@.service
   rm -rf $INSTALL/usr/lib/systemd/system/systemd-update-done.service
   rm -rf $INSTALL/usr/lib/systemd/system/*.target.wants/systemd-update-done.service
 
-  # remove nspawn
-  rm -rf $INSTALL/usr/bin/systemd-nspawn
-  rm -rf $INSTALL/usr/lib/systemd/system/systemd-nspawn@.service
+  # set distro preset policy
+  rm -f $INSTALL/usr/lib/systemd/system-preset/*
+  echo "disable *" > $INSTALL/usr/lib/systemd/system-preset/99-default.preset
 
-  # meh nss_resolve
-  rm -rf $INSTALL/usr/lib/libnss_resolve*
+  # symlink resolv.conf
+  ln -sf /run/systemd/resolve/resolv.conf $INSTALL/etc/resolv.conf
+
+  # provide 'halt', 'shutdown', 'reboot' & co.
+  mkdir -p $INSTALL/usr/sbin
+  for i in halt poweroff reboot shutdown ; do
+    ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/$i
+  done
 
   # tune journald.conf
   sed -i -e "s,^.*Compress=.*$,Compress=no,g" \
@@ -173,14 +190,6 @@ post_makeinstall_target() {
   # tune resolved.conf
   sed -i -e "s,^#LLMNR=.*$,LLMNR=no,g" \
          $INSTALL/etc/systemd/resolved.conf
-
-  # provide 'halt', 'shutdown', 'reboot' & co.
-  mkdir -p $INSTALL/usr/sbin
-  for i in halt poweroff reboot shutdown ; do
-    ln -sf /usr/bin/systemctl $INSTALL/usr/sbin/$i
-  done
-
-  ln -sf /run/systemd/resolve/resolv.conf $INSTALL/etc/resolv.conf
 
   rm -rf $INSTALL/etc/udev/hwdb.d
   ln -sf /storage/.config/hwdb.d $INSTALL/etc/udev/hwdb.d
