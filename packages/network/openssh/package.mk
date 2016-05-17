@@ -16,7 +16,7 @@
 PKG_NAME="openssh"
 PKG_VERSION="7.2p2"
 PKG_SITE="http://www.openssh.com/"
-PKG_URL="ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$PKG_NAME-$PKG_VERSION.tar.gz"
+PKG_URL="http://ftp.openssh.com/pub/OpenBSD/OpenSSH/portable/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain zlib libressl"
 PKG_SHORTDESC="openssh: An open re-implementation of the SSH package"
 
