@@ -89,20 +89,6 @@ setup_toolchain() {
   fi
 }
 
-get_module_dir() {
-  basename $(ls -d $(get_build_dir linux)/.install_pkg/lib/modules/*)
-}
-
-get_build_dir() {
-  if [ ! -z $1 ] ; then
-    local _PKG_DIR=$(find $ROOT/packages -name $1 | head -n1 2>/dev/null)
-    if [ -d "$_PKG_DIR" -a -f $_PKG_DIR/package.mk ] ; then
-      . $_PKG_DIR/package.mk
-    fi
-    echo $ROOT/$BUILD/${PKG_NAME}-${PKG_VERSION}
-  fi
-}
-
 add_user() {
   # Usage: add_user "username" "password" "userid" "groupid" "description" "home" "shell"
   mkdir -p ${INSTALL}/etc
@@ -133,26 +119,7 @@ add_group() {
   fi
 }
 
-do_autoreconf() {
-  if [ -f "$PKG_BUILD/configure.in" -o -f "$PKG_BUILD/configure.ac" ] ; then
-    if [ ! -f $PKG_BUILD/.autoreconf-done ] ; then
-      touch $PKG_BUILD/NEWS $PKG_BUILD/AUTHORS $PKG_BUILD/ChangeLog
-      mkdir -p $PKG_BUILD/m4
-
-      printf "%${BUILD_INDENT}c ${boldmagenta}AUTORECONF${endcolor}   $PKG_NAME\n" ' '
-      export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
-
-      export ACLOCAL_DIR=$SYSROOT_PREFIX/usr/share/aclocal
-
-      mkdir -p $ACLOCAL_DIR
-      export AUTORECONF="autoreconf --verbose --force --install -I $ACLOCAL_DIR"
-      $AUTORECONF $PKG_BUILD
-      touch $PKG_BUILD/.autoreconf-done
-    fi
-  fi
-}
-
-enable_service () {
+enable_service() {
   # Usage: enable_service <unit> [target]
   local unit="$1"
   local unit_dir="/usr/lib/systemd/system"
@@ -306,6 +273,25 @@ check_package() {
   if [ ! -f "$PKG_DIR/package.mk" ]; then
     printf "${boldred}$1: no package.mk file found${endcolor}\n"
     exit 1
+  fi
+}
+
+do_autoreconf() {
+  if [ -f "$PKG_BUILD/configure.in" -o -f "$PKG_BUILD/configure.ac" ] ; then
+    if [ ! -f $PKG_BUILD/.autoreconf-done ] ; then
+      touch $PKG_BUILD/NEWS $PKG_BUILD/AUTHORS $PKG_BUILD/ChangeLog
+      mkdir -p $PKG_BUILD/m4
+
+      printf "%${BUILD_INDENT}c ${boldmagenta}AUTORECONF${endcolor}   $PKG_NAME\n" ' '
+      export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
+
+      export ACLOCAL_DIR=$SYSROOT_PREFIX/usr/share/aclocal
+
+      mkdir -p $ACLOCAL_DIR
+      export AUTORECONF="autoreconf --verbose --force --install -I $ACLOCAL_DIR"
+      $AUTORECONF $PKG_BUILD
+      touch $PKG_BUILD/.autoreconf-done
+    fi
   fi
 }
 
