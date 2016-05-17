@@ -16,7 +16,7 @@
 PKG_NAME="opengl-meson8"
 PKG_VERSION="r5p1-01rel0-armhf"
 PKG_SITE="http://openlinux.amlogic.com:8000/download/ARM/filesystem/"
-PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="http://sources.openelec.tv/devel/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="opengl-meson8: OpenGL ES pre-compiled libraries for Mali 450 GPUs found in Amlogic Meson8 SoCs"
 

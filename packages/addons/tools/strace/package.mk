@@ -16,7 +16,7 @@
 PKG_NAME="strace"
 PKG_VERSION="4.11"
 PKG_SITE="http://sourceforge.net/projects/strace/"
-PKG_URL="$SOURCEFORGE_SRC/strace/strace/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="http://prdownloads.sourceforge.net/strace/strace/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 

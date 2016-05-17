@@ -16,7 +16,7 @@
 PKG_NAME="expat"
 PKG_VERSION="2.1.1"
 PKG_SITE="http://expat.sourceforge.net/"
-PKG_URL="$SOURCEFORGE_SRC/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.bz2"
+PKG_URL="http://prdownloads.sourceforge.net/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="expat: XML parser library"
 

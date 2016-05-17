@@ -16,7 +16,7 @@
 PKG_NAME="e2fsprogs"
 PKG_VERSION="1.42.13"
 PKG_SITE="http://e2fsprogs.sourceforge.net/"
-PKG_URL="$SOURCEFORGE_SRC/$PKG_NAME/$PKG_NAME/1.42/$PKG_NAME-$PKG_VERSION.tar.gz"
+PKG_URL="http://prdownloads.sourceforge.net/$PKG_NAME/$PKG_NAME/1.42/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_INIT="toolchain e2fsprogs"
 PKG_SHORTDESC="e2fsprogs: Utilities for use with the ext2 filesystem"

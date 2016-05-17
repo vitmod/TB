@@ -16,7 +16,7 @@
 PKG_NAME="libpng"
 PKG_VERSION="1.6.21"
 PKG_SITE="http://www.libpng.org/"
-PKG_URL="$SOURCEFORGE_SRC/libpng/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="http://prdownloads.sourceforge.net/libpng/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST="zlib:host"
 PKG_DEPENDS_TARGET="toolchain zlib"
 PKG_SHORTDESC="libpng: Portable Network Graphics (PNG) Reference Library"

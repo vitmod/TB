@@ -21,7 +21,7 @@
 
   # Kernel to use
     KERNEL_VERSION="amlogic-3.10-c8d5b2f"
-    KERNEL_URL="$DISTRO_SRC/linux-$KERNEL_VERSION.tar.xz"
+    KERNEL_URL="http://sources.openelec.tv/devel/linux-$KERNEL_VERSION.tar.xz"
 
   # OpenGL-ES implementation to use (opengl-meson8)
     OPENGLES="opengl-meson8"

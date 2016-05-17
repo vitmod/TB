@@ -16,7 +16,7 @@
 PKG_NAME="giflib"
 PKG_VERSION="5.1.3"
 PKG_SITE="http://giflib.sourceforge.net/"
-PKG_URL="$SOURCEFORGE_SRC/giflib/$PKG_NAME-$PKG_VERSION.tar.bz2"
+PKG_URL="http://prdownloads.sourceforge.net/giflib/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_HOST="zlib:host"
 PKG_DEPENDS_TARGET="toolchain zlib"
 PKG_SHORTDESC="giflib: giflib service library"
