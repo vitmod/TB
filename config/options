@@ -347,11 +347,11 @@ fi
 if [ -f "$PROJECT_DIR/$PROJECT/options" ]; then
   . $PROJECT_DIR/$PROJECT/options
 fi
-if [ -f "$HOME/.openelec/options" ]; then
-  . $HOME/.openelec/options
+if [ -f ".work/options" ]; then
+  . .work/options
 fi
-if [ -f "$HOME/.openelec/$PROJECT/options" ]; then
-  . $HOME/.openelec/$PROJECT/options
+if [ -f ".work/options.$PROJECT" ]; then
+  . .work/options.$PROJECT
 fi
 
 ################################################################################
