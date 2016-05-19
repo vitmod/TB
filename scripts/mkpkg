@@ -121,6 +121,8 @@ if [ -n "$REPO" ] ; then
   if [ ! "$PKG_VERSION" = "$REV" ] ; then
     echo "[mkpkg] Updating $PKG_DIR/package.mk"
     sed -i "s|PKG_VERSION=.*|PKG_VERSION=\"$REV\"|g" $PKG_DIR/package.mk
+    git add $PKG_DIR/package.mk
+    git commit -m "[update] $PKG_NAME-$REV"
   fi
 
   echo "[mkpkg] Cleaning up $PKG_NAME-$REV sources ..."
