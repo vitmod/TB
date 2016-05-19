@@ -21,7 +21,7 @@ PKG_DEPENDS_INIT="toolchain"
 PKG_SHORTDESC="bkeymaps: binary keyboard maps for busybox"
 
 make_init() {
-  : # nothing todo, we install manually
+  : # nop
 }
 
 makeinstall_init() {

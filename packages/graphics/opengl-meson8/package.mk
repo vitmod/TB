@@ -21,7 +21,7 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="opengl-meson8: OpenGL ES pre-compiled libraries for Mali 450 GPUs found in Amlogic Meson8 SoCs"
 
 make_target() {
- : # nothing todo
+  : # nop
 }
 
 makeinstall_target() {

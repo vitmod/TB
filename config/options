@@ -256,7 +256,6 @@ debug_strip() {
 }
 
 cleanup_rpath() {
-  # remove rpath. TODO: fix libtool?
   for bin in `find $1 -type f -executable 2>/dev/null` ; do
     if [ $(chrpath -l $bin 2>/dev/null | grep -c $(echo "PATH=$SYSROOT_PREFIX")) -gt 0 ] ; then
       chrpath -d $bin
