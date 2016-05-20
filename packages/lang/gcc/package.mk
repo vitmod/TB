@@ -39,7 +39,8 @@ GCC_COMMON_CONFIGURE_OPTS="--without-ppl \
                            --disable-multilib \
                            --disable-nls \
                            --enable-checking=release \
-                           --with-default-libstdcxx-abi=gcc4-compatible"
+                           --with-default-libstdcxx-abi=gcc4-compatible \
+                           --disable-libsanitizer"
 
 BOOTSTRAP_CONFIGURE_OPTS="--host=$HOST_NAME \
                           --build=$HOST_NAME \
@@ -50,7 +51,6 @@ BOOTSTRAP_CONFIGURE_OPTS="--host=$HOST_NAME \
                           --with-mpfr=$ROOT/$TOOLCHAIN \
                           --with-mpc=$ROOT/$TOOLCHAIN \
                           --enable-languages=c \
-                          --disable-libsanitizer \
                           --disable-shared \
                           --disable-threads \
                           --without-headers \
