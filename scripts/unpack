@@ -23,17 +23,16 @@ if [ -z "$1" ]; then
 fi
 
 check_package $1
-
 scripts/get $1
+
 [ ! -d "sources/$1" ] && exit 0
 
-STAMP=$PKG_BUILD/.openelec-unpack
-
 mkdir -p $BUILD
+STAMP=$PKG_BUILD/.unpack
 
 for i in $BUILD/$1-*; do
-  if [ -d $i -a -f "$i/.openelec-unpack" ] ; then
-    . "$i/.openelec-unpack"
+  if [ -d $i -a -f "$i/.unpack" ] ; then
+    . "$i/.unpack"
     if [ "$STAMP_PKG_NAME" = "$1" ]; then
       check_deepmd5 || scripts/clean $1
     fi
@@ -46,11 +45,15 @@ printf "%${BUILD_INDENT}c ${boldcyan}UNPACK${endcolor}   $1\n" ' '
 export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
 
 # unset functions
+unset -f pre_unpack
 unset -f unpack
-unset -f pre_patch
-unset -f post_patch
+unset -f post_unpack
 
 . $PKG_DIR/package.mk
+
+if [ "$(type -t pre_unpack)" = "function" ]; then
+  pre_unpack
+fi
 
 if [ "$(type -t unpack)" = "function" ]; then
   unpack
@@ -80,10 +83,6 @@ if [ -n "$PKG_SOURCE_DIR" ]; then
   mv $BUILD/$PKG_SOURCE_DIR $BUILD/$PKG_NAME-$PKG_VERSION
 fi
 
-if [ "$(type -t pre_patch)" = "function" ]; then
-  pre_patch
-fi
-
 for i in $PKG_DIR/patches/*.patch \
          $PKG_DIR/patches/$PKG_VERSION/*.patch \
          $PROJECT_DIR/$PROJECT/patches/$PKG_NAME/*.patch; do
@@ -97,10 +96,6 @@ for i in $PKG_DIR/patches/*.patch \
   fi
 done
 
-if [ "$(type -t post_patch)" = "function" ]; then
-  post_patch
-fi
-
 for config in `find $BUILD/$1* -name config.guess | sed 's/config.guess//'`; do
   if [ ! "$PKG_NAME" == "configtools" ] ; then
     printf "%${BUILD_INDENT}c ${boldyellow}FIXCONFIG${endcolor}   $config\n" ' '
@@ -112,6 +107,10 @@ for config in `find $BUILD/$1* -name config.guess | sed 's/config.guess//'`; do
   fi
 done
 
-rm -f $STAMPS/$1/build_*
+if [ "$(type -t post_unpack)" = "function" ]; then
+  post_unpack
+fi
+
+rm -rf $STAMPS/$1
 
 save_stamp

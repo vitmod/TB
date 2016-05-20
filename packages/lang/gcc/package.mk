@@ -66,8 +66,6 @@ PKG_CONFIGURE_OPTS_HOST="--target=$TARGET_NAME \
                          --enable-languages=c,c++ \
                          --enable-decimal-float \
                          --enable-tls \
-                         --enable-shared \
-                         --disable-static \
                          --enable-c99 \
                          --enable-long-long \
                          --enable-threads=posix \

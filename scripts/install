@@ -29,13 +29,6 @@ fi
 
 check_package $1
 
-PACKAGE_NAME=$(echo $1 | awk -F : '{print $1}')
-TARGET=$(echo $1 | awk -F : '{print $2}')
-if [ -z "$TARGET" ]; then
-  TARGET="target"
-fi
-UPTARGET=$(echo $TARGET | tr a-z A-Z)
-
 if [ "$TARGET" = bootstrap -o "$TARGET" = host ] ; then
   exit 0
 fi

@@ -22,12 +22,13 @@ PKG_SHORTDESC="libcap: A library for getting and setting POSIX.1e capabilities"
 
 make_target() {
   make CC=$TARGET_CC \
-       AR=$TARGET_AR \
-       RANLIB=$TARGET_RANLIB \
+       AR=$AR \
+       RANLIB=$RANLIB \
        CFLAGS="$TARGET_CFLAGS" \
        BUILD_CC=$HOST_CC \
        BUILD_CFLAGS="$HOST_CFLAGS -I$PKG_BUILD/libcap/include" \
        PAM_CAP=no \
+       BUILD_GPERF=no \
        lib=/lib \
        -C libcap libcap.pc libcap.a
 }

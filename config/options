@@ -21,22 +21,22 @@ set -e
 setup_toolchain() {
   if [ "$1" = target ]; then
     export DESTIMAGE="target"
-    unset CPP
-    export CC=$TARGET_CC
-    export CXX=$TARGET_CXX
-    export LD=$TARGET_LD
-    export AS=$TARGET_AS
-    export AR=$TARGET_AR
-    export NM=$TARGET_NM
-    export RANLIB=$TARGET_RANLIB
-    export OBJCOPY=$TARGET_OBJCOPY
-    export OBJDUMP=$TARGET_OBJDUMP
-    export STRIP=$TARGET_STRIP
+    export CC="$TARGET_CC"
+    export CXX="$TARGET_CXX"
+    export CPP="${TARGET_PREFIX}cpp"
+    export LD="${TARGET_PREFIX}ld"
+    export AS="${TARGET_PREFIX}as"
+    export AR="${TARGET_PREFIX}ar"
+    export NM="${TARGET_PREFIX}nm"
+    export RANLIB="${TARGET_PREFIX}ranlib"
+    export OBJCOPY="${TARGET_PREFIX}objcopy"
+    export OBJDUMP="${TARGET_PREFIX}objdump"
+    export STRIP="${TARGET_PREFIX}strip"
     export CPPFLAGS="$TARGET_CPPFLAGS"
     export CFLAGS="$TARGET_CFLAGS"
     export CXXFLAGS="$TARGET_CXXFLAGS"
     export LDFLAGS="$TARGET_LDFLAGS"
-    export PKG_CONFIG_PATH="$TARGET_PKG_CONFIG_PATH"
+    export PKG_CONFIG_PATH=""
     export PKG_CONFIG_LIBDIR="$TARGET_PKG_CONFIG_LIBDIR"
     export PKG_CONFIG_SYSROOT_DIR="$TARGET_PKG_CONFIG_SYSROOT_DIR"
     export CMAKE_CONF=$ROOT/$TOOLCHAIN/etc/cmake-$TARGET_NAME.conf
@@ -45,8 +45,9 @@ setup_toolchain() {
       echo "SET(CMAKE_SYSTEM_NAME Linux)" >> $CMAKE_CONF
       echo "SET(CMAKE_SYSTEM_VERSION 1)"  >> $CMAKE_CONF
       echo "SET(CMAKE_SYSTEM_PROCESSOR  $TARGET_ARCH)" >> $CMAKE_CONF
-      echo "SET(CMAKE_C_COMPILER   $TARGET_CC)"  >> $CMAKE_CONF
-      echo "SET(CMAKE_CXX_COMPILER $TARGET_CXX)" >> $CMAKE_CONF
+      echo "SET(CMAKE_C_COMPILER   $CC)"  >> $CMAKE_CONF
+      echo "SET(CMAKE_CXX_COMPILER $CXX)" >> $CMAKE_CONF
+      echo "SET(CMAKE_CPP_COMPILER $CPP)" >> $CMAKE_CONF
       echo "SET(CMAKE_FIND_ROOT_PATH  $SYSROOT_PREFIX)"   >> $CMAKE_CONF
       echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)" >> $CMAKE_CONF
       echo "SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)"  >> $CMAKE_CONF
@@ -57,30 +58,30 @@ setup_toolchain() {
     export _python_exec_prefix=/usr
   elif [ "$1" = host ]; then
     export DESTIMAGE="host"
-    unset CPP
-    export AWK=$HOST_AWK
-    export CC=$HOST_CC
-    export CXX=$HOST_CXX
-    export LD=$HOST_LD
-    export AS=$HOST_AS
-    export AR=$HOST_AR
-    export NM=$HOST_NM
-    export RANLIB=$HOST_RANLIB
-    export OBJCOPY=$HOST_OBJCOPY
-    export STRIP=$HOST_STRIP
+    export CC="$HOST_CC"
+    export CXX="$HOST_CXX"
+    export CPP="cpp"
+    export LD="ld"
+    export AS="as"
+    export AR="ar"
+    export NM="nm"
+    export RANLIB="ranlib"
+    export OBJCOPY="objcopy"
+    export STRIP="strip"
     export CPPFLAGS="$HOST_CPPFLAGS"
     export CFLAGS="$HOST_CFLAGS"
     export CXXFLAGS="$HOST_CXXFLAGS"
     export LDFLAGS="$HOST_LDFLAGS"
-    export PKG_CONFIG_PATH="$HOST_PKG_CONFIG_PATH"
+    export PKG_CONFIG_PATH=""
     export PKG_CONFIG_LIBDIR="$HOST_PKG_CONFIG_LIBDIR"
     export PKG_CONFIG_SYSROOT_DIR="$HOST_PKG_CONFIG_SYSROOT_DIR"
     export CMAKE_CONF=$ROOT/$TOOLCHAIN/etc/cmake-$HOST_NAME.conf
     if [ ! -f $CMAKE_CONF ] ; then
       echo "SET(CMAKE_SYSTEM_NAME Linux)" >> $CMAKE_CONF
       echo "SET(CMAKE_SYSTEM_VERSION 1)"  >> $CMAKE_CONF
-      echo "SET(CMAKE_C_COMPILER   $HOST_CC)"  >> $CMAKE_CONF
-      echo "SET(CMAKE_CXX_COMPILER $HOST_CXX)" >> $CMAKE_CONF
+      echo "SET(CMAKE_C_COMPILER   $CC)"  >> $CMAKE_CONF
+      echo "SET(CMAKE_CXX_COMPILER $CXX)" >> $CMAKE_CONF
+      echo "SET(CMAKE_CPP_COMPILER $CXX)" >> $CMAKE_CONF
       echo "SET(CMAKE_FIND_ROOT_PATH  $ROOT/$TOOLCHAIN)" >> $CMAKE_CONF
       echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)" >> $CMAKE_CONF
       echo "SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)" >> $CMAKE_CONF
@@ -230,6 +231,15 @@ check_deepmd5() {
   return 0
 }
 
+get_pkg_target() {
+  PACKAGE_NAME=$(echo $1 | awk -F : '{print $1}')
+  TARGET=$(echo $1 | awk -F : '{print $2}')
+  if [ -z "$TARGET" ]; then
+    TARGET="target"
+  fi
+  UPTARGET=$(echo $TARGET | tr a-z A-Z)
+}
+
 save_stamp() {
   PKG_DEEPMD5=$(find $STAMP_DEPENDS -exec md5sum {} \; 2>/dev/null | sort | md5sum | cut -d" " -f1)
   for i in PKG_NAME PKG_DEEPMD5; do
@@ -369,7 +379,7 @@ if [ -f config/arch.$TARGET_ARCH ]; then
 fi
 
 HOST_NAME=`$LOCAL_CC -dumpmachine`
-TARGET_NAME=$TARGET_GCC_ARCH-openelec-linux-gnu${TARGET_ABI}
+TARGET_NAME=$TARGET_GCC_ARCH-linux-gnu${TARGET_ABI}
 
 BUILD=build.$DISTRONAME-$PROJECT-$OPENELEC_VERSION
 
@@ -385,7 +395,7 @@ MAKEINSTALL="make -j1 DESTDIR=$SYSROOT_PREFIX install"
 
 FAKEROOT_SCRIPT=$ROOT/.fakeroot.$PROJECT.$TARGET_ARCH
 
-export CCACHE_DIR=$ROOT/$BUILD/.ccache-openelec
+export CCACHE_DIR=$ROOT/$BUILD/.ccache
 export MAKEFLAGS=-j$(cat /proc/cpuinfo | grep -c '^processor[[:cntrl:]]*:')
 
 if [ -z "$INSTALL" ]; then
@@ -397,19 +407,9 @@ LINUX_DEPENDS="$PROJECT_DIR/$PROJECT/linux/linux.$TARGET_ARCH.conf $ROOT/package
 ################################################################################
 # target environment
 ################################################################################
-unset TARGET_CPP
 TARGET_CC=${TARGET_PREFIX}gcc
 TARGET_CXX=${TARGET_PREFIX}g++
-TARGET_LD=${TARGET_PREFIX}ld
-TARGET_AS=${TARGET_PREFIX}as
-TARGET_AR=${TARGET_PREFIX}ar
-TARGET_NM=${TARGET_PREFIX}nm
-TARGET_RANLIB=${TARGET_PREFIX}ranlib
-TARGET_OBJCOPY=${TARGET_PREFIX}objcopy
-TARGET_OBJDUMP=${TARGET_PREFIX}objdump
-TARGET_STRIP=${TARGET_PREFIX}strip
 
-TARGET_PKG_CONFIG_PATH=""
 TARGET_PKG_CONFIG_LIBDIR="$SYSROOT_PREFIX/usr/lib/pkgconfig:$SYSROOT_PREFIX/usr/share/pkgconfig"
 TARGET_PKG_CONFIG_SYSROOT_DIR="$SYSROOT_PREFIX"
 
@@ -417,8 +417,6 @@ TARGET_CPPFLAGS=
 TARGET_CFLAGS="$TARGET_CFLAGS -w -pipe -Os $PROJECT_CFLAGS"
 TARGET_CXXFLAGS="$TARGET_CFLAGS"
 TARGET_LDFLAGS="$TARGET_LDFLAGS -Wl,--as-needed"
-TARGET_LIBDIR="$SYSROOT_PREFIX/lib $SYSROOT_PREFIX/usr/lib"
-TARGET_INCDIR="$SYSROOT_PREFIX/include $SYSROOT_PREFIX/usr/include"
 
 if [ "$DEBUG" = yes ]; then
   TARGET_CFLAGS="$TARGET_CFLAGS -ggdb"
@@ -429,28 +427,16 @@ fi
 ################################################################################
 # hosst environment
 ################################################################################
-unset HOST_CPP
 HOST_CC=$ROOT/$TOOLCHAIN/bin/host-gcc
 HOST_CXX=$ROOT/$TOOLCHAIN/bin/host-g++
-HOST_LD=ld
-HOST_AS=as
-HOST_AR=ar
-HOST_NM=nm
-HOST_RANLIB=ranlib
-HOST_OBJCOPY=objcopy
-HOST_STRIP=strip
-HOST_AWK=gawk
 
-HOST_PKG_CONFIG_PATH=""
 HOST_PKG_CONFIG_LIBDIR="$ROOT/$TOOLCHAIN/lib/pkgconfig:$ROOT/$TOOLCHAIN/share/pkgconfig"
 HOST_PKG_CONFIG_SYSROOT_DIR=""
 
-HOST_CPPFLAGS=""
+HOST_CPPFLAGS="-I$ROOT/$TOOLCHAIN/include"
 HOST_CFLAGS="-O2 -w -pipe -I$ROOT/$TOOLCHAIN/include -Wno-format-security"
 HOST_CXXFLAGS="$HOST_CFLAGS"
 HOST_LDFLAGS="-Wl,-rpath,$ROOT/$TOOLCHAIN/lib -L$ROOT/$TOOLCHAIN/lib"
-HOST_LIBDIR="$ROOT/$TOOLCHAIN/lib /lib /usr/lib"
-HOST_INCDIR="$ROOT/$TOOLCHAIN/include /usr/include"
 
 ################################################################################
 # export path / ld lib path & clean distro specific env
@@ -516,3 +502,4 @@ STAMP_DEPENDS="$PKG_DIR $PKG_NEED_UNPACK $PROJECT_DIR/$PROJECT/patches/$PKG_NAME
 ################################################################################
 check_config
 setup_toolchain target
+get_pkg_target $1

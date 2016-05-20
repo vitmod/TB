@@ -103,13 +103,7 @@ usage() {
 }
 
 case $1 in
-  -b)
-    build $2
-    ;;
-  -u)
-    upload
-    ;;
-  *)
-    usage
-    ;;
+  -b) build $2 ;;
+  -u) upload ;;
+   *) usage ;;
 esac

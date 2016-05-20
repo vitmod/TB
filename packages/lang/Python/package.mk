@@ -23,8 +23,13 @@ PKG_SHORTDESC="python: The Python programming language"
 PKG_AUTORECONF="yes"
 
 PY_DISABLED_MODULES="readline _curses _curses_panel _tkinter nis gdbm bsddb ossaudiodev linuxaudiodev"
+PY_HOST_INCDIR="$ROOT/$TOOLCHAIN/include /usr/include"
+PY_HOST_LIBDIR="$ROOT/$TOOLCHAIN/lib /lib /usr/lib"
+PY_TARGET_INCDIR="$SYSROOT_PREFIX/include $SYSROOT_PREFIX/usr/include"
+PY_TARGET_LIBDIR="$SYSROOT_PREFIX/lib $SYSROOT_PREFIX/usr/lib"
 
 PKG_CONFIGURE_OPTS_HOST="--cache-file=config.cache \
+                         --enable-shared \
                          --without-cxx-main \
                          --with-threads \
                          --enable-unicode=ucs4"
@@ -40,6 +45,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_file_dev_ptc=no \
                            ac_cv_file__dev_ptmx=no \
                            ac_cv_file__dev_ptc=no \
                            ac_cv_have_long_long_format=yes \
+                           --enable-shared \
                            --with-threads \
                            --enable-unicode=ucs4 \
                            --enable-ipv6 \
@@ -53,7 +59,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_file_dev_ptc=no \
                            --without-cxx-main \
                            --with-system-expat"
 
-post_patch() {
+post_unpack() {
   # This is needed to make sure the Python build process doesn't try to
   # regenerate those files with the pgen program. Otherwise, it builds
   # pgen for the target, and tries to run it on the host.
@@ -62,8 +68,8 @@ post_patch() {
 }
 
 make_host() {
-  make PYTHON_MODULES_INCLUDE="$HOST_INCDIR" \
-       PYTHON_MODULES_LIB="$HOST_LIBDIR" \
+  make PYTHON_MODULES_INCLUDE="$PY_HOST_INCDIR" \
+       PYTHON_MODULES_LIB="$PY_HOST_LIBDIR" \
        PYTHON_DISABLE_MODULES="$PY_DISABLED_MODULES"
 
   # python distutils per default adds -L$LIBDIR when linking binary extensions
@@ -71,8 +77,8 @@ make_host() {
 }
 
 makeinstall_host() {
-  make PYTHON_MODULES_INCLUDE="$HOST_INCDIR" \
-       PYTHON_MODULES_LIB="$HOST_LIBDIR" \
+  make PYTHON_MODULES_INCLUDE="$PY_HOST_INCDIR" \
+       PYTHON_MODULES_LIB="$PY_HOST_LIBDIR" \
        PYTHON_DISABLE_MODULES="$PY_DISABLED_MODULES" \
        install
 }
@@ -84,8 +90,8 @@ pre_configure_target() {
 make_target() {
   make  -j1 CC="$TARGET_CC" LDFLAGS="$TARGET_LDFLAGS -L." \
         PYTHON_DISABLE_MODULES="$PY_DISABLED_MODULES" \
-        PYTHON_MODULES_INCLUDE="$TARGET_INCDIR" \
-        PYTHON_MODULES_LIB="$TARGET_LIBDIR" \
+        PYTHON_MODULES_INCLUDE="$PY_TARGET_INCDIR" \
+        PYTHON_MODULES_LIB="$PY_TARGET_LIBDIR" \
         LDFLAGS="$TARGET_LDFLAGS -L$PKG_BUILD/.$TARGET_NAME"
 }
 
@@ -93,15 +99,15 @@ makeinstall_target() {
   make  -j1 CC="$TARGET_CC" \
         DESTDIR=$SYSROOT_PREFIX \
         PYTHON_DISABLE_MODULES="$PY_DISABLED_MODULES" \
-        PYTHON_MODULES_INCLUDE="$TARGET_INCDIR" \
-        PYTHON_MODULES_LIB="$TARGET_LIBDIR" \
+        PYTHON_MODULES_INCLUDE="$PY_TARGET_INCDIR" \
+        PYTHON_MODULES_LIB="$PY_TARGET_LIBDIR" \
         install
 
   make  -j1 CC="$TARGET_CC" \
         DESTDIR=$INSTALL \
         PYTHON_DISABLE_MODULES="$PY_DISABLED_MODULES" \
-        PYTHON_MODULES_INCLUDE="$TARGET_INCDIR" \
-        PYTHON_MODULES_LIB="$TARGET_LIBDIR" \
+        PYTHON_MODULES_INCLUDE="$PY_TARGET_INCDIR" \
+        PYTHON_MODULES_LIB="$PY_TARGET_LIBDIR" \
         install
 }
 

@@ -24,12 +24,6 @@ fi
 
 check_package $1
 
-PACKAGE_NAME=$(echo $1 | awk -F : '{print $1}')
-TARGET=$(echo $1 | awk -F : '{print $2}')
-if [ -z "$TARGET" ]; then
-  TARGET="target"
-fi
-
 case "$2" in
   -b)
     STAMP=$STAMPS/$PACKAGE_NAME/build_$TARGET
@@ -37,7 +31,7 @@ case "$2" in
     $0 $1 -u
     ;;
   -u|"")
-    STAMP=$PKG_BUILD/.openelec-unpack
+    STAMP=$PKG_BUILD/.unpack
     STEP=UNPACK
     ;;
 esac
