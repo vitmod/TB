@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="kodi"
-PKG_VERSION="9770553"
+PKG_VERSION="476da66"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="git+https://github.com/xbmc/xbmc.git"
 PKG_DEPENDS_TARGET="toolchain kodi:host"
@@ -171,7 +171,7 @@ post_makeinstall_target() {
 
   # more binaddons cross compile badness meh
   sed -i -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR $SYSROOT_PREFIX/usr/include/kodi:g" \
-    $SYSROOT_PREFIX/usr/lib/kodi/kodi-config.cmake
+    $SYSROOT_PREFIX/usr/lib/kodi/KodiConfig.cmake
 }
 
 post_install() {

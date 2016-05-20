@@ -1,7 +1,7 @@
-From 773fbd1c0456f23c88e9fcd6a2d60eec1c046f27 Mon Sep 17 00:00:00 2001
+From 1b644a13eed0e18c1ad916710bcf2fe2250f2d59 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 01/10] [tb] make binary addons executable
+Subject: [PATCH 1/9] [tb] make binary addons executable
 
 ---
  xbmc/addons/Addon.cpp | 6 ++++++
@@ -28,20 +28,20 @@ index 5005f8d..792df18 100644
 2.7.4
 
 
-From f64dce050e4891d54ee8160f71291ce18a7ca5b8 Mon Sep 17 00:00:00 2001
+From fcdc7c9120d008f20b41f9a3582361acca871c72 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 02/10] [tb] disable minimize
+Subject: [PATCH 2/9] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 1d28fea..e1a6933 100644
+index 454f728..2289915 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4917,7 +4917,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4926,7 +4926,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -53,10 +53,10 @@ index 1d28fea..e1a6933 100644
 2.7.4
 
 
-From 0e7793ec7e0b8fc5d1543d90c4cd4f8365a45985 Mon Sep 17 00:00:00 2001
+From 5655c4d8929a74bb3103ee4b41a2105e2817420c Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 03/10] [tb] setup timezone
+Subject: [PATCH 3/9] [tb] setup timezone
 
 ---
  xbmc/linux/LinuxTimezone.cpp | 6 ++++++
@@ -83,10 +83,10 @@ index ea44d40..744780e 100644
 2.7.4
 
 
-From e94f4e029c6cca92947a021828101e441fb1fd76 Mon Sep 17 00:00:00 2001
+From 9921938ec98062473b957d9ebf9d34751139504e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 04/10] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 4/9] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -178,10 +178,10 @@ index d43b309..2c51fb3 100644
 2.7.4
 
 
-From e388679aa37e4c4be8d48d6b3acafb07305d51d7 Mon Sep 17 00:00:00 2001
+From 6799e9b0638e4ca3db81849a5c92082d670bc657 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 05/10] [tb] handle SIGTERM
+Subject: [PATCH 5/9] [tb] handle SIGTERM
 
 ... CApplication::Stop cant be trusted
 ---
@@ -193,10 +193,10 @@ Subject: [PATCH 05/10] [tb] handle SIGTERM
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index e1a6933..4077011 100644
+index 2289915..68c9ed4 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2346,12 +2346,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2350,12 +2350,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
    switch (pMsg->dwMessage)
    {
    case TMSG_POWERDOWN:
@@ -211,7 +211,7 @@ index e1a6933..4077011 100644
      break;
    
    case TMSG_SHUTDOWN:
-@@ -2372,12 +2372,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2376,12 +2376,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
  
    case TMSG_RESTART:
    case TMSG_RESET:
@@ -226,7 +226,7 @@ index e1a6933..4077011 100644
      Stop(EXITCODE_RESTARTAPP);
  #endif
      break;
-@@ -2801,6 +2802,13 @@ bool CApplication::Cleanup()
+@@ -2806,6 +2807,13 @@ bool CApplication::Cleanup()
    }
  }
  
@@ -240,7 +240,7 @@ index e1a6933..4077011 100644
  void CApplication::Stop(int exitCode)
  {
    try
-@@ -2808,7 +2816,7 @@ void CApplication::Stop(int exitCode)
+@@ -2813,7 +2821,7 @@ void CApplication::Stop(int exitCode)
      m_frameMoveGuard.unlock();
  
      CVariant vExitCode(CVariant::VariantTypeObject);
@@ -249,7 +249,7 @@ index e1a6933..4077011 100644
      CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2842,7 +2850,6 @@ void CApplication::Stop(int exitCode)
+@@ -2847,7 +2855,6 @@ void CApplication::Stop(int exitCode)
  
      m_bStop = true;
      m_AppFocused = false;
@@ -329,10 +329,10 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From dd2ccffbe1cb75eb5c633d9587c3586f223c4ffd Mon Sep 17 00:00:00 2001
+From 2891e3ab341ed41e0fc98d468954cc3cdf7083cc Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 06/10] [tb] pvr: nobody cared
+Subject: [PATCH 6/9] [tb] pvr: nobody cared
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -358,10 +358,10 @@ index ea1eef4..4ffdac6 100644
 2.7.4
 
 
-From 49b8f9275f35acd129b0993dc419036044a2eae2 Mon Sep 17 00:00:00 2001
+From 3bc5e50ad0ada4b2b9b538fbeac478647a499e4d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 07/10] [tb] all user pre-installed addons should be enabled
+Subject: [PATCH 7/9] [tb] all user pre-installed addons should be enabled
 
 ---
  xbmc/addons/AddonDatabase.cpp | 2 +-
@@ -384,10 +384,10 @@ index d23be26..bb76bf9 100644
 2.7.4
 
 
-From f317942f8a1b3de38d9b3ebe85d1699c005a3f29 Mon Sep 17 00:00:00 2001
+From 0cf31c92f61a7c72032b142d64ffca0245373a73 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 08/10] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 8/9] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -414,125 +414,10 @@ index ff26118..9de73fa 100644
 2.7.4
 
 
-From b4f899717fb84bd24f16e97f9730c23547a93cc0 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sun, 8 May 2016 11:45:30 +0300
-Subject: [PATCH 09/10] [aml] add gui setting to enable/disable mpeg2 hw
- decoding
-
----
- addons/resource.language.en_gb/resources/strings.po        | 13 ++++++++++++-
- system/settings/settings.xml                               | 14 ++++++++++++++
- .../VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp   |  5 +++++
- xbmc/settings/Settings.cpp                                 |  2 ++
- xbmc/settings/Settings.h                                   |  1 +
- 5 files changed, 34 insertions(+), 1 deletion(-)
-
-diff --git a/addons/resource.language.en_gb/resources/strings.po b/addons/resource.language.en_gb/resources/strings.po
-index cc4305a..0855966 100644
---- a/addons/resource.language.en_gb/resources/strings.po
-+++ b/addons/resource.language.en_gb/resources/strings.po
-@@ -6736,7 +6736,18 @@ msgctxt "#13452"
- msgid "Enable this option to use hardware acceleration for VC-1 based codecs. If disabled the CPU will be used instead. Especially VC-1 interlaced fails hard on Intel hardware."
- msgstr ""
- 
--#empty strings from id 13453 to 13456
-+#: system/settings/settings.xml
-+msgctxt "#13453"
-+msgid "Use MPEG-2 amcodec"
-+msgstr ""
-+
-+#. Description of setting with label #13453 "Use MPEG-2 amcodec"
-+#: system/settings/settings.xml
-+msgctxt "#13454"
-+msgid "Enable this option to use hardware acceleration for MPEG-(1 / 2) codecs. If disabled the CPU will be used instead."
-+msgstr ""
-+
-+#empty strings from id 13455 to 13456
- 
- #. Option for video related setting #13454: sw filter
- #: system/settings/settings.xml
-diff --git a/system/settings/settings.xml b/system/settings/settings.xml
-index e301292..ee96128 100644
---- a/system/settings/settings.xml
-+++ b/system/settings/settings.xml
-@@ -119,6 +119,20 @@
-           </updates>
-           <control type="toggle" />
-         </setting>
-+        <setting id="videoplayer.useamcodecmpeg2" type="boolean" label="13453" help="13454">
-+          <requirement>HAVE_AMCODEC</requirement>
-+          <level>2</level>
-+          <default>true</default>
-+          <updates>
-+            <update type="change" />
-+          </updates>
-+          <dependencies>
-+            <dependency type="enable">
-+              <condition setting="videoplayer.useamcodec" operator="is">true</condition> <!-- USE AMCODEC -->
-+            </dependency>
-+          </dependencies>
-+          <control type="toggle" />
-+        </setting>
-         <setting id="videoplayer.usemediacodecsurface" type="boolean" label="13440" help="36544">
-           <requirement>HAS_MEDIACODEC</requirement>
-           <level>2</level>
-diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-index 543951b..ef9f618 100644
---- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-+++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-@@ -84,6 +84,11 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
-     case AV_CODEC_ID_MPEG1VIDEO:
-     case AV_CODEC_ID_MPEG2VIDEO:
-     case AV_CODEC_ID_MPEG2VIDEO_XVMC:
-+      if (!CSettings::GetInstance().GetBool(CSettings::SETTING_VIDEOPLAYER_USEAMCODEC_MPEG2))
-+      {
-+        if (hints.width <= 800)
-+          return false;
-+      }
-       m_mpeg2_sequence_pts = 0;
-       m_mpeg2_sequence = new mpeg2_sequence;
-       m_mpeg2_sequence->width  = m_hints.width;
-diff --git a/xbmc/settings/Settings.cpp b/xbmc/settings/Settings.cpp
-index 782c92b..67bcd7a 100644
---- a/xbmc/settings/Settings.cpp
-+++ b/xbmc/settings/Settings.cpp
-@@ -159,6 +159,7 @@ const std::string CSettings::SETTING_VIDEOPLAYER_QUITSTEREOMODEONSTOP = "videopl
- const std::string CSettings::SETTING_VIDEOPLAYER_RENDERMETHOD = "videoplayer.rendermethod";
- const std::string CSettings::SETTING_VIDEOPLAYER_HQSCALERS = "videoplayer.hqscalers";
- const std::string CSettings::SETTING_VIDEOPLAYER_USEAMCODEC = "videoplayer.useamcodec";
-+const std::string CSettings::SETTING_VIDEOPLAYER_USEAMCODEC_MPEG2 = "videoplayer.useamcodecmpeg2";
- const std::string CSettings::SETTING_VIDEOPLAYER_USEMEDIACODEC = "videoplayer.usemediacodec";
- const std::string CSettings::SETTING_VIDEOPLAYER_USEMEDIACODECSURFACE = "videoplayer.usemediacodecsurface";
- const std::string CSettings::SETTING_VIDEOPLAYER_USEVDPAU = "videoplayer.usevdpau";
-@@ -1077,6 +1078,7 @@ void CSettings::InitializeISettingCallbacks()
-   settingSet.insert(CSettings::SETTING_VIDEOSCREEN_GUICALIBRATION);
-   settingSet.insert(CSettings::SETTING_VIDEOSCREEN_TESTPATTERN);
-   settingSet.insert(CSettings::SETTING_VIDEOPLAYER_USEAMCODEC);
-+  settingSet.insert(CSettings::SETTING_VIDEOPLAYER_USEAMCODEC_MPEG2);
-   settingSet.insert(CSettings::SETTING_VIDEOPLAYER_USEMEDIACODEC);
-   settingSet.insert(CSettings::SETTING_VIDEOPLAYER_USEMEDIACODECSURFACE);
-   settingSet.insert(CSettings::SETTING_AUDIOOUTPUT_VOLUMESTEPS);
-diff --git a/xbmc/settings/Settings.h b/xbmc/settings/Settings.h
-index ce94cf9..a32698b 100644
---- a/xbmc/settings/Settings.h
-+++ b/xbmc/settings/Settings.h
-@@ -116,6 +116,7 @@ public:
-   static const std::string SETTING_VIDEOPLAYER_RENDERMETHOD;
-   static const std::string SETTING_VIDEOPLAYER_HQSCALERS;
-   static const std::string SETTING_VIDEOPLAYER_USEAMCODEC;
-+  static const std::string SETTING_VIDEOPLAYER_USEAMCODEC_MPEG2;
-   static const std::string SETTING_VIDEOPLAYER_USEMEDIACODEC;
-   static const std::string SETTING_VIDEOPLAYER_USEMEDIACODECSURFACE;
-   static const std::string SETTING_VIDEOPLAYER_USEVDPAU;
--- 
-2.7.4
-
-
-From 560f38d52ec978e1c00318b0964e856a5416dfd1 Mon Sep 17 00:00:00 2001
+From 512eeaa091e826ea6a59b35458a703b50efa26ff Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 23 Apr 2016 16:16:45 +0200
-Subject: [PATCH 10/10] [aml] Use amlvideo driver for audio/video sync
+Subject: [PATCH 9/9] [aml] Use amlvideo driver for audio/video sync
 
 ---
  .../cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 125 +++++++++++++++++----
@@ -808,10 +693,10 @@ index 5b9ee4f..1805e23 100644
 +  PosixFilePtr m_amlVideoFile;
  };
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-index ef9f618..5fe90f1 100644
+index 43ca555..2ea8db0 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-@@ -266,7 +266,7 @@ int CDVDVideoCodecAmlogic::Decode(uint8_t *pData, int iSize, double dts, double
+@@ -265,7 +265,7 @@ int CDVDVideoCodecAmlogic::Decode(uint8_t *pData, int iSize, double dts, double
      if (m_bitparser)
        m_bitparser->FindIdrSlice(pData, iSize);
  
@@ -820,7 +705,7 @@ index ef9f618..5fe90f1 100644
    }
  
    if (!m_opened)
-@@ -297,7 +297,7 @@ bool CDVDVideoCodecAmlogic::GetPicture(DVDVideoPicture* pDvdVideoPicture)
+@@ -296,7 +296,7 @@ bool CDVDVideoCodecAmlogic::GetPicture(DVDVideoPicture* pDvdVideoPicture)
      m_Codec->GetPicture(&m_videobuffer);
    *pDvdVideoPicture = m_videobuffer;
  
@@ -829,7 +714,7 @@ index ef9f618..5fe90f1 100644
  
    {
      CSingleLock lock(m_secure);
-@@ -578,10 +578,11 @@ void CDVDVideoCodecAmlogic::RemoveInfo(CDVDAmlogicInfo *info)
+@@ -577,10 +577,11 @@ void CDVDVideoCodecAmlogic::RemoveInfo(CDVDAmlogicInfo *info)
    m_inflight.erase(m_inflight.find(info));
  }
  

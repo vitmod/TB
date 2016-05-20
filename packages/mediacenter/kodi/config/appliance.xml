@@ -10,7 +10,7 @@
       </group>
       <group id="4">
         <setting id="videoplayer.useamcodecmpeg2">
-          <default>false</default>
+          <default>800</default>
         </setting>
       </group>
     </category>
