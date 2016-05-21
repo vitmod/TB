@@ -13,9 +13,6 @@
 /tools/mkpkg/*
 !/tools/mkpkg/mkpkg_*
 
-# mkpkg temp
-mkpkg-temp
-
 # private working directory
 /.work/
 
@@ -25,6 +22,3 @@ mkpkg-temp
 
 # backup files
 *.orig
-
-# crap
-.DS_Store
