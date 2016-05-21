@@ -33,15 +33,11 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_utempter_h=no \
                            --disable-telnet \
                            --disable-socket-dir"
 
-pre_configure_target() {
-  rm -rf $PKG_BUILD/.$TARGET_NAME
-}
-
 makeinstall_target() {
   : # nop
 }
 
 addon() {
   mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/bin
-  cp $PKG_BUILD/screen $ADDON_BUILD/$PKG_ADDON_ID/bin/screen
+  cp $PKG_BUILD/.$TARGET_NAME/screen $ADDON_BUILD/$PKG_ADDON_ID/bin/screen
 }
