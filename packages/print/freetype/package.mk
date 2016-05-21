@@ -17,10 +17,11 @@ PKG_NAME="freetype"
 PKG_VERSION="2.6.3"
 PKG_SITE="http://www.freetype.org"
 PKG_URL="http://download.savannah.gnu.org/releases/freetype/$PKG_NAME-$PKG_VERSION.tar.bz2"
-PKG_DEPENDS_TARGET="toolchain zlib libpng"
+PKG_DEPENDS_TARGET="toolchain zlib"
 PKG_SHORTDESC="freetype: TrueType font rendering library"
 
-PKG_CONFIGURE_OPTS_TARGET="--with-sysroot=$SYSROOT_PREFIX --with-zlib"
+PKG_CONFIGURE_OPTS_TARGET="--with-sysroot=$SYSROOT_PREFIX \
+                           --with-zlib --with-png=no"
 
 post_makeinstall_target() {
   rm -f $SYSROOT_PREFIX/usr/bin/freetype-config
