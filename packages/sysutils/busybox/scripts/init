@@ -134,7 +134,13 @@ do_reboot() {
   mountpoint -q /flash && umount /flash
   mountpoint -q /storage && umount /storage
   sync
-  reboot
+  reboot -f
+}
+
+do_poweroff() {
+  start_progress spinner "shutting down... "
+  sync
+  poweroff -f
 }
 
 force_fsck() {
@@ -156,13 +162,11 @@ force_fsck() {
       echo "Press enter to shutdown now"
       echo ""
       read fubar
-      poweroff
+      do_poweroff
     fi
     do_reboot
   else
-    start_progress spinner "shutting down... "
-    sync
-    poweroff
+    do_poweroff
   fi
 }
 
