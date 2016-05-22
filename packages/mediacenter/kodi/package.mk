@@ -24,7 +24,7 @@ PKG_SHORTDESC="kodi: Kodi Mediacenter"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa crossguid curl dbus expat ffmpeg"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET freetype fribidi libass"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libmicrohttpd"
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxml2 libxslt lzo pcre Python sqlite"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxslt lzo pcre Python sqlite"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET systemd taglib tinyxml yajl zlib"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $OPENGLES $KODIPLAYER_DRIVER"
 
