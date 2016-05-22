@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="systemd"
-PKG_VERSION="229"
+PKG_VERSION="230"
 PKG_SITE="http://www.freedesktop.org/wiki/Software/systemd"
 PKG_URL="https://github.com/systemd/systemd/archive/v$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libcap kmod util-linux"
@@ -29,7 +29,6 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --disable-nls \
                            --disable-dbus \
                            --disable-utmp \
-                           --disable-compat-libs \
                            --disable-coverage \
                            --enable-kmod \
                            --disable-xkbcommon \
@@ -38,6 +37,8 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --disable-ima \
                            --disable-selinux \
                            --disable-apparmor \
+                           --disable-adm-group \
+                           --disable-wheel-group \
                            --disable-xz \
                            --disable-zlib \
                            --disable-bzip2 \
@@ -57,7 +58,6 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --disable-libiptc \
                            --disable-binfmt \
                            --disable-vconsole \
-                           --disable-bootchart \
                            --disable-quotacheck \
                            --enable-tmpfiles \
                            --disable-sysusers \
@@ -78,6 +78,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --enable-networkd \
                            --disable-efi \
                            --disable-gnuefi \
+                           --disable-tpm \
                            --disable-kdbus \
                            --disable-myhostname \
                            --enable-hwdb \
@@ -122,8 +123,6 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/rpm
   rm -rf $INSTALL/usr/lib/systemd/catalog
   rm -rf $INSTALL/usr/lib/systemd/system-generators
-  rm -rf $INSTALL/usr/lib/systemd/systemd-bus-proxyd
-  rm -rf $INSTALL/usr/lib/systemd/systemd-socket-proxyd
   rm -rf $INSTALL/usr/lib/systemd/systemd-update-done
   rm -rf $INSTALL/usr/lib/systemd/user
   rm -rf $INSTALL/usr/lib/systemd/user-generators

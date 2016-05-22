@@ -1,17 +1,17 @@
-From f809dbaf61e19d780c9421bd74f7b04aa29b4d8f Mon Sep 17 00:00:00 2001
+From 898764295fe5d2fc8e0ed6a504aa85d1916b1e7a Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Thu, 19 Dec 2013 11:21:13 +0200
-Subject: [PATCH 1/5] move /etc/systemd/system to /storage/.config/system.d
+Subject: [PATCH 1/4] move /etc/systemd/system to /storage/.config/system.d
 
 ---
  Makefile.am | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile.am b/Makefile.am
-index 3b7cc1e..b92465b 100644
+index 305099a..15012d9 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -185,7 +185,7 @@ CLEANFILES = $(BUILT_SOURCES) \
+@@ -171,7 +171,7 @@ CLEANFILES = $(BUILT_SOURCES) \
  AM_CPPFLAGS = \
  	-include $(top_builddir)/config.h \
  	-DPKGSYSCONFDIR=\"$(pkgsysconfdir)\" \
@@ -20,7 +20,7 @@ index 3b7cc1e..b92465b 100644
  	-DSYSTEM_DATA_UNIT_PATH=\"$(systemunitdir)\" \
  	-DSYSTEM_SYSVINIT_PATH=\"$(SYSTEM_SYSVINIT_PATH)\" \
  	-DSYSTEM_SYSVRCND_PATH=\"$(SYSTEM_SYSVRCND_PATH)\" \
-@@ -5916,7 +5916,7 @@ substitutions = \
+@@ -5867,7 +5867,7 @@ substitutions = \
         '|SYSTEMCTL=$(rootbindir)/systemctl|' \
         '|SYSTEMD_NOTIFY=$(rootbindir)/systemd-notify|' \
         '|pkgsysconfdir=$(pkgsysconfdir)|' \
@@ -33,10 +33,10 @@ index 3b7cc1e..b92465b 100644
 2.1.4
 
 
-From 8223882f5d0770e8b6c22e4518de9faff54c8e85 Mon Sep 17 00:00:00 2001
+From abc30bd7b6f7d09d233e4640b6be18286a73d0ea Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 7 Aug 2015 13:25:23 +0300
-Subject: [PATCH 2/5] move hwdb.bin to /run
+Subject: [PATCH 2/4] move hwdb.bin to /run
 
 ---
  src/hwdb/hwdb.c                  | 2 +-
@@ -87,10 +87,10 @@ index 948ad0f..a14cb98 100644
 2.1.4
 
 
-From f03cb82529543e0738116d53a8eb7b0e284a4147 Mon Sep 17 00:00:00 2001
+From 6ec53cc7eac3a0c4c8a943ddb52171743419aef4 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 8 Nov 2015 11:54:39 +0200
-Subject: [PATCH 3/5] always run machine-id-commit
+Subject: [PATCH 3/4] always run machine-id-commit
 
 ---
  units/systemd-machine-id-commit.service.in | 2 --
@@ -113,10 +113,10 @@ index 1f3f5da..90b346c 100644
 2.1.4
 
 
-From 880d553c622b84ad7ed00e536ed23619ced796ca Mon Sep 17 00:00:00 2001
+From a35c532abac09abae7f474870a47ac8639790d67 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 29 Nov 2015 11:41:32 +0200
-Subject: [PATCH 4/5] always run systemd-hwdb-update. run before udev
+Subject: [PATCH 4/4] always run systemd-hwdb-update. run before udev
 
 ---
  units/systemd-hwdb-update.service.in | 6 +-----
@@ -139,34 +139,6 @@ index 7135cff..ae9e5fa 100644
  
  [Service]
  Type=oneshot
--- 
-2.1.4
-
-
-From ab870c0bc7ad901751f5095d67aca46c2c3e8768 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Sun, 15 May 2016 18:46:22 +0300
-Subject: [PATCH 5/5] missing.h: add BTRFS_IOC_QUOTA_RESCAN_WAIT
-
----
- src/basic/missing.h | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/src/basic/missing.h b/src/basic/missing.h
-index 36b0604..ee275ac 100644
---- a/src/basic/missing.h
-+++ b/src/basic/missing.h
-@@ -466,6 +466,10 @@ struct btrfs_ioctl_quota_ctl_args {
-                                struct btrfs_ioctl_qgroup_limit_args)
- #endif
- 
-+#ifndef BTRFS_IOC_QUOTA_RESCAN_WAIT
-+#define BTRFS_IOC_QUOTA_RESCAN_WAIT _IO(BTRFS_IOCTL_MAGIC, 46)
-+#endif
-+
- #ifndef BTRFS_FIRST_FREE_OBJECTID
- #define BTRFS_FIRST_FREE_OBJECTID 256
- #endif
 -- 
 2.1.4
 
