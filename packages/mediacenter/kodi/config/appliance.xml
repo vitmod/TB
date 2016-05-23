@@ -12,6 +12,9 @@
         <setting id="videoplayer.useamcodecmpeg2">
           <default>800</default>
         </setting>
+        <setting id="videoplayer.useamcodecmpeg4">
+          <default>9999</default>
+        </setting>
       </group>
     </category>
   </section>
