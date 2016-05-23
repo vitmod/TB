@@ -56,15 +56,15 @@ makeinstall_target() {
 }
 
 addon() {
-  mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/bin
-  cp $PKG_BUILD/.$TARGET_NAME/bin/hyperiond $ADDON_BUILD/$PKG_ADDON_ID/bin
-  cp $PKG_BUILD/.$TARGET_NAME/bin/hyperion-remote $ADDON_BUILD/$PKG_ADDON_ID/bin
+  mkdir -p $ADDON_INSTALL/bin
+  cp $PKG_BUILD/.$TARGET_NAME/bin/hyperiond $ADDON_INSTALL/bin
+  cp $PKG_BUILD/.$TARGET_NAME/bin/hyperion-remote $ADDON_INSTALL/bin
 
-  mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/config
-  cp $PKG_BUILD/config/hyperion.config.json $ADDON_BUILD/$PKG_ADDON_ID/config/hyperion.config.json
+  mkdir -p $ADDON_INSTALL/config
+  cp $PKG_BUILD/config/hyperion.config.json $ADDON_INSTALL/config/hyperion.config.json
   sed -i -e "s,/opt/hyperion/effects,/storage/.kodi/addons/service.hyperion/effects,g" \
-    $ADDON_BUILD/$PKG_ADDON_ID/config/hyperion.config.json
+    $ADDON_INSTALL/config/hyperion.config.json
 
-  mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/effects
-  cp -R $PKG_BUILD/effects/* $ADDON_BUILD/$PKG_ADDON_ID/effects
+  mkdir -p $ADDON_INSTALL/effects
+  cp -R $PKG_BUILD/effects/* $ADDON_INSTALL/effects
 }

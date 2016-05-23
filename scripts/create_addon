@@ -25,21 +25,22 @@ fi
 check_package $1
 
 pack_addon() {
-  mkdir -p $ADDON_BUILD/$PKG_ADDON_ID
+  mkdir -p $ADDON_INSTALL
 
-  if [ ! -f $ADDON_BUILD/$PKG_ADDON_ID/addon.xml ]; then
-    cp config/addon/${PKG_ADDON_TYPE}/addon.xml $ADDON_BUILD/$PKG_ADDON_ID/addon.xml
+  if [ ! -f $ADDON_INSTALL/addon.xml ]; then
+    cp config/addon/${PKG_ADDON_TYPE}/addon.xml $ADDON_INSTALL/addon.xml
     ADDONVER=$OS_VERSION.$PKG_ADDON_REV
   else
-    ADDONVER=$(xmlstarlet sel -t -v "/addon/@version" $ADDON_BUILD/$PKG_ADDON_ID/addon.xml)
+    ADDONVER=$(xmlstarlet sel -t -v "/addon/@version" $ADDON_INSTALL/addon.xml)
   fi
 
-  cp -R $PKG_DIR/source/* $ADDON_BUILD/$PKG_ADDON_ID 2>/dev/null || :
-  cp $PKG_DIR/icon/icon.png $ADDON_BUILD/$PKG_ADDON_ID 2>/dev/null || :
-  cp $PKG_DIR/changelog.txt $ADDON_BUILD/$PKG_ADDON_ID 2>/dev/null || :
+  cp -R $PKG_DIR/source/* $ADDON_INSTALL 2>/dev/null || :
+  cp $PKG_DIR/icon/icon.png $ADDON_INSTALL 2>/dev/null || :
+  cp $PKG_DIR/changelog.txt $ADDON_INSTALL 2>/dev/null || :
 
-  if [ ! -f $ADDON_BUILD/$PKG_ADDON_ID/default.py ]; then
-    cp config/addon/${PKG_ADDON_TYPE}/default.py $ADDON_BUILD/$PKG_ADDON_ID/default.py 2>/dev/null || :
+  if [ ! -f $ADDON_INSTALL/default.py -a \
+      -f config/addon/$PKG_ADDON_TYPE/default.py ]; then
+    cp config/addon/$PKG_ADDON_TYPE/default.py $ADDON_INSTALL/default.py
   fi
 
   PROVIDER_NAME="$DISTRONAME"
@@ -58,27 +59,29 @@ pack_addon() {
       -e "s|@PKG_ADDON_DESC@|$PKG_ADDON_DESC|g" \
       -e "s|@PKG_ADDON_DISCLAIMER@|$PKG_ADDON_DISCLAIMER|g" \
       -e "s|@PROVIDER_NAME@|$PROVIDER_NAME|g" \
-      -i $ADDON_BUILD/$PKG_ADDON_ID/addon.xml
+      -i $ADDON_INSTALL/addon.xml
 
-  ADDON_INSTALL_DIR="target/addons/$OS_VERSION/$PROJECT/$TARGET_ARCH/$PKG_ADDON_ID"
-  if [ -f $ADDON_INSTALL_DIR/$PKG_ADDON_ID-$ADDONVER.zip ] ; then
-    echo "*** WARNING: $PKG_ADDON_ID-$ADDONVER.zip already exists. not overwriting it ***"
-    return 0
-  fi
   cd $ADDON_BUILD
   cleanup_rpath $PKG_ADDON_ID
   if [ ! "$DEBUG" = yes ]; then
     debug_strip $PKG_ADDON_ID
   fi
 
-  echo "*** compressing Addon $PKG_ADDON_ID ... ***"
-  zip -rq $PKG_ADDON_ID-$ADDONVER.zip $PKG_ADDON_ID;
+  zip -rq $PKG_ADDON_ID-$ADDONVER.zip $PKG_ADDON_ID
   cd - &>/dev/null
 
+  ADDON_INSTALL_DIR="target/addons/$OS_VERSION/$PROJECT/$TARGET_ARCH/$PKG_ADDON_ID"
+  if [ -f $ADDON_INSTALL_DIR/$PKG_ADDON_ID-$ADDONVER.zip ] ; then
+    echo "*** WARNING: $ADDON_INSTALL_DIR/$PKG_ADDON_ID-$ADDONVER.zip exists. not overwriting it"
+    echo "*** WARNING: your addon is at $ADDON_INSTALL_DIR/$PKG_ADDON_ID-$ADDONVER.zip"
+    return 0
+  fi
+
   mkdir -p $ADDON_INSTALL_DIR
-  cp $ADDON_BUILD/$PKG_ADDON_ID-$ADDONVER.zip $ADDON_INSTALL_DIR
-  cp $ADDON_BUILD/$PKG_ADDON_ID/changelog.txt $ADDON_INSTALL_DIR/changelog-$ADDONVER.txt 2>/dev/null || :
-  cp $ADDON_BUILD/$PKG_ADDON_ID/icon.png $ADDON_INSTALL_DIR/icon.png 2>/dev/null || :
+  cp $ADDON_INSTALL-$ADDONVER.zip $ADDON_INSTALL_DIR
+  cp $ADDON_INSTALL/changelog.txt $ADDON_INSTALL_DIR/changelog-$ADDONVER.txt 2>/dev/null || :
+  cp $ADDON_INSTALL/icon.png $ADDON_INSTALL_DIR/icon.png 2>/dev/null || :
+  echo "*** DONE: $ADDON_INSTALL_DIR/$PKG_ADDON_ID-$ADDONVER.zip"
 }
 
 if [ "$PKG_IS_ADDON" = "yes" ] ; then
@@ -86,8 +89,10 @@ if [ "$PKG_IS_ADDON" = "yes" ] ; then
   if [ -n "$PKG_ADDON_SECTION" ] ; then
     PKG_ADDON_ID="`echo $PKG_ADDON_SECTION | sed 's,/,.,g'`.$PKG_NAME"
   fi
+  ADDON_BUILD="$BUILD/addons/$PKG_NAME"
+  ADDON_INSTALL="$ADDON_BUILD/$PKG_ADDON_ID"
 
-  rm -rf $ADDON_BUILD
+  rm -rf $ADDON_BUILD $ADDON_INSTALL
 
   if [ "$(type -t addon)" = "function" ]; then
     scripts/build $@
@@ -96,7 +101,7 @@ if [ "$PKG_IS_ADDON" = "yes" ] ; then
     addon
     pack_addon
   else
-    echo "*** ERROR: $PKG_NAME does not have addon() defined ***"
+    echo "*** ERROR: $PKG_NAME does not have addon() defined"
     exit 1
   fi
 fi

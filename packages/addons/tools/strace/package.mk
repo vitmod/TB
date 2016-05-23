@@ -32,6 +32,6 @@ makeinstall_target() {
 }
 
 addon() {
-  mkdir -p $ADDON_BUILD/$PKG_ADDON_ID/bin
-  cp $PKG_BUILD/.$TARGET_NAME/strace $ADDON_BUILD/$PKG_ADDON_ID/bin
+  mkdir -p $ADDON_INSTALL/bin
+  cp $PKG_BUILD/.$TARGET_NAME/strace $ADDON_INSTALL/bin
 }
