@@ -99,6 +99,13 @@
         </setting>
       </group>
     </category>
+    <category id="control">
+      <group id="2">
+        <setting id="input.enablemouse">
+          <default>false</default>
+        </setting>
+      </group>
+    </category>
     <category id="other">
       <group id="2">
         <setting id="lookandfeel.enablerssfeeds">
