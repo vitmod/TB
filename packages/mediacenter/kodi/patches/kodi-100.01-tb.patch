@@ -1,7 +1,7 @@
-From 1b644a13eed0e18c1ad916710bcf2fe2250f2d59 Mon Sep 17 00:00:00 2001
+From 89627cf611322d64ee69b514f7642cb134add56b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 1/9] [tb] make binary addons executable
+Subject: [PATCH 01/10] [tb] make binary addons executable
 
 ---
  xbmc/addons/Addon.cpp | 6 ++++++
@@ -28,20 +28,20 @@ index 5005f8d..792df18 100644
 2.7.4
 
 
-From fcdc7c9120d008f20b41f9a3582361acca871c72 Mon Sep 17 00:00:00 2001
+From baf673a459a5bf0cd1a5e904a408864017e874ba Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 2/9] [tb] disable minimize
+Subject: [PATCH 02/10] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 454f728..2289915 100644
+index bc251c8..dc6ede6 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4926,7 +4926,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4920,7 +4920,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -53,10 +53,10 @@ index 454f728..2289915 100644
 2.7.4
 
 
-From 5655c4d8929a74bb3103ee4b41a2105e2817420c Mon Sep 17 00:00:00 2001
+From e108b51c62b22853bc2d9725b29c02bb277efdbc Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 3/9] [tb] setup timezone
+Subject: [PATCH 03/10] [tb] setup timezone
 
 ---
  xbmc/linux/LinuxTimezone.cpp | 6 ++++++
@@ -83,10 +83,10 @@ index ea44d40..744780e 100644
 2.7.4
 
 
-From 9921938ec98062473b957d9ebf9d34751139504e Mon Sep 17 00:00:00 2001
+From e33185e5b24056e9d45119dea832d43f13d8d54c Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 4/9] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 04/10] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -178,10 +178,10 @@ index d43b309..2c51fb3 100644
 2.7.4
 
 
-From 6799e9b0638e4ca3db81849a5c92082d670bc657 Mon Sep 17 00:00:00 2001
+From 5ed905e7759137559310b3c3563f0111f371089f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 5/9] [tb] handle SIGTERM
+Subject: [PATCH 05/10] [tb] handle SIGTERM
 
 ... CApplication::Stop cant be trusted
 ---
@@ -193,10 +193,10 @@ Subject: [PATCH 5/9] [tb] handle SIGTERM
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index 2289915..68c9ed4 100644
+index dc6ede6..ad674da 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -2350,12 +2350,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2346,12 +2346,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
    switch (pMsg->dwMessage)
    {
    case TMSG_POWERDOWN:
@@ -211,7 +211,7 @@ index 2289915..68c9ed4 100644
      break;
    
    case TMSG_SHUTDOWN:
-@@ -2376,12 +2376,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+@@ -2372,12 +2372,13 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
  
    case TMSG_RESTART:
    case TMSG_RESET:
@@ -226,7 +226,7 @@ index 2289915..68c9ed4 100644
      Stop(EXITCODE_RESTARTAPP);
  #endif
      break;
-@@ -2806,6 +2807,13 @@ bool CApplication::Cleanup()
+@@ -2801,6 +2802,13 @@ bool CApplication::Cleanup()
    }
  }
  
@@ -240,7 +240,7 @@ index 2289915..68c9ed4 100644
  void CApplication::Stop(int exitCode)
  {
    try
-@@ -2813,7 +2821,7 @@ void CApplication::Stop(int exitCode)
+@@ -2808,7 +2816,7 @@ void CApplication::Stop(int exitCode)
      m_frameMoveGuard.unlock();
  
      CVariant vExitCode(CVariant::VariantTypeObject);
@@ -249,7 +249,7 @@ index 2289915..68c9ed4 100644
      CAnnouncementManager::GetInstance().Announce(System, "xbmc", "OnQuit", vExitCode);
  
      // Abort any active screensaver
-@@ -2847,7 +2855,6 @@ void CApplication::Stop(int exitCode)
+@@ -2842,7 +2850,6 @@ void CApplication::Stop(int exitCode)
  
      m_bStop = true;
      m_AppFocused = false;
@@ -329,10 +329,10 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 2891e3ab341ed41e0fc98d468954cc3cdf7083cc Mon Sep 17 00:00:00 2001
+From 36a4857c82dc11c9bbcd5b79fc4d2200d1cb0de8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 6/9] [tb] pvr: nobody cared
+Subject: [PATCH 06/10] [tb] pvr: nobody cared
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -358,10 +358,10 @@ index ea1eef4..4ffdac6 100644
 2.7.4
 
 
-From 3bc5e50ad0ada4b2b9b538fbeac478647a499e4d Mon Sep 17 00:00:00 2001
+From 80e71f54c0dd07c7d448d11588e11c9ae954faac Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 7/9] [tb] all user pre-installed addons should be enabled
+Subject: [PATCH 07/10] [tb] all user pre-installed addons should be enabled
 
 ---
  xbmc/addons/AddonDatabase.cpp | 2 +-
@@ -384,10 +384,173 @@ index d23be26..bb76bf9 100644
 2.7.4
 
 
-From 0cf31c92f61a7c72032b142d64ffca0245373a73 Mon Sep 17 00:00:00 2001
+From 5675f812027e7d2520b23656b595dbd2301d4f0f Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Sun, 6 Mar 2016 14:16:17 +0000
+Subject: [PATCH 08/10] codecoverlay: Include codec name in overlay
+
+---
+ .../VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.cpp      |  2 +-
+ xbmc/cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.h |  3 ++-
+ xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp                  |  6 +++++-
+ xbmc/cores/VideoPlayer/VideoPlayerAudio.h                    |  1 +
+ xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp                  | 12 +++++++++++-
+ xbmc/cores/VideoPlayer/VideoPlayerVideo.h                    |  4 ++++
+ 6 files changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.cpp
+index a21894e..23bef5e 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.cpp
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.cpp
+@@ -125,7 +125,7 @@ bool CDVDAudioCodecFFmpeg::Open(CDVDStreamInfo &hints, CDVDCodecOptions &options
+ 
+   m_iSampleFormat = AV_SAMPLE_FMT_NONE;
+   m_matrixEncoding = AV_MATRIX_ENCODING_NONE;
+-
++  m_codecname = m_pCodecContext->codec->name;
+   return true;
+ }
+ 
+diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.h b/xbmc/cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.h
+index a15317a..a9338a6 100644
+--- a/xbmc/cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.h
++++ b/xbmc/cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.h
+@@ -41,7 +41,7 @@ public:
+   virtual int GetData(uint8_t** dst);
+   virtual void Reset();
+   virtual AEAudioFormat GetFormat() { return m_format; }
+-  virtual const char* GetName() { return "FFmpeg"; }
++  virtual const char* GetName() { return m_codecname.c_str(); }
+   virtual enum AVMatrixEncoding GetMatrixEncoding();
+   virtual enum AVAudioServiceType GetAudioServiceType();
+   virtual int GetProfile();
+@@ -64,6 +64,7 @@ protected:
+ 
+   int m_channels;
+   uint64_t m_layout;
++  std::string m_codecname;
+ 
+   void BuildChannelMap();
+   void ConvertToFloat();
+diff --git a/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp b/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp
+index 215e879..8e9f06f 100644
+--- a/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp
++++ b/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp
+@@ -134,6 +134,8 @@ void CVideoPlayerAudio::OpenStream(CDVDStreamInfo &hints, CDVDAudioCodec* codec)
+   if (hints.samplerate != m_streaminfo.samplerate)
+     SwitchCodecIfNeeded();
+ 
++  m_codecname = m_pAudioCodec->GetName();
++
+   m_audioClock = 0;
+   m_stalled = m_messageQueue.GetPacketCount(CDVDMsg::DEMUXER_PACKET) == 0;
+ 
+@@ -206,8 +208,9 @@ void CVideoPlayerAudio::UpdatePlayerInfo()
+ {
+   std::ostringstream s;
+   s << "aq:"     << std::setw(2) << std::min(99,m_messageQueue.GetLevel()) << "%";
++  s << ", ac:"   << m_codecname;
+   s << ", Kb/s:" << std::fixed << std::setprecision(2) << (double)GetAudioBitrate() / 1024.0;
+-
++  s << ", " << m_streaminfo.channels << " channel, " << m_streaminfo.samplerate/1000 << " kHz";
+   //print the inverse of the resample ratio, since that makes more sense
+   //if the resample ratio is 0.5, then we're playing twice as fast
+   if (m_synctype == SYNC_RESAMPLE)
+@@ -587,6 +590,7 @@ bool CVideoPlayerAudio::SwitchCodecIfNeeded()
+ 
+   delete m_pAudioCodec;
+   m_pAudioCodec = codec;
++  m_codecname = m_pAudioCodec->GetName();
+ 
+   return true;
+ }
+diff --git a/xbmc/cores/VideoPlayer/VideoPlayerAudio.h b/xbmc/cores/VideoPlayer/VideoPlayerAudio.h
+index f6b5003..78572ba 100644
+--- a/xbmc/cores/VideoPlayer/VideoPlayerAudio.h
++++ b/xbmc/cores/VideoPlayer/VideoPlayerAudio.h
+@@ -95,6 +95,7 @@ protected:
+   CDVDClock* m_pClock; // dvd master clock
+   CDVDAudioCodec* m_pAudioCodec; // audio codec
+   BitstreamStats m_audioStats;
++  std::string m_codecname;
+ 
+   int m_speed;
+   bool m_stalled;
+diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
+index 57b2c3f..322a3cb 100644
+--- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
++++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
+@@ -95,6 +95,9 @@ CVideoPlayerVideo::CVideoPlayerVideo(CDVDClock* pClock
+   m_iFrameRateLength = 0;
+   m_bFpsInvalid = false;
+   m_bAllowFullscreen = false;
++  m_width = 0;
++  m_height = 0;
++  m_display_aspect = 0.0f;
+ }
+ 
+ CVideoPlayerVideo::~CVideoPlayerVideo()
+@@ -186,6 +189,7 @@ void CVideoPlayerVideo::OpenStream(CDVDStreamInfo &hint, CDVDVideoCodec* codec)
+   m_pVideoCodec = codec;
+   m_hints   = hint;
+   m_stalled = m_messageQueue.GetPacketCount(CDVDMsg::DEMUXER_PACKET) == 0;
++  m_codecname = m_pVideoCodec->GetName();
+   m_packets.clear();
+   m_syncState = IDVDStreamPlayer::SYNC_STARTING;
+ }
+@@ -601,6 +605,7 @@ bool CVideoPlayerVideo::ProcessDecoderOutput(int &decoderState, double &frametim
+ 
+       if (m_syncState == IDVDStreamPlayer::SYNC_STARTING && !(m_picture.iFlags & DVP_FLAG_DROPPED))
+       {
++        m_codecname = m_pVideoCodec->GetName();
+         m_syncState = IDVDStreamPlayer::SYNC_WAITSYNC;
+         SStartMsg msg;
+         msg.player = VideoPlayer_VIDEO;
+@@ -883,6 +888,9 @@ int CVideoPlayerVideo::OutputPicture(const DVDVideoPicture* src, double pts)
+     m_droppingStats.AddOutputDropGain(pts, 1);
+     return EOS_DROPPED;
+   }
++  m_width = pPicture->iWidth;
++  m_height = pPicture->iHeight;
++  m_display_aspect = (float)pPicture->iDisplayWidth / (float)pPicture->iDisplayHeight;
+ 
+   m_renderManager.FlipPage(m_bAbortOutput, pts, -1, mDisplayField);
+ 
+@@ -893,8 +901,10 @@ std::string CVideoPlayerVideo::GetPlayerInfo()
+ {
+   std::ostringstream s;
+   s << "vq:"   << std::setw(2) << std::min(99,GetLevel()) << "%";
++  s << ", dc:"   << m_codecname;
+   s << ", Mb/s:" << std::fixed << std::setprecision(2) << (double)GetVideoBitrate() / (1024.0*1024.0);
+-  s << ", fr:"     << std::fixed << std::setprecision(3) << m_fFrameRate;
++  s << ", " << m_width << "x" << m_height;
++  s << ", fr:"   << std::fixed << std::setprecision(3) << m_fFrameRate << ", ar:" << std::setprecision(2) << m_display_aspect;
+   s << ", drop:" << m_iDroppedFrames;
+   s << ", skip:" << m_renderManager.GetSkippedFrames();
+ 
+diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
+index 4dff792..3bfc052 100644
+--- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
++++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
+@@ -131,6 +131,10 @@ protected:
+   int m_speed;
+   bool m_stalled;
+   IDVDStreamPlayer::ESyncState m_syncState;
++  std::string m_codecname;
++  int m_width;
++  int m_height;
++  float m_display_aspect;
+   std::atomic_bool m_bAbortOutput;
+ 
+   BitstreamStats m_videoStats;
+-- 
+2.7.4
+
+
+From 2fc8d3a60632f5346cde0e64d15d40d7bf4b511f Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 8/9] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 09/10] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -414,10 +577,10 @@ index ff26118..9de73fa 100644
 2.7.4
 
 
-From 512eeaa091e826ea6a59b35458a703b50efa26ff Mon Sep 17 00:00:00 2001
+From 23f378ff9014d8c16566d6c18e8909ddb4bcbba0 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 23 Apr 2016 16:16:45 +0200
-Subject: [PATCH 9/9] [aml] Use amlvideo driver for audio/video sync
+Subject: [PATCH 10/10] [aml] Use amlvideo driver for audio/video sync
 
 ---
  .../cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 125 +++++++++++++++++----
@@ -728,7 +891,7 @@ index 43ca555..2ea8db0 100644
  }
  
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h
-index b352641..f4a22cf 100644
+index c15238b..a4cc25c 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.h
 @@ -36,13 +36,14 @@ class CDVDVideoCodecAmlogic;
