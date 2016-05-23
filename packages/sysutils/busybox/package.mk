@@ -89,9 +89,6 @@ makeinstall_target() {
 }
 
 post_install() {
-  echo "chmod 4755 $INSTALL/bin/busybox" >> $FAKEROOT_SCRIPT
-  echo "chmod 000 $INSTALL/etc/shadow" >> $FAKEROOT_SCRIPT
-
   add_user root empty 0 0 "Root User" "/storage" "/bin/sh"
   add_group root 0
   add_group users 100

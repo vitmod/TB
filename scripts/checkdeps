@@ -21,8 +21,8 @@ if  [ -f /etc/os-release ]; then
   DISTRO=$(grep ^ID= /etc/os-release | cut -d "=" -f 2 | tr A-Z a-z)
 fi
 
-deps="    bash bc bison bzip2 chrpath cmake cpio diff      fakeroot gperf mkimage"
-deps_pkg="bash bc bison bzip2 chrpath cmake cpio diffutils fakeroot gperf uboot-tools"
+deps="    bash bc bison bzip2 chrpath cmake cpio diff      gperf mkimage"
+deps_pkg="bash bc bison bzip2 chrpath cmake cpio diffutils gperf uboot-tools"
 
 deps="    $deps     flex gawk gcc g++ gzip java"
 deps_pkg="$deps_pkg flex gawk gcc g++ gzip default-jre"

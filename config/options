@@ -393,8 +393,6 @@ TARGET_PREFIX=$ROOT/$TOOLCHAIN/bin/$TARGET_NAME-
 
 MAKEINSTALL="make -j1 DESTDIR=$SYSROOT_PREFIX install"
 
-FAKEROOT_SCRIPT=$ROOT/.fakeroot.$PROJECT.$TARGET_ARCH
-
 export CCACHE_DIR=$ROOT/$BUILD/.ccache
 export MAKEFLAGS=-j$(cat /proc/cpuinfo | grep -c '^processor[[:cntrl:]]*:')
 
