@@ -17,49 +17,26 @@
 
 . /functions
 
-# create directories
-/bin/busybox mkdir -p /dev
-/bin/busybox mkdir -p /proc
-/bin/busybox mkdir -p /sys
-/bin/busybox mkdir -p /var
-/bin/busybox mkdir -p /flash
-/bin/busybox mkdir -p /sysroot
-/bin/busybox mkdir -p /storage
+UPDATE_DIR=/storage/.update
 
-# mount all needed special filesystems
+/bin/busybox mkdir -p /dev /proc /sys /var /flash /storage /sysroot
+
 /bin/busybox mount -t devtmpfs devtmpfs /dev
 /bin/busybox mount -t proc proc /proc
 /bin/busybox mount -t sysfs sysfs /sys
 /bin/busybox mount -t tmpfs tmpfs /var
 
-UPDATE_DIR=/storage/.update
-IMAGE_KERNEL="kernel.img"
-
-BOOT_STEP="start"
-
-# hide kernel log messages on console
 echo '1 4 1 7' > /proc/sys/kernel/printk
 
-# set ondemand up_threshold
-if [ -e /sys/devices/system/cpu/cpufreq/ondemand/up_threshold ] ; then
-  echo 50 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
-fi
-
-# run platform_init script if exists
 if [ -f "./platform_init" ]; then
   ./platform_init
 fi
 
-# clear screen and hide cursor
 clear
 hidecursor
 
-# parse command line arguments
 for arg in $(cat /proc/cmdline); do
   case $arg in
-    BOOT_IMAGE=*)
-      IMAGE_KERNEL="${arg#*=}"
-      ;;
     boot=*)
       boot="${arg#*=}"
       ;;
@@ -70,42 +47,24 @@ for arg in $(cat /proc/cmdline); do
 done
 
 debug_shell() {
-  echo "### Starting debugging shell... type 'exit' to quit ###"
+  echo "### Starting debugging shell... ###"
   showcursor
   sh </dev/tty1 >/dev/tty1 2>&1
 }
 
 error() {
-  echo "*** Error in $BOOT_STEP: $1: $2 ***"
+  echo "*** Error in $1: $2 ***"
   debug_shell
 }
 
-# Mount handlers
-# $1:target, $2:mountpoint, $3:mount options, [$4:fs type]
-mount_common() {
-  MOUNT_OPTIONS="-o $3"
-  [ -n "$4" ] && MOUNT_OPTIONS="-t $4 $MOUNT_OPTIONS"
+mount_part() {
+  ERR=1
   for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
-    ERR_ENV=1
-    mount $MOUNT_OPTIONS $1 $2 >/dev/null 2>&1
-    [ "$?" -eq "0" ] && ERR_ENV=0 && break
+    mount "$1" "$2" -o "$3" &>/dev/null
+    [ "$?" -eq "0" ] && ERR=0 && break
     usleep 1000000
   done
-  [ "$ERR_ENV" -ne "0" ] && error "mount_common" "Could not mount $1"
-}
-
-mount_part() {
-  MOUNT_TARGET="${1#*=}"
-  case $1 in
-    UUID=*|/*)
-      MOUNT_CMD="mount_common"
-      MOUNT_TARGET="$1"
-      ;;
-    *)
-      error "mount_part" "Unknown filesystem $1"
-      ;;
-  esac
-  $MOUNT_CMD "$MOUNT_TARGET" "$2" "$3" "$4"
+  [ "$ERR" -ne "0" ] && error "mount_part" "Could not mount $1"
 }
 
 update() {
@@ -119,7 +78,7 @@ update() {
 
 load_splash() {
   if [ -e /dev/fb0 ]; then
-    ply-image /splash/splash.png > /dev/null 2>&1
+    ply-image /splash/splash.png &>/dev/null
   fi
 }
 
@@ -171,7 +130,7 @@ force_fsck() {
 }
 
 check_disks() {
-  e2fsck -p $disk > /dev/null 2>&1
+  e2fsck -p $disk &>/dev/null
   FSCK_RET="$?"
   # FSCK_RET is the bit-wise OR of the exit codes for each filesystem that is checked.
   if [ "$(( $FSCK_RET & 4 ))" = 4 ] ; then
@@ -181,11 +140,8 @@ check_disks() {
   fi
 }
 
-mount_flash() {
+mount_parts() {
   mount_part "$boot" "/flash" "ro,noatime"
-}
-
-mount_storage() {
   mount_part "$disk" "/storage" "rw,noatime"
 }
 
@@ -204,7 +160,7 @@ check_update() {
   fi
 
   if [ -f "$UPDATE_DIR/kernel.img" -a -f "$UPDATE_DIR/root.sqfs" ] ; then
-    update "$IMAGE_KERNEL" "/flash/$IMAGE_KERNEL"
+    update "kernel.img" "/flash/kernel.img"
     update "root.sqfs" "/flash/root.sqfs"
     rm -rf $UPDATE_DIR/[0-9a-zA-Z]* &>/dev/null
     do_reboot
@@ -216,37 +172,22 @@ prepare_sysroot() {
 
   mkdir -p /storage/.cache
   mkdir -p /storage/.config
-  false | cp -iR /sysroot/usr/config/* /storage/.config >/dev/null 2>&1
+  false | cp -iR /sysroot/usr/config/* /storage/.config &>/dev/null
 
   mount --move /flash /sysroot/flash
   mount --move /storage /sysroot/storage
 }
 
-# main boot sequence
-for BOOT_STEP in \
-    load_splash \
-    load_kmap \
-    check_disks \
-    mount_flash \
-    mount_storage \
-    check_update \
-    prepare_sysroot; do
-  $BOOT_STEP
+for STEP in load_splash load_kmap check_disks mount_parts check_update prepare_sysroot; do
+  $STEP
 done
 
-BOOT_STEP=final
-
-# move some special filesystems
 /bin/busybox mount --move /dev /sysroot/dev
 /bin/busybox mount --move /proc /sysroot/proc
 /bin/busybox mount --move /sys /sysroot/sys
 /bin/busybox mount --move /var /sysroot/var
 
-if [ -f /sysroot/storage/.please_resize_me ] ; then
+if [ -f /sysroot/storage/.resizeme ] ; then
   INIT_UNIT="--unit=fs-resize.target"
 fi
-
-# switch to new sysroot and start real init
 exec /bin/busybox switch_root /sysroot /usr/lib/systemd/systemd $INIT_ARGS $INIT_UNIT
-
-error "switch_root" "Error in initramfs. Could not switch to new root"

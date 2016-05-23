@@ -86,7 +86,7 @@ losetup -o $(( $PART2_START * 512 )) --sizelimit $(( $PART2_SIZE * 1024 * 1024 )
 mke2fs -q -t ext4 -m 0 "$LOOP" &>/dev/null
 e2fsck -n "$LOOP" &>/dev/null
 mount_loop
-touch "$OE_TMP/.please_resize_me"
+touch "$OE_TMP/.resizeme"
 umount_loop
 
 echo "image: compressing..."

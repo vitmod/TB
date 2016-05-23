@@ -17,7 +17,7 @@
 
 . /usr/share/tb/functions
 
-if [ -e /storage/.please_resize_me ] ; then
+if [ -e /storage/.resizeme ] ; then
   hidecursor
 
   # get the disk. /storage on 2nd partition
@@ -33,7 +33,7 @@ if [ -e /storage/.please_resize_me ] ; then
       ;;
   esac
 
-  rm -f /storage/.please_resize_me
+  rm -f /storage/.resizeme
   sync
 
   # just in case
