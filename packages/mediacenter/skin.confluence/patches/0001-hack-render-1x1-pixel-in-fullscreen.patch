@@ -1,0 +1,30 @@
+From 6335d3cbb6e31331cd5637f68de0d311d7203653 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Mon, 23 May 2016 16:46:18 +0300
+Subject: [PATCH] hack: render 1x1 pixel in fullscreen
+
+---
+ 720p/VideoFullScreen.xml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/720p/VideoFullScreen.xml b/720p/VideoFullScreen.xml
+index 7d8adbd..063cca4 100644
+--- a/720p/VideoFullScreen.xml
++++ b/720p/VideoFullScreen.xml
+@@ -747,5 +747,13 @@
+ 				<textcolor>white</textcolor>
+ 			</control>
+ 		</control>
++		<control type="image" id="123456">
++			<description>meh renderloop</description>
++			<left>0</left>
++			<top>0</top>
++			<width>1</width>
++			<height>1</height>
++			<texture>kodi-logo.png</texture>
++		</control>
+ 	</controls>
+ </window>
+-- 
+2.1.4
+
