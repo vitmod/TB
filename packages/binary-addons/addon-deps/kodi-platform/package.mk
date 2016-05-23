@@ -16,7 +16,7 @@
 PKG_NAME="kodi-platform"
 PKG_VERSION="c8188d8"
 PKG_SITE="http://www.kodi.tv"
-PKG_FETCH="git+https://github.com/xbmc/kodi-platform.git"
+PKG_FETCH="https://github.com/xbmc/kodi-platform.git"
 PKG_DEPENDS_TARGET="toolchain tinyxml kodi p8-platform"
 PKG_SHORTDESC=""
 

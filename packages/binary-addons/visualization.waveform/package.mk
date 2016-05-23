@@ -16,7 +16,7 @@
 PKG_NAME="visualization.waveform"
 PKG_VERSION="89aec48"
 PKG_SITE="http://www.kodi.tv"
-PKG_FETCH="git+https://github.com/notspiff/visualization.waveform.git"
+PKG_FETCH="https://github.com/notspiff/visualization.waveform.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform"
 PKG_SHORTDESC=""
 

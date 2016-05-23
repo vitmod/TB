@@ -16,7 +16,7 @@
 PKG_NAME="amremote"
 PKG_VERSION="ecdf401"
 PKG_SITE="http://www.amlogic.com"
-PKG_FETCH="git+https://github.com/codesnake/amremote.git"
+PKG_FETCH="https://github.com/codesnake/amremote.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="amremote - IR remote configuration utility for Amlogic-based devices"
 

@@ -36,7 +36,6 @@ if [ -n "$PKG_URL" ] ; then
 elif [ -n "$PKG_FETCH" ] ; then
   SOURCE_NAME="$PKG_NAME-$PKG_VERSION.tar.gz"
 fi
-
 if [ -z "$SOURCE_NAME" ] ; then
   exit 0
 fi
@@ -52,13 +51,7 @@ export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
 mkdir -p sources/$1
 
 if [ -n "$PKG_FETCH" ] ; then
-  VCS=$(echo $PKG_FETCH | grep "+" | awk -F '+' '{print $1}')
-  if [ -n "$VCS" ] ; then
-    GET_REPO=$(echo $PKG_FETCH | awk -F '+' '{print $2}')
-    if [ -n $GET_REPO ] ; then
-      scripts/mkpkg $PKG_NAME $PKG_VERSION
-    fi
-  fi
+  scripts/mkpkg $PKG_NAME $PKG_VERSION
 elif [ -n "$PKG_URL" ] ; then
   PACKAGE_MIRROR="$DISTRO_MIRROR/$PKG_NAME/$SOURCE_NAME"
   WGET_CMD="wget --timeout=30 --tries=2 --no-check-certificate -c -nv --show-progress -P sources/$1"

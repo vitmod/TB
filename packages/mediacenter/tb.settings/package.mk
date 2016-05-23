@@ -16,7 +16,7 @@
 PKG_NAME="tb.settings"
 PKG_VERSION="991aa62"
 PKG_SITE="https://github.com/stefansaraev/tb.settings"
-PKG_FETCH="git+https://github.com/stefansaraev/tb.settings.git"
+PKG_FETCH="https://github.com/stefansaraev/tb.settings.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="tb.settings: settings dialog"
 

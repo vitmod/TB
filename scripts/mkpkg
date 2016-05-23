@@ -30,10 +30,8 @@ if [ "$1" == "-l" ] ; then
   for i in `find packages/ -type f -name package.mk | sort`; do
     PKG_FETCH=""
     . $i
-    REPO=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $2}')
-    if [ -n "$REPO" ] ; then
-      METHOD=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $1}')
-      printf "* %-32s %-6s %s\n" $PKG_NAME "($METHOD)" $REPO
+    if [ -n "$PKG_FETCH" ] ; then
+      printf "* %-32s %-6s %s\n" $PKG_NAME $PKG_FETCH
     fi
   done
   exit 0
@@ -42,10 +40,8 @@ fi
 if [ "$1" == "-a" ] ; then
   for i in `find packages/ -type f -name package.mk | sort`; do
     PKG_FETCH=""
-    PKG_NAME=""
     . $i
-    REPO=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $2}')
-    if [ -n "$REPO" ] ; then
+    if [ -n "$PKG_FETCH" ] ; then
       $0 $PKG_NAME
     fi
   done
@@ -54,50 +50,27 @@ fi
 
 . config/options
 
-REPO=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $2}')
-METHOD=$(echo $PKG_FETCH | grep -E '^git|svn' | awk -F '+' '{print $1}')
-
 if [ -n "$2" ] ; then
   FORCED_REV="$2"
 fi
 
-if [ -n "$REPO" ] ; then
+if [ -n "$PKG_FETCH" ] ; then
   mkdir -p .work/sources
   cd .work/sources
-  echo "[mkpkg] Checking out $REPO ..."
-  if [ ! -d $PKG_NAME.$METHOD ]; then
-    if [ "$METHOD" = "git" ] ; then
-      git clone $REPO -b master $PKG_NAME.$METHOD &>/dev/null
-    fi
-    if [ "$METHOD" = "svn" ] ; then
-      svn checkout $REPO $PKG_NAME.$METHOD &>/dev/null
-    fi
+  echo "[mkpkg] Checking out $PKG_FETCH ..."
+  if [ ! -d $PKG_NAME.git ]; then
+    git clone $PKG_FETCH -b master $PKG_NAME.git &>/dev/null
   fi
 
-  cd $PKG_NAME.$METHOD
-    if [ "$METHOD" = "git" ] ; then
-      git checkout master
-      git pull
-      if [ -n "$FORCED_REV" ] ; then
-        REV=`git log $2 -n1 --format=%h`
-        git branch -D "ref-$REV" &>/dev/null || :
-        git checkout "$FORCED_REV" -b "ref-$REV" || exit 1
-      fi
-      REV=`git log -n1 --format=%h`
-      if [ "$(type -t pre_package)" = "function" ]; then
-        pre_package
-      fi
-    fi
-    if [ "$METHOD" = "svn" ] ; then
-      svn up
-      if [ -n "$FORCED_REV" ] ; then
-        svn up -r"$FORCED_REV" || exit 1
-      fi
-      REV=`LANG=C svn info 2>/dev/null | grep Revision: | sed -e 's/.*\: //'`
-      if [ "$(type -t pre_package)" = "function" ]; then
-        pre_package
-      fi
-    fi
+  cd $PKG_NAME.git
+  git checkout master
+  git pull
+  if [ -n "$FORCED_REV" ] ; then
+    REV=`git log $2 -n1 --format=%h`
+    git branch -D "ref-$REV" &>/dev/null || :
+    git checkout "$FORCED_REV" -b "ref-$REV" || exit 1
+  fi
+  REV=`git log -n1 --format=%h`
   cd ..
 
   TAR="$ROOT/sources/$PKG_NAME/$PKG_NAME-$REV.tar.gz"
@@ -105,11 +78,10 @@ if [ -n "$REPO" ] ; then
     mkdir -p $ROOT/sources/$PKG_NAME
     echo "[mkpkg] Copying sources: $PKG_NAME-$REV ..."
     rm -rf $PKG_NAME-$REV
-    cp -R $PKG_NAME.$METHOD $PKG_NAME-$REV
+    cp -R $PKG_NAME.git $PKG_NAME-$REV
 
     echo "[mkpkg] Cleaning $PKG_NAME-$REV ..."
     rm -rf $PKG_NAME-$REV/.git
-    find $PKG_NAME-$REV -iname .svn -exec rm -rf {} \; &>/dev/null || :
 
     echo "[mkpkg] => Packaging $TAR ..."
     tar czf $TAR $PKG_NAME-$REV

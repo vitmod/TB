@@ -16,7 +16,7 @@
 PKG_NAME="netbsd-curses"
 PKG_VERSION="47b256a"
 PKG_SITE="https://github.com/sabotage-linux/netbsd-curses"
-PKG_FETCH="git+https://github.com/sabotage-linux/netbsd-curses.git"
+PKG_FETCH="https://github.com/sabotage-linux/netbsd-curses.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="netbsd-libcurses portable edition"
 

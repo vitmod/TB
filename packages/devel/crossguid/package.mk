@@ -16,7 +16,7 @@
 PKG_NAME="crossguid"
 PKG_VERSION="8f399e8"
 PKG_SITE="https://github.com/graeme-hill/crossguid"
-PKG_FETCH="git+https://github.com/graeme-hill/crossguid.git"
+PKG_FETCH="https://github.com/graeme-hill/crossguid.git"
 PKG_DEPENDS_TARGET="toolchain util-linux"
 PKG_SHORTDESC="minimal, cross platform, C++ GUID library"
 

@@ -16,7 +16,7 @@
 PKG_NAME="configtools"
 PKG_VERSION="706fbe5"
 PKG_SITE="http://git.savannah.gnu.org/cgit/config.git"
-PKG_FETCH="git+http://git.savannah.gnu.org/r/config.git"
+PKG_FETCH="http://git.savannah.gnu.org/r/config.git"
 PKG_DEPENDS_HOST=""
 PKG_SHORTDESC="configtools"
 
