@@ -50,7 +50,6 @@ configure_target() {
 makeinstall_init() {
   mkdir -p $INSTALL/bin
   ln -sf busybox $INSTALL/bin/sh
-  chmod 4755 $INSTALL/bin/busybox
 
   mkdir -p $INSTALL/etc
   touch $INSTALL/etc/fstab
