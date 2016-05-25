@@ -24,6 +24,11 @@ pre_configure_init() {
   rm -rf $PKG_BUILD/.$TARGET_NAME-init
 }
 
+make_init() {
+  $CC $CFLAGS ply-image.c ply-frame-buffer.c -o ply-image \
+    -Wl,-Bstatic -lpng -lm -lz -Wl,-Bdynamic $LDFLAGS
+}
+
 makeinstall_init() {
   mkdir -p $INSTALL/bin
   cp ply-image $INSTALL/bin

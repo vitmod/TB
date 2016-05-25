@@ -1,64 +1,13 @@
-From e7581ea7bcaa1a0273778f187a35f21c0f8b2b93 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Wed, 6 Apr 2016 20:05:54 +0300
-Subject: [PATCH 1/4] link static
-
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index 9e36567..ae64cd5 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1,6 +1,6 @@
- 
- ply-image: ply-image.c ply-frame-buffer.c Makefile
--	gcc -O2 -march=core2 -mtune=generic -lm `pkg-config --cflags libpng12` `pkg-config --libs libpng12` ply-image.c ply-frame-buffer.c -o ply-image
-+	$(CC) $(CFLAGS) -Wl,-Bstatic ply-image.c ply-frame-buffer.c -o ply-image  -lm `pkg-config --libs libpng` -lm -lz -Wl,-Bdynamic -lc $(LDFLAGS)
- 	
- clean:
- 	rm -f ply-image *~ gmon.out
--- 
-2.1.4
-
-
-From 4bef70cc3ecf5eff3e84222338a333f1c417f36e Mon Sep 17 00:00:00 2001
+From 0879f69a0a0cac39759f7cb0342d1da3642c524f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Wed, 6 Apr 2016 20:06:22 +0300
-Subject: [PATCH 2/4] libpng
-
----
- ply-image.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/ply-image.c b/ply-image.c
-index cfe91a9..918b3e0 100644
---- a/ply-image.c
-+++ b/ply-image.c
-@@ -220,7 +220,7 @@ ply_image_load (ply_image_t *image)
-     png_set_palette_to_rgb (png);
- 
-   if ((color_type == PNG_COLOR_TYPE_GRAY) && (bits_per_pixel < 8))
--    png_set_gray_1_2_4_to_8 (png);
-+    png_set_expand_gray_1_2_4_to_8 (png);
- 
-   if (png_get_valid (png, info, PNG_INFO_tRNS))
-     png_set_tRNS_to_alpha (png);
--- 
-2.1.4
-
-
-From ebcebd6cd7cf84ddc8973064eef4723d1285e303 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Wed, 6 Apr 2016 20:06:38 +0300
-Subject: [PATCH 3/4] resize
+Subject: [PATCH] tb
 
 ---
  ply-frame-buffer.c | 35 -----------------------------------
  ply-frame-buffer.h | 35 +++++++++++++++++++++++++++++++++++
- ply-image.c        |  3 +++
- 3 files changed, 38 insertions(+), 35 deletions(-)
+ ply-image.c        |  5 ++++-
+ 3 files changed, 39 insertions(+), 36 deletions(-)
 
 diff --git a/ply-frame-buffer.c b/ply-frame-buffer.c
 index 85caf7f..1fb8f77 100644
@@ -153,7 +102,7 @@ index d30e4ef..8ae71df 100644
      (((uint8_t) (CLAMP (a * 255.0, 0.0, 255.0)) << 24)                        \
        | ((uint8_t) (CLAMP (r * 255.0, 0.0, 255.0)) << 16)                     \
 diff --git a/ply-image.c b/ply-image.c
-index 918b3e0..c5e6b3a 100644
+index cfe91a9..c5e6b3a 100644
 --- a/ply-image.c
 +++ b/ply-image.c
 @@ -43,6 +43,7 @@
@@ -164,6 +113,15 @@ index 918b3e0..c5e6b3a 100644
  
  #define MIN(a,b) ((a) <= (b)? (a) : (b))
  #define MAX(a,b) ((a) >= (b)? (a) : (b))
+@@ -220,7 +221,7 @@ ply_image_load (ply_image_t *image)
+     png_set_palette_to_rgb (png);
+ 
+   if ((color_type == PNG_COLOR_TYPE_GRAY) && (bits_per_pixel < 8))
+-    png_set_gray_1_2_4_to_8 (png);
++    png_set_expand_gray_1_2_4_to_8 (png);
+ 
+   if (png_get_valid (png, info, PNG_INFO_tRNS))
+     png_set_tRNS_to_alpha (png);
 @@ -464,6 +465,8 @@ main (int    argc,
        return exit_code;
      }
@@ -173,99 +131,6 @@ index 918b3e0..c5e6b3a 100644
    animate_at_time (buffer, image);
  
    ply_frame_buffer_close (buffer);
--- 
-2.1.4
-
-
-From ebe5593e7df108035bbc0f40fe27dc3023939205 Mon Sep 17 00:00:00 2001
-From: Stefan Saraev <stefan@saraev.ca>
-Date: Wed, 6 Apr 2016 20:06:54 +0300
-Subject: [PATCH 4/4] 16bpp
-
----
- ply-frame-buffer.c | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
-
-diff --git a/ply-frame-buffer.c b/ply-frame-buffer.c
-index 1fb8f77..d22a50b 100644
---- a/ply-frame-buffer.c
-+++ b/ply-frame-buffer.c
-@@ -149,6 +149,58 @@ flush_xrgb32 (ply_frame_buffer_t *buffer)
-     }
- }
- 
-+static void
-+flush_xbgr32 (ply_frame_buffer_t *buffer)
-+{
-+  unsigned long x1, y1, x2, y2, x, y;
-+  char *dst, *src;
-+
-+  x1 = buffer->area_to_flush.x;
-+  y1 = buffer->area_to_flush.y;
-+  x2 = x1 + buffer->area_to_flush.width;
-+  y2 = y1 + buffer->area_to_flush.height;
-+
-+  for (y = y1; y < y2; y++)
-+    {
-+     dst = &buffer->map_address[(y * buffer->row_stride + x1) * 4];
-+     src = (char *) &buffer->shadow_buffer[y * buffer->area.width + x1];
-+
-+     for (x = x1; x < x2; x++)
-+       {
-+         dst[0] = src[2];
-+         dst[1] = src[1];
-+         dst[2] = src[0];
-+         dst[3] = src[3];
-+         dst += 4;
-+         src += 4;
-+       }
-+    }
-+}
-+
-+static void
-+flush_rgb16 (ply_frame_buffer_t *buffer)
-+{
-+  unsigned long x1, y1, x2, y2, x, y;
-+  unsigned short *dst; unsigned char *src;
-+
-+  x1 = buffer->area_to_flush.x;
-+  y1 = buffer->area_to_flush.y;
-+  x2 = x1 + buffer->area_to_flush.width;
-+  y2 = y1 + buffer->area_to_flush.height;
-+
-+  for (y = y1; y < y2; y++)
-+    {
-+     dst = (unsigned short *)&buffer->map_address[(y * buffer->row_stride + x1) * 2];
-+     src = (unsigned char *) &buffer->shadow_buffer[y * buffer->area.width + x1];
-+
-+     for (x = x1; x < x2; x++)
-+       {
-+         *dst++ = (src[0]>>3) << 0 | (src[1]>>2) << 5 | (src[2]>>3) << 11;
-+         src += 4;
-+       }
-+    }
-+}
-+
- static const char const *p_visual(int visual)
- {
-   static const char const *visuals[] =
-@@ -265,6 +317,16 @@ ply_frame_buffer_query_device (ply_frame_buffer_t *buffer)
-       buffer->green_bit_position == 8 && buffer->bits_for_green == 8 &&
-       buffer->blue_bit_position == 0 && buffer->bits_for_blue == 8)
-     buffer->flush = flush_xrgb32;
-+  else if (buffer->bytes_per_pixel == 4 &&
-+           buffer->red_bit_position == 0 && buffer->bits_for_red == 8 &&
-+           buffer->green_bit_position == 8 && buffer->bits_for_green == 8 &&
-+           buffer->blue_bit_position == 16 && buffer->bits_for_blue == 8)
-+    buffer->flush = flush_xbgr32;
-+  else if (buffer->bytes_per_pixel == 2 &&
-+           buffer->red_bit_position == 11 && buffer->bits_for_red == 5 &&
-+           buffer->green_bit_position == 5 && buffer->bits_for_green == 6 &&
-+           buffer->blue_bit_position == 0 && buffer->bits_for_blue == 5)
-+    buffer->flush = flush_rgb16;
-   else
-     buffer->flush = flush_generic;
- 
 -- 
 2.1.4
 
