@@ -31,3 +31,7 @@ pre_configure_target() {
   CFLAGS="$CFLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1"
   CFLAGS="$CFLAGS -DSQLITE_TEMP_STORE=3 -DSQLITE_DEFAULT_MMAP_SIZE=268435456"
 }
+
+post_makeinstall_target() {
+  rm -rf $INSTALL/usr/bin
+}
