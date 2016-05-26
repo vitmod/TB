@@ -194,10 +194,12 @@ post_makeinstall_target() {
   sed -i -e "s,^#LLMNR=.*$,LLMNR=no,g" \
          $INSTALL/etc/systemd/resolved.conf
 
+  # default network config
+  mkdir -p $INSTALL/usr/lib/systemd/network
+  cp $PKG_DIR/config/*.network $INSTALL/usr/lib/systemd/network
+
   rm -rf $INSTALL/etc/udev/hwdb.d
   ln -sf /storage/.config/hwdb.d $INSTALL/etc/udev/hwdb.d
-  rm -rf $INSTALL/etc/udev/rules.d
-  ln -sf /storage/.config/udev.rules.d $INSTALL/etc/udev/rules.d
   rm -rf $INSTALL/etc/systemd/network
   ln -sf /storage/.config/network $INSTALL/etc/systemd/network
 }

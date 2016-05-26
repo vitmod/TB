@@ -45,7 +45,4 @@ post_makeinstall_target() {
   for i in lsmod insmod rmmod modinfo modprobe ; do
     ln -sf /usr/bin/kmod $INSTALL/sbin/$i
   done
-
-  mkdir -p $INSTALL/etc
-  ln -sf /storage/.config/modprobe.d $INSTALL/etc/modprobe.d
 }

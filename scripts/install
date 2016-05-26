@@ -88,11 +88,6 @@ if [ "$TARGET" = target ] ; then
     mkdir -p $INSTALL/lib/modprobe.d
     cp $PKG_DIR/modprobe.d/*.conf $INSTALL/lib/modprobe.d
   fi
-
-  if [ -d $PKG_DIR/userconfig ]; then
-    mkdir -p $INSTALL/usr/config
-    cp -R $PKG_DIR/userconfig/* $INSTALL/usr/config
-  fi
 fi
 
 # unset functions

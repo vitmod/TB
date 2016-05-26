@@ -172,7 +172,6 @@ prepare_sysroot() {
 
   mkdir -p /storage/.cache
   mkdir -p /storage/.config
-  false | cp -iR /sysroot/usr/config/* /storage/.config &>/dev/null
 
   mount --move /flash /sysroot/flash
   mount --move /storage /sysroot/storage
