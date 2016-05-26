@@ -1,4 +1,4 @@
-From 89627cf611322d64ee69b514f7642cb134add56b Mon Sep 17 00:00:00 2001
+From c60eabcf5b748d37ed136269fc520243485b0771 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
 Subject: [PATCH 01/10] [tb] make binary addons executable
@@ -28,7 +28,7 @@ index 5005f8d..792df18 100644
 2.7.4
 
 
-From baf673a459a5bf0cd1a5e904a408864017e874ba Mon Sep 17 00:00:00 2001
+From 5ae124876c455ac530dea9498659d9da458dab81 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
 Subject: [PATCH 02/10] [tb] disable minimize
@@ -38,10 +38,10 @@ Subject: [PATCH 02/10] [tb] disable minimize
  1 file changed, 1 deletion(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index bc251c8..dc6ede6 100644
+index b44e467..66e78fb 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
-@@ -4920,7 +4920,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
+@@ -4915,7 +4915,6 @@ bool CApplication::SwitchToFullScreen(bool force /* = false */)
  
  void CApplication::Minimize()
  {
@@ -53,7 +53,7 @@ index bc251c8..dc6ede6 100644
 2.7.4
 
 
-From e108b51c62b22853bc2d9725b29c02bb277efdbc Mon Sep 17 00:00:00 2001
+From 8c8bd9af1405bb515dbe84fe6fe56424d397c178 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
 Subject: [PATCH 03/10] [tb] setup timezone
@@ -83,7 +83,7 @@ index ea44d40..744780e 100644
 2.7.4
 
 
-From e33185e5b24056e9d45119dea832d43f13d8d54c Mon Sep 17 00:00:00 2001
+From 11c31fb4f8e6916d7e583efd8d6e384a4ea5f97d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
 Subject: [PATCH 04/10] [tb] use a wrapper to setup systemd services
@@ -178,7 +178,7 @@ index d43b309..2c51fb3 100644
 2.7.4
 
 
-From 5ed905e7759137559310b3c3563f0111f371089f Mon Sep 17 00:00:00 2001
+From 9ccefccfe90e4fce756e1c0b29ec50626c0cc649 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
 Subject: [PATCH 05/10] [tb] handle SIGTERM
@@ -193,7 +193,7 @@ Subject: [PATCH 05/10] [tb] handle SIGTERM
  5 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
-index dc6ede6..ad674da 100644
+index 66e78fb..b1d058f 100644
 --- a/xbmc/Application.cpp
 +++ b/xbmc/Application.cpp
 @@ -2346,12 +2346,12 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
@@ -329,7 +329,7 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 36a4857c82dc11c9bbcd5b79fc4d2200d1cb0de8 Mon Sep 17 00:00:00 2001
+From 953747e40fe8c3630c538c60653b8ea509be0d1e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
 Subject: [PATCH 06/10] [tb] pvr: nobody cared
@@ -358,7 +358,7 @@ index ea1eef4..4ffdac6 100644
 2.7.4
 
 
-From 80e71f54c0dd07c7d448d11588e11c9ae954faac Mon Sep 17 00:00:00 2001
+From 094312fd6bb9efa1ff26337fce8533d9f1d6b51f Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
 Subject: [PATCH 07/10] [tb] all user pre-installed addons should be enabled
@@ -384,7 +384,7 @@ index d23be26..bb76bf9 100644
 2.7.4
 
 
-From 5675f812027e7d2520b23656b595dbd2301d4f0f Mon Sep 17 00:00:00 2001
+From 8547675f97d2daac7eb2212414a778fdbcb075ee Mon Sep 17 00:00:00 2001
 From: popcornmix <popcornmix@gmail.com>
 Date: Sun, 6 Mar 2016 14:16:17 +0000
 Subject: [PATCH 08/10] codecoverlay: Include codec name in overlay
@@ -433,7 +433,7 @@ index a15317a..a9338a6 100644
    void BuildChannelMap();
    void ConvertToFloat();
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp b/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp
-index 215e879..8e9f06f 100644
+index e8f073f..93f755a 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp
 @@ -134,6 +134,8 @@ void CVideoPlayerAudio::OpenStream(CDVDStreamInfo &hints, CDVDAudioCodec* codec)
@@ -456,7 +456,7 @@ index 215e879..8e9f06f 100644
    //print the inverse of the resample ratio, since that makes more sense
    //if the resample ratio is 0.5, then we're playing twice as fast
    if (m_synctype == SYNC_RESAMPLE)
-@@ -587,6 +590,7 @@ bool CVideoPlayerAudio::SwitchCodecIfNeeded()
+@@ -596,6 +599,7 @@ bool CVideoPlayerAudio::SwitchCodecIfNeeded()
  
    delete m_pAudioCodec;
    m_pAudioCodec = codec;
@@ -477,7 +477,7 @@ index f6b5003..78572ba 100644
    int m_speed;
    bool m_stalled;
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-index 57b2c3f..322a3cb 100644
+index cdd1938..3a15b4d 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
 @@ -95,6 +95,9 @@ CVideoPlayerVideo::CVideoPlayerVideo(CDVDClock* pClock
@@ -490,7 +490,7 @@ index 57b2c3f..322a3cb 100644
  }
  
  CVideoPlayerVideo::~CVideoPlayerVideo()
-@@ -186,6 +189,7 @@ void CVideoPlayerVideo::OpenStream(CDVDStreamInfo &hint, CDVDVideoCodec* codec)
+@@ -190,6 +193,7 @@ void CVideoPlayerVideo::OpenStream(CDVDStreamInfo &hint, CDVDVideoCodec* codec)
    m_pVideoCodec = codec;
    m_hints   = hint;
    m_stalled = m_messageQueue.GetPacketCount(CDVDMsg::DEMUXER_PACKET) == 0;
@@ -498,7 +498,7 @@ index 57b2c3f..322a3cb 100644
    m_packets.clear();
    m_syncState = IDVDStreamPlayer::SYNC_STARTING;
  }
-@@ -601,6 +605,7 @@ bool CVideoPlayerVideo::ProcessDecoderOutput(int &decoderState, double &frametim
+@@ -605,6 +609,7 @@ bool CVideoPlayerVideo::ProcessDecoderOutput(int &decoderState, double &frametim
  
        if (m_syncState == IDVDStreamPlayer::SYNC_STARTING && !(m_picture.iFlags & DVP_FLAG_DROPPED))
        {
@@ -506,7 +506,7 @@ index 57b2c3f..322a3cb 100644
          m_syncState = IDVDStreamPlayer::SYNC_WAITSYNC;
          SStartMsg msg;
          msg.player = VideoPlayer_VIDEO;
-@@ -883,6 +888,9 @@ int CVideoPlayerVideo::OutputPicture(const DVDVideoPicture* src, double pts)
+@@ -887,6 +892,9 @@ int CVideoPlayerVideo::OutputPicture(const DVDVideoPicture* src, double pts)
      m_droppingStats.AddOutputDropGain(pts, 1);
      return EOS_DROPPED;
    }
@@ -516,7 +516,7 @@ index 57b2c3f..322a3cb 100644
  
    m_renderManager.FlipPage(m_bAbortOutput, pts, -1, mDisplayField);
  
-@@ -893,8 +901,10 @@ std::string CVideoPlayerVideo::GetPlayerInfo()
+@@ -897,8 +905,10 @@ std::string CVideoPlayerVideo::GetPlayerInfo()
  {
    std::ostringstream s;
    s << "vq:"   << std::setw(2) << std::min(99,GetLevel()) << "%";
@@ -547,7 +547,7 @@ index 4dff792..3bfc052 100644
 2.7.4
 
 
-From 2fc8d3a60632f5346cde0e64d15d40d7bf4b511f Mon Sep 17 00:00:00 2001
+From c65118325b617823f1301852cd9d644df13d7e6f Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
 Subject: [PATCH 09/10] [aml] Fill audio packets completely when resampling to
@@ -558,7 +558,7 @@ Subject: [PATCH 09/10] [aml] Fill audio packets completely when resampling to
  1 file changed, 4 insertions(+)
 
 diff --git a/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp b/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
-index ff26118..9de73fa 100644
+index a64ee31..dc97a92 100644
 --- a/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
 +++ b/xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEBuffer.cpp
 @@ -159,7 +159,11 @@ CActiveAEBufferPoolResample::CActiveAEBufferPoolResample(AEAudioFormat inputForm
@@ -577,7 +577,7 @@ index ff26118..9de73fa 100644
 2.7.4
 
 
-From 23f378ff9014d8c16566d6c18e8909ddb4bcbba0 Mon Sep 17 00:00:00 2001
+From 010192cab773071fbb36390b07b27c94aa13e059 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 23 Apr 2016 16:16:45 +0200
 Subject: [PATCH 10/10] [aml] Use amlvideo driver for audio/video sync
