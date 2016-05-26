@@ -106,6 +106,9 @@ post_makeinstall_target() {
   rm -rf $INSTALL/etc/xdg
   rm -rf $INSTALL/etc/X11
   rm -rf $INSTALL/usr/bin/kernel-install
+  rm -rf $INSTALL/usr/bin/busctl
+  rm -rf $INSTALL/usr/bin/loginctl
+  rm -rf $INSTALL/usr/bin/networkctl
   rm -rf $INSTALL/usr/bin/systemd-analyze
   rm -rf $INSTALL/usr/bin/systemd-cat
   rm -rf $INSTALL/usr/bin/systemd-cgls
@@ -113,6 +116,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin/systemd-delta
   rm -rf $INSTALL/usr/bin/systemd-detect-virt
   rm -rf $INSTALL/usr/bin/systemd-escape
+  rm -rf $INSTALL/usr/bin/systemd-inhibit
   rm -rf $INSTALL/usr/bin/systemd-notify
   rm -rf $INSTALL/usr/bin/systemd-nspawn
   rm -rf $INSTALL/usr/bin/systemd-path
