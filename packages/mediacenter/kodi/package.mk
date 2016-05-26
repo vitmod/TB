@@ -130,6 +130,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/share/kodi/addons/service.xbmc.versioncheck
   rm -rf $INSTALL/usr/share/kodi/addons/skin.*
   rm -rf $INSTALL/usr/share/kodi/addons/visualization.*
+  rm -rf $INSTALL/usr/share/kodi/addons/resource.images.weathericons.*
   rm -rf $INSTALL/usr/share/xsessions
 
   mkdir -p $INSTALL/usr/bin
@@ -157,8 +158,9 @@ post_makeinstall_target() {
 
   # update addon manifest
   ADDON_MANIFEST=$INSTALL/usr/share/kodi/system/addon-manifest.xml
-  xmlstarlet ed -L -d "/addons/addon[text()='service.xbmc.versioncheck']" $ADDON_MANIFEST
+  xmlstarlet ed -L -d "/addons/addon[text()='resource.images.weathericons.default']" $ADDON_MANIFEST
   xmlstarlet ed -L -d "/addons/addon[text()='script.module.pil']" $ADDON_MANIFEST
+  xmlstarlet ed -L -d "/addons/addon[text()='service.xbmc.versioncheck']" $ADDON_MANIFEST
   xmlstarlet ed -L -d "/addons/addon[text()='skin.estouchy']" $ADDON_MANIFEST
   xmlstarlet ed -L -d "/addons/addon[text()='skin.estuary']" $ADDON_MANIFEST
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "repository.saraev.ca" $ADDON_MANIFEST
