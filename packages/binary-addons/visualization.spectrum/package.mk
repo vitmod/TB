@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="visualization.spectrum"
-PKG_VERSION="d662ffe"
+PKG_VERSION="34929f0"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="https://github.com/notspiff/visualization.spectrum.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform"
