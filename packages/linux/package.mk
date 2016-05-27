@@ -19,7 +19,7 @@ PKG_SITE="http://www.kernel.org"
 PKG_URL="$KERNEL_URL"
 PKG_DEPENDS_HOST=""
 PKG_DEPENDS_TARGET="toolchain kmod:host"
-PKG_NEED_UNPACK="$LINUX_DEPENDS"
+PKG_NEED_UNPACK="$PROJECT_DIR/$PROJECT/linux/linux.$TARGET_ARCH.conf $ROOT/packages/linux/package.mk"
 PKG_SHORTDESC="The Linux kernel"
 
 PKG_MAKE_OPTS_HOST="ARCH=$TARGET_KERNEL_ARCH headers_check"

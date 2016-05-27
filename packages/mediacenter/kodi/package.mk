@@ -168,7 +168,7 @@ post_makeinstall_target() {
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "tb.settings" $ADDON_MANIFEST
 
   # distro splash / skin
-  cp $DISTRO_DIR/$DISTRO/splash/splash.png $INSTALL/usr/share/kodi/media/Splash.png
+  cp $ROOT/config/splash.png $INSTALL/usr/share/kodi/media/Splash.png
   sed "s|skin.estuary|skin.confluence|g" -i $INSTALL/usr/share/kodi/system/settings/settings.xml
 
   # more binaddons cross compile badness meh

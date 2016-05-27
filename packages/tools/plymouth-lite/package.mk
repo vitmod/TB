@@ -34,5 +34,5 @@ makeinstall_init() {
   cp ply-image $INSTALL/bin
 
   mkdir -p $INSTALL/splash
-  cp $DISTRO_DIR/$DISTRO/splash/splash.png $INSTALL/splash
+  cp $ROOT/config/splash.png $INSTALL/splash
 }

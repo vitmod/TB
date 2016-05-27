@@ -309,16 +309,8 @@ do_autoreconf() {
 ################################################################################
 export LC_ALL=C
 ROOT=`pwd`
-DISTRO_DIR="$ROOT/distributions"
 PROJECT_DIR="$ROOT/projects"
 CCACHE_CACHE_SIZE="2G"
-
-if [ -z "$DISTRO" ]; then
-  for distro in $DISTRO_DIR/*; do
-    DISTRO="$(basename $distro)"
-    break
-  done
-fi
 
 if [ -z "$PROJECT" ]; then
   for project in $PROJECT_DIR/*; do
@@ -349,20 +341,10 @@ endcolor="\e[0m"
 # config
 ################################################################################
 . config/version
-
-# read options
-if [ -f "$DISTRO_DIR/$DISTRO/options" ]; then
-  . $DISTRO_DIR/$DISTRO/options
-fi
-if [ -f "$PROJECT_DIR/$PROJECT/options" ]; then
-  . $PROJECT_DIR/$PROJECT/options
-fi
-if [ -f ".work/options" ]; then
-  . .work/options
-fi
-if [ -f ".work/options.$PROJECT" ]; then
-  . .work/options.$PROJECT
-fi
+. config/options.dist
+. $PROJECT_DIR/$PROJECT/options 2>/dev/null || :
+. .work/options 2>/dev/null || :
+. .work/options.$PROJECT 2>/dev/null || :
 
 ################################################################################
 # more buildsystem stuff
@@ -374,23 +356,18 @@ LOCAL_CC=`which gcc`
 LOCAL_CXX=`which g++`
 
 # include ARCH specific options
-if [ -f config/arch.$TARGET_ARCH ]; then
-  . config/arch.$TARGET_ARCH
-fi
+. config/arch.$TARGET_ARCH 2>/dev/null || :
 
 HOST_NAME=`$LOCAL_CC -dumpmachine`
 TARGET_NAME=$TARGET_GCC_ARCH-linux-gnu${TARGET_ABI}
+TARGET_IMG=$ROOT/target
 
 BUILD=build.$DISTRONAME-$PROJECT-$OPENELEC_VERSION
-
-TARGET_IMG=$ROOT/target
 STAMPS=$BUILD/.stamps
 STAMPS_INSTALL=$BUILD/image/.stamps
 TOOLCHAIN=$BUILD/toolchain
 SYSROOT_PREFIX=$ROOT/$TOOLCHAIN/$TARGET_NAME/sysroot
 TARGET_PREFIX=$ROOT/$TOOLCHAIN/bin/$TARGET_NAME-
-
-MAKEINSTALL="make -j1 DESTDIR=$SYSROOT_PREFIX install"
 
 export CCACHE_DIR=$ROOT/$BUILD/.ccache
 export MAKEFLAGS=-j$(cat /proc/cpuinfo | grep -c '^processor[[:cntrl:]]*:')
@@ -398,8 +375,6 @@ export MAKEFLAGS=-j$(cat /proc/cpuinfo | grep -c '^processor[[:cntrl:]]*:')
 if [ -z "$INSTALL" ]; then
   INSTALL=$BUILD/image/system
 fi
-
-LINUX_DEPENDS="$PROJECT_DIR/$PROJECT/linux/linux.$TARGET_ARCH.conf $ROOT/packages/linux/package.mk"
 
 ################################################################################
 # target environment
