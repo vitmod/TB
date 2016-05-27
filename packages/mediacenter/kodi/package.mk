@@ -25,7 +25,7 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa crossguid curl dbus expat ffmpeg"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET freetype fribidi libass"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libmicrohttpd"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxslt lzo pcre Python sqlite"
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET systemd taglib tinyxml yajl zlib"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET taglib tinyxml yajl zlib"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $OPENGLES $KODIPLAYER_DRIVER"
 
 if [ -n "$OPENGLES" ]; then
@@ -52,7 +52,7 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-tegra \
                            --disable-profiling \
                            --disable-libcec \
-                           --enable-udev \
+                           --disable-udev \
                            --disable-libusb \
                            --disable-x11 \
                            --disable-ccache \
