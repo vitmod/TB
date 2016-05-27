@@ -7,6 +7,9 @@
         <setting id="videoplayer.adjustrefreshrate">
           <default>2</default> <!-- ADJUST_REFRESHRATE_ON_STARTSTOP -->
         </setting>
+        <setting id="videoplayer.stretch43">
+          <default>3</default> <!-- ViewModeWideZoom -->
+        </setting>
       </group>
       <group id="4">
         <setting id="videoplayer.useamcodecmpeg2">
