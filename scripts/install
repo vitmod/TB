@@ -56,37 +56,19 @@ mkdir -p $INSTALL
 if [ "$TARGET" = target ] ; then
   if [ -d $PKG_DIR/profile.d ]; then
     mkdir -p $INSTALL/etc/profile.d
-    cp $PKG_DIR/profile.d/*.conf $INSTALL/etc/profile.d/
+    cp $PKG_DIR/profile.d/*.conf $INSTALL/etc/profile.d
   fi
-
   if [ -d $PKG_DIR/tmpfiles.d ]; then
     mkdir -p $INSTALL/usr/lib/tmpfiles.d
     cp $PKG_DIR/tmpfiles.d/*.conf $INSTALL/usr/lib/tmpfiles.d
   fi
-
   if [ -d $PKG_DIR/system.d ]; then
     mkdir -p $INSTALL/usr/lib/systemd/system
     cp $PKG_DIR/system.d/*.* $INSTALL/usr/lib/systemd/system
   fi
-
-  if [ -d $PKG_DIR/udev.d ]; then
-    mkdir -p $INSTALL/usr/lib/udev/rules.d
-    cp $PKG_DIR/udev.d/*.rules $INSTALL/usr/lib/udev/rules.d
-  fi
-
   if [ -d $PKG_DIR/sysctl.d ]; then
-    mkdir -p $INSTALL/usr/lib/sysctl.d/
-    cp $PKG_DIR/sysctl.d/*.conf $INSTALL/usr/lib/sysctl.d/
-  fi
-
-  if [ -d $PKG_DIR/modules-load.d ]; then
-    mkdir -p $INSTALL/usr/lib/modules-load.d/
-    cp $PKG_DIR/modules-load.d/*.conf $INSTALL/usr/lib/modules-load.d/
-  fi
-
-  if [ -d $PKG_DIR/modprobe.d ]; then
-    mkdir -p $INSTALL/lib/modprobe.d
-    cp $PKG_DIR/modprobe.d/*.conf $INSTALL/lib/modprobe.d
+    mkdir -p $INSTALL/usr/lib/sysctl.d
+    cp $PKG_DIR/sysctl.d/*.conf $INSTALL/usr/lib/sysctl.d
   fi
 fi
 
