@@ -1,7 +1,7 @@
-From c60eabcf5b748d37ed136269fc520243485b0771 Mon Sep 17 00:00:00 2001
+From 5e128b153a978f26852ce19d2dc33882cf44e001 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
-Subject: [PATCH 01/10] [tb] make binary addons executable
+Subject: [PATCH 01/11] [tb] make binary addons executable
 
 ---
  xbmc/addons/Addon.cpp | 6 ++++++
@@ -28,10 +28,10 @@ index 5005f8d..792df18 100644
 2.7.4
 
 
-From 5ae124876c455ac530dea9498659d9da458dab81 Mon Sep 17 00:00:00 2001
+From 15439f6ddfde572a998a8a792640361dc1fd497d Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
-Subject: [PATCH 02/10] [tb] disable minimize
+Subject: [PATCH 02/11] [tb] disable minimize
 
 ---
  xbmc/Application.cpp | 1 -
@@ -53,10 +53,10 @@ index b44e467..66e78fb 100644
 2.7.4
 
 
-From 8c8bd9af1405bb515dbe84fe6fe56424d397c178 Mon Sep 17 00:00:00 2001
+From f1dc4157e72ea35f2651a4fe5d25e78502536de0 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
-Subject: [PATCH 03/10] [tb] setup timezone
+Subject: [PATCH 03/11] [tb] setup timezone
 
 ---
  xbmc/linux/LinuxTimezone.cpp | 6 ++++++
@@ -83,10 +83,10 @@ index ea44d40..744780e 100644
 2.7.4
 
 
-From 11c31fb4f8e6916d7e583efd8d6e384a4ea5f97d Mon Sep 17 00:00:00 2001
+From c147bdf76f03df988d5c1409baff5e3559136f98 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
-Subject: [PATCH 04/10] [tb] use a wrapper to setup systemd services
+Subject: [PATCH 04/11] [tb] use a wrapper to setup systemd services
 
 ---
  xbmc/addons/Addon.cpp | 30 ++++++++++++++++++++++++++++++
@@ -178,10 +178,10 @@ index d43b309..2c51fb3 100644
 2.7.4
 
 
-From 9ccefccfe90e4fce756e1c0b29ec50626c0cc649 Mon Sep 17 00:00:00 2001
+From 14bec004dce7deee99ed84459e37185912b89ab6 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
-Subject: [PATCH 05/10] [tb] handle SIGTERM
+Subject: [PATCH 05/11] [tb] handle SIGTERM
 
 ... CApplication::Stop cant be trusted
 ---
@@ -329,10 +329,10 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 953747e40fe8c3630c538c60653b8ea509be0d1e Mon Sep 17 00:00:00 2001
+From 82fd23b6d407eaf5480ad0a31447fd3599eb9fcf Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
-Subject: [PATCH 06/10] [tb] pvr: nobody cared
+Subject: [PATCH 06/11] [tb] pvr: nobody cared
 
 ---
  xbmc/pvr/channels/PVRChannel.cpp | 5 +----
@@ -358,10 +358,10 @@ index ea1eef4..4ffdac6 100644
 2.7.4
 
 
-From 094312fd6bb9efa1ff26337fce8533d9f1d6b51f Mon Sep 17 00:00:00 2001
+From d31e8b073f7f29796f399d051a8ef87ba32528f3 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
-Subject: [PATCH 07/10] [tb] all user pre-installed addons should be enabled
+Subject: [PATCH 07/11] [tb] all user pre-installed addons should be enabled
 
 ---
  xbmc/addons/AddonDatabase.cpp | 2 +-
@@ -384,10 +384,47 @@ index d23be26..bb76bf9 100644
 2.7.4
 
 
-From 8547675f97d2daac7eb2212414a778fdbcb075ee Mon Sep 17 00:00:00 2001
+From 32dbd1b65926057974069f9cda5a2eab56bd77d9 Mon Sep 17 00:00:00 2001
+From: Stefan Saraev <stefan@saraev.ca>
+Date: Fri, 27 May 2016 22:08:32 +0300
+Subject: [PATCH 08/11] [aml] do reboot/poweroff in FallbackPowerSyscall
+
+... aml needs suspend instead of poweroff...
+---
+ xbmc/powermanagement/linux/FallbackPowerSyscall.h | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/xbmc/powermanagement/linux/FallbackPowerSyscall.h b/xbmc/powermanagement/linux/FallbackPowerSyscall.h
+index a6ed27b..a3344ab 100644
+--- a/xbmc/powermanagement/linux/FallbackPowerSyscall.h
++++ b/xbmc/powermanagement/linux/FallbackPowerSyscall.h
+@@ -25,10 +25,16 @@
+ class CFallbackPowerSyscall : public CPowerSyscallWithoutEvents
+ {
+ public:
+-  virtual bool Powerdown() {return true; }
++  virtual bool Powerdown() {
++    system("systemctl suspend");
++    return true;
++  }
+   virtual bool Suspend() {return false; }
+   virtual bool Hibernate() {return false; }
+-  virtual bool Reboot() {return true; }
++  virtual bool Reboot() {
++    system("systemctl reboot");
++    return true;
++  }
+ 
+   virtual bool CanPowerdown() {return true; }
+   virtual bool CanSuspend() {return false; }
+-- 
+2.7.4
+
+
+From f9eec183d0b30f7a80410f5854fa969ca11c1380 Mon Sep 17 00:00:00 2001
 From: popcornmix <popcornmix@gmail.com>
 Date: Sun, 6 Mar 2016 14:16:17 +0000
-Subject: [PATCH 08/10] codecoverlay: Include codec name in overlay
+Subject: [PATCH 09/11] codecoverlay: Include codec name in overlay
 
 ---
  .../VideoPlayer/DVDCodecs/Audio/DVDAudioCodecFFmpeg.cpp      |  2 +-
@@ -547,10 +584,10 @@ index 4dff792..3bfc052 100644
 2.7.4
 
 
-From c65118325b617823f1301852cd9d644df13d7e6f Mon Sep 17 00:00:00 2001
+From d954c4b3f7930a9f7eeeff45c7d45f4553cdbd09 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
-Subject: [PATCH 09/10] [aml] Fill audio packets completely when resampling to
+Subject: [PATCH 10/11] [aml] Fill audio packets completely when resampling to
  prevent 'audio data unaligned' kernel warnings
 
 ---
@@ -577,10 +614,10 @@ index a64ee31..dc97a92 100644
 2.7.4
 
 
-From 010192cab773071fbb36390b07b27c94aa13e059 Mon Sep 17 00:00:00 2001
+From cc41a766a9f12b412bc3d9b4ea8756af86d1917a Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 23 Apr 2016 16:16:45 +0200
-Subject: [PATCH 10/10] [aml] Use amlvideo driver for audio/video sync
+Subject: [PATCH 11/11] [aml] Use amlvideo driver for audio/video sync
 
 ---
  .../cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 125 +++++++++++++++++----
