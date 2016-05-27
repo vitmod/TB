@@ -103,6 +103,7 @@ pre_build_target() {
 post_makeinstall_target() {
   # remove unneeded stuff
   rm -rf $INSTALL/etc/systemd/system
+  rm -rf $INSTALL/etc/dbus-1
   rm -rf $INSTALL/etc/xdg
   rm -rf $INSTALL/etc/X11
   rm -rf $INSTALL/usr/bin/kernel-install
@@ -134,6 +135,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/tmpfiles.d/systemd-nologin.conf
   rm -rf $INSTALL/usr/lib/tmpfiles.d/systemd-nspawn.conf
   rm -rf $INSTALL/usr/lib/tmpfiles.d/x11.conf
+  rm -rf $INSTALL/usr/share/dbus-1
   rm -rf $INSTALL/usr/share/factory
 
   # clean up hwdb
@@ -150,6 +152,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/udev/rules.d/80-net-setup-link.rules
 
   # remove services
+  rm -rf $INSTALL/usr/lib/systemd/system/dbus-*
   rm -rf $INSTALL/usr/lib/systemd/system/autovt@.service
   rm -rf $INSTALL/usr/lib/systemd/system/console-getty.service
   rm -rf $INSTALL/usr/lib/systemd/system/console-shell.service
