@@ -21,7 +21,7 @@ PKG_DEPENDS_TARGET="toolchain kodi:host"
 PKG_DEPENDS_HOST="lzo:host libpng:host libjpeg-turbo:host giflib:host"
 PKG_SHORTDESC="kodi: Kodi Mediacenter"
 
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa crossguid curl dbus expat ffmpeg"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa crossguid curl expat ffmpeg"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET freetype fribidi libass"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libcdio libmicrohttpd"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libxslt lzo pcre Python sqlite"
@@ -57,6 +57,7 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-x11 \
                            --disable-ccache \
                            --enable-alsa \
+                           --disable-dbus \
                            --disable-pulse \
                            --disable-rtmp \
                            --disable-samba \
