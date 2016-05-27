@@ -76,7 +76,7 @@ makeinstall_target() {
 
   mkdir -p $INSTALL/usr/lib/openelec
   cp $PKG_DIR/scripts/fs-resize $INSTALL/usr/lib/openelec
-  cp $PKG_DIR/scripts/network-setup $INSTALL/usr/lib/openelec
+  cp $PKG_DIR/scripts/hostname-setup $INSTALL/usr/lib/openelec
 
   mkdir -p $INSTALL/etc
   touch $INSTALL/etc/fstab
@@ -96,7 +96,7 @@ post_install() {
   add_group nogroup 65534
 
   enable_service fs-resize.service
-  enable_service network.service
+  enable_service hostname.service
   enable_service network-online.service
   enable_service autostart.service
 }
