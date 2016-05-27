@@ -65,7 +65,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --disable-randomseed \
                            --disable-backlight \
                            --disable-rfkill \
-                           --enable-logind \
+                           --disable-logind \
                            --disable-machined \
                            --disable-importd \
                            --disable-hostnamed \
@@ -107,7 +107,6 @@ post_makeinstall_target() {
   rm -rf $INSTALL/etc/X11
   rm -rf $INSTALL/usr/bin/kernel-install
   rm -rf $INSTALL/usr/bin/busctl
-  rm -rf $INSTALL/usr/bin/loginctl
   rm -rf $INSTALL/usr/bin/networkctl
   rm -rf $INSTALL/usr/bin/systemd-analyze
   rm -rf $INSTALL/usr/bin/systemd-cat
