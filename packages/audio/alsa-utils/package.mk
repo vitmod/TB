@@ -32,19 +32,13 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-dependency-tracking \
 
 post_makeinstall_target() {
   rm -rf $INSTALL/lib $INSTALL/var
+  rm -rf $INSTALL/usr/sbin/alsa-info.sh
   rm -rf $INSTALL/usr/share/alsa/speaker-test
   rm -rf $INSTALL/usr/share/sounds
   rm -rf $INSTALL/usr/lib/systemd/system
-  rm -rf $INSTALL/usr/sbin/alsa-info.sh
-
-  # remove default udev rule to restore mixer configs, we install our own.
-  # so we avoid resetting our soundconfig
   rm -rf $INSTALL/usr/lib/udev/rules.d/90-alsa-restore.rules
 
   for i in aconnect alsaucm amidi aplaymidi arecord arecordmidi aseqdump aseqnet iecset; do
     rm -rf $INSTALL/usr/bin/$i
   done
-
-  mkdir -p $INSTALL/usr/lib/udev
-  cp $PKG_DIR/scripts/soundconfig $INSTALL/usr/lib/udev
 }
