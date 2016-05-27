@@ -14,14 +14,14 @@
 ################################################################################
 
 PKG_NAME="hyperion"
-PKG_VERSION="f64b6eb"
+PKG_VERSION="21a4f0c"
 PKG_SITE="https://github.com/hyperion-project/hyperion"
 PKG_FETCH="https://github.com/hyperion-project/hyperion.git"
 PKG_DEPENDS_TARGET="toolchain Python libusb qt"
 PKG_SHORTDESC="hyperion: an ambilight controller"
 
 PKG_IS_ADDON="yes"
-PKG_ADDON_REV="3"
+PKG_ADDON_REV="4"
 PKG_ADDON_NAME="Hyperion daemon"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nHyperion is an opensource 'AmbiLight' implementation"
