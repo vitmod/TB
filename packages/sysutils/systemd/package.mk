@@ -132,6 +132,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/systemd/user-generators
   rm -rf $INSTALL/usr/lib/tmpfiles.d/etc.conf
   rm -rf $INSTALL/usr/lib/tmpfiles.d/home.conf
+  rm -rf $INSTALL/usr/lib/tmpfiles.d/systemd-nologin.conf
   rm -rf $INSTALL/usr/lib/tmpfiles.d/systemd-nspawn.conf
   rm -rf $INSTALL/usr/lib/tmpfiles.d/x11.conf
   rm -rf $INSTALL/usr/share/factory
