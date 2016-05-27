@@ -96,37 +96,16 @@ do_reboot() {
   reboot -f
 }
 
-do_poweroff() {
-  start_progress spinner "shutting down... "
-  sync
-  poweroff -f
-}
-
 force_fsck() {
   echo -en "\033[$(($(stty size | cut -d" " -f1)-5));1H"
-  echo "Filesystem corruption has been detected"
-  echo "To prevent an automatic repair attempt continuing"
-  echo "press any key or power off your system within the next 60 seconds"
-  echo ""
-  read -t60 -n1
-  # exit status is 0 if input is available. > 128 if the timeout is reached
-  if [ "$?" -ne "0" -o "$?" -gt "128" ] ; then
-    echo "repairing filesystem.."
-    echo ""
-    e2fsck -y $disk
-    FSCK_RET="$?"
-    if [ "$(( $FSCK_RET & 8 ))" = 8 ] ; then
-      echo "Forced fsck failed. Your system is broken beyond repair"
-      echo ""
-      echo "Press enter to shutdown now"
-      echo ""
-      read fubar
-      do_poweroff
-    fi
-    do_reboot
-  else
-    do_poweroff
+  echo "Filesystem corruption has been detected. Repairing..."
+  e2fsck -y $disk
+  FSCK_RET="$?"
+  if [ "$(( $FSCK_RET & 8 ))" = 8 ] ; then
+    echo "Forced fsck failed. Your system is broken beyond repair"
+    while : ; do sleep 3600 ; done
   fi
+  do_reboot
 }
 
 check_disks() {
