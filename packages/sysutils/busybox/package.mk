@@ -34,14 +34,14 @@ PKG_MAKE_OPTS_INIT="ARCH=$TARGET_ARCH \
                     install"
 
 configure_init() {
-  mkdir -p $PKG_BUILD/.$TARGET_NAME-init && cd $_
+  mkdir -p $PKG_BUILD_SUBDIR && cd $_
   cp $PKG_DIR/config/busybox-init.conf .config
   sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
   make O=`pwd` -C ../ oldconfig
 }
 
 configure_target() {
-  mkdir -p $PKG_BUILD/.$TARGET_NAME && cd $_
+  mkdir -p $PKG_BUILD_SUBDIR && cd $_
   cp $PKG_DIR/config/busybox-target.conf .config
   sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"$INSTALL\"|" .config
   make O=`pwd` -C ../ oldconfig

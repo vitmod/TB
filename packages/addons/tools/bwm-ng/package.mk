@@ -44,5 +44,5 @@ makeinstall_target() {
 
 addon() {
   mkdir -p $ADDON_INSTALL/bin
-  cp $PKG_BUILD/.$TARGET_NAME/src/bwm-ng $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/src/bwm-ng $ADDON_INSTALL/bin
 }

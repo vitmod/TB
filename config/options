@@ -474,6 +474,8 @@ check_config
 setup_toolchain target
 get_pkg_target $1
 
+PKG_BUILD_SUBDIR=$PKG_BUILD/.build_$TARGET
+
 # make sure $INSTALL is set
 INSTALL=$PKG_BUILD/.install_$TARGET
 INSTALL_IMAGE=$BUILD/image/$TARGET

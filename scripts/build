@@ -123,21 +123,7 @@ if [ ! "$is_virtual" = "virtual" ]; then
   fi
 
   if [ -f "$CONFIGURE_SCRIPT" -o -f "$CMAKE_SCRIPT" ]; then
-    case "$TARGET" in
-      target)
-        PKG_BUILD_SUBDIR=$PKG_BUILD/.$TARGET_NAME
-        ;;
-      host)
-        PKG_BUILD_SUBDIR=$PKG_BUILD/.$HOST_NAME
-        ;;
-      init)
-        PKG_BUILD_SUBDIR=$PKG_BUILD/.$TARGET_NAME-init
-        ;;
-      bootstrap)
-        PKG_BUILD_SUBDIR=$PKG_BUILD/.$TARGET_NAME-bootstrap
-        ;;
-      esac
-      mkdir -p $PKG_BUILD_SUBDIR
+    mkdir -p $PKG_BUILD_SUBDIR
   fi
 
   if [ "$(type -t pre_configure_$TARGET)" = "function" ]; then

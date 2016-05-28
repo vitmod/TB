@@ -55,8 +55,8 @@ makeinstall_target() {
 
 addon() {
   mkdir -p $ADDON_INSTALL/bin
-  cp $PKG_BUILD/.$TARGET_NAME/gdb/gdb $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/gdb/gdb $ADDON_INSTALL/bin
 
   mkdir -p $ADDON_INSTALL/data/gdb
-  cp -R $PKG_BUILD/.$TARGET_NAME/gdb/data-directory/syscalls $ADDON_INSTALL/data/gdb
+  cp -R $PKG_BUILD_SUBDIR/gdb/data-directory/syscalls $ADDON_INSTALL/data/gdb
 }

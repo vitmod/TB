@@ -93,7 +93,7 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/gconv
   mkdir -p $INSTALL/usr/lib/gconv
   for i in $GLIBC_GCONV_MODULES ; do
-    cp $PKG_BUILD/.$TARGET_NAME/iconvdata/$i.so $INSTALL/usr/lib/gconv
+    cp $PKG_BUILD_SUBDIR/iconvdata/$i.so $INSTALL/usr/lib/gconv
     sh $PKG_DIR/scripts/expunge-gconv-modules $i \
       < $PKG_BUILD/iconvdata/gconv-modules \
       >> $INSTALL/usr/lib/gconv/gconv-modules
@@ -107,7 +107,7 @@ post_makeinstall_target() {
 }
 
 configure_init() {
-  rm -rf $PKG_BUILD/.$TARGET_NAME-init
+  rm -rf $PKG_BUILD_SUBDIR
 }
 
 make_init() {
@@ -116,8 +116,8 @@ make_init() {
 
 makeinstall_init() {
   mkdir -p $INSTALL/lib
-  cp -PR $PKG_BUILD/.$TARGET_NAME/elf/ld*.so* $INSTALL/lib
+  cp -PR $PKG_BUILD/.build_target/elf/ld*.so* $INSTALL/lib
   mkdir -p $INSTALL/usr/lib
-  cp $PKG_BUILD/.$TARGET_NAME/libc.so.6 $INSTALL/usr/lib
-  cp $PKG_BUILD/.$TARGET_NAME/nptl/libpthread.so.0 $INSTALL/usr/lib
+  cp $PKG_BUILD/.build_target/libc.so.6 $INSTALL/usr/lib
+  cp $PKG_BUILD/.build_target/nptl/libpthread.so.0 $INSTALL/usr/lib
 }

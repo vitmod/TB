@@ -35,5 +35,5 @@ makeinstall_target() {
 
 addon() {
   mkdir -p $ADDON_INSTALL/bin
-  cp $PKG_BUILD/.$TARGET_NAME/evtest $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/evtest $ADDON_INSTALL/bin
 }

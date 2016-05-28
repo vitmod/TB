@@ -57,8 +57,8 @@ makeinstall_target() {
 
 addon() {
   mkdir -p $ADDON_INSTALL/bin
-  cp $PKG_BUILD/.$TARGET_NAME/bin/hyperiond $ADDON_INSTALL/bin
-  cp $PKG_BUILD/.$TARGET_NAME/bin/hyperion-remote $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/bin/hyperiond $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/bin/hyperion-remote $ADDON_INSTALL/bin
 
   mkdir -p $ADDON_INSTALL/config
   cp $PKG_BUILD/config/hyperion.config.json $ADDON_INSTALL/config/hyperion.config.json

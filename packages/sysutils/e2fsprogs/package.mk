@@ -68,5 +68,5 @@ make_init() {
 
 makeinstall_init() {
   mkdir -p $INSTALL/bin
-  cp $PKG_BUILD/.$TARGET_NAME/e2fsck/e2fsck $INSTALL/bin
+  cp $PKG_BUILD/.build_target/e2fsck/e2fsck $INSTALL/bin
 }

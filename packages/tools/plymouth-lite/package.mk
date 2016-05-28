@@ -21,7 +21,7 @@ PKG_DEPENDS_INIT="toolchain libpng"
 PKG_SHORTDESC="plymouth-lite: Boot splash screen based on Fedora's Plymouth code"
 
 pre_configure_init() {
-  rm -rf $PKG_BUILD/.$TARGET_NAME-init
+  rm -rf $PKG_BUILD_SUBDIR
 }
 
 make_init() {

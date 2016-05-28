@@ -25,11 +25,11 @@ TARGET_CONFIGURE_OPTS="--prefix=/usr"
 HOST_CONFIGURE_OPTS="--prefix=$ROOT/$TOOLCHAIN"
 
 pre_build_target() {
-  mkdir -p $PKG_BUILD/.$TARGET_NAME
-  cp -RP $PKG_BUILD/* $PKG_BUILD/.$TARGET_NAME
+  mkdir -p $PKG_BUILD_SUBDIR
+  cp -RP $PKG_BUILD/* $PKG_BUILD_SUBDIR
 }
 
 pre_build_host() {
-  mkdir -p $PKG_BUILD/.$HOST_NAME
-  cp -RP $PKG_BUILD/* $PKG_BUILD/.$HOST_NAME
+  mkdir -p $PKG_BUILD_SUBDIR
+  cp -RP $PKG_BUILD/* $PKG_BUILD_SUBDIR
 }

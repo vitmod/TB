@@ -37,7 +37,7 @@ makeinstall_target() {
 
 addon() {
   mkdir -p $ADDON_INSTALL/bin
-  cp -R $PKG_BUILD/.$TARGET_NAME/src/file $ADDON_INSTALL/bin
+  cp -R $PKG_BUILD_SUBDIR/src/file $ADDON_INSTALL/bin
   mkdir -p $ADDON_INSTALL/data
-  cp -R $PKG_BUILD/.$TARGET_NAME/magic/magic.mgc $ADDON_INSTALL/data
+  cp -R $PKG_BUILD_SUBDIR/magic/magic.mgc $ADDON_INSTALL/data
 }

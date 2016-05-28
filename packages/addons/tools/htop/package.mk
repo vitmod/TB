@@ -37,7 +37,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
                            --with-gnu-ld"
 
 pre_configure_target() {
-  rm -rf $PKG_BUILD/.$TARGET_NAME
+  rm -rf $PKG_BUILD_SUBDIR
   export LIBS="-lcurses -lterminfo"
 }
 
