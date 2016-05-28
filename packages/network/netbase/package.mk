@@ -13,15 +13,19 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="iana-etc"
-PKG_VERSION="2.30"
-PKG_SITE="http://www.linuxfromscratch.org/lfs/view/development/chapter06/iana-etc.html"
-PKG_URL="http://anduin.linuxfromscratch.org/sources/LFS/lfs-packages/conglomeration/iana-etc/$PKG_NAME-$PKG_VERSION.tar.bz2"
+PKG_NAME="netbase"
+PKG_VERSION="5.3"
+PKG_SITE="http://packages.debian.org/netbase"
+PKG_URL="http://ftp.debian.org/debian/pool/main/n/netbase/netbase_$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="iana-etc: The Iana-Etc package provides data for network services and protocols."
+PKG_SHORTDESC="netbase: etc/services and etc/protocols"
+
+make_target() {
+  : #
+}
 
 makeinstall_target() {
   mkdir -p $INSTALL/etc
-  cp protocols $INSTALL/etc
-  cp services $INSTALL/etc
+  cp etc-protocols $INSTALL/etc/protocols
+  cp etc-services $INSTALL/etc/services
 }

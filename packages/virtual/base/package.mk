@@ -28,7 +28,7 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET systemd"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET timezone-data"
 
 # network
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET iana-etc ethtool openssh"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET netbase ethtool openssh"
 
 # misc
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET dosfstools e2fsprogs"
