@@ -21,8 +21,8 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_HOST=""
 PKG_SHORTDESC="zlib: A general purpose (ZIP) data compression library"
 
-TARGET_CONFIGURE_OPTS="--prefix=/usr"
-HOST_CONFIGURE_OPTS="--prefix=$ROOT/$TOOLCHAIN"
+CONFIGURE_OPTS_TARGET="--prefix=/usr"
+CONFIGURE_OPTS_HOST="--prefix=$ROOT/$TOOLCHAIN"
 
 pre_build_target() {
   mkdir -p $PKG_BUILD_SUBDIR

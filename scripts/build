@@ -56,7 +56,7 @@ unset -f pre_makeinstall_$TARGET
 unset -f makeinstall_$TARGET
 unset -f post_makeinstall_$TARGET
 
-TARGET_CONFIGURE_OPTS="--host=$TARGET_NAME \
+CONFIGURE_OPTS_TARGET="--host=$TARGET_NAME \
                        --build=$HOST_NAME \
                        --prefix=/usr \
                        --bindir=/usr/bin \
@@ -67,7 +67,7 @@ TARGET_CONFIGURE_OPTS="--host=$TARGET_NAME \
                        --enable-silent-rules \
                        --disable-dependency-tracking"
 
-HOST_CONFIGURE_OPTS="--host=$HOST_NAME \
+CONFIGURE_OPTS_HOST="--host=$HOST_NAME \
                      --build=$HOST_NAME \
                      --prefix=$ROOT/$TOOLCHAIN \
                      --bindir=$ROOT/$TOOLCHAIN/bin \
@@ -78,7 +78,7 @@ HOST_CONFIGURE_OPTS="--host=$HOST_NAME \
                      --enable-silent-rules \
                      --disable-dependency-tracking"
 
-BOOTSTRAP_CONFIGURE_OPTS="--host=$TARGET_NAME \
+CONFIGURE_OPTS_BOOTSTRAP="--host=$TARGET_NAME \
                           --build=$HOST_NAME \
                           --prefix=/usr \
                           --bindir=/usr/bin \
@@ -89,7 +89,7 @@ BOOTSTRAP_CONFIGURE_OPTS="--host=$TARGET_NAME \
                           --enable-silent-rules \
                           --disable-dependency-tracking"
 
-INIT_CONFIGURE_OPTS="--host=$TARGET_NAME \
+CONFIGURE_OPTS_INIT="--host=$TARGET_NAME \
                      --build=$HOST_NAME \
                      --prefix=/usr \
                      --bindir=/usr/bin \
@@ -138,20 +138,7 @@ if [ ! "$is_virtual" = "virtual" ]; then
   if [ "$(type -t configure_$TARGET)" = "function" ]; then
     configure_$TARGET
   elif [ -f "$CONFIGURE_SCRIPT" ]; then
-    case "$TARGET" in
-      target)
-        $CONFIGURE_SCRIPT $TARGET_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_TARGET
-        ;;
-      host)
-        $CONFIGURE_SCRIPT $HOST_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_HOST
-        ;;
-      init)
-        $CONFIGURE_SCRIPT $INIT_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_INIT
-        ;;
-      bootstrap)
-        $CONFIGURE_SCRIPT $BOOTSTRAP_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_BOOTSTRAP
-        ;;
-    esac
+    eval $CONFIGURE_SCRIPT \$CONFIGURE_OPTS_$UPTARGET \$PKG_CONFIGURE_OPTS_$UPTARGET
   fi
 
   if [ "$(type -t pre_make_$TARGET)" = "function" ]; then

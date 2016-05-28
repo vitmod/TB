@@ -42,7 +42,7 @@ GCC_COMMON_CONFIGURE_OPTS="--without-ppl \
                            --with-default-libstdcxx-abi=gcc4-compatible \
                            --disable-libsanitizer"
 
-BOOTSTRAP_CONFIGURE_OPTS="--host=$HOST_NAME \
+CONFIGURE_OPTS_BOOTSTRAP="--host=$HOST_NAME \
                           --build=$HOST_NAME \
                           --target=$TARGET_NAME \
                           --prefix=$ROOT/$TOOLCHAIN \
