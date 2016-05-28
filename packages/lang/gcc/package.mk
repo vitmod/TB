@@ -74,10 +74,6 @@ PKG_CONFIGURE_OPTS_HOST="--target=$TARGET_NAME \
                          --enable-clocale=gnu \
                          $GCC_OPTS $GCC_COMMON_CONFIGURE_OPTS"
 
-pre_configure_bootstrap() {
-  setup_toolchain host
-}
-
 makeinstall_bootstrap() {
   make install
 }

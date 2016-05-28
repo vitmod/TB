@@ -37,14 +37,7 @@ if [ -f $STAMP ] ; then
   exit 0
 fi
 
-case "$TARGET" in
-  target|bootstrap|init)
-    setup_toolchain target
-    ;;
-  host)
-    setup_toolchain host
-    ;;
-esac
+setup_toolchain $TARGET
 
 unset -f pre_build_$TARGET
 unset -f pre_configure_$TARGET
