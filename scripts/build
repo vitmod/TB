@@ -153,18 +153,14 @@ if [ ! "$is_virtual" = "virtual" ]; then
     makeinstall_$TARGET
   else
     case "$TARGET" in
-      target)
-        make -j1 install DESTDIR=$SYSROOT_PREFIX $PKG_MAKEINSTALL_OPTS_TARGET
-        make install DESTDIR=$INSTALL $PKG_MAKEINSTALL_OPTS_TARGET
+      target|bootstrap)
+        make install DESTDIR=$SYSROOT_PREFIX
+        ;;&
+      target|init)
+        make install DESTDIR=$INSTALL
         ;;
       host)
-        make install $PKG_MAKEINSTALL_OPTS_HOST
-        ;;
-      init)
-        make install DESTDIR=$INSTALL $PKG_MAKEINSTALL_OPTS_INIT
-        ;;
-      bootstrap)
-        make -j1 install DESTDIR=$SYSROOT_PREFIX $PKG_MAKEINSTALL_OPTS_BOOTSTRAP
+        make install
         ;;
     esac
   fi
