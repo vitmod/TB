@@ -127,11 +127,22 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/kodi/*.cmake
   rm -rf $INSTALL/usr/share/applications
   rm -rf $INSTALL/usr/share/icons
+  rm -rf $INSTALL/usr/share/kodi/addons/audioencoder.*
+  rm -rf $INSTALL/usr/share/kodi/addons/game.*
+  rm -rf $INSTALL/usr/share/kodi/addons/resource.uisounds.*
+  rm -rf $INSTALL/usr/share/kodi/addons/resource.images.*
   rm -rf $INSTALL/usr/share/kodi/addons/script.module.pil
   rm -rf $INSTALL/usr/share/kodi/addons/service.xbmc.versioncheck
   rm -rf $INSTALL/usr/share/kodi/addons/skin.*
   rm -rf $INSTALL/usr/share/kodi/addons/visualization.*
-  rm -rf $INSTALL/usr/share/kodi/addons/resource.images.weathericons.*
+  rm -rf $INSTALL/usr/share/kodi/media/icon*
+  rm -rf $INSTALL/usr/share/kodi/system/players/VideoPlayer/etc/fonts
+  rm -rf $INSTALL/usr/share/kodi/system/IRSSmap.xml
+  rm -rf $INSTALL/usr/share/kodi/system/Lircmap.xml
+  rm -rf $INSTALL/usr/share/kodi/system/X10-Lola-IRSSmap.xml
+  rm -rf $INSTALL/usr/share/kodi/system/python
+  rm -rf $INSTALL/usr/share/kodi/system/settings/{android*,darwin*,freebsd*,imx6*,rbp*,win32*}
+  rm -rf $INSTALL/usr/share/kodi/system/keymaps/{customcontroller*,gamepad*,joystick*,nyxboard,touchscreen*}
   rm -rf $INSTALL/usr/share/xsessions
 
   mkdir -p $INSTALL/usr/bin
@@ -159,11 +170,14 @@ post_makeinstall_target() {
 
   # update addon manifest
   ADDON_MANIFEST=$INSTALL/usr/share/kodi/system/addon-manifest.xml
-  xmlstarlet ed -L -d "/addons/addon[text()='resource.images.weathericons.default']" $ADDON_MANIFEST
-  xmlstarlet ed -L -d "/addons/addon[text()='script.module.pil']" $ADDON_MANIFEST
-  xmlstarlet ed -L -d "/addons/addon[text()='service.xbmc.versioncheck']" $ADDON_MANIFEST
-  xmlstarlet ed -L -d "/addons/addon[text()='skin.estouchy']" $ADDON_MANIFEST
-  xmlstarlet ed -L -d "/addons/addon[text()='skin.estuary']" $ADDON_MANIFEST
+  sed -e "/>audioencoder./d" \
+      -e "/>game./d" \
+      -e "/>resource.images./d" \
+      -e "/>resource.uisounds./d" \
+      -e "/>script.module.pil/d" \
+      -e "/>service.xbmc.versioncheck/d" \
+      -e "/>skin./d" \
+      -i $ADDON_MANIFEST
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "repository.saraev.ca" $ADDON_MANIFEST
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "skin.confluence" $ADDON_MANIFEST
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "tb.settings" $ADDON_MANIFEST
