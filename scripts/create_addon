@@ -73,7 +73,7 @@ pack_addon() {
   ADDON_INSTALL_DIR="target/addons/$OS_VERSION/$PROJECT/$TARGET_ARCH/$PKG_ADDON_ID"
   if [ -f $ADDON_INSTALL_DIR/$PKG_ADDON_ID-$ADDONVER.zip ] ; then
     echo "*** WARNING: $ADDON_INSTALL_DIR/$PKG_ADDON_ID-$ADDONVER.zip exists. not overwriting it"
-    echo "*** WARNING: your addon is at $ADDON_INSTALL_DIR/$PKG_ADDON_ID-$ADDONVER.zip"
+    echo "*** WARNING: your addon is at $ADDON_INSTALL-$ADDONVER.zip"
     return 0
   fi
 
