@@ -178,6 +178,6 @@ post_makeinstall_target() {
 }
 
 post_install() {
-  ln -sf kodi.target $INSTALL/usr/lib/systemd/system/default.target
+  ln -sf kodi.target $INSTALL_IMAGE/usr/lib/systemd/system/default.target
   enable_service kodi.service
 }

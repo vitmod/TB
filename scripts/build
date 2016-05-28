@@ -108,36 +108,21 @@ done
 printf "%${BUILD_INDENT}c ${boldyellow}BUILD${endcolor}    $PACKAGE_NAME ${boldwhite}($TARGET)${endcolor}\n" ' '
 export BUILD_INDENT=$((${BUILD_INDENT:-1}+4))
 
-if [ "$PKG_AUTORECONF" = yes ]; then
-  do_autoreconf
-fi
-
 is_virtual=$(echo $PKG_DIR | awk -F "/" '{print $(NF-1)}')
 if [ ! "$is_virtual" = "virtual" ]; then
   mkdir -p $PKG_BUILD
   cd $PKG_BUILD
+  rm -rf $INSTALL
 
-  case "$TARGET" in
-    target)
-      INSTALL=$PKG_BUILD/.install_pkg
-      rm -rf $INSTALL
-      ;;
-    init)
-      INSTALL=$PKG_BUILD/.install_init
-      rm -rf $INSTALL
-      ;;
-  esac
+  if [ "$PKG_AUTORECONF" = yes ]; then
+    do_autoreconf
+  fi
 
-  # setup configure / cmake script
-  PKG_CONFIGURE_SCRIPT="$PKG_BUILD/$PKG_CONFIGURE_SCRIPT"
-  PKG_CMAKE_SCRIPT="$PKG_BUILD/$PKG_CMAKE_SCRIPT"
-
-  # include build template and build
   if [ "$(type -t pre_build_$TARGET)" = "function" ]; then
     pre_build_$TARGET
   fi
 
-  if [ -f "$PKG_CONFIGURE_SCRIPT" -o -f "$PKG_CMAKE_SCRIPT" ]; then
+  if [ -f "$CONFIGURE_SCRIPT" -o -f "$CMAKE_SCRIPT" ]; then
     case "$TARGET" in
       target)
         PKG_BUILD_SUBDIR=$PKG_BUILD/.$TARGET_NAME
@@ -155,12 +140,10 @@ if [ ! "$is_virtual" = "virtual" ]; then
       mkdir -p $PKG_BUILD_SUBDIR
   fi
 
-  # configure
   if [ "$(type -t pre_configure_$TARGET)" = "function" ]; then
     pre_configure_$TARGET
   fi
 
-  # chdir to a build subdir
   if [ -n "$PKG_BUILD_SUBDIR" -a -d "$PKG_BUILD_SUBDIR" ] ; then
     cd $PKG_BUILD_SUBDIR
   fi
@@ -168,24 +151,23 @@ if [ ! "$is_virtual" = "virtual" ]; then
   # configure
   if [ "$(type -t configure_$TARGET)" = "function" ]; then
     configure_$TARGET
-  elif [ -f "$PKG_CONFIGURE_SCRIPT" ]; then
+  elif [ -f "$CONFIGURE_SCRIPT" ]; then
     case "$TARGET" in
       target)
-        $PKG_CONFIGURE_SCRIPT $TARGET_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_TARGET
+        $CONFIGURE_SCRIPT $TARGET_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_TARGET
         ;;
       host)
-        $PKG_CONFIGURE_SCRIPT $HOST_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_HOST
+        $CONFIGURE_SCRIPT $HOST_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_HOST
         ;;
       init)
-        $PKG_CONFIGURE_SCRIPT $INIT_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_INIT
+        $CONFIGURE_SCRIPT $INIT_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_INIT
         ;;
       bootstrap)
-        $PKG_CONFIGURE_SCRIPT $BOOTSTRAP_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_BOOTSTRAP
+        $CONFIGURE_SCRIPT $BOOTSTRAP_CONFIGURE_OPTS $PKG_CONFIGURE_OPTS_BOOTSTRAP
         ;;
     esac
   fi
 
-  # make
   if [ "$(type -t pre_make_$TARGET)" = "function" ]; then
     pre_make_$TARGET
   fi
@@ -198,7 +180,6 @@ if [ ! "$is_virtual" = "virtual" ]; then
     post_make_$TARGET
   fi
 
-  # make install
   if [ "$(type -t pre_makeinstall_$TARGET)" = "function" ]; then
     pre_makeinstall_$TARGET
   fi
@@ -229,7 +210,7 @@ fi
 
 # cleanup
 if [ "$TARGET" = "target" -o "$TARGET" = "init" ]; then
-  if [ -n "$INSTALL" -a -d "$INSTALL" ] ; then
+  if [ -d "$INSTALL" ] ; then
     for i in $INSTALL $INSTALL/usr ; do
       rm -rf $i/include
       rm -rf $i/lib/cmake

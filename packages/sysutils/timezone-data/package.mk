@@ -26,7 +26,7 @@ make_target() {
 }
 
 makeinstall_target() {
-  make TOPDIR="./.install_pkg" install
+  make TOPDIR="$INSTALL" install
 }
 
 post_makeinstall_target() {

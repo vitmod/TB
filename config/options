@@ -92,13 +92,13 @@ setup_toolchain() {
 
 add_user() {
   # Usage: add_user "username" "password" "userid" "groupid" "description" "home" "shell"
-  mkdir -p ${INSTALL}/etc
-  touch ${INSTALL}/etc/passwd
-  if [ -z "`grep "$1:" ${INSTALL}/etc/passwd`" ]; then
-    echo "$1:x:$3:$4:$5:$6:$7" >> ${INSTALL}/etc/passwd
+  mkdir -p $INSTALL_IMAGE/etc
+  touch $INSTALL_IMAGE/etc/passwd
+  if [ -z "`grep "$1:" $INSTALL_IMAGE/etc/passwd`" ]; then
+    echo "$1:x:$3:$4:$5:$6:$7" >> $INSTALL_IMAGE/etc/passwd
   fi
 
-  touch ${INSTALL}/etc/shadow
+  touch $INSTALL_IMAGE/etc/shadow
   PASSWORD="$2"
   if [ "$PASSWORD" = "x" ]; then
     PASSWORD="*"
@@ -106,17 +106,17 @@ add_user() {
   if [ "$PASSWORD" = "empty" ]; then
     PASSWORD=""
   fi
-  if [ -z "`grep "$1:" ${INSTALL}/etc/shadow`" ]; then
-    echo "$1:$PASSWORD:::::::" >> ${INSTALL}/etc/shadow
+  if [ -z "`grep "$1:" $INSTALL_IMAGE/etc/shadow`" ]; then
+    echo "$1:$PASSWORD:::::::" >> $INSTALL_IMAGE/etc/shadow
   fi
 }
 
 add_group() {
   # Usage: add_group "groupname" "groupid" ("members")
-  mkdir -p ${INSTALL}/etc
-  touch ${INSTALL}/etc/group
-  if [ -z "`grep "$1:" ${INSTALL}/etc/group`" ]; then
-    echo "$1:x:$2:$3" >> ${INSTALL}/etc/group
+  mkdir -p $INSTALL_IMAGE/etc
+  touch $INSTALL_IMAGE/etc/group
+  if [ -z "`grep "$1:" $INSTALL_IMAGE/etc/group`" ]; then
+    echo "$1:x:$2:$3" >> $INSTALL_IMAGE/etc/group
   fi
 }
 
@@ -125,7 +125,7 @@ enable_service() {
   local unit="$1"
   local unit_dir="/usr/lib/systemd/system"
   local target="$2"
-  local target_dir=$INSTALL
+  local target_dir=$INSTALL_IMAGE
 
   [ -f "$target_dir/$unit_dir/$unit" ] || exit 1
   if [ -z "$target" ] ; then
@@ -286,7 +286,7 @@ check_package() {
 }
 
 do_autoreconf() {
-  if [ -f "$PKG_BUILD/configure.in" -o -f "$PKG_BUILD/configure.ac" ] ; then
+  if [ -f "$CONFIGURE_SCRIPT.ac" ] ; then
     if [ ! -f $PKG_BUILD/.autoreconf-done ] ; then
       touch $PKG_BUILD/NEWS $PKG_BUILD/AUTHORS $PKG_BUILD/ChangeLog
       mkdir -p $PKG_BUILD/m4
@@ -298,7 +298,7 @@ do_autoreconf() {
 
       mkdir -p $ACLOCAL_DIR
       export AUTORECONF="autoreconf --verbose --force --install -I $ACLOCAL_DIR"
-      $AUTORECONF $PKG_BUILD
+      $AUTORECONF $(dirname $CONFIGURE_SCRIPT)
       touch $PKG_BUILD/.autoreconf-done
     fi
   fi
@@ -371,10 +371,6 @@ TARGET_PREFIX=$ROOT/$TOOLCHAIN/bin/$TARGET_NAME-
 
 export CCACHE_DIR=$ROOT/$BUILD/.ccache
 export MAKEFLAGS=-j$(cat /proc/cpuinfo | grep -c '^processor[[:cntrl:]]*:')
-
-if [ -z "$INSTALL" ]; then
-  INSTALL=$BUILD/image/system
-fi
 
 ################################################################################
 # target environment
@@ -468,6 +464,8 @@ fi
 
 PKG_BUILD="$ROOT/$BUILD/${PKG_NAME}-${PKG_VERSION}"
 STAMP_DEPENDS="$PKG_DIR $PKG_NEED_UNPACK $PROJECT_DIR/$PROJECT/patches/$PKG_NAME"
+CONFIGURE_SCRIPT="$PKG_BUILD/$PKG_CONFIGURE_SCRIPT"
+CMAKE_SCRIPT="$PKG_BUILD/$PKG_CMAKE_SCRIPT"
 
 ################################################################################
 # setup
@@ -475,3 +473,7 @@ STAMP_DEPENDS="$PKG_DIR $PKG_NEED_UNPACK $PROJECT_DIR/$PROJECT/patches/$PKG_NAME
 check_config
 setup_toolchain target
 get_pkg_target $1
+
+# make sure $INSTALL is set
+INSTALL=$PKG_BUILD/.install_$TARGET
+INSTALL_IMAGE=$BUILD/image/$TARGET

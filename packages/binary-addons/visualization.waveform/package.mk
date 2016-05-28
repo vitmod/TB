@@ -31,8 +31,8 @@ configure_target() {
 
 addon() {
   mkdir -p $ADDON_INSTALL
-  cp -R $PKG_BUILD/.install_pkg/usr/share/kodi/addons/$PKG_NAME/* $ADDON_INSTALL
+  cp -R $INSTALL/usr/share/kodi/addons/$PKG_NAME/* $ADDON_INSTALL
 
   ADDONSO=$(xmlstarlet sel -t -v "/addon/extension/@library_linux" $ADDON_INSTALL/addon.xml)
-  cp -L $PKG_BUILD/.install_pkg/usr/lib/kodi/addons/$PKG_NAME/$ADDONSO $ADDON_INSTALL
+  cp -L $INSTALL/usr/lib/kodi/addons/$PKG_NAME/$ADDONSO $ADDON_INSTALL
 }

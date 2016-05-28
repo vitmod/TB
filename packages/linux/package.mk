@@ -33,7 +33,7 @@ pre_build_target() {
 
   sed -i -e "s|^CONFIG_DEFAULT_HOSTNAME=.*|CONFIG_DEFAULT_HOSTNAME=\"$DISTRONAME\"|g" $PKG_BUILD/.config
   if [ ! "$BUILD_ANDROID_BOOTIMG" = "yes" ]; then
-    sed -i -e "s|^CONFIG_INITRAMFS_SOURCE=.*$|CONFIG_INITRAMFS_SOURCE=\"$ROOT/$BUILD/image/initramfs.cpio\"|" \
+    sed -i -e "s|^CONFIG_INITRAMFS_SOURCE=.*$|CONFIG_INITRAMFS_SOURCE=\"$ROOT/$BUILD/image/init.cpio\"|" \
       $PKG_BUILD/.config
   fi
   sed -i -e "s|^HOSTCC[[:space:]]*=.*$|HOSTCC = $HOST_CC|" \
@@ -61,7 +61,7 @@ make_target() {
     modules_install
 
   ( cd $ROOT
-    rm -rf $ROOT/$BUILD/image/initramfs
+    rm -rf $ROOT/$BUILD/image/init
     scripts/install initramfs
   )
 
@@ -73,7 +73,7 @@ make_target() {
   if [ "$BUILD_ANDROID_BOOTIMG" = "yes" ]; then
     mkbootimg \
       --kernel arch/$TARGET_KERNEL_ARCH/boot/$KERNEL_TARGET \
-      --ramdisk $ROOT/$BUILD/image/initramfs.cpio \
+      --ramdisk $ROOT/$BUILD/image/init.cpio \
       --second "$ANDROID_BOOTIMG_SECOND" \
       --output arch/$TARGET_KERNEL_ARCH/boot/boot.img \
       $ANDROID_BOOTIMG_OPTIONS

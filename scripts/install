@@ -22,11 +22,6 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-if [ -z "$INSTALL" ] ; then
-  echo "error: '\$INSTALL' not set! this script is not intended to be run manually"
-  exit 1
-fi
-
 check_package $1
 
 if [ "$TARGET" = bootstrap -o "$TARGET" = host ] ; then
@@ -48,27 +43,24 @@ for p in `eval echo "\\$PKG_DEPENDS_$UPTARGET"`; do
   scripts/install $p
 done
 
-if [ "$TARGET" = init ] ; then
-  INSTALL=$BUILD/image/initramfs
-fi
-mkdir -p $INSTALL
+mkdir -p $INSTALL_IMAGE
 
 if [ "$TARGET" = target ] ; then
   if [ -d $PKG_DIR/profile.d ]; then
-    mkdir -p $INSTALL/etc/profile.d
-    cp $PKG_DIR/profile.d/*.conf $INSTALL/etc/profile.d
+    mkdir -p $INSTALL_IMAGE/etc/profile.d
+    cp $PKG_DIR/profile.d/*.conf $INSTALL_IMAGE/etc/profile.d
   fi
   if [ -d $PKG_DIR/tmpfiles.d ]; then
-    mkdir -p $INSTALL/usr/lib/tmpfiles.d
-    cp $PKG_DIR/tmpfiles.d/*.conf $INSTALL/usr/lib/tmpfiles.d
+    mkdir -p $INSTALL_IMAGE/usr/lib/tmpfiles.d
+    cp $PKG_DIR/tmpfiles.d/*.conf $INSTALL_IMAGE/usr/lib/tmpfiles.d
   fi
   if [ -d $PKG_DIR/system.d ]; then
-    mkdir -p $INSTALL/usr/lib/systemd/system
-    cp $PKG_DIR/system.d/*.* $INSTALL/usr/lib/systemd/system
+    mkdir -p $INSTALL_IMAGE/usr/lib/systemd/system
+    cp $PKG_DIR/system.d/*.* $INSTALL_IMAGE/usr/lib/systemd/system
   fi
   if [ -d $PKG_DIR/sysctl.d ]; then
-    mkdir -p $INSTALL/usr/lib/sysctl.d
-    cp $PKG_DIR/sysctl.d/*.conf $INSTALL/usr/lib/sysctl.d
+    mkdir -p $INSTALL_IMAGE/usr/lib/sysctl.d
+    cp $PKG_DIR/sysctl.d/*.conf $INSTALL_IMAGE/usr/lib/sysctl.d
   fi
 fi
 
@@ -84,16 +76,16 @@ case "$TARGET" in
     if [ "$(type -t pre_install)" = "function" ]; then
       pre_install
     fi
-    if [ -d $PKG_BUILD/.install_pkg ] ; then
-      cp -PR $PKG_BUILD/.install_pkg/* $INSTALL
+    if [ -d $INSTALL ] ; then
+      cp -PR $INSTALL/* $INSTALL_IMAGE
     fi
     if [ "$(type -t post_install)" = "function" ]; then
       post_install
     fi
     ;;
   init)
-    if [ -d $PKG_BUILD/.install_init ] ; then
-      cp -PR $PKG_BUILD/.install_init/* $INSTALL
+    if [ -d $INSTALL ] ; then
+      cp -PR $INSTALL/* $INSTALL_IMAGE
     fi
     ;;
 esac

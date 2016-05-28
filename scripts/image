@@ -29,43 +29,43 @@ DISTRO_VERSION=$OS_VERSION-$BUILD_DATE-g$GIT_ABBREV
 IMAGE_NAME="$DISTRONAME-$PROJECT-$DISTRO_VERSION"
 
 # clean old install dirs
-rm -rf $INSTALL $STAMPS_INSTALL
-mkdir -p $INSTALL
+rm -rf $INSTALL_IMAGE $STAMPS_INSTALL
+mkdir -p $INSTALL_IMAGE
 
 # create baselayout
-mkdir -p $INSTALL/bin
-mkdir -p $INSTALL/etc
-mkdir -p $INSTALL/lib
-mkdir -p $INSTALL/sbin
-mkdir -p $INSTALL/dev
-mkdir -p $INSTALL/proc
-mkdir -p $INSTALL/run
-mkdir -p $INSTALL/sys
-mkdir -p $INSTALL/tmp
-mkdir -p $INSTALL/usr
-mkdir -p $INSTALL/var
-mkdir -p $INSTALL/flash
-mkdir -p $INSTALL/storage
-ln -sf /var/media $INSTALL/media
+mkdir -p $INSTALL_IMAGE/bin
+mkdir -p $INSTALL_IMAGE/etc
+mkdir -p $INSTALL_IMAGE/lib
+mkdir -p $INSTALL_IMAGE/sbin
+mkdir -p $INSTALL_IMAGE/dev
+mkdir -p $INSTALL_IMAGE/proc
+mkdir -p $INSTALL_IMAGE/run
+mkdir -p $INSTALL_IMAGE/sys
+mkdir -p $INSTALL_IMAGE/tmp
+mkdir -p $INSTALL_IMAGE/usr
+mkdir -p $INSTALL_IMAGE/var
+mkdir -p $INSTALL_IMAGE/flash
+mkdir -p $INSTALL_IMAGE/storage
+ln -sf /var/media $INSTALL_IMAGE/media
 
 # Basissystem...
 scripts/install base
 scripts/install mediacenter
 
 # create /etc/os-release
-echo -e "NAME=\"$DISTRONAME\"" > $INSTALL/etc/os-release
-echo -e "VERSION=\"$DISTRO_VERSION\"" >> $INSTALL/etc/os-release
-echo -e "ID=\"openelec\"" >> $INSTALL/etc/os-release
-echo -e "VERSION_ID=\"$OS_VERSION\"" >> $INSTALL/etc/os-release
-echo -e "PRETTY_NAME=\"$DISTRONAME - $DISTRO_VERSION\"" >> $INSTALL/etc/os-release
+echo -e "NAME=\"$DISTRONAME\"" > $INSTALL_IMAGE/etc/os-release
+echo -e "VERSION=\"$DISTRO_VERSION\"" >> $INSTALL_IMAGE/etc/os-release
+echo -e "ID=\"openelec\"" >> $INSTALL_IMAGE/etc/os-release
+echo -e "VERSION_ID=\"$OS_VERSION\"" >> $INSTALL_IMAGE/etc/os-release
+echo -e "PRETTY_NAME=\"$DISTRONAME - $DISTRO_VERSION\"" >> $INSTALL_IMAGE/etc/os-release
 
 # create /etc/issue
-echo "$DISTRONAME - $DISTRO_VERSION" >> $INSTALL/etc/issue
-ln -sf /etc/issue $INSTALL/etc/motd
+echo "$DISTRONAME - $DISTRO_VERSION" >> $INSTALL_IMAGE/etc/issue
+ln -sf /etc/issue $INSTALL_IMAGE/etc/motd
 
 # copy project related files to filesystem
 if [ -d "$PROJECT_DIR/$PROJECT/filesystem" ]; then
-  cp -PR $PROJECT_DIR/$PROJECT/filesystem/* $INSTALL
+  cp -PR $PROJECT_DIR/$PROJECT/filesystem/* $INSTALL_IMAGE
   # install project specific systemd services
   for service in $PROJECT_DIR/$PROJECT/filesystem/usr/lib/systemd/system/*.service ; do
     if [ -f "$service" ] ; then
@@ -75,16 +75,16 @@ if [ -d "$PROJECT_DIR/$PROJECT/filesystem" ]; then
 fi
 
 # run depmod
-MODVER=$(basename $(ls -d $INSTALL/lib/modules/*))
-find $INSTALL/lib/modules/$MODVER/ -name *.ko | \
-  sed -e "s,$INSTALL/lib/modules/$MODVER/,," > $INSTALL/lib/modules/$MODVER/modules.order
-$ROOT/$TOOLCHAIN/bin/depmod -b $INSTALL $MODVER > /dev/null
+MODVER=$(basename $(ls -d $INSTALL_IMAGE/lib/modules/*))
+find $INSTALL_IMAGE/lib/modules/$MODVER/ -name *.ko | \
+  sed -e "s,$INSTALL_IMAGE/lib/modules/$MODVER/,," > $INSTALL_IMAGE/lib/modules/$MODVER/modules.order
+$ROOT/$TOOLCHAIN/bin/depmod -b $INSTALL_IMAGE $MODVER > /dev/null
 
 # make target dir
 mkdir -p $TARGET_IMG
 
 cp -PR $BUILD/linux-*/arch/$TARGET_KERNEL_ARCH/boot/$KERNEL_TARGET $TARGET_IMG/$IMAGE_NAME.kernel
-mksquashfs $BUILD/image/system $TARGET_IMG/$IMAGE_NAME.system -all-root -no-xattrs -noappend -comp gzip
+mksquashfs $INSTALL_IMAGE $TARGET_IMG/$IMAGE_NAME.system -all-root -no-xattrs -noappend -comp gzip
 
 # release
 RELEASE_DIR="target/$IMAGE_NAME"
