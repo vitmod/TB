@@ -113,6 +113,7 @@ makeinstall_target() {
 
 post_makeinstall_target() {
   EXCLUDE_DIRS="bsddb curses idlelib lib-tk lib2to3 msilib pydoc_data test unittest distutils ensurepip config"
+  EXCLUDE_DIRS="$EXCLUDE_DIRS email compiler ctypes"
   for dir in $EXCLUDE_DIRS; do
     rm -rf $INSTALL/usr/lib/python2.7/$dir
   done
@@ -122,6 +123,7 @@ post_makeinstall_target() {
     rm -f $INSTALL/usr/bin/$file
   done
   rm -f $INSTALL/usr/bin/python*-config
+  rm -f $INSTALL/usr/lib/python2.7/lib-dynload/_ctypes*
 
   cd $INSTALL/usr/lib/python2.7
   python -Wi -t -B $PKG_BUILD/Lib/compileall.py -d /usr/lib/python2.7 -f .
