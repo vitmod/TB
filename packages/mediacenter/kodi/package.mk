@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="kodi"
-PKG_VERSION="2e106d6"
+PKG_VERSION="11a6396"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="https://github.com/xbmc/xbmc.git"
 PKG_DEPENDS_TARGET="toolchain kodi:host"
