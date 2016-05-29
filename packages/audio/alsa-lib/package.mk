@@ -21,12 +21,21 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="alsa-lib: Advanced Linux Sound Architecture library"
 
 PKG_CONFIGURE_OPTS_TARGET="--with-plugindir=/usr/lib/alsa \
+                           --disable-aload \
+                           --disable-rawmidi \
+                           --disable-hwdep \
+                           --disable-seq \
+                           --disable-ucm \
+                           --disable-topology \
+                           --disable-alisp \
+                           --disable-old-symbols \
                            --disable-python \
                            --without-debug \
                            --disable-dependency-tracking"
 
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin
+  rm -rf $INSTALL/usr/share/alsa/cards
 }
 
 post_install() {
