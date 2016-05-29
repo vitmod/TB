@@ -28,8 +28,8 @@ UPDATE_DIR=/storage/.update
 
 echo '1 4 1 7' > /proc/sys/kernel/printk
 
-if [ -f "./platform_init" ]; then
-  ./platform_init
+if [ -f "/platform_init" ]; then
+  . /platform_init
 fi
 
 clear
@@ -37,12 +37,8 @@ hidecursor
 
 for arg in $(cat /proc/cmdline); do
   case $arg in
-    boot=*)
-      boot="${arg#*=}"
-      ;;
-    disk=*)
-      disk="${arg#*=}"
-      ;;
+    boot=*) boot="${arg#*=}" ;;
+    disk=*) disk="${arg#*=}" ;;
   esac
 done
 
@@ -77,21 +73,17 @@ update() {
 }
 
 load_splash() {
-  if [ -e /dev/fb0 ]; then
-    ply-image /splash/splash.png &>/dev/null
-  fi
+  ply-image /splash/splash.png &>/dev/null
 }
 
 load_kmap() {
-  if [ -e /keymap ]; then
-    loadkmap < /keymap
-  fi
+  loadkmap < /keymap &>/dev/null
 }
 
 do_reboot() {
   start_progress spinner "system reboots now... "
-  mountpoint -q /flash && umount /flash
-  mountpoint -q /storage && umount /storage
+  umount /flash &>/dev/null
+  umount /storage &>/dev/null
   sync
   reboot -f
 }
@@ -100,8 +92,7 @@ force_fsck() {
   echo -en "\033[$(($(stty size | cut -d" " -f1)-5));1H"
   echo "Filesystem corruption has been detected. Repairing..."
   e2fsck -y $disk
-  FSCK_RET="$?"
-  if [ "$(( $FSCK_RET & 8 ))" = 8 ] ; then
+  if [ "$(( $? & 8 ))" = 8 ] ; then
     echo "Forced fsck failed. Your system is broken beyond repair"
     while : ; do sleep 3600 ; done
   fi
@@ -110,11 +101,9 @@ force_fsck() {
 
 check_disks() {
   e2fsck -p $disk &>/dev/null
-  FSCK_RET="$?"
-  # FSCK_RET is the bit-wise OR of the exit codes for each filesystem that is checked.
-  if [ "$(( $FSCK_RET & 4 ))" = 4 ] ; then
+  if [ "$(( $? & 4 ))" = 4 ] ; then
     force_fsck
-  elif [ "$(( $FSCK_RET & 2 ))" = 2 ] ; then
+  elif [ "$(( $? & 2 ))" = 2 ] ; then
     do_reboot
   fi
 }
@@ -152,18 +141,14 @@ prepare_sysroot() {
   mkdir -p /storage/.cache
   mkdir -p /storage/.config
 
-  mount --move /flash /sysroot/flash
-  mount --move /storage /sysroot/storage
+  for mount in flash storage dev sys var proc ; do
+    mount --move /$mount /sysroot/$mount
+  done
 }
 
 for STEP in load_splash load_kmap check_disks mount_parts check_update prepare_sysroot; do
   $STEP
 done
-
-/bin/busybox mount --move /dev /sysroot/dev
-/bin/busybox mount --move /proc /sysroot/proc
-/bin/busybox mount --move /sys /sysroot/sys
-/bin/busybox mount --move /var /sysroot/var
 
 if [ -f /sysroot/storage/.resizeme ] ; then
   INIT_UNIT="--unit=fs-resize.target"

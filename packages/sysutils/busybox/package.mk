@@ -61,7 +61,6 @@ makeinstall_init() {
 
   if [ -f $PROJECT_DIR/$PROJECT/initramfs/platform_init ]; then
     cp $PROJECT_DIR/$PROJECT/initramfs/platform_init $INSTALL
-    chmod 755 $INSTALL/platform_init
   fi
 }
 

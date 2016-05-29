@@ -13,23 +13,15 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-# Show frame-buffer cursor
 showcursor() {
   echo -en "\033[?25h"
-
-  # show cursor
-  if [ -f /sys/devices/virtual/graphics/fbcon/cursor_blink ] ; then
-    echo 1 > /sys/devices/virtual/graphics/fbcon/cursor_blink
-  fi
+  echo 2>/dev/null 1 > /sys/devices/virtual/graphics/fbcon/cursor_blink
 }
 
 # Hide frame-buffer cursor
 hidecursor() {
   echo -en "\033[?25l"
-
-  if [ -f /sys/devices/virtual/graphics/fbcon/cursor_blink ] ; then
-    echo 0 > /sys/devices/virtual/graphics/fbcon/cursor_blink
-  fi
+  echo 2>/dev/null 0 > /sys/devices/virtual/graphics/fbcon/cursor_blink
 }
 
 # Start a progress meter
@@ -50,11 +42,9 @@ hidecursor() {
 #   $4: optional completion message, default is nothing
 start_progress() {
   local cmdresult=0
-
-  # Use files for inter-process communication.
-  # This file is used to indicate a metter is running/active
   echo > /dev/.progress.run
 
+  cmdresult=1
   case "$1" in
     spinner)
       progresstask_spinner "$2" &
@@ -75,94 +65,70 @@ start_progress() {
     countdown)
       progresstask_countdown "$2" $3 "$4"
       ;;
-    *)
-      echo "Unknown spinner type: $1"
-      return 1
-      ;;
   esac
 
   return $cmdresult
 }
 
-# Stop a progress meter, displaying optional completion message
-# $1: optional completion message
 stop_progress() {
   echo "$1" > /dev/.progress.stop
 
-  # Wait for progress meter to stop running
   while [ -f /dev/.progress.run ]; do
     usleep 250000
   done
 
-  # Clean up
   rm -f /dev/.progress.stop
   return 0
 }
 
-# Use this task for processes of indeterminate duration
 progresstask_spinner() {
   local msg="$1"
   local spinner="|/-\\|/-\\"
   local count=0 donemsg
-
   rm -f /dev/.progress.stop
 
   echo -n "${msg} "
-
   while [ ! -f /dev/.progress.stop ]; do
     echo -en "\b${spinner:$count:1}"
     usleep 500000
     count=$(((count + 1) % 8))
   done
-
   donemsg="$(cat /dev/.progress.stop)"
   echo -e "\b${donemsg:-done}"
 
   rm -f /dev/.progress.run
-
   exit 0
 }
 
-# Use this task when transferring a file of known size
 progresstask_percent() {
   local msg="$1" filename="$2" fsize=$3 csize donemsg
-
   rm -f /dev/.progress.stop
 
   echo -n "${msg}    "
-
   while [ ! -f /dev/.progress.stop ]; do
     [ -f ${filename} ] && csize=$(stat -t "${filename}" | cut -d" " -f2) || csize=0
     printf "\b\b\b\b%3d%%" $(($csize * 100 / $fsize))
     usleep 250000
   done
-
   donemsg="$(cat /dev/.progress.stop)"
   echo -e "\b\b\b\b${donemsg:-100%}"
 
   rm -f /dev/.progress.run
-
   exit 0
 }
 
-# Use this task to countdown a number of seconds
-# (needs more work for durations > 99 seconds)
 progresstask_countdown() {
   local msg="$1" countfrom=$2 donemsg="$3"
-
   rm -f /dev/.progress.stop
 
   echo -n "${msg}  "
-
   while [ ${countfrom} -gt 0 ]; do
     printf "\b\b%2d" ${countfrom}
     sleep 1
     countfrom=$((countfrom - 1))
   done
-
   echo -e "\b\b${donemsg:-done}"
 
   rm -f /dev/.progress.run
-
   return 0
 }
