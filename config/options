@@ -253,13 +253,9 @@ save_stamp() {
 debug_strip() {
   if [ ! "$DEBUG" = yes ]; then
     if [ "$TARGET" = "target" ]; then
-      # never strip glibc and kernel modules
+      # TODO: split debuginfo
       $STRIP `find $* -type f \
                    ! -name "*.ko" \
-                   ! -name "ld-*.so" \
-                   ! -name "libc-*.so" \
-                   ! -name "libpthread-*.so" \
-                   ! -name "libthread_db-*so" \
                    2>/dev/null` 2>/dev/null || :
     else
       $STRIP `find $* -type f 2>/dev/null` 2>/dev/null || :
