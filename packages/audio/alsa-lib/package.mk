@@ -37,7 +37,3 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin
   rm -rf $INSTALL/usr/share/alsa/cards
 }
-
-post_install() {
-  add_group audio 63
-}

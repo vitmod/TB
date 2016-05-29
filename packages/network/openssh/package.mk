@@ -57,8 +57,7 @@ post_makeinstall_target() {
 }
 
 post_install() {
-  add_user sshd x 74 74 "Privilege-separated SSH" "/var/empty/sshd" "/bin/sh"
-  add_group sshd 74
+  add_user sshd "*" 101 65534 "/var/empty/sshd" "/bin/sh"
 
   enable_service sshd.service
 }

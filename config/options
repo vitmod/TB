@@ -93,23 +93,16 @@ setup_toolchain() {
 }
 
 add_user() {
-  # Usage: add_user "username" "password" "userid" "groupid" "description" "home" "shell"
+  # Usage: add_user "username" "password" "userid" "groupid" "home" "shell"
   mkdir -p $INSTALL_IMAGE/etc
   touch $INSTALL_IMAGE/etc/passwd
   if [ -z "`grep "$1:" $INSTALL_IMAGE/etc/passwd`" ]; then
-    echo "$1:x:$3:$4:$5:$6:$7" >> $INSTALL_IMAGE/etc/passwd
+    echo "$1:x:$3:$4::$5:$6" >> $INSTALL_IMAGE/etc/passwd
   fi
 
   touch $INSTALL_IMAGE/etc/shadow
-  PASSWORD="$2"
-  if [ "$PASSWORD" = "x" ]; then
-    PASSWORD="*"
-  fi
-  if [ "$PASSWORD" = "empty" ]; then
-    PASSWORD=""
-  fi
   if [ -z "`grep "$1:" $INSTALL_IMAGE/etc/shadow`" ]; then
-    echo "$1:$PASSWORD:::::::" >> $INSTALL_IMAGE/etc/shadow
+    echo "$1:$2:::::::" >> $INSTALL_IMAGE/etc/shadow
   fi
 }
 

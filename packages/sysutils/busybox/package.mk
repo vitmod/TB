@@ -87,11 +87,10 @@ makeinstall_target() {
 }
 
 post_install() {
-  add_user root empty 0 0 "Root User" "/storage" "/bin/sh"
+  add_user root "" 0 0 "/storage" "/bin/sh"
   add_group root 0
-  add_group users 100
 
-  add_user nobody x 65534 65534 "Nobody" "/" "/bin/sh"
+  add_user nobody "*" 65534 65534 "/" "/bin/sh"
   add_group nogroup 65534
 
   enable_service fs-resize.service
