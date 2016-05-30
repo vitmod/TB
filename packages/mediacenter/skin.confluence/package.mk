@@ -27,7 +27,4 @@ make_target() {
 makeinstall_target() {
   mkdir -p $INSTALL/usr/share/kodi/addons/skin.confluence
   cp -PR $PKG_BUILD/* $INSTALL/usr/share/kodi/addons/skin.confluence
-  TexturePacker -input $INSTALL/usr/share/kodi/addons/skin.confluence/media/ \
-   -output $INSTALL/usr/share/kodi/addons/skin.confluence/media/Textures.xbt -dupecheck && \
-   find $INSTALL/usr/share/kodi/addons/skin.confluence/media -not -iname "*.xbt" -exec rm -f {} \; 2>/dev/null || :
 }
