@@ -86,6 +86,8 @@ print_crash_report()
 }
 
 if command_exists gdb; then
+  mkdir -p /storage/.cache/cores
+  sysctl -w kernel.core_pattern=/storage/.cache/cores/core.%E.%t.%p
   ulimit -c unlimited
 fi
 

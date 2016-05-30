@@ -58,10 +58,6 @@ if [ "$TARGET" = target ] ; then
     mkdir -p $INSTALL_IMAGE/usr/lib/systemd/system
     cp $PKG_DIR/system.d/*.* $INSTALL_IMAGE/usr/lib/systemd/system
   fi
-  if [ -d $PKG_DIR/sysctl.d ]; then
-    mkdir -p $INSTALL_IMAGE/usr/lib/sysctl.d
-    cp $PKG_DIR/sysctl.d/*.conf $INSTALL_IMAGE/usr/lib/sysctl.d
-  fi
 fi
 
 # unset functions
