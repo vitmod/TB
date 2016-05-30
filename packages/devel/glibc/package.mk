@@ -52,17 +52,7 @@ pre_build_target() {
 }
 
 pre_configure_target() {
-  # Filter out some problematic *FLAGS
-  if [ -n "$PROJECT_CFLAGS" ]; then
-    CFLAGS=`echo $CFLAGS | sed -e "s|$PROJECT_CFLAGS||g"`
-  fi
-  CFLAGS=`echo $CFLAGS | sed -e "s|-O.|-O2|g"`
-
-  CFLAGS="$CFLAGS -g -fno-stack-protector -fgnu89-inline -pipe"
-  LDFLAGS=`echo $LDFLAGS | sed -e "s|-Wl,--as-needed||"`
-
   unset LD_LIBRARY_PATH
-  export CFLAGS LDFLAGS
   export BUILD_CC=$HOST_CC
   export OBJDUMP_FOR_HOST=objdump
 
