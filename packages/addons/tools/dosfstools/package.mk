@@ -18,6 +18,24 @@ PKG_VERSION="4.0"
 PKG_SITE="https://github.com/dosfstools/dosfstools"
 PKG_URL="https://github.com/dosfstools/dosfstools/releases/download/v$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="dosfstools: utilities for making and checking MS-DOS FAT filesystems."
+PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
 PKG_CONFIGURE_OPTS_TARGET="--without-udev"
+
+PKG_IS_ADDON="yes"
+PKG_ADDON_REV="0"
+PKG_ADDON_TYPE="xbmc.python.script"
+PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nutilities for making and checking MS-DOS FAT filesystems."
+PKG_ADDON_SECTION="tools"
+PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
+
+makeinstall_target() {
+  : # nop
+}
+
+addon() {
+  mkdir -p $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/src/fatlabel $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/src/fsck.fat $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/src/mkfs.fat $ADDON_INSTALL/bin
+}
