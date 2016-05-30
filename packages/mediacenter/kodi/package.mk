@@ -18,7 +18,6 @@ PKG_VERSION="29e2b13"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="https://github.com/xbmc/xbmc.git"
 PKG_DEPENDS_TARGET="toolchain kodi:host"
-PKG_DEPENDS_HOST="lzo:host libpng:host libjpeg-turbo:host giflib:host"
 PKG_SHORTDESC="kodi: Kodi Mediacenter"
 
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa crossguid curl expat ffmpeg"
@@ -95,17 +94,10 @@ make_host() {
         -DCMAKE_INSTALL_PREFIX=/usr \
         ..
   make
-  mkdir -p $PKG_BUILD/tools/depends/native/TexturePacker/bin && cd $_
-  cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCORE_SOURCE_DIR=$PKG_BUILD \
-        -DCMAKE_CXX_FLAGS="-std=c++11 -DTARGET_POSIX -DTARGET_LINUX -D_LINUX -I$PKG_BUILD/xbmc/linux" \
-        ..
-  make
 }
 
 makeinstall_host() {
-  cp -P $PKG_BUILD/tools/depends/native/TexturePacker/bin/TexturePacker $ROOT/$TOOLCHAIN/bin
+  : # nop
 }
 
 pre_configure_target() {
