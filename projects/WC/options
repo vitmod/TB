@@ -1,6 +1,3 @@
-  # Project CFLAGS
-    PROJECT_CFLAGS=""
-
   # The TARGET_CPU variable controls which processor should be targeted for
   # generated code.
     TARGET_CPU="cortex-a9"
