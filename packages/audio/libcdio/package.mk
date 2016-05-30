@@ -20,7 +20,8 @@ PKG_URL="https://ftp.gnu.org/gnu/libcdio/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="libcdio: A CD-ROM reading and control library"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
+PKG_CONFIGURE_OPTS_TARGET="ac_cv_path_PERL= \
+                           --enable-static --disable-shared \
                            --enable-cxx \
                            --disable-cpp-progs \
                            --enable-joliet \
@@ -34,8 +35,7 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
                            --without-cd-read \
                            --without-iso-info \
                            --without-iso-read \
-                           --without-libiconv-prefix \
-                           --with-gnu-ld"
+                           --without-libiconv-prefix"
 
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin

@@ -22,6 +22,7 @@ PKG_DEPENDS_INIT="toolchain e2fsprogs"
 PKG_SHORTDESC="e2fsprogs: Utilities for use with the ext2 filesystem"
 
 PKG_CONFIGURE_OPTS_TARGET="BUILD_CC=$HOST_CC \
+                           ac_cv_path_PERL= \
                            --prefix=/usr \
                            --enable-symlink-install \
                            --enable-symlink-build \
@@ -46,8 +47,7 @@ PKG_CONFIGURE_OPTS_TARGET="BUILD_CC=$HOST_CC \
                            --disable-bmap-stats \
                            --disable-nls \
                            --disable-rpath \
-                           --disable-fuse2fs \
-                           --with-gnu-ld"
+                           --disable-fuse2fs"
 
 post_makeinstall_target() {
   REMOVE_BIN="badblocks blkid dumpe2fs e2freefrag e2undo e4defrag filefrag fsck logsave mklost+foun"

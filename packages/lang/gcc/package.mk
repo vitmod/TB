@@ -24,8 +24,6 @@ PKG_SHORTDESC="gcc: The GNU Compiler Collection Version 4 (aka GNU C Compiler)"
 
 GCC_COMMON_CONFIGURE_OPTS="--without-ppl \
                            --without-cloog \
-                           --with-gnu-as \
-                           --with-gnu-ld \
                            --disable-__cxa_atexit \
                            --disable-libada \
                            --disable-libmudflap \

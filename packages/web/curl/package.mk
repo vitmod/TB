@@ -20,7 +20,8 @@ PKG_URL="http://curl.haxx.se/download/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain zlib libressl"
 PKG_SHORTDESC="curl: Client and library for (HTTP, HTTPS, FTP, ...) transfers"
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-debug \
+PKG_CONFIGURE_OPTS_TARGET="ac_cv_path_PERL= \
+                           --disable-debug \
                            --enable-optimize \
                            --enable-warnings \
                            --disable-curldebug \
@@ -53,7 +54,6 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-debug \
                            --enable-cookies \
                            --enable-symbol-hiding \
                            --disable-soname-bump \
-                           --with-gnu-ld \
                            --without-krb4 \
                            --without-spnego \
                            --without-gssapi \

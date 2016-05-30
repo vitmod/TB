@@ -20,7 +20,5 @@ PKG_URL="http://ftp.gnu.org/gnu/mpc/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_HOST="gmp:host mpfr:host"
 PKG_SHORTDESC="mpc: A C library for the arithmetic of high precision complex numbers"
 
-PKG_CONFIGURE_OPTS_HOST="--target=$TARGET_NAME \
-                         --enable-static --disable-shared \
-                         --with-gmp=$ROOT/$TOOLCHAIN \
-                         --with-mpfr=$ROOT/$TOOLCHAIN"
+PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared \
+                         --target=$TARGET_NAME"

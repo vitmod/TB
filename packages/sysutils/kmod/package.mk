@@ -28,7 +28,6 @@ PKG_CONFIGURE_OPTS_COMMON="--enable-tools \
                            --disable-gtk-doc-pdf \
                            --disable-manpages \
                            --disable-test-modules \
-                           --with-gnu-ld \
                            --without-xz \
                            --without-zlib"
 

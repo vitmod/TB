@@ -25,7 +25,6 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
                            --disable-deprecated \
                            --enable-malloc \
                            --enable-charsets \
-                           --with-gnu-ld \
                            --without-glib"
 
 pre_configure_target() {

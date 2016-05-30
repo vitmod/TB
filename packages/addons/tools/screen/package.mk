@@ -27,8 +27,7 @@ PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nscreen is a terminal multiplexor that ru
 PKG_ADDON_SECTION="tools"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
-PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_utempter_h=no \
-                           --disable-pam \
+PKG_CONFIGURE_OPTS_TARGET="--disable-pam \
                            --disable-use-locale \
                            --disable-telnet \
                            --disable-socket-dir"

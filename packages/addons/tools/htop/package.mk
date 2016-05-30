@@ -27,14 +27,11 @@ PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nHtop is an ncurses based interactive pro
 PKG_ADDON_SECTION="tools"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
-PKG_CONFIGURE_OPTS_TARGET="ac_cv_func_malloc_0_nonnull=yes \
-                           ac_cv_func_realloc_0_nonnull=yes \
-                           --enable-cgroup \
+PKG_CONFIGURE_OPTS_TARGET="--enable-cgroup \
                            --disable-vserver \
                            --disable-unicode \
                            --disable-native-affinity \
-                           --disable-hwloc \
-                           --with-gnu-ld"
+                           --disable-hwloc"
 
 pre_configure_target() {
   rm -rf $PKG_BUILD_SUBDIR

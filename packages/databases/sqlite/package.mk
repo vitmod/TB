@@ -23,8 +23,7 @@ PKG_SHORTDESC="sqlite: An Embeddable SQL Database Engine"
 PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
                            --disable-readline \
                            --enable-threadsafe \
-                           --disable-dynamic-extensions \
-                           --with-gnu-ld"
+                           --disable-dynamic-extensions"
 
 pre_configure_target() {
   CFLAGS="$CFLAGS -DSQLITE_ENABLE_STAT3"

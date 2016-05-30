@@ -23,5 +23,4 @@ PKG_SHORTDESC="libass: a portable subtitle renderer for the ASS/SSA subtitle for
 PKG_CONFIGURE_OPTS_TARGET="--disable-test \
                            --disable-fontconfig \
                            --disable-require-system-font-provider \
-                           --disable-harfbuzz \
-                           --with-gnu-ld"
+                           --disable-harfbuzz"

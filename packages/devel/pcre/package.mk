@@ -22,8 +22,7 @@ PKG_SHORTDESC="pcre: Perl Compatible Regulat Expressions"
 
 PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
                            --enable-utf8 \
-                           --enable-unicode-properties \
-                           --with-gnu-ld"
+                           --enable-unicode-properties"
 
 post_makeinstall_target() {
   rm -rf $SYSROOT_PREFIX/usr/bin/pcre-config

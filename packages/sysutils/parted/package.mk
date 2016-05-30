@@ -30,5 +30,4 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-device-mapper \
                            --disable-hfs-extract-fs \
                            --disable-shared \
                            --without-readline \
-                           --disable-rpath \
-                           --with-gnu-ld"
+                           --disable-rpath"

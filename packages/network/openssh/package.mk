@@ -22,7 +22,8 @@ PKG_SHORTDESC="openssh: An open re-implementation of the SSH package"
 
 PKG_AUTORECONF="yes"
 
-PKG_CONFIGURE_OPTS_TARGET="--sysconfdir=/etc/ssh \
+PKG_CONFIGURE_OPTS_TARGET="ac_cv_path_PERL= \
+                           --sysconfdir=/etc/ssh \
                            --libexecdir=/usr/lib/openssh \
                            --disable-strip \
                            --disable-lastlog \

@@ -20,10 +20,9 @@ PKG_URL="http://www.tcpdump.org/release/libpcap-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="system interface for user-level packet capture"
 
-PKG_CONFIGURE_OPTS_TARGET="LIBS=-lpthread \
-                           ac_cv_header_libusb_1_0_libusb_h=no \
-                           --disable-shared \
+PKG_CONFIGURE_OPTS_TARGET="--disable-shared \
                            --with-pcap=linux \
+                           --disable-usb \
                            --disable-bluetooth \
                            --disable-can \
                            --without-libnl \
