@@ -18,4 +18,20 @@ PKG_VERSION="4.5"
 PKG_SITE="http://www.kernel.org/pub/software/network/ethtool/"
 PKG_URL="http://www.kernel.org/pub/software/network/ethtool/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="ethtool: Display or change ethernet card settings"
+PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
+
+PKG_IS_ADDON="yes"
+PKG_ADDON_REV="0"
+PKG_ADDON_TYPE="xbmc.python.script"
+PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nDisplay or change ethernet card settings"
+PKG_ADDON_SECTION="tools"
+PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
+
+makeinstall_target() {
+  : # nop
+}
+
+addon() {
+  mkdir -p $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/ethtool $ADDON_INSTALL/bin
+}

@@ -24,7 +24,7 @@ PKG_SHORTDESC="base: metapackage"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET glibc gcc linux busybox systemd timezone-data"
 
 # network
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET netbase ethtool openssh"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET netbase openssh"
 
 # misc
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET dosfstools e2fsprogs usbutils parted nano"
