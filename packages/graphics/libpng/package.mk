@@ -17,7 +17,6 @@ PKG_NAME="libpng"
 PKG_VERSION="1.6.21"
 PKG_SITE="http://www.libpng.org/"
 PKG_URL="http://prdownloads.sourceforge.net/libpng/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_HOST="zlib:host"
 PKG_DEPENDS_TARGET="toolchain zlib"
 PKG_SHORTDESC="libpng: Portable Network Graphics (PNG) Reference Library"
 
@@ -25,14 +24,8 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_lib_z_zlibVersion=yes \
                            --enable-static --disable-shared \
                            --with-sysroot=$SYSROOT_PREFIX"
 
-PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared"
-
 pre_configure_target() {
   export CPPFLAGS="$CPPFLAGS -fPIC"
-}
-
-post_makeinstall_host() {
-  rm -rf $ROOT/$TOOLCHAIN/bin/libpng*-config
 }
 
 post_makeinstall_target() {
