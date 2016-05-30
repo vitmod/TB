@@ -23,6 +23,7 @@ if [ -z "$1" ]; then
 fi
 
 check_package $1
+setup_toolchain target
 
 pack_addon() {
   mkdir -p $ADDON_INSTALL
