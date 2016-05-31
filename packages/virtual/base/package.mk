@@ -27,7 +27,7 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET glibc gcc linux busybox systemd timezone
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET netbase openssh"
 
 # misc
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET e2fsprogs usbutils parted nano"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET e2fsprogs usbutils nano"
 
 # additional
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $ADDITIONAL_PACKAGES"
