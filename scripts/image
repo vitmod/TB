@@ -95,20 +95,6 @@ cp $TARGET_IMG/$IMAGE_NAME.system $RELEASE_DIR/root.sqfs
 cp $TARGET_IMG/$IMAGE_NAME.kernel $RELEASE_DIR/kernel.img
 tar cf $TARGET_IMG/$IMAGE_NAME.tar -C $RELEASE_DIR .
 
-if [ "$1" = "mkimage" ]; then
-  echo "mkimage: boo. now root access (sudo) is required..."
-  echo "mkimage: see scripts/image and scripts/mkimage if you dont trust us :)"
-  # variables used in image script must be passed
-  sudo env \
-    PATH="$PATH:/sbin" \
-    ROOT="$ROOT" \
-    TOOLCHAIN="$TOOLCHAIN" \
-    TARGET_IMG="$TARGET_IMG" \
-    IMAGE_NAME="$IMAGE_NAME" \
-    RELEASE_DIR="$RELEASE_DIR" \
-    scripts/mkimage
-fi
-
 # clean up
 rm -rf $RELEASE_DIR
 rm -f $TARGET_IMG/$IMAGE_NAME.system
