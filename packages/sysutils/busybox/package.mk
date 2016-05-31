@@ -70,11 +70,7 @@ makeinstall_target() {
   cp $PKG_DIR/scripts/pastebinit $INSTALL/usr/bin
   cp $PKG_DIR/scripts/cm-online $INSTALL/usr/bin
 
-  mkdir -p $INSTALL/usr/share/tb
-  cp $PKG_DIR/config/functions $INSTALL/usr/share/tb
-
   mkdir -p $INSTALL/usr/lib/openelec
-  cp $PKG_DIR/scripts/fs-resize $INSTALL/usr/lib/openelec
   cp $PKG_DIR/scripts/hostname-setup $INSTALL/usr/lib/openelec
 
   mkdir -p $INSTALL/etc
@@ -93,7 +89,6 @@ post_install() {
   add_user nobody "*" 65534 65534 "/" "/bin/sh"
   add_group nogroup 65534
 
-  enable_service fs-resize.service
   enable_service hostname.service
   enable_service network-online.service
   enable_service autostart.service
