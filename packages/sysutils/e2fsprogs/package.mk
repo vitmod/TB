@@ -17,56 +17,38 @@ PKG_NAME="e2fsprogs"
 PKG_VERSION="1.43"
 PKG_SITE="https://github.com/tytso/e2fsprogs"
 PKG_URL="https://github.com/tytso/e2fsprogs/archive/v$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain"
-PKG_DEPENDS_INIT="toolchain e2fsprogs"
+PKG_DEPENDS_INIT="toolchain"
 PKG_SHORTDESC="e2fsprogs: Utilities for use with the ext2 filesystem"
 
-PKG_CONFIGURE_OPTS_TARGET="BUILD_CC=$HOST_CC \
-                           ac_cv_path_PERL= \
-                           --prefix=/usr \
-                           --enable-symlink-install \
-                           --enable-symlink-build \
-                           --disable-elf-shlibs \
-                           --disable-bsd-shlibs \
-                           --disable-profile \
-                           --disable-jbd-debug \
-                           --disable-blkid-debug \
-                           --disable-testio-debug \
-                           --enable-libuuid \
-                           --enable-libblkid \
-                           --disable-backtrace \
-                           --disable-debugfs \
-                           --disable-imager \
-                           --enable-resizer \
-                           --disable-defrag \
-                           --enable-fsck \
-                           --disable-e2initrd-helper \
-                           --enable-tls \
-                           --disable-uuidd \
-                           --disable-mmp \
-                           --disable-bmap-stats \
-                           --disable-nls \
-                           --disable-rpath \
-                           --disable-fuse2fs"
-
-post_makeinstall_target() {
-  REMOVE_BIN="badblocks blkid dumpe2fs e2freefrag e2undo e4defrag filefrag fsck logsave mklost+foun"
-  REMOVE_BIN="$REMOVE_BIN e2label e4crypt findfs fsck.* mkfs.* mklost+found"
-  for i in $REMOVE_BIN ; do
-    rm -rf $INSTALL/usr/sbin/$i
-  done
-  rm -rf $INSTALL/usr/bin
-}
-
-configure_init() {
-  : # use target
-}
-
-make_init() {
-  : # use target
-}
+PKG_CONFIGURE_OPTS_INIT="BUILD_CC=$HOST_CC \
+                         ac_cv_path_PERL= \
+                         --prefix=/usr \
+                         --enable-symlink-install \
+                         --enable-symlink-build \
+                         --disable-elf-shlibs \
+                         --disable-bsd-shlibs \
+                         --disable-profile \
+                         --disable-jbd-debug \
+                         --disable-blkid-debug \
+                         --disable-testio-debug \
+                         --enable-libuuid \
+                         --enable-libblkid \
+                         --disable-backtrace \
+                         --disable-debugfs \
+                         --disable-imager \
+                         --enable-resizer \
+                         --disable-defrag \
+                         --enable-fsck \
+                         --disable-e2initrd-helper \
+                         --enable-tls \
+                         --disable-uuidd \
+                         --disable-mmp \
+                         --disable-bmap-stats \
+                         --disable-nls \
+                         --disable-rpath \
+                         --disable-fuse2fs"
 
 makeinstall_init() {
   mkdir -p $INSTALL/bin
-  cp $PKG_BUILD/.build_target/e2fsck/e2fsck $INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/e2fsck/e2fsck $INSTALL/bin
 }
