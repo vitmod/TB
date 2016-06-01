@@ -153,4 +153,4 @@ done
 if [ -f /sysroot/storage/.resizeme ] ; then
   INIT_UNIT="--unit=fs-resize.target"
 fi
-exec /bin/busybox switch_root /sysroot /usr/lib/systemd/systemd $INIT_ARGS $INIT_UNIT
+exec /bin/busybox switch_root /sysroot /usr/lib/systemd/systemd $INIT_UNIT
