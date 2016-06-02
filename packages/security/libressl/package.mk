@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="libressl"
-PKG_VERSION="2.3.4"
+PKG_VERSION="2.3.5"
 PKG_SITE="http://www.libressl.org/"
 PKG_URL="http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
