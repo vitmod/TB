@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="curl"
-PKG_VERSION="7.49.0"
+PKG_VERSION="7.49.1"
 PKG_SITE="http://curl.haxx.se"
 PKG_URL="http://curl.haxx.se/download/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain zlib libressl"
