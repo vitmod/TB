@@ -20,14 +20,6 @@ PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="base: metapackage"
 
-# system
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET glibc gcc linux busybox systemd timezone-data"
-
-# network
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET netbase openssh"
-
-# misc
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET usbutils nano"
-
-# additional
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET glibc gcc linux busybox systemd nano"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET netbase openssh usbutils timezone-data"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $ADDITIONAL_PACKAGES"
