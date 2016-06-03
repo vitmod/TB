@@ -15,7 +15,7 @@
 
 PKG_NAME="kmod"
 PKG_VERSION="22"
-PKG_SITE="http://git.profusion.mobi/cgit.cgi/kmod.git/"
+PKG_SITE="http://git.kernel.org/cgit/utils/kernel/kmod/kmod.git"
 PKG_URL="http://ftp.kernel.org/pub/linux/utils/kernel/kmod/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="Program to manage Linux Kernel modules"
