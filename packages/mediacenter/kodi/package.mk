@@ -71,7 +71,7 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --disable-ssh \
                            --disable-airplay \
                            --disable-airtunes \
-                           --enable-non-free \
+                           --disable-non-free \
                            --enable-webserver \
                            --disable-optical-drive \
                            --disable-libbluray \
