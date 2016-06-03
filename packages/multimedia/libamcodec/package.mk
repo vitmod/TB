@@ -17,7 +17,7 @@ PKG_NAME="libamcodec"
 PKG_VERSION="5e23a81"
 PKG_SITE="http://openlinux.amlogic.com"
 PKG_FETCH="https://github.com/codesnake/libamcodec.git"
-PKG_DEPENDS_TARGET="toolchain"
+PKG_DEPENDS_TARGET="toolchain alsa-lib"
 PKG_SHORTDESC="libamcodec: Interface library for Amlogic media codecs"
 
 make_target() {
