@@ -21,5 +21,5 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="base: metapackage"
 
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET glibc gcc linux busybox systemd nano"
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET netbase openssh usbutils timezone-data"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET netbase openssh timezone-data"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $ADDITIONAL_PACKAGES"

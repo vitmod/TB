@@ -18,13 +18,24 @@ PKG_VERSION="008"
 PKG_SITE="http://www.linux-usb.org/"
 PKG_URL="http://kernel.org/pub/linux/utils/usb/usbutils/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain libusb systemd"
-PKG_SHORTDESC="usbutils: Linux USB Utilities"
+PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
+
+PKG_IS_ADDON="yes"
+PKG_ADDON_REV="0"
+PKG_ADDON_TYPE="xbmc.python.script"
+PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nLinux USB Utilities"
+PKG_ADDON_SECTION="tools"
+PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 pre_configure_target() {
   export LIBS=-lpthread
 }
 
-post_makeinstall_target() {
-  rm -rf $INSTALL/usr/bin/lsusb.py
-  rm -rf $INSTALL/usr/bin/usbhid-dump
+makeinstall_target() {
+  : # nop
+}
+
+addon() {
+  mkdir -p $ADDON_INSTALL/bin
+  cp $PKG_BUILD_SUBDIR/lsusb $ADDON_INSTALL/bin
 }
