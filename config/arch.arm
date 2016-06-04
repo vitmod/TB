@@ -17,7 +17,6 @@ case $TARGET_CPU in
   cortex-a9)
     TARGET_SUBARCH=armv7-a
     TARGET_ABI=eabi
-    TARGET_EXTRA_FLAGS="-mcpu=$TARGET_CPU"
     TARGET_FPU_FLAGS="-mfloat-abi=$TARGET_FLOAT -mfpu=$TARGET_FPU"
     ;;
 esac
@@ -26,6 +25,6 @@ TARGET_GCC_ARCH=$(echo $TARGET_SUBARCH | sed -e "s,-,,")
 TARGET_KERNEL_ARCH=arm
 
 # setup ARCH specific *FLAGS
-TARGET_CFLAGS="-march=$TARGET_SUBARCH -mabi=aapcs-linux -Wno-psabi -Wa,-mno-warn-deprecated $TARGET_EXTRA_FLAGS $TARGET_FPU_FLAGS"
+TARGET_CFLAGS="-march=$TARGET_SUBARCH -mcpu=$TARGET_CPU -mabi=aapcs-linux -Wno-psabi $TARGET_FPU_FLAGS"
 TARGET_LDFLAGS="-march=$TARGET_SUBARCH -mtune=$TARGET_CPU"
 GCC_OPTS="--with-abi=aapcs-linux --with-arch=$TARGET_SUBARCH --with-float=$TARGET_FLOAT --with-fpu=$TARGET_FPU"
