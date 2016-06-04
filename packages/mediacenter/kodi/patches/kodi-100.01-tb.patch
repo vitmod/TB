@@ -1,4 +1,4 @@
-From efc753f315ee0301b8948c54c95bf50750e68d77 Mon Sep 17 00:00:00 2001
+From 0ab12839308c7884a15e36854800cbd03dd61895 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
 Subject: [PATCH 01/12] [tb] make binary addons executable
@@ -28,7 +28,7 @@ index 5005f8d..792df18 100644
 2.7.4
 
 
-From 1125eaf1d55dd81cb59324e5fba5875b3e23c349 Mon Sep 17 00:00:00 2001
+From 06302a44993c5370c6b943bbaeae7fb2e5961d5e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
 Subject: [PATCH 02/12] [tb] disable minimize
@@ -53,7 +53,7 @@ index b44e467..66e78fb 100644
 2.7.4
 
 
-From 1d7679607957b28646ee15f55b56760faf1001da Mon Sep 17 00:00:00 2001
+From 33b66c7bc09df19c3f0c98974624fa6050b40c57 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
 Subject: [PATCH 03/12] [tb] setup timezone
@@ -83,7 +83,7 @@ index ea44d40..744780e 100644
 2.7.4
 
 
-From 26afa6134d625fb94a39d097df660a566a9ea979 Mon Sep 17 00:00:00 2001
+From 88ee052e5cea5b8b1673615838ef436b113c9579 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
 Subject: [PATCH 04/12] [tb] use a wrapper to setup systemd services
@@ -178,7 +178,7 @@ index d43b309..2c51fb3 100644
 2.7.4
 
 
-From 01a3b3a0939f7b79de74b73bdf071805f9594b8f Mon Sep 17 00:00:00 2001
+From d2fbec1542d2f80d1c265127c43bcad380089b4b Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
 Subject: [PATCH 05/12] [tb] handle SIGTERM
@@ -329,7 +329,7 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From 9be7fb5d2cfb715238febc982e2344af9917412a Mon Sep 17 00:00:00 2001
+From b78691378eeade120f586f7e00612c15c00cb534 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
 Subject: [PATCH 06/12] [tb] pvr: nobody cared
@@ -358,7 +358,7 @@ index ea1eef4..4ffdac6 100644
 2.7.4
 
 
-From e687e5448e05050e045478dbd66626e7c821401f Mon Sep 17 00:00:00 2001
+From 79f3ad64664ba85de725e4d4bdeefcc07c11655e Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
 Subject: [PATCH 07/12] [tb] all user pre-installed addons should be enabled
@@ -384,7 +384,7 @@ index d23be26..bb76bf9 100644
 2.7.4
 
 
-From 57ace13ca169d94ed528e82aa5f95bd8a1d02dab Mon Sep 17 00:00:00 2001
+From 2ec56411ac7cee2b3ce5e2c109c4ad71fdb5c6f5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 22 May 2016 15:21:49 +0300
 Subject: [PATCH 08/12] [chg] make libxslt optional
@@ -539,7 +539,7 @@ index 57476ed..23e627f 100644
 2.7.4
 
 
-From 19a7c7ea1464d4dfa3cdc5d7dcbdec0dd0fb78ed Mon Sep 17 00:00:00 2001
+From ddf48a71bae81d1d4e17e550f0806da8ed520bdc Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 27 May 2016 22:08:32 +0300
 Subject: [PATCH 09/12] [aml] do reboot/poweroff in FallbackPowerSyscall
@@ -576,7 +576,7 @@ index a6ed27b..a3344ab 100644
 2.7.4
 
 
-From cf38f557cedf7c8aea3d95512b93882d24ea2228 Mon Sep 17 00:00:00 2001
+From a639f431fd92f985fadf6b61091d9a9f6d6b3369 Mon Sep 17 00:00:00 2001
 From: popcornmix <popcornmix@gmail.com>
 Date: Sun, 6 Mar 2016 14:16:17 +0000
 Subject: [PATCH 10/12] codecoverlay: Include codec name in overlay
@@ -739,7 +739,7 @@ index 4dff792..3bfc052 100644
 2.7.4
 
 
-From 6e8babf47bfe74c64fbb37bf8f439d297d9dfe91 Mon Sep 17 00:00:00 2001
+From d7d7f2c12527c5c74f8524f929efa6fcd69a8d22 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
 Subject: [PATCH 11/12] [aml] Fill audio packets completely when resampling to
@@ -769,7 +769,7 @@ index a64ee31..dc97a92 100644
 2.7.4
 
 
-From 6ef08f096595b8999d92ee865574eb0bef1d17e5 Mon Sep 17 00:00:00 2001
+From 1a401d403f41518cccdd0283d85d8d393b511bc3 Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 23 Apr 2016 16:16:45 +0200
 Subject: [PATCH 12/12] Use amlvideo driver for audio/video sync
@@ -785,7 +785,7 @@ Subject: [PATCH 12/12] Use amlvideo driver for audio/video sync
  7 files changed, 188 insertions(+), 74 deletions(-)
 
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index 0a97893..67d5987 100644
+index f714721..78be5e7 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 @@ -54,12 +54,49 @@ extern "C" {
@@ -887,7 +887,7 @@ index 0a97893..67d5987 100644
    ShowMainVideo(false);
  
    am_packet_init(&am_private->am_pkt);
-@@ -1657,6 +1678,53 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
+@@ -1652,6 +1673,53 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
    return true;
  }
  
@@ -941,7 +941,7 @@ index 0a97893..67d5987 100644
  void CAMLCodec::CloseDecoder()
  {
    CLog::Log(LOGDEBUG, "CAMLCodec::CloseDecoder");
-@@ -1679,6 +1747,14 @@ void CAMLCodec::CloseDecoder()
+@@ -1674,6 +1742,14 @@ void CAMLCodec::CloseDecoder()
    SysfsUtils::SetInt("/sys/class/tsync/enable", 1);
  
    ShowMainVideo(false);
@@ -956,7 +956,7 @@ index 0a97893..67d5987 100644
  }
  
  void CAMLCodec::Reset()
-@@ -1728,7 +1804,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+@@ -1723,7 +1799,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
  
    if (pData)
    {
@@ -964,7 +964,7 @@ index 0a97893..67d5987 100644
      am_private->am_pkt.data = pData;
      am_private->am_pkt.data_size = iSize;
  
-@@ -1749,7 +1824,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+@@ -1744,7 +1819,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
      if (am_private->am_pkt.avpts != (int64_t)AV_NOPTS_VALUE)
        am_private->am_pkt.avpts -= m_start_pts;
  
@@ -972,7 +972,7 @@ index 0a97893..67d5987 100644
      // handle dts, including 31bit wrap, aml can only handle 31
      // bit dts as it uses an int in kernel.
      if (dts == DVD_NOPTS_VALUE)
-@@ -1806,28 +1880,20 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+@@ -1801,28 +1875,20 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
    if (iSize < 20)
      target_timesize = 2.0;
  
@@ -1006,7 +1006,7 @@ index 0a97893..67d5987 100644
    }
  /*
    CLog::Log(LOGDEBUG, "CAMLCodec::Decode: "
-@@ -1837,6 +1903,24 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+@@ -1832,6 +1898,24 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
    return rtn;
  }
  
@@ -1031,7 +1031,7 @@ index 0a97893..67d5987 100644
  bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
  {
    if (!m_opened)
-@@ -1848,7 +1932,7 @@ bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
+@@ -1843,7 +1927,7 @@ bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
  
    pDvdVideoPicture->dts = DVD_NOPTS_VALUE;
    if (m_speed == DVD_PLAYSPEED_NORMAL)
@@ -1040,7 +1040,7 @@ index 0a97893..67d5987 100644
    else
    {
      if (m_cur_pts == 0)
-@@ -1931,40 +2015,23 @@ void CAMLCodec::Process()
+@@ -1926,40 +2010,23 @@ void CAMLCodec::Process()
  {
    CLog::Log(LOGDEBUG, "CAMLCodec::Process Started");
  
@@ -1140,10 +1140,10 @@ index 5b9ee4f..5cd99e0 100644
 +  std::string      m_defaultVfmMap;
  };
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-index 43ca555..270dd4d 100644
+index 1678bed..80f25dd 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
-@@ -296,7 +296,7 @@ bool CDVDVideoCodecAmlogic::GetPicture(DVDVideoPicture* pDvdVideoPicture)
+@@ -294,7 +294,7 @@ bool CDVDVideoCodecAmlogic::GetPicture(DVDVideoPicture* pDvdVideoPicture)
      m_Codec->GetPicture(&m_videobuffer);
    *pDvdVideoPicture = m_videobuffer;
  
@@ -1152,7 +1152,7 @@ index 43ca555..270dd4d 100644
  
    {
      CSingleLock lock(m_secure);
-@@ -577,10 +577,11 @@ void CDVDVideoCodecAmlogic::RemoveInfo(CDVDAmlogicInfo *info)
+@@ -573,10 +573,11 @@ void CDVDVideoCodecAmlogic::RemoveInfo(CDVDAmlogicInfo *info)
    m_inflight.erase(m_inflight.find(info));
  }
  
