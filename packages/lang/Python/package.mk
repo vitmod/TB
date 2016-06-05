@@ -23,8 +23,8 @@ PKG_SHORTDESC="python: The Python programming language"
 PKG_AUTORECONF="yes"
 
 PY_DISABLED_MODULES="readline _curses _curses_panel _tkinter nis gdbm bsddb ossaudiodev linuxaudiodev"
-PY_HOST_INCDIR="$ROOT/$TOOLCHAIN/include /usr/include"
-PY_HOST_LIBDIR="$ROOT/$TOOLCHAIN/lib /lib /usr/lib"
+PY_HOST_INCDIR="$TOOLCHAIN/include /usr/include"
+PY_HOST_LIBDIR="$TOOLCHAIN/lib /lib /usr/lib"
 PY_TARGET_INCDIR="$SYSROOT_PREFIX/include $SYSROOT_PREFIX/usr/include"
 PY_TARGET_LIBDIR="$SYSROOT_PREFIX/lib $SYSROOT_PREFIX/usr/lib"
 
@@ -84,7 +84,7 @@ makeinstall_host() {
 }
 
 pre_configure_target() {
-  export PYTHON_FOR_BUILD=$ROOT/$TOOLCHAIN/bin/python
+  export PYTHON_FOR_BUILD=$TOOLCHAIN/bin/python
 }
 
 make_target() {

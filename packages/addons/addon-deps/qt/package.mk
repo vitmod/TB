@@ -96,6 +96,6 @@ configure_target() {
 }
 
 post_makeinstall_target() {
-  mkdir -p $ROOT/$TOOLCHAIN/bin
-  cp -P $PKG_BUILD/bin/qmake $ROOT/$TOOLCHAIN/bin
+  mkdir -p $TOOLCHAIN/bin
+  cp -P $PKG_BUILD/bin/qmake $TOOLCHAIN/bin
 }

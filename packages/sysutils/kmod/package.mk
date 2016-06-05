@@ -35,7 +35,7 @@ PKG_CONFIGURE_OPTS_HOST="$PKG_CONFIGURE_OPTS_COMMON"
 PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_COMMON"
 
 post_makeinstall_host() {
-  ln -sf kmod $ROOT/$TOOLCHAIN/bin/depmod
+  ln -sf kmod $TOOLCHAIN/bin/depmod
 }
 
 post_makeinstall_target() {

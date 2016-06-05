@@ -30,5 +30,5 @@ pre_configure_target() {
 }
 
 post_makeinstall_target() {
-  cp libzen-config $ROOT/$TOOLCHAIN/bin
+  cp libzen-config $TOOLCHAIN/bin
 }

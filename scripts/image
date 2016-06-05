@@ -78,7 +78,7 @@ fi
 MODVER=$(basename $(ls -d $INSTALL_IMAGE/lib/modules/*))
 find $INSTALL_IMAGE/lib/modules/$MODVER/ -name *.ko | \
   sed -e "s,$INSTALL_IMAGE/lib/modules/$MODVER/,," > $INSTALL_IMAGE/lib/modules/$MODVER/modules.order
-$ROOT/$TOOLCHAIN/bin/depmod -b $INSTALL_IMAGE $MODVER > /dev/null
+$TOOLCHAIN/bin/depmod -b $INSTALL_IMAGE $MODVER > /dev/null
 
 # make target dir
 mkdir -p $TARGET_IMG

@@ -21,7 +21,7 @@ PKG_DEPENDS_TARGET="toolchain glibc:init busybox:init plymouth-lite:init e2fspro
 PKG_SHORTDESC="initramfs: metapackage"
 
 post_install() {
-  ( cd $ROOT/$BUILD/image/init
-    find . | cpio -H newc -ov -R 0:0 | gzip > $ROOT/$BUILD/image/init.cpio
+  ( cd $BUILD/image/init
+    find . | cpio -H newc -ov -R 0:0 | gzip > $BUILD/image/init.cpio
   )
 }

@@ -27,15 +27,15 @@ pre_configure_host() {
 }
 
 post_makeinstall_host() {
-  mkdir -p $ROOT/$TOOLCHAIN/etc
-  echo "cache_dir = $CCACHE_DIR" > $ROOT/$TOOLCHAIN/etc/ccache.conf
-  $ROOT/$TOOLCHAIN/bin/ccache --max-size=$CCACHE_CACHE_SIZE
+  mkdir -p $TOOLCHAIN/etc
+  echo "cache_dir = $CCACHE_DIR" > $TOOLCHAIN/etc/ccache.conf
+  $TOOLCHAIN/bin/ccache --max-size=$CCACHE_CACHE_SIZE
 
   echo "#!/bin/sh" > $HOST_CC
-  echo "$ROOT/$TOOLCHAIN/bin/ccache $LOCAL_CC \"\$@\""  >> $HOST_CC
+  echo "$TOOLCHAIN/bin/ccache $LOCAL_CC \"\$@\""  >> $HOST_CC
 
   echo "#!/bin/sh" > $HOST_CXX
-  echo "$ROOT/$TOOLCHAIN/bin/ccache $LOCAL_CXX \"\$@\"" >> $HOST_CXX
+  echo "$TOOLCHAIN/bin/ccache $LOCAL_CXX \"\$@\"" >> $HOST_CXX
 
   chmod +x $HOST_CC $HOST_CXX
 }

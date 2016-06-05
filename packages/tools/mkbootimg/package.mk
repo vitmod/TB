@@ -21,6 +21,6 @@ PKG_DEPENDS_HOST=""
 PKG_SHORTDESC="mkbootimg: Creates kernel boot images for Android"
 
 makeinstall_host() {
-  mkdir -p $ROOT/$TOOLCHAIN/bin
-  cp mkbootimg $ROOT/$TOOLCHAIN/bin
+  mkdir -p $TOOLCHAIN/bin
+  cp mkbootimg $TOOLCHAIN/bin
 }

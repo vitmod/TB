@@ -34,5 +34,5 @@ pre_configure_target() {
 }
 
 post_makeinstall_target() {
-  cp libmediainfo-config $ROOT/$TOOLCHAIN/bin
+  cp libmediainfo-config $TOOLCHAIN/bin
 }

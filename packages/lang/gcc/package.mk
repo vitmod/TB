@@ -43,11 +43,11 @@ GCC_COMMON_CONFIGURE_OPTS="--without-ppl \
 CONFIGURE_OPTS_BOOTSTRAP="--host=$HOST_NAME \
                           --build=$HOST_NAME \
                           --target=$TARGET_NAME \
-                          --prefix=$ROOT/$TOOLCHAIN \
+                          --prefix=$TOOLCHAIN \
                           --with-sysroot=$SYSROOT_PREFIX \
-                          --with-gmp=$ROOT/$TOOLCHAIN \
-                          --with-mpfr=$ROOT/$TOOLCHAIN \
-                          --with-mpc=$ROOT/$TOOLCHAIN \
+                          --with-gmp=$TOOLCHAIN \
+                          --with-mpfr=$TOOLCHAIN \
+                          --with-mpc=$TOOLCHAIN \
                           --enable-languages=c \
                           --disable-shared \
                           --disable-threads \
@@ -58,9 +58,9 @@ CONFIGURE_OPTS_BOOTSTRAP="--host=$HOST_NAME \
 
 PKG_CONFIGURE_OPTS_HOST="--target=$TARGET_NAME \
                          --with-sysroot=$SYSROOT_PREFIX \
-                         --with-gmp=$ROOT/$TOOLCHAIN \
-                         --with-mpfr=$ROOT/$TOOLCHAIN \
-                         --with-mpc=$ROOT/$TOOLCHAIN \
+                         --with-gmp=$TOOLCHAIN \
+                         --with-mpfr=$TOOLCHAIN \
+                         --with-mpc=$TOOLCHAIN \
                          --enable-languages=c,c++ \
                          --enable-decimal-float \
                          --enable-tls \
@@ -85,7 +85,7 @@ post_make_host() {
 post_makeinstall_host() {
   cp -PR $TARGET_NAME/libstdc++-v3/src/.libs/libstdc++.so* $SYSROOT_PREFIX/usr/lib
 
-  GCC_VERSION=`$ROOT/$TOOLCHAIN/bin/${TARGET_NAME}-gcc -dumpversion`
+  GCC_VERSION=`$TOOLCHAIN/bin/${TARGET_NAME}-gcc -dumpversion`
   DATE="0501`echo $GCC_VERSION | sed 's/\([0-9]\)/0\1/g' | sed 's/\.//g'`"
   CROSS_CC=$TARGET_CC-$GCC_VERSION
   CROSS_CXX=$TARGET_CXX-$GCC_VERSION
@@ -94,10 +94,10 @@ post_makeinstall_host() {
   [ ! -f "$CROSS_CXX" ] && mv $TARGET_CXX $CROSS_CXX
 
   echo "#!/bin/sh" > $TARGET_CC
-  echo "$ROOT/$TOOLCHAIN/bin/ccache $CROSS_CC \"\$@\"" >> $TARGET_CC
+  echo "$TOOLCHAIN/bin/ccache $CROSS_CC \"\$@\"" >> $TARGET_CC
 
   echo "#!/bin/sh" > $TARGET_CXX
-  echo "$ROOT/$TOOLCHAIN/bin/ccache $CROSS_CXX \"\$@\"" >> $TARGET_CXX
+  echo "$TOOLCHAIN/bin/ccache $CROSS_CXX \"\$@\"" >> $TARGET_CXX
 
   chmod +x $TARGET_CC $TARGET_CXX
 
