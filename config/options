@@ -398,6 +398,7 @@ fi
 unset CONFIG_SITE
 unset PYTHONSTARTUP
 unset PYTHONPATH
+unset LD_LIBRARY_PATH
 
 ################################################################################
 # set package metadata

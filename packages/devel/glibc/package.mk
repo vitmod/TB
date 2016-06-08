@@ -52,7 +52,6 @@ pre_build_target() {
 }
 
 pre_configure_target() {
-  unset LD_LIBRARY_PATH
   export BUILD_CC=$HOST_CC
   export OBJDUMP_FOR_HOST=objdump
 
