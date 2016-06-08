@@ -28,7 +28,7 @@ if [ "$BUILD_ANDROID_BOOTIMG" = "yes" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET mkbootimg:host"
 fi
 
-pre_build_target() {
+post_unpack() {
   cp $PROJECT_DIR/$PROJECT/$PKG_NAME/$PKG_NAME.$TARGET_ARCH.conf $PKG_BUILD/.config
 
   sed -i -e "s|^CONFIG_DEFAULT_HOSTNAME=.*|CONFIG_DEFAULT_HOSTNAME=\"$DISTRONAME\"|g" $PKG_BUILD/.config
@@ -43,7 +43,9 @@ pre_build_target() {
          $PKG_BUILD/Makefile
 
   sed -i -e "s|/lib/firmware/updates|/storage/.config/firmware|" $PKG_BUILD/drivers/base/firmware_class.c
+}
 
+pre_build_target() {
   make -C $PKG_BUILD oldconfig
 }
 
