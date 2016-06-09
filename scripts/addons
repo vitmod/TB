@@ -84,9 +84,9 @@ upload() {
 }
 
 build() {
-  DIRS="packages/binary-addons"
+  DIRS="packages/addons/binary-addons"
   if [ "$1" = "-all" ] ; then
-    DIRS="$DIRS packages/addons"
+    DIRS="$DIRS packages/addons/base-addons"
   fi
   for package in $(find $DIRS -iname package.mk) ; do
     PKG_IS_ADDON=""

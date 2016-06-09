@@ -30,8 +30,7 @@ PKG_CONFIGURE_OPTS_TARGET="--with-plugindir=/usr/lib/alsa \
                            --disable-alisp \
                            --disable-old-symbols \
                            --disable-python \
-                           --without-debug \
-                           --disable-dependency-tracking"
+                           --without-debug"
 
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin

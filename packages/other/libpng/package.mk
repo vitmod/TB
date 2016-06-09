@@ -13,9 +13,29 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="alsa"
-PKG_VERSION=""
-PKG_SITE=""
-PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain alsa-lib alsa-utils"
-PKG_SHORTDESC="alsa: matapackage"
+PKG_NAME="libpng"
+PKG_VERSION="1.6.21"
+PKG_SITE="http://www.libpng.org/"
+PKG_URL="http://prdownloads.sourceforge.net/libpng/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_DEPENDS_HOST="zlib:host"
+PKG_DEPENDS_TARGET="toolchain zlib"
+PKG_SHORTDESC="libpng: Portable Network Graphics (PNG) Reference Library"
+
+PKG_CONFIGURE_OPTS_TARGET="ac_cv_lib_z_zlibVersion=yes \
+                           --enable-static --disable-shared \
+                           --with-sysroot=$SYSROOT_PREFIX"
+
+PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared"
+
+pre_configure_target() {
+  export CPPFLAGS="$CPPFLAGS -fPIC"
+}
+
+post_makeinstall_host() {
+  rm -rf $TOOLCHAIN/bin/libpng*-config
+}
+
+post_makeinstall_target() {
+  rm -rf $INSTALL/usr/bin
+  rm -rf $SYSROOT_PREFIX/usr/bin/libpng*-config
+}

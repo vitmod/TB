@@ -13,11 +13,12 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="lzo"
-PKG_VERSION="2.09"
-PKG_SITE="http://www.oberhumer.com/opensource/lzo"
-PKG_URL="http://www.oberhumer.com/opensource/lzo/download/$PKG_NAME-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="LZO data compressor"
+PKG_NAME="libjpeg-turbo"
+PKG_VERSION="1.5.0"
+PKG_SITE="http://libjpeg-turbo.virtualgl.org/"
+PKG_URL="http://prdownloads.sourceforge.net/libjpeg-turbo/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.gz"
+PKG_SHORTDESC="libjpeg-turbo: a high-speed version of libjpeg"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared"
+PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared \
+                         --with-jpeg8 \
+                         --without-simd"

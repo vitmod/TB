@@ -20,8 +20,7 @@ PKG_URL="ftp://ftp.alsa-project.org/pub/utils/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain alsa-lib"
 PKG_SHORTDESC="alsa-utils: Advanced Linux Sound Architecture utilities"
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-dependency-tracking \
-                           --disable-xmlto \
+PKG_CONFIGURE_OPTS_TARGET="--disable-xmlto \
                            --disable-alsamixer \
                            --disable-alsaconf \
                            --disable-alsaloop \

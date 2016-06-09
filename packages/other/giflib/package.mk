@@ -13,22 +13,12 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="libpng"
-PKG_VERSION="1.6.21"
-PKG_SITE="http://www.libpng.org/"
-PKG_URL="http://prdownloads.sourceforge.net/libpng/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_NAME="giflib"
+PKG_VERSION="5.1.3"
+PKG_SITE="http://giflib.sourceforge.net/"
+PKG_URL="http://prdownloads.sourceforge.net/giflib/$PKG_NAME-$PKG_VERSION.tar.bz2"
+PKG_DEPENDS_HOST="zlib:host"
 PKG_DEPENDS_TARGET="toolchain zlib"
-PKG_SHORTDESC="libpng: Portable Network Graphics (PNG) Reference Library"
+PKG_SHORTDESC="giflib: giflib service library"
 
-PKG_CONFIGURE_OPTS_TARGET="ac_cv_lib_z_zlibVersion=yes \
-                           --enable-static --disable-shared \
-                           --with-sysroot=$SYSROOT_PREFIX"
-
-pre_configure_target() {
-  export CPPFLAGS="$CPPFLAGS -fPIC"
-}
-
-post_makeinstall_target() {
-  rm -rf $INSTALL/usr/bin
-  rm -rf $SYSROOT_PREFIX/usr/bin/libpng*-config
-}
+PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared"

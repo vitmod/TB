@@ -13,11 +13,13 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="mediacenter"
-PKG_VERSION=""
-PKG_SITE=""
-PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain kodi"
-PKG_SHORTDESC="mediacenter: metapackage"
+PKG_NAME="lzo"
+PKG_VERSION="2.09"
+PKG_SITE="http://www.oberhumer.com/opensource/lzo"
+PKG_URL="http://www.oberhumer.com/opensource/lzo/download/$PKG_NAME-$PKG_VERSION.tar.gz"
+PKG_DEPENDS_HOST=""
+PKG_DEPENDS_TARGET="toolchain"
+PKG_SHORTDESC="LZO data compressor"
 
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa-utils skin.confluence tb.settings"
+PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared"
+PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared"
