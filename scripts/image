@@ -23,7 +23,7 @@ show_config
 scripts/checkdeps
 scripts/build toolchain
 
-BUILD_DATE=`date +%Y%m%d%H%M%S`
+BUILD_DATE=`date +%m%d%H%M`
 GIT_ABBREV=$(git log -1 --pretty=format:%h)
 DISTRO_VERSION=$OS_VERSION.$BUILD_DATE.$GIT_ABBREV
 IMAGE_NAME="$DISTRONAME.$PROJECT.$DISTRO_VERSION"
