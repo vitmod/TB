@@ -72,6 +72,10 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/lib/libnss_hesiod*so*
   rm -rf $INSTALL/usr/lib/libnss_nis*so*
 
+  # remove ldscripts
+  rm -rf $INSTALL/usr/lib/libc.so
+  rm -rf $INSTALL/usr/lib/libpthread.so
+
   # remove locales and charmaps
   rm -rf $INSTALL/usr/share/i18n/charmaps
   rm -rf $INSTALL/usr/share/i18n/locales
