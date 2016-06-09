@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="kodi"
-PKG_VERSION="e1725c3"
+PKG_VERSION="e31bee7"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="https://github.com/xbmc/xbmc.git"
 PKG_DEPENDS_TARGET="toolchain kodi:host"
@@ -110,7 +110,7 @@ makeinstall_host() {
 
 pre_configure_target() {
   rm -rf $PKG_BUILD_SUBDIR
-  sed "/lib\/libdvd/d" -i Makefile.in
+  echo all: > lib/libdvd/Makefile.in
   echo $PKG_VERSION > $PKG_BUILD/VERSION
   BOOTSTRAP_STANDALONE=1 make -f bootstrap.mk
 }
