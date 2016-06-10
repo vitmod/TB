@@ -20,11 +20,7 @@ PKG_URL="http://prdownloads.sourceforge.net/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PK
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="expat: XML parser library"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared"
-
-pre_configure_target() {
-  export CFLAGS="$CFLAGS -fPIC"
-}
+PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static --with-pic"
 
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin

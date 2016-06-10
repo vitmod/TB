@@ -28,7 +28,7 @@ PKG_ADDON_SECTION="tools"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
 PKG_CONFIGURE_OPTS_TARGET="bash_cv_have_mbstate_t=set \
-                           --enable-static --disable-shared \
+                           --disable-shared --enable-static \
                            --with-auto-load-safe-path=/ \
                            --datarootdir=/storage/.kodi/addons/tools.gdb/data \
                            --disable-nls \

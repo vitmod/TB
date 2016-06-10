@@ -21,7 +21,7 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="libcdio: A CD-ROM reading and control library"
 
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_path_PERL= \
-                           --enable-static --disable-shared \
+                           --disable-shared --enable-static \
                            --enable-cxx \
                            --disable-cpp-progs \
                            --enable-joliet \

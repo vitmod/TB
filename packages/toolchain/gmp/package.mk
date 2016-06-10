@@ -20,10 +20,5 @@ PKG_URL="https://gmplib.org/download/gmp/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST=""
 PKG_SHORTDESC="gmp: The GNU MP (multiple precision arithmetic) library"
 
-PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared \
+PKG_CONFIGURE_OPTS_HOST="--disable-shared --enable-static --with-pic \
                          --enable-cxx"
-
-pre_configure_host() {
-  export CFLAGS="$CFLAGS -fPIC -DPIC"
-  export CPPFLAGS="$CPPFLAGS -fexceptions"
-}

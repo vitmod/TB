@@ -19,6 +19,6 @@ PKG_SITE="http://libjpeg-turbo.virtualgl.org/"
 PKG_URL="http://prdownloads.sourceforge.net/libjpeg-turbo/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_SHORTDESC="libjpeg-turbo: a high-speed version of libjpeg"
 
-PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared \
+PKG_CONFIGURE_OPTS_HOST="--disable-shared --enable-static \
                          --with-jpeg8 \
                          --without-simd"

@@ -20,7 +20,7 @@ PKG_URL="https://www.sqlite.org/2016/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="sqlite: An Embeddable SQL Database Engine"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
+PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static \
                            --disable-readline \
                            --enable-threadsafe \
                            --disable-dynamic-extensions"

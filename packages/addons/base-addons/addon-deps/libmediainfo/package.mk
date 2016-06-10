@@ -22,7 +22,7 @@ PKG_DEPENDS_TARGET="toolchain libzen"
 PKG_SHORTDESC="MediaInfo is a convenient unified display of the most relevant technical and tag data for video and audio files"
 
 PKG_CONFIGURE_SCRIPT="Project/GNU/Library/configure"
-PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
+PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static \
                            --enable-visibility \
                            --without-libcurl \
                            --without-libmms \

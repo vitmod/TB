@@ -20,5 +20,4 @@ PKG_URL="http://ftp.gnu.org/gnu/mpfr/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST="gmp:host"
 PKG_SHORTDESC="mpfr: A C library for multiple-precision floating-point computations with exact roundi"
 
-PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared \
-                         --target=$TARGET_NAME"
+PKG_CONFIGURE_OPTS_HOST="--disable-shared --enable-static --target=$TARGET_NAME"

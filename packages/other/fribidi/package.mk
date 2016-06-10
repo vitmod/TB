@@ -20,7 +20,7 @@ PKG_URL="http://fribidi.org/download/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="fribidi: The Bidirectional Algorithm library"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared \
+PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static \
                            --disable-debug \
                            --disable-deprecated \
                            --enable-malloc \

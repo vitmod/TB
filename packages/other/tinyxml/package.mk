@@ -22,11 +22,7 @@ PKG_SHORTDESC="tinyxml: XML parser library"
 
 PKG_AUTORECONF="yes"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared"
-
-pre_configure_target() {
-  export CPPFLAGS="$CPPFLAGS -fPIC"
-}
+PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static --with-pic"
 
 post_makeinstall_target() {
   rm -rf $INSTALL/usr
