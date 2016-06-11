@@ -20,4 +20,4 @@ PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain kodi"
 PKG_SHORTDESC="mediacenter: metapackage"
 
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa-utils skin.confluence tb.settings"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET alsa-utils skin.tb tb.settings"

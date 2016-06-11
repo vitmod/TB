@@ -13,7 +13,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="skin.confluence"
+PKG_NAME="skin.tb"
 PKG_VERSION="4d14786"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="https://github.com/xbmc/skin.confluence.git"
@@ -25,9 +25,13 @@ make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/share/kodi/addons/skin.confluence
-  cp -PR $PKG_BUILD/* $INSTALL/usr/share/kodi/addons/skin.confluence
-  TexturePacker -input $INSTALL/usr/share/kodi/addons/skin.confluence/media/ \
-   -output $INSTALL/usr/share/kodi/addons/skin.confluence/media/Textures.xbt -dupecheck && \
-   find $INSTALL/usr/share/kodi/addons/skin.confluence/media -not -iname "*.xbt" -exec rm -f {} \; 2>/dev/null || :
+  mkdir -p $INSTALL/usr/share/kodi/addons/skin.tb
+  cp -PR $PKG_BUILD/* $INSTALL/usr/share/kodi/addons/skin.tb
+  TexturePacker -input $INSTALL/usr/share/kodi/addons/skin.tb/media/ \
+   -output $INSTALL/usr/share/kodi/addons/skin.tb/media/Textures.xbt -dupecheck && \
+   find $INSTALL/usr/share/kodi/addons/skin.tb/media -not -iname "*.xbt" -exec rm -f {} \; 2>/dev/null || :
+
+  sed -e "s|skin.confluence|skin.tb|g" \
+      -e "s|name=\"Confluence\"|name=\"$DISTRONAME Default Skin (Confluence)\"|g" \
+      -i $INSTALL/usr/share/kodi/addons/skin.tb/addon.xml
 }

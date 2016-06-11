@@ -180,12 +180,12 @@ post_makeinstall_target() {
       -e "/>skin./d" \
       -i $ADDON_MANIFEST
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "repository.saraev.ca" $ADDON_MANIFEST
-  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "skin.confluence" $ADDON_MANIFEST
+  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "skin.tb" $ADDON_MANIFEST
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "tb.settings" $ADDON_MANIFEST
 
   # distro splash / skin
   cp $ROOT/config/splash.png $INSTALL/usr/share/kodi/media/Splash.png
-  sed "s|skin.estuary|skin.confluence|g" -i $INSTALL/usr/share/kodi/system/settings/settings.xml
+  sed "s|skin.estuary|skin.tb|g" -i $INSTALL/usr/share/kodi/system/settings/settings.xml
 
   # more binaddons cross compile badness meh
   sed -i -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR $SYSROOT_PREFIX/usr/include/kodi:g" \
