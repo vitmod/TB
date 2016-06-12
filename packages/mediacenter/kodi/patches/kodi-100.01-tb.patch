@@ -1,4 +1,4 @@
-From 0ab12839308c7884a15e36854800cbd03dd61895 Mon Sep 17 00:00:00 2001
+From f199252c87f0d2ddd7f8cce913f2b2b66b2b3ea5 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 2 Mar 2015 23:50:40 +0200
 Subject: [PATCH 01/12] [tb] make binary addons executable
@@ -28,7 +28,7 @@ index 5005f8d..792df18 100644
 2.7.4
 
 
-From 06302a44993c5370c6b943bbaeae7fb2e5961d5e Mon Sep 17 00:00:00 2001
+From 8dede40796731ea04a70425ff2a5dcd208915853 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 18 Apr 2015 14:59:29 +0300
 Subject: [PATCH 02/12] [tb] disable minimize
@@ -53,7 +53,7 @@ index 9213c68..e8f8c3f 100644
 2.7.4
 
 
-From 33b66c7bc09df19c3f0c98974624fa6050b40c57 Mon Sep 17 00:00:00 2001
+From 8871ac46864dadb41a06d1ab3d99eb4f955d45e8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 18 Aug 2014 17:46:54 +0300
 Subject: [PATCH 03/12] [tb] setup timezone
@@ -83,7 +83,7 @@ index ea44d40..744780e 100644
 2.7.4
 
 
-From 88ee052e5cea5b8b1673615838ef436b113c9579 Mon Sep 17 00:00:00 2001
+From dce8f9dc0ead3dee1ee133b8c5391f9251f31853 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 24 Apr 2015 19:45:20 +0300
 Subject: [PATCH 04/12] [tb] use a wrapper to setup systemd services
@@ -163,10 +163,10 @@ index 792df18..f5bd02a 100644
      std::static_pointer_cast<CService>(localAddon)->Stop();
  
 diff --git a/xbmc/addons/Addon.h b/xbmc/addons/Addon.h
-index d43b309..2c51fb3 100644
+index 22fa3c6..c77ae30 100644
 --- a/xbmc/addons/Addon.h
 +++ b/xbmc/addons/Addon.h
-@@ -148,6 +148,7 @@ public:
+@@ -152,6 +152,7 @@ public:
    std::string GetSetting(const std::string& key) override;
  
    TiXmlElement* GetSettingsXML() override;
@@ -178,7 +178,7 @@ index d43b309..2c51fb3 100644
 2.7.4
 
 
-From d2fbec1542d2f80d1c265127c43bcad380089b4b Mon Sep 17 00:00:00 2001
+From 695e2e66fe70c2f5ce76e24b27046f1c7faa0af8 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Mon, 15 Dec 2014 21:28:54 +0200
 Subject: [PATCH 05/12] [tb] handle SIGTERM
@@ -258,10 +258,10 @@ index e8f8c3f..b28244e 100644
  
      // cancel any jobs from the jobmanager
 diff --git a/xbmc/Application.h b/xbmc/Application.h
-index fc4f69c..e106799 100644
+index 3cd07ff..62b3ff6 100644
 --- a/xbmc/Application.h
 +++ b/xbmc/Application.h
-@@ -153,6 +153,7 @@ public:
+@@ -157,6 +157,7 @@ public:
  
    void StopPVRManager();
    bool IsCurrentThread() const;
@@ -329,7 +329,7 @@ index b6b7035..9e7309b 100644
 2.7.4
 
 
-From b78691378eeade120f586f7e00612c15c00cb534 Mon Sep 17 00:00:00 2001
+From a23fece25d51eadc766d27f9426451103f88f903 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sat, 26 Sep 2015 00:32:42 +0300
 Subject: [PATCH 06/12] [tb] pvr: nobody cared
@@ -358,7 +358,7 @@ index ea1eef4..4ffdac6 100644
 2.7.4
 
 
-From 79f3ad64664ba85de725e4d4bdeefcc07c11655e Mon Sep 17 00:00:00 2001
+From ff655c7ce171e3c16cae0c1a643054dfad980194 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 27 Mar 2016 15:06:13 +0300
 Subject: [PATCH 07/12] [tb] all user pre-installed addons should be enabled
@@ -368,10 +368,10 @@ Subject: [PATCH 07/12] [tb] all user pre-installed addons should be enabled
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/xbmc/addons/AddonDatabase.cpp b/xbmc/addons/AddonDatabase.cpp
-index d23be26..bb76bf9 100644
+index 5952253..bb610e7 100644
 --- a/xbmc/addons/AddonDatabase.cpp
 +++ b/xbmc/addons/AddonDatabase.cpp
-@@ -249,7 +249,7 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids,
+@@ -254,7 +254,7 @@ void CAddonDatabase::SyncInstalled(const std::set<std::string>& ids,
          enable = 1;
  
        m_pDS->exec(PrepareSQL("INSERT INTO installed(addonID, enabled, installDate) "
@@ -384,7 +384,7 @@ index d23be26..bb76bf9 100644
 2.7.4
 
 
-From 2ec56411ac7cee2b3ce5e2c109c4ad71fdb5c6f5 Mon Sep 17 00:00:00 2001
+From dcd093cd4c8f4b2805c72325cb8ba3735d69a6ac Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Sun, 22 May 2016 15:21:49 +0300
 Subject: [PATCH 08/12] [chg] make libxslt optional
@@ -396,10 +396,10 @@ Subject: [PATCH 08/12] [chg] make libxslt optional
  3 files changed, 46 insertions(+), 8 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index f906bde..00e75e9 100644
+index f3e5ddf..ee75eed 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -407,6 +407,12 @@ AC_ARG_ENABLE([libbluray],
+@@ -399,6 +399,12 @@ AC_ARG_ENABLE([libbluray],
    [use_libbluray=$enableval],
    [use_libbluray=auto])
  
@@ -412,7 +412,7 @@ index f906bde..00e75e9 100644
  AC_ARG_ENABLE([texturepacker],
    [AS_HELP_STRING([--enable-texturepacker],
    [enable texturepacker support (default is auto)])],
-@@ -1067,12 +1073,22 @@ if test "$target_platform" = "target_android" ; then
+@@ -1059,12 +1065,22 @@ if test "$target_platform" = "target_android" ; then
    AC_CHECK_LIB([log],         [__android_log_vprint],, AC_MSG_ERROR($missing_library))
    AC_CHECK_LIB([jnigraphics],     [main],, AC_MSG_ERROR($missing_library))
  fi
@@ -441,7 +441,7 @@ index f906bde..00e75e9 100644
  PKG_CHECK_MODULES([FRIBIDI],    [fribidi],
    [INCLUDES="$INCLUDES $FRIBIDI_CFLAGS"; LIBS="$LIBS $FRIBIDI_LIBS"],
    AC_MSG_ERROR($missing_library))
-@@ -1886,6 +1902,12 @@ else
+@@ -1858,6 +1874,12 @@ else
    final_message="$final_message\n  Bluray:\tNo"
  fi
  
@@ -539,7 +539,7 @@ index 57476ed..23e627f 100644
 2.7.4
 
 
-From ddf48a71bae81d1d4e17e550f0806da8ed520bdc Mon Sep 17 00:00:00 2001
+From 34766e8cef0990b7d62b28d5c68c7d7d5ea57f56 Mon Sep 17 00:00:00 2001
 From: Stefan Saraev <stefan@saraev.ca>
 Date: Fri, 27 May 2016 22:08:32 +0300
 Subject: [PATCH 09/12] [aml] do reboot/poweroff in FallbackPowerSyscall
@@ -576,7 +576,7 @@ index a6ed27b..a3344ab 100644
 2.7.4
 
 
-From a639f431fd92f985fadf6b61091d9a9f6d6b3369 Mon Sep 17 00:00:00 2001
+From 72f0f98bea5e3ad129a216d0984fc98e17dd8569 Mon Sep 17 00:00:00 2001
 From: popcornmix <popcornmix@gmail.com>
 Date: Sun, 6 Mar 2016 14:16:17 +0000
 Subject: [PATCH 10/12] codecoverlay: Include codec name in overlay
@@ -625,10 +625,10 @@ index a15317a..a9338a6 100644
    void BuildChannelMap();
    void ConvertToFloat();
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp b/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp
-index 7e22d91..7eb438a 100644
+index fb1d993..0401d07 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerAudio.cpp
-@@ -134,6 +134,8 @@ void CVideoPlayerAudio::OpenStream(CDVDStreamInfo &hints, CDVDAudioCodec* codec)
+@@ -135,6 +135,8 @@ void CVideoPlayerAudio::OpenStream(CDVDStreamInfo &hints, CDVDAudioCodec* codec)
    if (hints.samplerate != m_streaminfo.samplerate)
      SwitchCodecIfNeeded();
  
@@ -637,7 +637,7 @@ index 7e22d91..7eb438a 100644
    m_audioClock = 0;
    m_stalled = m_messageQueue.GetPacketCount(CDVDMsg::DEMUXER_PACKET) == 0;
  
-@@ -206,8 +208,9 @@ void CVideoPlayerAudio::UpdatePlayerInfo()
+@@ -207,8 +209,9 @@ void CVideoPlayerAudio::UpdatePlayerInfo()
  {
    std::ostringstream s;
    s << "aq:"     << std::setw(2) << std::min(99,m_messageQueue.GetLevel()) << "%";
@@ -648,7 +648,7 @@ index 7e22d91..7eb438a 100644
    //print the inverse of the resample ratio, since that makes more sense
    //if the resample ratio is 0.5, then we're playing twice as fast
    if (m_synctype == SYNC_RESAMPLE)
-@@ -595,6 +598,7 @@ bool CVideoPlayerAudio::SwitchCodecIfNeeded()
+@@ -604,6 +607,7 @@ bool CVideoPlayerAudio::SwitchCodecIfNeeded()
  
    delete m_pAudioCodec;
    m_pAudioCodec = codec;
@@ -657,7 +657,7 @@ index 7e22d91..7eb438a 100644
    return true;
  }
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerAudio.h b/xbmc/cores/VideoPlayer/VideoPlayerAudio.h
-index f6b5003..78572ba 100644
+index d1653e0..2290207 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerAudio.h
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerAudio.h
 @@ -95,6 +95,7 @@ protected:
@@ -669,10 +669,10 @@ index f6b5003..78572ba 100644
    int m_speed;
    bool m_stalled;
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-index cdd1938..3a15b4d 100644
+index 5655bde..f7880cf 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.cpp
-@@ -95,6 +95,9 @@ CVideoPlayerVideo::CVideoPlayerVideo(CDVDClock* pClock
+@@ -96,6 +96,9 @@ CVideoPlayerVideo::CVideoPlayerVideo(CDVDClock* pClock
    m_iFrameRateLength = 0;
    m_bFpsInvalid = false;
    m_bAllowFullscreen = false;
@@ -682,7 +682,7 @@ index cdd1938..3a15b4d 100644
  }
  
  CVideoPlayerVideo::~CVideoPlayerVideo()
-@@ -190,6 +193,7 @@ void CVideoPlayerVideo::OpenStream(CDVDStreamInfo &hint, CDVDVideoCodec* codec)
+@@ -191,6 +194,7 @@ void CVideoPlayerVideo::OpenStream(CDVDStreamInfo &hint, CDVDVideoCodec* codec)
    m_pVideoCodec = codec;
    m_hints   = hint;
    m_stalled = m_messageQueue.GetPacketCount(CDVDMsg::DEMUXER_PACKET) == 0;
@@ -690,7 +690,7 @@ index cdd1938..3a15b4d 100644
    m_packets.clear();
    m_syncState = IDVDStreamPlayer::SYNC_STARTING;
  }
-@@ -605,6 +609,7 @@ bool CVideoPlayerVideo::ProcessDecoderOutput(int &decoderState, double &frametim
+@@ -614,6 +618,7 @@ bool CVideoPlayerVideo::ProcessDecoderOutput(int &decoderState, double &frametim
  
        if (m_syncState == IDVDStreamPlayer::SYNC_STARTING && !(m_picture.iFlags & DVP_FLAG_DROPPED))
        {
@@ -698,7 +698,7 @@ index cdd1938..3a15b4d 100644
          m_syncState = IDVDStreamPlayer::SYNC_WAITSYNC;
          SStartMsg msg;
          msg.player = VideoPlayer_VIDEO;
-@@ -887,6 +892,9 @@ int CVideoPlayerVideo::OutputPicture(const DVDVideoPicture* src, double pts)
+@@ -897,6 +902,9 @@ int CVideoPlayerVideo::OutputPicture(const DVDVideoPicture* src, double pts)
      m_droppingStats.AddOutputDropGain(pts, 1);
      return EOS_DROPPED;
    }
@@ -708,7 +708,7 @@ index cdd1938..3a15b4d 100644
  
    m_renderManager.FlipPage(m_bAbortOutput, pts, -1, mDisplayField);
  
-@@ -897,8 +905,10 @@ std::string CVideoPlayerVideo::GetPlayerInfo()
+@@ -907,8 +915,10 @@ std::string CVideoPlayerVideo::GetPlayerInfo()
  {
    std::ostringstream s;
    s << "vq:"   << std::setw(2) << std::min(99,GetLevel()) << "%";
@@ -721,12 +721,12 @@ index cdd1938..3a15b4d 100644
    s << ", skip:" << m_renderManager.GetSkippedFrames();
  
 diff --git a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
-index 4dff792..3bfc052 100644
+index 8ada932..3d229e1 100644
 --- a/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
 +++ b/xbmc/cores/VideoPlayer/VideoPlayerVideo.h
-@@ -131,6 +131,10 @@ protected:
-   int m_speed;
+@@ -132,6 +132,10 @@ protected:
    bool m_stalled;
+   bool m_paused;
    IDVDStreamPlayer::ESyncState m_syncState;
 +  std::string m_codecname;
 +  int m_width;
@@ -739,7 +739,7 @@ index 4dff792..3bfc052 100644
 2.7.4
 
 
-From d7d7f2c12527c5c74f8524f929efa6fcd69a8d22 Mon Sep 17 00:00:00 2001
+From b944caedde1d7222e3dce4afb6348e9dba99861b Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 20 Sep 2014 04:43:52 +0300
 Subject: [PATCH 11/12] [aml] Fill audio packets completely when resampling to
@@ -769,23 +769,23 @@ index a64ee31..dc97a92 100644
 2.7.4
 
 
-From 1a401d403f41518cccdd0283d85d8d393b511bc3 Mon Sep 17 00:00:00 2001
+From a19dabdfb5af517b54c721c3ecfdeeaa294838fc Mon Sep 17 00:00:00 2001
 From: Alex Deryskyba <alex@codesnake.com>
 Date: Sat, 23 Apr 2016 16:16:45 +0200
 Subject: [PATCH 12/12] Use amlvideo driver for audio/video sync
 
 ---
- .../cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 197 ++++++++++++++-------
- xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h  |  13 +-
+ .../cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp | 220 ++++++++++++++-------
+ xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h  |  17 +-
  .../DVDCodecs/Video/DVDVideoCodecAmlogic.cpp       |   5 +-
  .../DVDCodecs/Video/DVDVideoCodecAmlogic.h         |   4 +-
- .../VideoRenderers/HwDecRender/RendererAML.cpp     |  25 ++-
- .../VideoRenderers/HwDecRender/RendererAML.h       |   6 +
- xbmc/utils/AMLUtils.cpp                            |  12 ++
- 7 files changed, 188 insertions(+), 74 deletions(-)
+ .../VideoRenderers/HwDecRender/RendererAML.cpp     |  14 +-
+ .../VideoRenderers/HwDecRender/RendererAML.h       |   3 +
+ xbmc/utils/AMLUtils.cpp                            |  15 ++
+ 7 files changed, 197 insertions(+), 81 deletions(-)
 
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
-index f714721..78be5e7 100644
+index f714721..73507c0 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.cpp
 @@ -54,12 +54,49 @@ extern "C" {
@@ -866,15 +866,17 @@ index f714721..78be5e7 100644
  static int set_pts_pcrscr(int64_t value)
  {
    int fd = open("/sys/class/tsync/pts_pcrscr", O_WRONLY);
-@@ -1418,7 +1434,6 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
+@@ -1418,9 +1434,6 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
    m_speed = DVD_PLAYSPEED_NORMAL;
    m_1st_pts = 0;
    m_cur_pts = 0;
 -  m_player_pts = 0;
-   m_cur_pictcnt = 0;
-   m_old_pictcnt = 0;
+-  m_cur_pictcnt = 0;
+-  m_old_pictcnt = 0;
    m_dst_rect.SetRect(0, 0, 0, 0);
-@@ -1430,6 +1445,12 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
+   m_zoom = -1;
+   m_contrast = -1;
+@@ -1430,6 +1443,12 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
    m_start_pts = 0;
    m_hints = hints;
  
@@ -887,14 +889,14 @@ index f714721..78be5e7 100644
    ShowMainVideo(false);
  
    am_packet_init(&am_private->am_pkt);
-@@ -1652,6 +1673,53 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
+@@ -1652,6 +1671,53 @@ bool CAMLCodec::OpenDecoder(CDVDStreamInfo &hints)
    return true;
  }
  
 +bool CAMLCodec::OpenAmlVideo(const CDVDStreamInfo &hints)
 +{
 +  PosixFilePtr amlVideoFile = std::make_shared<PosixFile>();
-+  if (!amlVideoFile->Open("/dev/video10", O_RDWR | O_NONBLOCK))
++  if (!amlVideoFile->Open("/dev/video10", O_RDONLY | O_NONBLOCK))
 +  {
 +    CLog::Log(LOGERROR, "CAMLCodec::OpenAmlVideo - cannot open V4L amlvideo device /dev/video10: %s", strerror(errno));
 +    return false;
@@ -941,7 +943,7 @@ index f714721..78be5e7 100644
  void CAMLCodec::CloseDecoder()
  {
    CLog::Log(LOGDEBUG, "CAMLCodec::CloseDecoder");
-@@ -1674,6 +1742,14 @@ void CAMLCodec::CloseDecoder()
+@@ -1674,6 +1740,14 @@ void CAMLCodec::CloseDecoder()
    SysfsUtils::SetInt("/sys/class/tsync/enable", 1);
  
    ShowMainVideo(false);
@@ -956,7 +958,17 @@ index f714721..78be5e7 100644
  }
  
  void CAMLCodec::Reset()
-@@ -1723,7 +1799,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+@@ -1711,8 +1785,7 @@ void CAMLCodec::Reset()
+   // reset some interal vars
+   m_1st_pts = 0;
+   m_cur_pts = 0;
+-  m_cur_pictcnt = 0;
+-  m_old_pictcnt = 0;
++  m_ptsQueue.clear();
+   SetSpeed(m_speed);
+ }
+ 
+@@ -1723,7 +1796,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
  
    if (pData)
    {
@@ -964,7 +976,7 @@ index f714721..78be5e7 100644
      am_private->am_pkt.data = pData;
      am_private->am_pkt.data_size = iSize;
  
-@@ -1744,7 +1819,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+@@ -1744,7 +1816,6 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
      if (am_private->am_pkt.avpts != (int64_t)AV_NOPTS_VALUE)
        am_private->am_pkt.avpts -= m_start_pts;
  
@@ -972,7 +984,7 @@ index f714721..78be5e7 100644
      // handle dts, including 31bit wrap, aml can only handle 31
      // bit dts as it uses an int in kernel.
      if (dts == DVD_NOPTS_VALUE)
-@@ -1801,28 +1875,20 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+@@ -1801,28 +1872,22 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
    if (iSize < 20)
      target_timesize = 2.0;
  
@@ -981,20 +993,22 @@ index f714721..78be5e7 100644
    // keep hw buffered demux above 1 second
 -  if (GetTimeSize() < target_timesize && m_speed == DVD_PLAYSPEED_NORMAL)
 -    return VC_BUFFER;
-+  if (GetTimeSize() < target_timesize/* && m_speed == DVD_PLAYSPEED_NORMAL*/)
++  if (GetTimeSize() < target_timesize)
 +    rtn |= VC_BUFFER;
  
    // wait until we get a new frame or 25ms,
-   if (m_old_pictcnt == m_cur_pictcnt)
+-  if (m_old_pictcnt == m_cur_pictcnt)
++  if (m_ptsQueue.size() == 0)
      m_ready_event.WaitMSec(25);
  
 -  // we must return VC_BUFFER or VC_PICTURE,
 -  // default to VC_BUFFER.
 -  int rtn = VC_BUFFER;
 -  m_player_pts = DVD_NOPTS_VALUE;
-   if (m_old_pictcnt != m_cur_pictcnt)
+-  if (m_old_pictcnt != m_cur_pictcnt)
++  if (m_ptsQueue.size() > 0)
    {
-     m_old_pictcnt++;
+-    m_old_pictcnt++;
 -    rtn = VC_PICTURE;
 -    m_player_pts = pts;
 -    // we got a new pict, try and keep hw buffered demux above 2 seconds.
@@ -1002,11 +1016,14 @@ index f714721..78be5e7 100644
 -    // we also check to make sure we keep from filling hw buffer.
 -    if (GetTimeSize() < 2.0 && GetDataSize() < m_vbufsize/3)
 -      rtn |= VC_BUFFER;
++    CSingleLock lock(m_ptsQueueMutex);
++    m_cur_pts = m_ptsQueue.front();
++    m_ptsQueue.pop_front();
 +    rtn |= VC_PICTURE;
    }
  /*
    CLog::Log(LOGDEBUG, "CAMLCodec::Decode: "
-@@ -1832,6 +1898,24 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
+@@ -1832,6 +1897,36 @@ int CAMLCodec::Decode(uint8_t *pData, size_t iSize, double dts, double pts)
    return rtn;
  }
  
@@ -1014,7 +1031,6 @@ index f714721..78be5e7 100644
 +{
 +  v4l2_buffer vbuf = { 0 };
 +  vbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-+  //vbuf.memory = V4L2_MEMORY_DMABUF;
 +
 +  if (m_amlVideoFile->IOControl(VIDIOC_DQBUF, &vbuf) < 0)
 +  {
@@ -1023,7 +1039,20 @@ index f714721..78be5e7 100644
 +    return -errno;
 +  }
 +
-+  pts = vbuf.timestamp.tv_usec;
++  // Since kernel 3.14 Amlogic changed length and units of PTS values reported here.
++  // To differentiate such PTS values we check for existence of omx_pts_interval_lower
++  // parameter, because it was introduced since kernel 3.14.
++  if (access("/sys/module/amvideo/parameters/omx_pts_interval_lower", F_OK) != -1)
++  {
++    int64_t pts64 = vbuf.timestamp.tv_sec & 0xFFFFFFFF;
++    pts64 <<= 32;
++    pts64 += vbuf.timestamp.tv_usec & 0xFFFFFFFF;
++    pts = (int)((pts64 * PTS_FREQ) / DVD_TIME_BASE);
++  }
++  else
++  {
++    pts = vbuf.timestamp.tv_usec;
++  }
 +  
 +  return 0;
 +}
@@ -1031,7 +1060,7 @@ index f714721..78be5e7 100644
  bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
  {
    if (!m_opened)
-@@ -1843,7 +1927,7 @@ bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
+@@ -1843,7 +1938,7 @@ bool CAMLCodec::GetPicture(DVDVideoPicture *pDvdVideoPicture)
  
    pDvdVideoPicture->dts = DVD_NOPTS_VALUE;
    if (m_speed == DVD_PLAYSPEED_NORMAL)
@@ -1040,7 +1069,7 @@ index f714721..78be5e7 100644
    else
    {
      if (m_cur_pts == 0)
-@@ -1926,40 +2010,23 @@ void CAMLCodec::Process()
+@@ -1926,40 +2021,25 @@ void CAMLCodec::Process()
  {
    CLog::Log(LOGDEBUG, "CAMLCodec::Process Started");
  
@@ -1060,31 +1089,31 @@ index f714721..78be5e7 100644
 -        CLog::Log(LOGDEBUG, "CAMLCodec::Process: codec_poll_cntl failed");
 -        Sleep(10);
 -      }
--
++      CLog::Log(LOGDEBUG, "CAMLCodec::Process: codec_poll_cntl failed");
++      Sleep(10);
++    }
+ 
 -      pts_video = get_pts_video();
 -      if (m_cur_pts != pts_video)
--      {
++    {
++      CSingleLock lock(m_ptsQueueMutex);
++      int pts = 0;
++      if (DequeueBuffer(pts) == 0)
+       {
 -        //CLog::Log(LOGDEBUG, "CAMLCodec::Process: pts_video(%lld), pts_video/PTS_FREQ(%f), duration(%f)",
 -        //  pts_video, (double)pts_video/PTS_FREQ, 1.0/((double)(pts_video - m_cur_pts)/PTS_FREQ));
 -
 -        // other threads look at these, do them first
 -        m_cur_pts = pts_video;
 -        m_cur_pictcnt++;
--        m_ready_event.Set();
--      }
-+      CLog::Log(LOGDEBUG, "CAMLCodec::Process: codec_poll_cntl failed");
-+      Sleep(10);
++        m_ptsQueue.push_back(pts);
+         m_ready_event.Set();
+       }
      }
 -    else
-+
-+    int pts = 0;
-+    if (DequeueBuffer(pts) == 0)
-     {
+-    {
 -      Sleep(100);
-+      m_cur_pts = pts;
-+      m_cur_pictcnt++;
-+      m_ready_event.Set();
-     }
+-    }
    }
 -  SetPriority(THREAD_PRIORITY_NORMAL);
 +
@@ -1092,7 +1121,7 @@ index f714721..78be5e7 100644
  }
  
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h
-index 5b9ee4f..5cd99e0 100644
+index 5b9ee4f..813b913 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h
 @@ -25,11 +25,15 @@
@@ -1131,13 +1160,24 @@ index 5b9ee4f..5cd99e0 100644
  
    DllLibAmCodec   *m_dll;
    bool             m_opened;
-@@ -86,5 +96,6 @@ private:
+@@ -68,8 +78,6 @@ private:
+   volatile int     m_speed;
+   volatile int64_t m_1st_pts;
+   volatile int64_t m_cur_pts;
+-  volatile int64_t m_cur_pictcnt;
+-  volatile int64_t m_old_pictcnt;
+   volatile double  m_timesize;
+   volatile int64_t m_vbufsize;
+   int64_t          m_start_dts;
+@@ -86,5 +94,8 @@ private:
    int              m_contrast;
    int              m_brightness;
  
 -  double m_player_pts;
 +  PosixFilePtr     m_amlVideoFile;
 +  std::string      m_defaultVfmMap;
++  std::deque<int>  m_ptsQueue;
++  CCriticalSection m_ptsQueueMutex;
  };
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecAmlogic.cpp
 index 1678bed..80f25dd 100644
@@ -1194,10 +1234,10 @@ index c15238b..a4cc25c 100644
  
  class CDVDVideoCodecAmlogic : public CDVDVideoCodec
 diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.cpp
-index f6b7bb1..de9afbd 100644
+index f6b7bb1..d0baa27 100644
 --- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.cpp
-@@ -27,18 +27,23 @@
+@@ -27,18 +27,18 @@
  #include "cores/VideoPlayer/DVDCodecs/Video/AMLCodec.h"
  #include "utils/log.h"
  #include "utils/GLUtils.h"
@@ -1206,24 +1246,19 @@ index f6b7bb1..de9afbd 100644
  #include "windowing/WindowingFactory.h"
  #include "cores/VideoPlayer/VideoRenderers/RenderCapture.h"
  
-+#include <sys/ioctl.h>
-+#include <linux/fb.h>
-+
  CRendererAML::CRendererAML()
  {
 -
-+  m_fbHandle = open("/dev/fb0", O_RDWR);
 +  m_prevPts = -1;
  }
  
  CRendererAML::~CRendererAML()
  {
 -
-+  close(m_fbHandle);
  }
  
  bool CRendererAML::RenderCapture(CRenderCapture* capture)
-@@ -118,7 +123,7 @@ bool CRendererAML::LoadShadersHook()
+@@ -118,7 +118,7 @@ bool CRendererAML::LoadShadersHook()
  {
    CLog::Log(LOGNOTICE, "GL: Using AML render method");
    m_textureTarget = GL_TEXTURE_2D;
@@ -1232,7 +1267,7 @@ index f6b7bb1..de9afbd 100644
    return false;
  }
  
-@@ -132,15 +137,25 @@ bool CRendererAML::RenderUpdateVideoHook(bool clear, DWORD flags, DWORD alpha)
+@@ -132,15 +132,19 @@ bool CRendererAML::RenderUpdateVideoHook(bool clear, DWORD flags, DWORD alpha)
    ManageRenderArea();
  
    CDVDAmlogicInfo *amli = static_cast<CDVDAmlogicInfo *>(m_buffers[m_iYV12RenderBuffer].hwDec);
@@ -1247,59 +1282,53 @@ index f6b7bb1..de9afbd 100644
        amlcodec->SetVideoRect(m_sourceRect, m_destRect);
    }
  
-+  WaitVsync();
++  usleep(10000);
 +
    return true;
  }
  
--#endif
-+void CRendererAML::WaitVsync()
-+{
-+  if (m_fbHandle >= 0)
-+    ioctl(m_fbHandle, FBIO_WAITFORVSYNC, 0);
-+}
- 
-+#endif
+ #endif
+-
 diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.h b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.h
-index deea29b..e10a85c 100644
+index deea29b..819f6e3 100644
 --- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.h
 +++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererAML.h
-@@ -55,6 +55,12 @@ protected:
+@@ -55,6 +55,9 @@ protected:
    virtual bool RenderHook(int index);  
    virtual int  GetImageHook(YV12Image *image, int source = AUTOSOURCE, bool readonly = false);
    virtual bool RenderUpdateVideoHook(bool clear, DWORD flags = 0, DWORD alpha = 255);
 +
 +private:
-+  void WaitVsync();
-+
-+  int m_fbHandle;
 +  int m_prevPts;
  };
  
  #endif
 diff --git a/xbmc/utils/AMLUtils.cpp b/xbmc/utils/AMLUtils.cpp
-index 5915e61..ff22768 100644
+index 5915e61..4ae45f3 100644
 --- a/xbmc/utils/AMLUtils.cpp
 +++ b/xbmc/utils/AMLUtils.cpp
-@@ -126,6 +126,18 @@ bool aml_permissions()
-     {
-       CLog::Log(LOGERROR, "AML: no rw on /sys/class/ppmgr/ppmgr_3d_mode");
+@@ -118,6 +118,21 @@ bool aml_permissions()
+       CLog::Log(LOGERROR, "AML: no rw on /sys/class/tsync/pts_pcrscr");
+       permissions_ok = 0;
      }
 +    if (!SysfsUtils::HasRW("/dev/video10"))
 +    {
 +      CLog::Log(LOGERROR, "AML: no rw on /dev/video10");
++      permissions_ok = 0;
 +    }
 +    if (!SysfsUtils::HasRW("/sys/module/amvideo/parameters/omx_pts"))
 +    {
 +      CLog::Log(LOGERROR, "AML: no rw on /sys/module/amvideo/parameters/omx_pts");
++      permissions_ok = 0;
 +    }
 +    if (!SysfsUtils::HasRW("/sys/module/amlvideodri/parameters/freerun_mode"))
 +    {
 +      CLog::Log(LOGERROR, "AML: no rw on /sys/module/amlvideodri/parameters/freerun_mode");
++      permissions_ok = 0;
 +    }
- #ifndef TARGET_ANDROID
-     if (!SysfsUtils::HasRW("/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"))
+     if (!SysfsUtils::HasRW("/sys/class/audiodsp/digital_raw"))
      {
+       CLog::Log(LOGERROR, "AML: no rw on /sys/class/audiodsp/digital_raw");
 -- 
 2.7.4
 

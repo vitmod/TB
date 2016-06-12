@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="kodi"
-PKG_VERSION="e31bee7"
+PKG_VERSION="65f1dce"
 PKG_SITE="http://www.kodi.tv"
 PKG_FETCH="https://github.com/xbmc/xbmc.git"
 PKG_DEPENDS_TARGET="toolchain kodi:host"
@@ -59,7 +59,6 @@ PKG_CONFIGURE_OPTS_TARGET="gl_cv_func_gettimeofday_clobber=no \
                            --enable-alsa \
                            --disable-dbus \
                            --disable-pulse \
-                           --disable-rtmp \
                            --disable-samba \
                            --disable-nfs \
                            --disable-libbluetooth \
