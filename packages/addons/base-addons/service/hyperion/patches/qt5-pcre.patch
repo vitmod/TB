@@ -1,0 +1,22 @@
+diff --git a/libsrc/effectengine/CMakeLists.txt b/libsrc/effectengine/CMakeLists.txt
+index e313321..eaeb4a8 100644
+--- a/libsrc/effectengine/CMakeLists.txt
++++ b/libsrc/effectengine/CMakeLists.txt
+@@ -53,3 +53,5 @@ target_link_libraries(effectengine
+ 	jsoncpp
+ 	${QT_LIBRARIES}
+ 	${PYTHON_LIBRARIES})
++
++target_link_libraries(effectengine "-lpcre16")
+diff --git a/src/hyperion-remote/CMakeLists.txt b/src/hyperion-remote/CMakeLists.txt
+index 6af8fd0..a6d86a7 100644
+--- a/src/hyperion-remote/CMakeLists.txt
++++ b/src/hyperion-remote/CMakeLists.txt
+@@ -38,6 +38,7 @@ target_link_libraries(${PROJECT_NAME}
+ 
+ if(ENABLE_QT5)
+ 	qt5_use_modules(${PROJECT_NAME} Widgets Core Network)
++	target_link_libraries(${PROJECT_NAME} "-lpcre16")
+ else()
+ 	qt4_use_modules(${PROJECT_NAME} Core Gui Network )
+ endif()

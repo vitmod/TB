@@ -1,0 +1,16 @@
+diff --git a/src/hyperion-aml/CMakeLists.txt b/src/hyperion-aml/CMakeLists.txt
+index 1f4b6a8..492c1ac 100644
+--- a/src/hyperion-aml/CMakeLists.txt
++++ b/src/hyperion-aml/CMakeLists.txt
+@@ -50,11 +50,6 @@ target_link_libraries(${PROJECT_NAME}
+ 	pthread
+ )
+ 
+-qt4_use_modules(${PROJECT_NAME}
+-	Core
+-	Gui
+-	Network)
+-
+ if(ENABLE_QT5)
+ 	qt5_use_modules(${PROJECT_NAME} Widgets Core Gui Network)
+ else()
