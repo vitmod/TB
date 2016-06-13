@@ -44,7 +44,7 @@ pack_addon() {
     cp config/addon/$PKG_ADDON_TYPE/default.py $ADDON_INSTALL/default.py
   fi
 
-  PROVIDER_NAME="$DISTRONAME"
+  PROVIDER_NAME="TB"
   if [ -n "$PKG_ADDON_MAINTAINER" ] ; then
     PROVIDER_NAME="$PKG_ADDON_MAINTAINER"
   fi

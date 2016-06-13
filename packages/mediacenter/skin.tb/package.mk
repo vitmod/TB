@@ -32,6 +32,6 @@ makeinstall_target() {
    find $INSTALL/usr/share/kodi/addons/skin.tb/media -not -iname "*.xbt" -exec rm -f {} \; 2>/dev/null || :
 
   sed -e "s|skin.confluence|skin.tb|g" \
-      -e "s|name=\"Confluence\"|name=\"$DISTRONAME Default Skin (Confluence)\"|g" \
+      -e "s|name=\"Confluence\"|name=\"TB Default Skin (Confluence)\"|g" \
       -i $INSTALL/usr/share/kodi/addons/skin.tb/addon.xml
 }

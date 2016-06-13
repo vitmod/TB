@@ -56,7 +56,7 @@ while file=`getarg $i $files` && [ -n "$file" ]; do
 done
 
 if [ -n "$need" ]; then
-  echo "**** Your system lacks the following tools needed to build $DISTRONAME ****"
+  echo "**** Your system lacks the following tools ****"
   echo $need
   echo "**** You seem to use a $DISTRO system ****"
 

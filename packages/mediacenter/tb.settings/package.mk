@@ -19,5 +19,3 @@ PKG_SITE="https://github.com/stefansaraev/tb.settings"
 PKG_FETCH="https://github.com/stefansaraev/tb.settings.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="tb.settings: settings dialog"
-
-PKG_MAKE_OPTS_TARGET="DISTRONAME=$DISTRONAME"
