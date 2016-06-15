@@ -14,8 +14,8 @@
 ################################################################################
 
 PKG_NAME="timezone-data"
-PKG_VERSION="2014i"
-PKG_SITE="ftp://elsie.nci.nih.gov/pub/"
+PKG_VERSION="2016e"
+PKG_SITE="https://www.iana.org/time-zones"
 PKG_URL="http://sources.openelec.tv/devel/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="timezone-data"
