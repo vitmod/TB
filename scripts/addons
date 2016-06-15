@@ -56,6 +56,8 @@ update_addons_xml() {
         -i /addon/extension/platform -t elem -n nofanart -v "true" ".addons/$localdir/$addon/addon.xml"
       unzip $zip "*/changelog.txt" -d ".addons/$localdir" &>/dev/null || xmlstarlet ed -L \
         -i /addon/extension/platform -t elem -n nochangelog -v "true" ".addons/$localdir/$addon/addon.xml"
+      xmlstarlet ed -L --subnode "/addon/extension[@point='xbmc.addon.metadata']" \
+        -t elem -n size -v "$(du -b $zip | cut -f1)" ".addons/$localdir/$addon/addon.xml"
     done
     find .addons/$localdir -iname addon.xml | grep -v resources/ | while read xml ; do
       cat $xml | grep -v "<?" >> $line.tmp
