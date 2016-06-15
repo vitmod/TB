@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="giflib"
-PKG_VERSION="5.1.3"
+PKG_VERSION="5.1.4"
 PKG_SITE="http://giflib.sourceforge.net/"
 PKG_URL="http://prdownloads.sourceforge.net/giflib/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_HOST="zlib:host"
