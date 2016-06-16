@@ -13,12 +13,12 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="timezone-data"
+PKG_NAME="tz"
 PKG_VERSION="2016e"
 PKG_SITE="https://www.iana.org/time-zones"
-PKG_URL="http://sources.openelec.tv/devel/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="https://github.com/eggert/tz/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="timezone-data"
+PKG_SHORTDESC="tz"
 
 make_target() {
   setup_toolchain host
