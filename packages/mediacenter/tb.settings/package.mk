@@ -14,7 +14,7 @@
 ################################################################################
 
 PKG_NAME="tb.settings"
-PKG_VERSION="c8dbf3f"
+PKG_VERSION="d93dc85"
 PKG_SITE="https://github.com/stefansaraev/tb.settings"
 PKG_FETCH="https://github.com/stefansaraev/tb.settings.git"
 PKG_DEPENDS_TARGET="toolchain"
