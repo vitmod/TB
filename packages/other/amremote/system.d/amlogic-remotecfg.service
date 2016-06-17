@@ -1,5 +1,5 @@
 [Unit]
-Description=Amlogic IR remote support
+Description=Amlogic IR config
 
 [Service]
 Type=oneshot

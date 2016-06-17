@@ -4,9 +4,8 @@ After=graphical.target
 Requires=graphical.target
 
 [Service]
-Environment=DISPLAY=:0.0
 Environment=HOME=/storage
-ExecStart=/usr/lib/kodi/kodi.sh --standalone -fs
+ExecStart=/usr/lib/kodi/kodi.sh
 ExecStop=/bin/kill -TERM $MAINPID
 TimeoutStopSec=5
 Restart=always

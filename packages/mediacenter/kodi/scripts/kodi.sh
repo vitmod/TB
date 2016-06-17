@@ -94,7 +94,7 @@ fi
 # clean up any stale cores. just in case
 rm -f /storage/.cache/cores/*
 
-/usr/lib/kodi/kodi.bin $SAVED_ARGS
+/usr/lib/kodi/kodi.bin --standalone -fs $SAVED_ARGS
 RET=$?
 
 if [ $(( ($RET >= 131 && $RET <= 136) || $RET == 139 )) = "1" ] ; then

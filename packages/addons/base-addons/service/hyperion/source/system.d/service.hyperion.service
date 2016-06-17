@@ -1,5 +1,5 @@
 [Unit]
-Description=Hyperion Systemd service
+Description=Hyperion
 After=graphical.target
 
 [Service]
