@@ -1,7 +1,5 @@
 [Unit]
 Description=Autostart script
-After=network-online.target
-Requires=network-online.target
 ConditionPathExists=/storage/.config/autostart.sh
 
 [Service]

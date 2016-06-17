@@ -1,7 +1,7 @@
 [Unit]
 Description=Kodi Media Center
-After=network-online.target graphical.target
-Requires=network-online.target graphical.target
+After=graphical.target
+Requires=graphical.target
 
 [Service]
 Environment=DISPLAY=:0.0

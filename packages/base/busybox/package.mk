@@ -68,7 +68,6 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/bin
   ln -sf /bin/busybox $INSTALL/usr/bin/env
   cp $PKG_DIR/scripts/pastebinit $INSTALL/usr/bin
-  cp $PKG_DIR/scripts/cm-online $INSTALL/usr/bin
 
   mkdir -p $INSTALL/etc
   touch $INSTALL/etc/fstab
@@ -86,6 +85,5 @@ post_install() {
   add_user nobody "*" 65534 65534 "/" "/bin/sh"
   add_group nogroup 65534
 
-  enable_service network-online.service
   enable_service autostart.service
 }
