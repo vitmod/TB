@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="@PKG_ADDON_ID@"
        name="@ADDON_NAME@"
-       version="@OS_VERSION@"
+       version="@ADDON_VERSION@"
        provider-name="@PROVIDER_NAME@">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
@@ -12,9 +12,6 @@
     <description>
 @PKG_ADDON_DESC@
     </description>
-    <disclaimer>
-@PKG_ADDON_DISCLAIMER@
-    </disclaimer>
     <platform>all</platform>
   </extension>
 </addon>
