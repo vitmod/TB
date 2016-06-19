@@ -14,24 +14,23 @@
 ################################################################################
 
 PKG_NAME="mediainfo"
-PKG_VERSION="0.7.84"
+PKG_VERSION="0.7.86"
 PKG_SITE="http://mediaarea.net/en/MediaInfo/Download/Source"
-PKG_URL="http://mediaarea.net/download/source/mediainfo/$PKG_VERSION/mediainfo_$PKG_VERSION.tar.bz2"
-PKG_SOURCE_DIR="MediaInfo"
-PKG_DEPENDS_TARGET="toolchain libmediainfo"
+PKG_URL="https://mediaarea.net/download/binary/mediainfo/${PKG_VERSION}/MediaInfo_CLI_${PKG_VERSION}_GNU_FromSource.tar.gz"
+PKG_SOURCE_DIR="MediaInfo_CLI_GNU_FromSource"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
-PKG_ADDON_REV="4"
+PKG_ADDON_REV="5"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nMediaInfo is a convenient unified display of the most relevant technical and tag data for video and audio files"
 PKG_ADDON_SECTION="tools"
 PKG_ADDON_MAINTAINER="Stefan Saraev (seo @ freenode)"
 
-PKG_CONFIGURE_SCRIPT="Project/GNU/CLI/configure"
-
-pre_configure_target() {
-  cd $PKG_BUILD/Project/GNU/CLI
-  do_autoreconf
+make_target() {
+ ./CLI_Compile.sh --host=$TARGET_NAME \
+                  --build=$HOST_NAME \
+                  --prefix=/usr
 }
 
 makeinstall_target() {
@@ -40,5 +39,5 @@ makeinstall_target() {
 
 addon() {
   mkdir -p $ADDON_INSTALL/bin
-  cp $PKG_BUILD/Project/GNU/CLI/mediainfo $ADDON_INSTALL/bin
+  cp $PKG_BUILD/MediaInfo/Project/GNU/CLI/mediainfo $ADDON_INSTALL/bin
 }
