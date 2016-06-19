@@ -40,8 +40,6 @@ post_unpack() {
          -e "s|^ARCH[[:space:]]*?=.*$|ARCH = $TARGET_KERNEL_ARCH|" \
          -e "s|^CROSS_COMPILE[[:space:]]*?=.*$|CROSS_COMPILE = $TARGET_PREFIX|" \
          $PKG_BUILD/Makefile
-
-  sed -i -e "s|/lib/firmware/updates|/storage/.config/firmware|" $PKG_BUILD/drivers/base/firmware_class.c
 }
 
 pre_build_target() {
