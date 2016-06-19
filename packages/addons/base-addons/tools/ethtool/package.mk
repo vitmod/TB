@@ -20,7 +20,6 @@ PKG_URL="http://www.kernel.org/pub/software/network/ethtool/$PKG_NAME-$PKG_VERSI
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
-PKG_IS_ADDON="yes"
 PKG_ADDON_REV="0"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nDisplay or change ethernet card settings"

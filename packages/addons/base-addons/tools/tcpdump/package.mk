@@ -20,7 +20,6 @@ PKG_URL="http://www.tcpdump.org/release/tcpdump-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libpcap"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
-PKG_IS_ADDON="yes"
 PKG_ADDON_REV="3"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nThis program allows you to dump the traffic on a network."

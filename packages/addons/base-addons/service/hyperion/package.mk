@@ -20,7 +20,6 @@ PKG_FETCH="https://github.com/hyperion-project/hyperion.git"
 PKG_DEPENDS_TARGET="toolchain Python libusb qtbase protobuf"
 PKG_SHORTDESC="hyperion: an ambilight controller"
 
-PKG_IS_ADDON="yes"
 PKG_ADDON_REV="6"
 PKG_ADDON_NAME="Hyperion daemon"
 PKG_ADDON_TYPE="xbmc.service"

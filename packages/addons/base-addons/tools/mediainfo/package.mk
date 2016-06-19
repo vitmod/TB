@@ -21,7 +21,6 @@ PKG_SOURCE_DIR="MediaInfo"
 PKG_DEPENDS_TARGET="toolchain libmediainfo"
 PKG_SHORTDESC="$PKG_NAME-$PKG_VERSION"
 
-PKG_IS_ADDON="yes"
 PKG_ADDON_REV="4"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_DESC="$PKG_NAME-$PKG_VERSION\nMediaInfo is a convenient unified display of the most relevant technical and tag data for video and audio files"

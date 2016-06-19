@@ -20,8 +20,6 @@ PKG_FETCH="https://github.com/notspiff/visualization.waveform.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform"
 PKG_SHORTDESC=""
 
-PKG_IS_ADDON="yes"
-
 configure_target() {
   cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
         -DCMAKE_INSTALL_PREFIX=/usr \

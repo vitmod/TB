@@ -20,8 +20,6 @@ PKG_FETCH="https://github.com/kodi-pvr/pvr.iptvsimple.git"
 PKG_DEPENDS_TARGET="toolchain kodi-platform zlib"
 PKG_SHORTDESC=""
 
-PKG_IS_ADDON="yes"
-
 configure_target() {
   cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF \
         -DCMAKE_INSTALL_PREFIX=/usr \

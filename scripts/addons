@@ -91,9 +91,9 @@ build() {
     DIRS="$DIRS packages/addons/base-addons"
   fi
   for package in $(find $DIRS -iname package.mk) ; do
-    PKG_IS_ADDON=""
+    unset -f addon
     . $package
-    if [ "$PKG_IS_ADDON" = "yes" ] ; then
+    if [ "$(type -t addon)" = "function" ]; then
       PROJECT=$PROJECT ARCH=$TARGET_ARCH ./scripts/create_addon $PKG_NAME
     fi
   done
